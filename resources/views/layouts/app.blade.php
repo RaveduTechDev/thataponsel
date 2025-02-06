@@ -16,13 +16,13 @@
     @vite('resources/assets/static/js/initTheme.js')
     <div id="app">
         <div id="main" class="layout-horizontal">
-            @include('components.layout.header')
+            @include('components.layouts.header')
 
             <div class="content-wrapper container">
                 @yield('content')
             </div>
 
-            @include('components.layout.footer')
+            @include('components.layouts.footer')
         </div>
     </div>
 </body>
