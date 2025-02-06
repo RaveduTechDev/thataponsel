@@ -88,8 +88,11 @@
                 </li>
 
                 <li class="menu-item">
-                    <a href="index.html" class="menu-link">
-                        <span><i class="bi bi-grid-fill"></i> Stok HP</span>
+                    <a href="" class="menu-link">
+                        <span class="d-flex align-items-center">
+                            <i class="bi bi-box-seam" style="margin: -12px 4px 0 0;"></i>
+                            Stok HP
+                        </span>
                     </a>
                 </li>
 
