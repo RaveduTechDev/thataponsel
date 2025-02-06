@@ -45,7 +45,7 @@
                             <img src="" alt="Avatar" />
                         </div>
                         <div class="text">
-                            <h6 class="user-dropdown-name">John Ducky</h6>
+                            <h6 class="user-dropdown-name">{{ Auth::user()->name }}</h6>
                             <p class="user-dropdown-status text-sm text-muted">Member</p>
                         </div>
                     </a>
@@ -78,15 +78,18 @@
     <nav class="main-navbar">
         <div class="container">
             <ul>
-                <li class="menu-item">
+                <li class="menu-item active font-bold">
                     <a href={{ route('dashboard') }} class="menu-link">
-                        <span><i class="bi bi-grid-fill"></i> Dashboard</span>
+                        <span class="d-flex align-items-center">
+                            <i class="bi bi-grid-fill" style="margin-top: -12px"></i>
+                            Dashboard
+                        </span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="index.html" class="menu-link">
-                        <span><i class="bi bi-grid-fill"></i> Stok</span>
+                        <span><i class="bi bi-grid-fill"></i> Stok HP</span>
                     </a>
                 </li>
 
@@ -194,7 +197,7 @@
                     </div>
                 </li>
 
-                <li class="menu-item active has-sub">
+                <li class="menu-item has-sub">
                     <a href="#" class="menu-link">
                         <span><i class="bi bi-grid-1x2-fill"></i> Layouts</span>
                     </a>
@@ -306,31 +309,6 @@
                                             <a href="form-editor-tinymce.html" class="subsubmenu-link">TinyMCE</a>
                                         </li>
                                     </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="menu-item has-sub">
-                    <a href="#" class="menu-link">
-                        <span><i class="bi bi-table"></i> Table</span>
-                    </a>
-                    <div class="submenu">
-                        <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                        <div class="submenu-group-wrapper">
-                            <ul class="submenu-group">
-                                <li class="submenu-item">
-                                    <a href="table.html" class="submenu-link">Table</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="table-datatable.html" class="submenu-link">Datatable</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="table-datatable-jquery.html" class="submenu-link">Datatable
-                                        (jQuery)</a>
                                 </li>
                             </ul>
                         </div>
@@ -489,33 +467,6 @@
                                 <li class="submenu-item">
                                     <a href="application-checkout.html" class="submenu-link">Checkout
                                         Page</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="menu-item has-sub">
-                    <a href="#" class="menu-link">
-                        <span><i class="bi bi-life-preserver"></i> Support</span>
-                    </a>
-                    <div class="submenu">
-                        <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                        <div class="submenu-group-wrapper">
-                            <ul class="submenu-group">
-                                <li class="submenu-item">
-                                    <a href="https://zuramai.github.io/mazer/docs"
-                                        class="submenu-link">Documentation</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="https://github.com/zuramai/mazer/blob/main/CONTRIBUTING.md"
-                                        class="submenu-link">Contribute</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="https://github.com/zuramai/mazer#donation"
-                                        class="submenu-link">Donate</a>
                                 </li>
                             </ul>
                         </div>
