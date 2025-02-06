@@ -82,7 +82,7 @@
 
 @section('login')
     <div id="auth" class="d-flex justify-content-center align-items-center">
-        <div class="card" style="width: 100%; max-width: 900px;">
+        <div class="card overflow-hidden shadow-lg" style="width: 100%; max-width: 900px;">
             <div class="row">
                 <div class="col-lg-5 col-12">
                     <div id="auth-left" class="p-4">
@@ -148,7 +148,10 @@
                 </div>
                 <div class="col-lg-7 d-none d-lg-block">
                     <div id="auth-right">
-                        <img src="" alt="">
+                        <div class="d-flex justify-content-center align-items-center h-100">
+                            <img src={{ asset('logo-thata-putih.png') }} alt="Logo Thata Ponsel"
+                                style="pointer-events:none;user-select:none;" class="img-fluid w-50">
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,9 +14,9 @@
 
 <body>
     @vite('resources/assets/static/js/initTheme.js')
-    <div id="app">
+    <section id="app">
         @yield('login')
-    </div>
+    </section>
     </div>
 </body>
 

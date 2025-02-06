@@ -43,5 +43,5 @@ body {
     }
 }
 html[data-bs-theme="dark"] #auth-right {
-    background: url(./png/4853433.png), linear-gradient(90deg, #2d499d, #3f5491);
+    background: url(./png/4853433.png), linear-gradient(90deg, #9d2d2d, #913f3f);
 }
