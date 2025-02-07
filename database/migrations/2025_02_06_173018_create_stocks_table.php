@@ -18,6 +18,8 @@ return new class extends Migration
             $table->enum('satuan', ['unit', 'fullset']);
             $table->string('kategori');
             $table->string('grade');
+            $table->string('imei_1');
+            $table->string('imei_2');
             $table->integer('jumlah_stok');
             $table->integer('modal');
             $table->integer('harga_jual');

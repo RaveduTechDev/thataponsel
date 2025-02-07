@@ -2,3 +2,5 @@
 @import "../assets/compiled/css/app-dark.css";
 @import "../assets/compiled/css/iconly.css";
 @import "../assets/compiled/css/auth.css";
+@import "../assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "../assets/compiled/css/table-datatable-jquery.css";
