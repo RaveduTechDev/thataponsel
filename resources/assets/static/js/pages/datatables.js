@@ -14,6 +14,7 @@ let jquery_datatable = $("#table1").DataTable({
             next: "Berikutnya",
             previous: "Sebelumnya",
         },
+        columnDefs: [{ orderable: false, targets: [0, -1] }],
     },
 });
 let customized_datatable = $("#table2").DataTable({

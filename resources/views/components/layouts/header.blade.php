@@ -3,7 +3,8 @@
         <div class="container">
             <div class="logo">
                 <a href={{ url('/') }}>
-                    <img src="" alt="Logo Thata Ponsel" />
+                    <img src={{ asset('logo-thata-png-col.png') }} style="width:60px;height:60px;"
+                        alt="Logo Thata Ponsel" />
                 </a>
             </div>
             <div class="header-top-right">
@@ -78,7 +79,7 @@
     <nav class="main-navbar">
         <div class="container">
             <ul>
-                <li class="menu-item active font-bold">
+                <li class="menu-item {{ request()->is('/') ? 'active font-bold' : '' }}">
                     <a href={{ route('dashboard') }} class="menu-link">
                         <span class="d-flex align-items-center">
                             <i class="bi bi-grid-fill" style="margin-top: -12px"></i>
@@ -87,7 +88,7 @@
                     </a>
                 </li>
 
-                <li class="menu-item">
+                <li class="menu-item {{ request()->is('stocks*') ? 'active font-bold' : '' }}">
                     <a href={{ route('stocks.index') }} class="menu-link">
                         <span class="d-flex align-items-center">
                             <i class="bi bi-box-seam" style="margin: -12px 4px 0 0;"></i>
