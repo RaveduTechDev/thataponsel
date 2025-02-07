@@ -2,9 +2,10 @@
 
 @section('content')
     <section class="section">
-        <div class="mb-4 d-lg-flex justify-content-between">
+        <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">Stok HP</h2>
-            <a href={{ route('stocks.create') }} class="d-flex align-items-center btn btn-success">
+            <a href={{ route('stocks.create') }} style="margin:-8px 0 0 0;"
+                class="d-inline-flex align-items-center btn btn-success btn-sm">
                 <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
                 <span>Tambah Stock</span>
             </a>
