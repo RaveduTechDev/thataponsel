@@ -3,14 +3,12 @@
 @section('content')
     <section class="section">
         <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">jQuery Datatable</h5>
-            </div>
             <div class="card-body">
-                <div class="table-responsive pt-4 pe-2">
+                <div class="table-responsive pt-2 pe-2">
                     <table class="table" id="table1">
                         <thead>
                             <tr>
+                                <th class="text-nowrap">Foto</th>
                                 <th class="text-nowrap">Kode Barang</th>
                                 <th class="text-nowrap">Nama Barang</th>
                                 <th class="text-nowrap">Satuan</th>
@@ -26,21 +24,15 @@
                                 <th class="text-nowrap">No Kontak Supplier</th>
                                 <th class="text-nowrap">Tanggal</th>
                                 <th class="text-nowrap">Keterangan</th>
-                                <th class="text-nowrap">Foto</th>
                                 <th class="text-nowrap">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($stocks as $stock)
                                 <tr>
-                                    <td class="d-inline-flex">
-                                        <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-warning">Edit</a>
-                                        <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                        </form>
+                                    <td class="text-nowrap">
+                                        <img src="{{ asset('storage/' . $stock->foto) }}" alt={{ $stock->nama_barang }}
+                                            class="img-thumbnail" width="100" loading="lazy">
                                     </td>
                                     <td class="text-nowrap">{{ $stock->kode_barang }}</td>
                                     <td class="text-nowrap">{{ $stock->nama_barang }}</td>
@@ -57,7 +49,15 @@
                                     <td class="text-nowrap">{{ $stock->no_kontak_supplier }}</td>
                                     <td class="text-nowrap">{{ $stock->tanggal }}</td>
                                     <td class="text-nowrap">{{ $stock->keterangan }}</td>
-                                    <td class="text-nowrap">{{ $stock->foto }}</td>
+                                    <td class="d-inline-flex">
+                                        <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-warning">Edit</a>
+                                        <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
