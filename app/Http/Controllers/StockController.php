@@ -27,7 +27,13 @@ class StockController extends Controller
      */
     public function create()
     {
-        //
+        // create form
+        return view(
+            'components.pages.stocks.create',
+            [
+                'title' => 'Tambah Stok HP'
+            ]
+        );
     }
 
     /**

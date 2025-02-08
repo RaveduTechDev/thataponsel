@@ -29,6 +29,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('keterangan');
             $table->string('foto');
+            $table->enum('garansi', ['tidak', 'ya']);
             $table->timestamps();
         });
     }
