@@ -40,9 +40,8 @@
                             @foreach ($stocks as $stock)
                                 <tr>
                                     <td class="text-nowrap">
-                                        {{ $stock->foto }}
-                                        {{-- <img src="{{ asset('storage/' . $stock->foto) }}" alt={{ $stock->nama_barang }}
-                                            class="img-thumbnail" width="100" loading="lazy"> --}}
+                                        <img src="{{ $stock->getFirstMediaUrl('stocks') }}" alt={{ $stock->nama_barang }}
+                                            width="100" loading="lazy">
                                     </td>
                                     <td class="text-nowrap">{{ $stock->kode_barang }}</td>
                                     <td class="text-nowrap">{{ $stock->nama_barang }}</td>
@@ -60,7 +59,9 @@
                                     <td class="text-nowrap">{{ $stock->tanggal }}</td>
                                     {{-- <td class="text-nowrap">{{ $stock->keterangan }}</td> --}}
                                     <td class="d-inline-flex">
-                                        <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-warning">Edit</a>
+                                        <a href="{{ route('stocks.edit', $stock->kode_barang) }}" class="btn btn-warning">
+                                            Edit
+                                        </a>
                                         <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf

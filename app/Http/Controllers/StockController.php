@@ -46,11 +46,13 @@ class StockController extends Controller
             $data = $request->all();
             $data['garansi'] = isset($data['garansi']) && $data['garansi'] == 1 ? 'ya' : 'tidak';
             $data['supplier'] = Auth::user()->name;
-            $data['no_kontak_supplier'] = "08123456789"; 
+            $data['no_kontak_supplier'] = "08123456789";
             $data['tanggal'] = now();
 
             $stocks = Stock::create($data);
-            $stocks->addMediaFromRequest('foto')->toMediaCollection();
+            $stocks->addMediaFromRequest('foto')
+                ->usingName($stocks->nama_barang)
+                ->toMediaCollection('stocks');
 
             return redirect('/stocks');
         } catch (\Exception $e) {
