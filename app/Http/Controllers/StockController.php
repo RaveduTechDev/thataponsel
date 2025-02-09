@@ -12,7 +12,7 @@ class StockController extends Controller
      */
     public function index()
     {
-        $stocks = Stock::all();
+        $stocks = Stock::latest()->get();
         return view(
             'components.pages.stocks.index',
             [

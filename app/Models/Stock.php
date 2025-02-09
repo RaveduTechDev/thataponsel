@@ -26,6 +26,7 @@ class Stock extends Model
         'no_kontak_supplier',
         'tanggal',
         'keterangan',
+        'garansi',
         'foto',
     ];
 }

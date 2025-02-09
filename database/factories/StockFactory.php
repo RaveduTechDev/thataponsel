@@ -32,6 +32,7 @@ class StockFactory extends Factory
             'no_kontak_supplier' => fake()->word(),
             'tanggal' => fake()->date(),
             'keterangan' => fake()->word(),
+            'garansi' => fake()->randomElement(['tidak', 'ya']),
             'foto' => fake()->word(),
         ];
     }
