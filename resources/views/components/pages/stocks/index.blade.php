@@ -76,4 +76,6 @@
             </div>
         </div>
     </section>
+
+    @vite('resources/js/datatables.js')
 @endsection

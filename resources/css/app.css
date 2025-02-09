@@ -4,6 +4,8 @@
 @import "../assets/compiled/css/auth.css";
 @import "../assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 @import "../assets/compiled/css/table-datatable-jquery.css";
+@import "../assets/extensions/filepond/filepond.css";
+@import "../assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css";
 
 ::selection {
     background: #dc3546cc;

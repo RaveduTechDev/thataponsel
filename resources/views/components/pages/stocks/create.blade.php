@@ -14,7 +14,8 @@
         <section id="multiple-column-form">
             <div class="row match-height">
                 <div class="col-12">
-                    <form class="form" data-parsley-validate="" novalidate="">
+                    <form action={{ route('stocks.store') }} method="POST" enctype="multipart/form-data" class="form">
+                        @csrf
                         <div class="row">
                             <div class="col-md-8 col-12">
                                 <div class="card">
@@ -138,12 +139,12 @@
                                                 <div class="col-12 mt-2">
                                                     <div class="form-group">
                                                         <div class="form-check mandatory">
-                                                            <input type="checkbox" id="checkbox5"
+                                                            <input type="checkbox" id="garansi"
                                                                 class="form-check-input" checked=""
                                                                 data-parsley-required="true" style="cursor: pointer"
                                                                 data-parsley-error-message="You have to accept our terms and conditions to proceed."
-                                                                data-parsley-multiple="checkbox5">
-                                                            <label for="checkbox5" style="cursor:pointer;"
+                                                                data-parsley-multiple="garansi">
+                                                            <label for="garansi" style="cursor:pointer;"
                                                                 class="form-check-label form-label user-select-none">
                                                                 Garansi
                                                             </label>
@@ -173,13 +174,9 @@
                                     <div class="card-header">
                                         <h4 class="card-title">Upload Image</h4>
                                     </div>
-                                    <div class="card-content">
+                                    <div class="card-content" style="margin-top: -20px;">
                                         <div class="card-body">
-                                            <div class="form-group mandatory">
-                                                <label for="image" class="form-label">Image</label>
-                                                <input type="file" id="image" class="form-control" name="image"
-                                                    data-parsley-required="true" required>
-                                            </div>
+                                            <input type="file" class="image-preview-filepond" name="foto">
                                         </div>
                                     </div>
                                 </div>
@@ -190,4 +187,6 @@
             </div>
         </section>
     </section>
+
+    @vite('resources/js/filepond.js')
 @endsection
