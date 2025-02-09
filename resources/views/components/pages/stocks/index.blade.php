@@ -79,4 +79,5 @@
     </section>
 
     @vite('resources/js/datatables.js')
+    @include('components.sweetalert2.alert')
 @endsection

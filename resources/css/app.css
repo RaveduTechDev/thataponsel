@@ -6,6 +6,7 @@
 @import "../assets/compiled/css/table-datatable-jquery.css";
 @import "../assets/extensions/filepond/filepond.css";
 @import "../assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css";
+@import "../assets/extensions/sweetalert2/sweetalert2.min.css";
 
 ::selection {
     background: #dc3546cc;

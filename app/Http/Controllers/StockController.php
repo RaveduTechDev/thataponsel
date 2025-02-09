@@ -50,11 +50,13 @@ class StockController extends Controller
             $data['tanggal'] = now();
 
             $stocks = Stock::create($data);
-            $stocks->addMediaFromRequest('foto')
-                ->usingName($stocks->nama_barang)
-                ->toMediaCollection('stocks');
+            if ($request->hasFile('foto')) {
+                $stocks->addMediaFromRequest('foto')
+                    ->usingName($stocks->nama_barang)
+                    ->toMediaCollection('stocks');
+            }
 
-            return redirect('/stocks');
+            return redirect('/stocks')->with(['success' => 'Stok HP berhasil ditambahkan']);
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
