@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
@@ -41,7 +42,20 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->all();
+            $data['garansi'] = isset($data['garansi']) && $data['garansi'] == 1 ? 'ya' : 'tidak';
+            $data['supplier'] = Auth::user()->name;
+            $data['no_kontak_supplier'] = "08123456789"; 
+            $data['tanggal'] = now();
+
+            $stocks = Stock::create($data);
+            $stocks->addMediaFromRequest('foto')->toMediaCollection();
+
+            return redirect('/stocks');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**

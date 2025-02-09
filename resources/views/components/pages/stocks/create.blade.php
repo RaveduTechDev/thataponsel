@@ -12,6 +12,13 @@
             </ol>
         </nav>
         <section id="multiple-column-form">
+            @session('error')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endsession
+
             <div class="row match-height">
                 <div class="col-12">
                     <form action={{ route('stocks.store') }} method="POST" enctype="multipart/form-data" class="form">
@@ -29,7 +36,7 @@
                                                     <div class="form-group mandatory">
                                                         <label for="kode-barang" class="form-label">Kode Barang</label>
                                                         <input type="text" id="kode-barang" class="form-control"
-                                                            placeholder="Kode Barang" name="kd_barang"
+                                                            placeholder="Kode Barang" name="kode_barang"
                                                             data-parsley-required="true" required>
                                                     </div>
                                                 </div>
@@ -60,6 +67,8 @@
                                                         <select id="kategori" class="form-select" style="cursor: pointer"
                                                             name="kategori" data-parsley-required="true">
                                                             <option>-- Pilih Kategori --</option>
+                                                            <option value="android">Android</option>
+                                                            <option value="apple">Apple</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -86,8 +95,8 @@
                                                     <div class="form-group mandatory">
                                                         <label for="imei_2" class="form-label">IMEI 2</label>
                                                         <input type="text" id="imei_2" class="form-control"
-                                                            placeholder="IMEI 2" name="imei_2" data-parsley-required="true"
-                                                            required>
+                                                            placeholder="IMEI 2" name="imei_2"
+                                                            data-parsley-required="true" required>
                                                     </div>
                                                 </div>
 
@@ -104,7 +113,7 @@
                                                     <div class="form-group mandatory">
                                                         <label for="modal" class="form-label">Modal</label>
                                                         <input type="number" min="1" id="modal"
-                                                            class="form-control" placeholder="IMEI 2" name="jumlah_stok"
+                                                            class="form-control" placeholder="IMEI 2" name="modal"
                                                             data-parsley-required="true" required>
                                                     </div>
                                                 </div>
@@ -130,7 +139,7 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="keterangan" class="form-label">Keterangan</label>
-                                                        <input type="number" min="1" id="keterangan"
+                                                        <input type="text" min="1" id="keterangan"
                                                             class="form-control" placeholder="Keterangan"
                                                             name="keterangan" data-parsley-required="true" required>
                                                     </div>
@@ -140,8 +149,8 @@
                                                     <div class="form-group">
                                                         <div class="form-check mandatory">
                                                             <input type="checkbox" id="garansi"
-                                                                class="form-check-input" checked=""
-                                                                data-parsley-required="true" style="cursor: pointer"
+                                                                class="form-check-input" data-parsley-required="true"
+                                                                style="cursor: pointer" value="1"
                                                                 data-parsley-error-message="You have to accept our terms and conditions to proceed."
                                                                 data-parsley-multiple="garansi">
                                                             <label for="garansi" style="cursor:pointer;"

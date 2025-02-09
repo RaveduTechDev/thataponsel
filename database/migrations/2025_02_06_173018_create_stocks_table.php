@@ -24,11 +24,10 @@ return new class extends Migration
             $table->integer('modal');
             $table->integer('harga_jual');
             $table->integer('invoice');
-            $table->integer('supplier');
+            $table->string('supplier');
             $table->string('no_kontak_supplier');
             $table->date('tanggal');
             $table->string('keterangan');
-            $table->string('foto');
             $table->enum('garansi', ['tidak', 'ya']);
             $table->timestamps();
         });
