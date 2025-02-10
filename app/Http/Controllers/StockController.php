@@ -65,9 +65,16 @@ class StockController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $kode_barang)
     {
-        //
+        $stock = Stock::where('kode_barang', $kode_barang)->first();
+        return view(
+            'components.pages.stocks.show',
+            [
+                'title' => 'Detail Stok HP',
+                'stock' => $stock
+            ]
+        );
     }
 
     /**

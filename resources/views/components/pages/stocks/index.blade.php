@@ -59,7 +59,7 @@
                                     <td class="text-nowrap">{{ $stock->tanggal }}</td>
                                     {{-- <td class="text-nowrap">{{ $stock->keterangan }}</td> --}}
                                     <td class="d-inline-flex">
-                                        <a href="{{ route('stocks.edit', $stock->kode_barang) }}" class="btn btn-warning">
+                                        <a href="{{ route('stocks.show', $stock->kode_barang) }}" class="btn btn-warning">
                                             Edit
                                         </a>
                                         <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST"
