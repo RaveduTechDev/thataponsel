@@ -24,7 +24,7 @@
                     <form action={{ route('stocks.store') }} method="POST" enctype="multipart/form-data" class="form">
                         @csrf
                         <div class="row">
-                            <div class="col-md-8 col-12">
+                            <div class="col-md-7 col-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title">Stock Details</h4>
@@ -178,7 +178,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 col-12">
+                            <div class="col-md-5 col-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title">Upload Image</h4>
