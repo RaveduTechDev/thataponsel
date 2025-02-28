@@ -67,7 +67,14 @@ class StockController extends Controller
      */
     public function show(string $kode_barang)
     {
-        // 
+        $stock = Stock::findOrFail($kode_barang);
+        return view(
+            'components.pages.stocks.show',
+            [
+                'title' => 'Detail Stok HP',
+                'stock' => $stock
+            ]
+        );
     }
 
     /**

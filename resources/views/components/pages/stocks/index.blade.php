@@ -59,15 +59,37 @@
                                     <td class="text-nowrap">{{ $stock->tanggal }}</td>
                                     {{-- <td class="text-nowrap">{{ $stock->keterangan }}</td> --}}
                                     <td class="d-inline-flex">
-                                        <a href="{{ route('stocks.edit', $stock->kode_barang) }}" class="btn btn-warning">
-                                            Edit
-                                        </a>
-                                        <form action="{{ route('stocks.destroy', $stock->id) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
-                                        </form>
+                                        {{-- dropdown but not button --}}
+                                        <div class="dropdown">
+                                            <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots text-secondary details-button"
+                                                    style="font-size: 18px;"></i>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href={{ route('stocks.show', $stock->id) }} class="dropdown-item">
+                                                        <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
+                                                        <span>Detail</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href={{ route('stocks.edit', $stock->id) }} class="dropdown-item">
+                                                        <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
+                                                        <span>Edit</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <form action={{ route('stocks.destroy', $stock->id) }} method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
+                                                            <span>Hapus</span>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+
                                     </td>
                                 </tr>
                             @endforeach
