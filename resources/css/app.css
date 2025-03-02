@@ -12,3 +12,16 @@
     background: #dc3546cc;
     color: #fff;
 }
+
+.btn-delete-modal,
+.btn-delete-modal:hover {
+    color: #dc3545;
+}
+
+.btn-delete-modal:active {
+    color: #fff;
+}
+
+.close-btn:hover {
+    color: #9e2431;
+}

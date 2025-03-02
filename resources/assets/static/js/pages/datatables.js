@@ -9,28 +9,44 @@ $(document).ready(function () {
         gap: "10px",
     });
 
-    // Event handler untuk checkbox
+    // Event handler untuk checkbox, tambahkan parameter kedua pada column.visible untuk mencegah redraw otomatis
     $('#toggle-columns input[type="checkbox"]').on("change", function () {
-        // Ambil indeks kolom dari atribut data-column
         var column = table.column($(this).attr("data-column"));
-        // Toggle visibilitas kolom berdasarkan status checkbox
-        column.visible(this.checked);
+        // Toggle visibilitas kolom dan jangan redraw otomatis
+        column.visible(this.checked, false);
+        // Adjust ulang kolom dan redraw table
+        table.columns.adjust().draw();
     });
 
-    // Sembunyikan kolom yang tidak dicentang saat inisialisasi
+    // Set visibilitas awal kolom sesuai status checkbox
     $('#toggle-columns input[type="checkbox"]').each(function () {
         var column = table.column($(this).attr("data-column"));
-        column.visible(this.checked);
+        column.visible(this.checked, false);
     });
+    table.columns.adjust().draw();
 
     $("#dropdown-columns").appendTo(
         $("div.dataTables_filter", table.table().container())
     );
 });
 
+var pagingTypes = $(window).width() < 600 ? "simple" : "simple_numbers";
+console.log(pagingTypes);
+
+$(window).resize(function () {
+    let newPagingTypes = $(window).width() < 600 ? "simple" : "simple_numbers";
+    if (newPagingTypes !== pagingTypes) {
+        pagingTypes = newPagingTypes;
+        jquery_datatable.destroy();
+        jquery_datatable = $("#table1").DataTable({
+            pagingType: pagingTypes,
+        });
+    }
+});
+
 let jquery_datatable = $("#table1").DataTable({
     responsive: true,
-    scrollX: false,
+    pagingType: pagingTypes,
     language: {
         search: "Cari: ",
         lengthMenu: "Tampilkan _MENU_ data",
@@ -45,26 +61,7 @@ let jquery_datatable = $("#table1").DataTable({
             next: "Berikutnya",
             previous: "Sebelumnya",
         },
-        columnDefs: [
-            { width: "100px", targets: 0 },
-            { width: "100px", targets: 1 },
-            { width: "100px", targets: 2 },
-            { width: "100px", targets: 3 },
-            { width: "100px", targets: 4 },
-            { width: "100px", targets: 5 },
-            { width: "100px", targets: 6 },
-            { width: "100px", targets: 7 },
-            { width: "100px", targets: 8 },
-            { width: "100px", targets: 9 },
-            { width: "100px", targets: 10 },
-            { width: "100px", targets: 11 },
-            { width: "100px", targets: 12 },
-            { width: "100px", targets: 13 },
-            { width: "100px", targets: 14 },
-            { width: "100px", targets: 15 },
-            { width: "100px", targets: 16 },
-            { orderable: false, targets: [0, -1] },
-        ],
+        columnDefs: [{ orderable: false, targets: [0, -1] }],
         dom:
             "<'row'<'col-3'l><'col-9 d-flex justify-content-end align-items-center'f>>" +
             "<'row'<'col-sm-12'tr>>" +
