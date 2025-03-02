@@ -105,6 +105,10 @@ class StockController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // delete data and delete image
+        $stock = Stock::findOrFail($id);
+        $stock->delete();
+        return redirect('/stocks')->with(['success' => 'Stok HP berhasil dihapus']);
+        
     }
 }

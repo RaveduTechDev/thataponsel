@@ -17,7 +17,6 @@
         @if (session('success'))
             Toast.fire({
                 icon: "success",
-                title: "Berhasil!",
                 text: "{{ session('success') }}",
             });
         @endif
@@ -25,7 +24,6 @@
         @if (session('error'))
             Toast.fire({
                 icon: "error",
-                title: "Oops!",
                 text: "{{ session('error') }}",
             });
         @endif
@@ -33,7 +31,6 @@
         @if (session('warning'))
             Toast.fire({
                 icon: "warning",
-                title: "Perhatian!",
                 text: "{{ session('warning') }}",
             });
         @endif
@@ -41,7 +38,6 @@
         @if (session('info'))
             Toast.fire({
                 icon: "info",
-                title: "Informasi",
                 text: "{{ session('info') }}",
             });
         @endif
