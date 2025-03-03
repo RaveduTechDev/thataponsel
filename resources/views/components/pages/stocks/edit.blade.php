@@ -418,11 +418,11 @@
                     resolve(type)
                 }),
             storeAsFile: true,
-            files: [{
-                source: "{{ $stock->getFirstMediaUrl('stocks') }}",
-
-            }]
-
+            @if ($stock->getFirstMediaUrl('stocks'))
+                files: [{
+                    source: "{{ $stock->getFirstMediaUrl('stocks') }}",
+                }]
+            @endif
         })
     </script>
 
