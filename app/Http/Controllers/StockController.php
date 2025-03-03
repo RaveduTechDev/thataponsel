@@ -82,12 +82,13 @@ class StockController extends Controller
      */
     public function edit(string $kode_barang)
     {
-        $stock = Stock::where('kode_barang', $kode_barang)->first();
+        $stock = Stock::findOrFail($kode_barang);
+
         return view(
             'components.pages.stocks.edit',
             [
-                'title' => 'Detail Stok HP',
-                'stock' => $stock
+                'title' => 'Edit Stok HP',
+                'stock' => $stock,
             ]
         );
     }
@@ -97,7 +98,24 @@ class StockController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $data = $request->all();
+            $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
+
+            $stock = Stock::findOrFail($id);
+            $stock->update($data);
+
+            if ($request->hasFile('foto')) {
+                $stock->clearMediaCollection('stocks');
+                $stock->addMediaFromRequest('foto')
+                    ->usingName($stock->nama_barang)
+                    ->toMediaCollection('stocks');
+            }
+
+            return redirect('/stocks')->with(['success' => 'Stok HP berhasil diubah']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -109,6 +127,5 @@ class StockController extends Controller
         $stock = Stock::findOrFail($id);
         $stock->delete();
         return redirect('/stocks')->with(['success' => 'Stok HP berhasil dihapus']);
-        
     }
 }

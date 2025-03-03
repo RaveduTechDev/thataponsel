@@ -250,8 +250,12 @@
                                                         <select id="kategori" class="form-select" style="cursor: pointer"
                                                             name="kategori" data-parsley-required="true">
                                                             <option>-- Pilih Kategori --</option>
-                                                            <option value="android">Android</option>
-                                                            <option value="apple">Apple</option>
+                                                            <option value="android"
+                                                                {{ $stock->kategori === 'android' ? 'selected' : '' }}>
+                                                                Android</option>
+                                                            <option value="apple"
+                                                                {{ $stock->kategori === 'apple' ? 'selected' : '' }}>Apple
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -276,7 +280,8 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="imei_2" class="form-label text-nowrap">IMEI 2</label>
+                                                        <label for="imei_2" class="form-label text-nowrap">IMEI
+                                                            2</label>
                                                         <input type="text" id="imei_2" class="form-control"
                                                             placeholder="IMEI 2" name="imei_2"
                                                             data-parsley-required="true" required
@@ -343,9 +348,9 @@
                                                         <div class="form-check mandatory">
                                                             <input type="checkbox" id="garansi"
                                                                 class="form-check-input" data-parsley-required="true"
-                                                                style="cursor: pointer" value="1"
-                                                                data-parsley-error-message="You have to accept our terms and conditions to proceed."
-                                                                data-parsley-multiple="garansi">
+                                                                style="cursor: pointer" value="ya"
+                                                                {{ $stock->garansi === 'ya' ? 'checked' : '' }}
+                                                                name="garansi">
                                                             <label for="garansi" style="cursor:pointer;"
                                                                 class="form-check-label form-label user-select-none">
                                                                 Garansi
@@ -358,8 +363,8 @@
 
                                             <div class="row">
                                                 <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-success me-3 mb-1">
-                                                        Update
+                                                    <button type="submit" class="btn btn-primary me-3 mb-1">
+                                                        <span>Ubah</span>
                                                     </button>
                                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">
                                                         Reset
@@ -390,12 +395,35 @@
                             </div>
                         </div>
                     </form>
-
-
                 </div>
             </div>
         </section>
     </section>
 
-    @vite('resources/js/filepond.js')
+    {{-- @vite('resources/js/filepond.js') --}}
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script>
+        FilePond.registerPlugin(FilePondPluginImagePreview, )
+        FilePond.create(document.querySelector(".image-preview-filepond"), {
+            credits: null,
+            allowImagePreview: true,
+            allowImageFilter: false,
+            allowImageExifOrientation: false,
+            allowImageCrop: false,
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            fileValidateTypeDetectType: (source, type) =>
+                new Promise((resolve, reject) => {
+                    // Do custom type detection here and return with promise
+                    resolve(type)
+                }),
+            storeAsFile: true,
+            files: [{
+                source: "{{ $stock->getFirstMediaUrl('stocks') }}",
+
+            }]
+
+        })
+    </script>
+
 @endsection

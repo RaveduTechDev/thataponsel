@@ -9,21 +9,66 @@ $(document).ready(function () {
         gap: "10px",
     });
 
-    // Event handler untuk checkbox, tambahkan parameter kedua pada column.visible untuk mencegah redraw otomatis
-    $('#toggle-columns input[type="checkbox"]').on("change", function () {
-        var column = table.column($(this).attr("data-column"));
-        // Toggle visibilitas kolom dan jangan redraw otomatis
-        column.visible(this.checked, false);
-        // Adjust ulang kolom dan redraw table
-        table.columns.adjust().draw();
-    });
+    // Pindahkan loading indicator ke samping kiri search filter DataTable
+    $("div.dataTables_filter", table.table().container()).prepend(
+        $("#loading")
+    );
 
-    // Set visibilitas awal kolom sesuai status checkbox
+    // Fungsi untuk mengambil settings JSON berdasarkan group (data-name)
+    function getSettings(name) {
+        var settings = localStorage.getItem("column_settings_" + name);
+        return settings ? JSON.parse(settings) : {};
+    }
+
+    // Fungsi untuk menyimpan settings JSON ke localStorage
+    function saveSettings(name, settings) {
+        localStorage.setItem(
+            "column_settings_" + name,
+            JSON.stringify(settings)
+        );
+    }
+
+    // Inisialisasi tiap checkbox dengan settings dari localStorage
     $('#toggle-columns input[type="checkbox"]').each(function () {
-        var column = table.column($(this).attr("data-column"));
-        column.visible(this.checked, false);
+        var colIndex = $(this).data("column");
+        var name = $(this).data("name");
+
+        var settings = getSettings(name);
+        var isVisible = settings.hasOwnProperty(colIndex)
+            ? settings[colIndex]
+            : $(this).prop("checked");
+
+        $(this).prop("checked", isVisible);
+        settings[colIndex] = isVisible;
+        table.column(colIndex).visible(isVisible, false);
+
+        saveSettings(name, settings);
     });
     table.columns.adjust().draw();
+
+    // Event handler untuk perubahan checkbox secara realtime
+    $('#toggle-columns input[type="checkbox"]').on("change", function () {
+        var colIndex = $(this).data("column");
+        var name = $(this).data("name");
+        var isChecked = $(this).prop("checked");
+
+        // Tampilkan loading indicator (sekarang di samping search)
+        $("#loading").fadeIn(150);
+
+        // Update settings JSON
+        var settings = getSettings(name);
+        settings[colIndex] = isChecked;
+        saveSettings(name, settings);
+
+        // Ubah visibilitas kolom di DataTable
+        table.column(colIndex).visible(isChecked, false);
+
+        // Adjust dan draw tabel, lalu sembunyikan loading indicator
+        setTimeout(function () {
+            table.columns.adjust().draw();
+            $("#loading").fadeOut(150);
+        }, 100);
+    });
 
     $("#dropdown-columns").appendTo(
         $("div.dataTables_filter", table.table().container())
@@ -47,6 +92,7 @@ $(window).resize(function () {
 let jquery_datatable = $("#table1").DataTable({
     responsive: true,
     pagingType: pagingTypes,
+    autoWidth: false,
     language: {
         search: "Cari: ",
         lengthMenu: "Tampilkan _MENU_ data",
