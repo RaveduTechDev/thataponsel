@@ -166,7 +166,7 @@
                                                 <i class="bi bi-three-dots text-secondary details-button"
                                                     style="font-size: 18px;"></i>
                                             </a>
-                                            <ul class="dropdown-menu">
+                                            <ul class="dropdown-menu" style="z-index:50;position: relative;">
                                                 <li class="border-bottom">
                                                     <a href={{ route('stocks.show', $stock->id) }} class="dropdown-item">
                                                         <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
@@ -187,6 +187,7 @@
                                                     </button>
                                                 </li>
                                             </ul>
+                                        </div>
                                     </td>
                                 </tr>
                                 <div class="modal fade text-left modal-borderless" id="modalStock" tabindex="-1"

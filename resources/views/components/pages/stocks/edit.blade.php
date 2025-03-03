@@ -2,15 +2,50 @@
 
 @section('content')
     <section class="section">
-        <nav aria-label="breadcrumb" class="breadcrumb-header card border">
-            <ol class="breadcrumb mb-0 p-3">
-                <li class="breadcrumb-item "><a href="index.html" class="text-danger">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    Form Validation
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">Parsley</li>
-            </ol>
-        </nav>
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+            <h2 class="text-danger">Edit Stok</h2>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalStock">
+                <i class="bi bi-trash" style="margin: -12px 2px 0 0; font-size: 18px;"></i>
+                <span>Hapus</span>
+            </button>
+            <div class="modal fade text-left modal-borderless" id="modalStock" tabindex="-1"
+                aria-labelledby="modalStockLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document"
+                    style="z-index: 30;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-danger" id="modalStockLabel">
+                                <i class="bi bi-exclamation-triangle-fill fs-5" style="margin-top:-8px;"></i>
+                                <span>Peringatan</span>
+                            </h5>
+                            <button type="button" class="close text-danger close-btn" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <i class="bi bi-x-lg fs-6"></i>
+                                <span class="visually-hidden">Close</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Yakin Ingin Menghapus Data Ini?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Batal</span>
+                            </button>
+
+                            <form action={{ route('stocks.destroy', $stock->id) }} method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger ms-1 d-flex">
+                                    <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
+                                    <span class="d-none d-sm-block">Hapus</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <section id="multiple-column-form">
             @session('error')
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -204,9 +239,6 @@
                         <div class="row">
                             <div class="col-md-8 col-12">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Stock Details</h4>
-                                    </div>
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
@@ -264,17 +296,20 @@
                                                     <div class="form-group mandatory">
                                                         <label for="grade" class="form-label text-nowrap">Grade</label>
                                                         <input type="text" id="grade" class="form-control"
-                                                            placeholder="Grade" name="grade" data-parsley-required="true"
-                                                            required value="{{ $stock->grade }}">
+                                                            placeholder="Grade" name="grade"
+                                                            data-parsley-required="true" required
+                                                            value="{{ $stock->grade }}">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="imei_1" class="form-label text-nowrap">IMEI 1</label>
+                                                        <label for="imei_1" class="form-label text-nowrap">IMEI
+                                                            1</label>
                                                         <input type="text" id="imei_1" class="form-control"
-                                                            placeholder="IMEI 1" name="imei_1" data-parsley-required="true"
-                                                            required value="{{ $stock->imei_1 }}">
+                                                            placeholder="IMEI 1" name="imei_1"
+                                                            data-parsley-required="true" required
+                                                            value="{{ $stock->imei_1 }}">
                                                     </div>
                                                 </div>
 
@@ -366,9 +401,9 @@
                                                     <button type="submit" class="btn btn-primary me-3 mb-1">
                                                         <span>Ubah</span>
                                                     </button>
-                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                                        Reset
-                                                    </button>
+                                                    <a href="{{ route('stocks.index') }}"class="btn btn-light-secondary">
+                                                        <span>Kembali</span>
+                                                    </a>
                                                 </div>
                                             </div>
 

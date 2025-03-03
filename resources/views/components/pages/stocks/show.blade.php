@@ -174,12 +174,12 @@
 
                     <!-- Tombol Aksi -->
                     <div class="d-flex gap-3 justify-content-end mt-3">
-                        <a href="{{ route('stocks.index') }}"class="btn btn-light-secondary">
-                            <span>Kembali</span>
-                        </a>
-                        <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-warning">
+                        <a href="{{ route('stocks.edit', $stock->id) }}" class="btn btn-primary">
                             <i class="bi bi-pencil" style="margin: -12px 2px 0 0; font-size: 18px;"></i>
                             <span>Edit</span>
+                        </a>
+                        <a href="{{ route('stocks.index') }}"class="btn btn-light-secondary">
+                            <span>Kembali</span>
                         </a>
                     </div>
                 </div>
