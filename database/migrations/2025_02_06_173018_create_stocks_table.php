@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('imei_1');
             $table->string('imei_2');
             $table->integer('jumlah_stok');
-            $table->integer('modal');
-            $table->integer('harga_jual');
+            $table->decimal('modal', 25, 0);
+            $table->decimal('harga_jual', 25, 0);
             $table->integer('invoice');
             $table->string('supplier');
             $table->string('no_kontak_supplier');
