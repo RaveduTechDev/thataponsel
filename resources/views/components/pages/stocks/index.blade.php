@@ -174,7 +174,8 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href={{ route('stocks.edit', $stock->id) }} class="dropdown-item">
+                                                    <a href={{ route('stocks.edit', $stock->kode_barang) }}
+                                                        class="dropdown-item">
                                                         <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
                                                         <span>Edit</span>
                                                     </a>
@@ -217,11 +218,11 @@
                                                     <span class="d-none d-sm-block">Batal</span>
                                                 </button>
 
-                                                <form action={{ route('stocks.destroy', $stock->id) }} method="POST">
+                                                <form action={{ route('stocks.destroy', $stock->id) }} method="POST"
+                                                    id="formSubmit">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger ms-1 d-flex">
-                                                        <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
+                                                    <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
                                                         <span class="d-none d-sm-block">Hapus</span>
                                                     </button>
                                                 </form>
@@ -237,8 +238,7 @@
         </div>
     </section>
 
-
-
     @vite('resources/js/datatables.js')
     @include('components.sweetalert2.alert')
+    @include('components.ui.loading.button')
 @endsection

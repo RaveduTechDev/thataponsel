@@ -30,4 +30,9 @@ class Stock extends Model implements HasMedia
         'keterangan',
         'garansi',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'kode_barang';
+    }
 }

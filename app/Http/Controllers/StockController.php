@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StockRequest;
 use App\Models\Stock;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class StockController extends Controller
 {
@@ -40,25 +44,38 @@ class StockController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StockRequest $request)
     {
-        try {
-            $data = $request->all();
-            $data['garansi'] = isset($data['garansi']) && $data['garansi'] == 1 ? 'ya' : 'tidak';
-            $data['supplier'] = Auth::user()->name;
-            $data['no_kontak_supplier'] = "08123456789";
-            $data['tanggal'] = now();
+        $data = $request->validated();
+        $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
+        $data['supplier'] = Auth::user()->name;
+        $data['no_kontak_supplier'] = "08123456789";
+        $data['tanggal'] = now();
 
-            $stocks = Stock::create($data);
-            if ($request->hasFile('foto')) {
-                $stocks->addMediaFromRequest('foto')
-                    ->usingName($stocks->nama_barang)
-                    ->toMediaCollection('stocks');
-            }
+        try {
+            DB::transaction(function () use ($data, $request) {
+                if (Stock::where('kode_barang', $data['kode_barang'])
+                    ->lockForUpdate()
+                    ->exists()
+                ) {
+                    throw new \Exception('Data sudah ada.');
+                }
+                Stock::create($data);
+
+                if ($request->hasFile('foto')) {
+                    $stock = Stock::where('kode_barang', $data['kode_barang'])->first();
+                    $stock->addMediaFromRequest('foto')
+                        ->usingName($stock->nama_barang)
+                        ->toMediaCollection('stocks');
+                }
+            });
 
             return redirect('/stocks')->with(['success' => 'Stok HP berhasil ditambahkan']);
         } catch (\Exception $e) {
-            return redirect()->back()->with(['error' => $e->getMessage()]);
+            Log::error($e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Terjadi kesalahan.']);
         }
     }
 
@@ -80,10 +97,8 @@ class StockController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $kode_barang)
+    public function edit(Stock $stock)
     {
-        $stock = Stock::findOrFail($kode_barang);
-
         return view(
             'components.pages.stocks.edit',
             [
@@ -96,25 +111,33 @@ class StockController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StockRequest $request, Stock $stock)
     {
+        $data = $request->validated();
+        $data['kode_barang'] = $stock->kode_barang;
+        $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
+        $data['supplier'] = Auth::user()->name;
+        $data['no_kontak_supplier'] = "08123456789";
+        $data['tanggal'] = now();
+
         try {
-            $data = $request->all();
-            $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
+            DB::transaction(function () use ($data, $request, $stock) {
+                $stock->update($data);
 
-            $stock = Stock::findOrFail($id);
-            $stock->update($data);
-
-            if ($request->hasFile('foto')) {
-                $stock->clearMediaCollection('stocks');
-                $stock->addMediaFromRequest('foto')
-                    ->usingName($stock->nama_barang)
-                    ->toMediaCollection('stocks');
-            }
+                if ($request->hasFile('foto')) {
+                    $stock->clearMediaCollection('stocks');
+                    $stock->addMediaFromRequest('foto')
+                        ->usingName($stock->nama_barang)
+                        ->toMediaCollection('stocks');
+                }
+            });
 
             return redirect('/stocks')->with(['success' => 'Stok HP berhasil diubah']);
         } catch (\Exception $e) {
-            return redirect()->back()->with(['error' => $e->getMessage()]);
+            Log::error($e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Terjadi kesalahan.']);
         }
     }
 
