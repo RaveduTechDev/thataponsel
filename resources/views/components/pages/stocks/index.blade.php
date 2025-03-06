@@ -21,6 +21,7 @@
                             <span class="visually-hidden">Filter</span>
                         </button>
                         <div class="dropdown-menu">
+                            <h2 class="dropdown-header fs-5" style="margin: 0 0 -10px -10px">Tampilkan Kolom</h2>
                             <div id="toggle-columns" class="card p-3 mb-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="0" data-name="stock"
@@ -134,7 +135,7 @@
                                 <th class="text-nowrap w-xl-50">No Kontak Supplier</th>
                                 <th class="text-nowrap w-xl-50">Tanggal</th>
                                 <th class="text-nowrap w-xl-50">Keterangan</th>
-                                <th class="text-nowrap text-center" data-orderable="false"></th>
+                                <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
