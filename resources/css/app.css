@@ -33,8 +33,13 @@
     padding: 2px 2px 10px;
 }
 
-/* option in form select hover background */
+.card-hover-border-danger {
+    border: 5px solid transparent;
+    transition: border-color 0.3s ease;
+}
 
-select.form-select option:hover {
-    background: #faf8f8;
+.card-hover-border-danger:hover,
+.card-hover-border-danger:active,
+.card-hover-border-danger:focus {
+    border-color: #dc3545;
 }

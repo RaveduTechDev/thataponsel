@@ -88,6 +88,19 @@
                     </a>
                 </li>
 
+                <li class="menu-item
+                    @if (request()->is('master-data'))
+                        {{ request()->is('master-data') ? 'active font-bold' : '' }}
+                    @endif
+                ">
+                    <a href={{ route('master-data.index') }} class="menu-link">
+                        <span class="d-flex align-items-center">
+                            <i class="bi bi-database-fill" style="margin: -12px 4px 0 0;"></i>
+                            Master Data
+                        </span>
+                    </a>
+                </li>
+
                 <li class="menu-item {{ request()->is('stocks*') ? 'active font-bold' : '' }}">
                     <a href={{ route('stocks.index') }} class="menu-link">
                         <span class="d-flex align-items-center">
@@ -380,97 +393,6 @@
                                             <a href="ui-chart-apexcharts.html" class="subsubmenu-link">Apexcharts</a>
                                         </li>
                                     </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="menu-item has-sub">
-                    <a href="#" class="menu-link">
-                        <span><i class="bi bi-file-earmark-fill"></i> Pages</span>
-                    </a>
-                    <div class="submenu">
-                        <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                        <div class="submenu-group-wrapper">
-                            <ul class="submenu-group">
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Authentication</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="auth-login.html" class="subsubmenu-link">Login</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="auth-register.html" class="subsubmenu-link">Register</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="auth-forgot-password.html" class="subsubmenu-link">Forgot
-                                                Password</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Errors</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="error-403.html" class="subsubmenu-link">403</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="error-404.html" class="subsubmenu-link">404</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="error-500.html" class="subsubmenu-link">500</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="ui-file-uploader.html" class="submenu-link">File Uploader</a>
-                                </li>
-
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Maps</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-map-google-map.html" class="subsubmenu-link">Google Map</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-map-jsvectormap.html" class="subsubmenu-link">JS
-                                                Vector Map</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="application-email.html" class="submenu-link">Email
-                                        Application</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="application-chat.html" class="submenu-link">Chat
-                                        Application</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="application-gallery.html" class="submenu-link">Photo
-                                        Gallery</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="application-checkout.html" class="submenu-link">Checkout
-                                        Page</a>
                                 </li>
                             </ul>
                         </div>
