@@ -61,7 +61,7 @@
                             @foreach ($pelanggans as $pelanggan)
                                 <tr>
                                     <td class="text-nowrap w-xl-50">{{ $pelanggan->nama_pelanggan }}</td>
-                                    <td class="text-nowrap w-xl-50">+62 {{ $pelanggan->nomor_wa }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $pelanggan->nomor_wa_formatted }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $pelanggan->jumlah_transaksi }}</td>
                                     <td class="text-nowrap text-center">
                                         <div class="dropdown">

@@ -15,4 +15,17 @@ class Pelanggan extends Model
         'nomor_wa',
         'jumlah_transaksi',
     ];
+
+    public function getNomorWaFormattedAttribute(): string
+    {
+        $number = preg_replace('/\s+/', '', $this->nomor_wa);
+
+        if (preg_match('/^0/', $number)) {
+            $number = preg_replace('/^0/', '+62', $number);
+        } elseif (!preg_match('/^\+62/', $number)) {
+            $number = '+62' . $number;
+        }
+
+        return phone($number, 'ID')->formatInternational();
+    }
 }

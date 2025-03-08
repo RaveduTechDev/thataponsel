@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
             initialCountry: "id",
             allowDropdown: false,
             separateDialCode: true,
+            nationalMode: false,
             autoPlaceholder: "aggressive",
             utilsScript: new URL(
                 "intl-tel-input/build/js/utils.js",
@@ -24,8 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
             showMaskOnFocus: false,
         }).mask(phoneInput);
 
-        document.querySelector("form").addEventListener("submit", (e) => {
-            phoneInput.value = iti.getNumber();
+        document.querySelector("#formSubmit").addEventListener("submit", () => {
+            phoneInput.value = iti.getNumber(intlTelInput.numberFormat.E164);
         });
     } else {
         console.error("Element dengan id 'phone' tidak ditemukan");
