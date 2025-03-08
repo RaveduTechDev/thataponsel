@@ -138,5 +138,5 @@
 
     @vite('resources/js/datatables.js')
     @include('components.sweetalert2.alert')
-    {{-- @include('components.ui.loading.button') --}}
+    @include('components.ui.loading.button')
 @endsection
