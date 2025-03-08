@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         Inputmask({
-            mask: "999 9999 9999[9][9][9][9][9][9]",
+            mask: "999 9999 9999[9999]",
             placeholder: "",
             greedy: false,
             showMaskOnHover: false,
@@ -25,8 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }).mask(phoneInput);
 
         document.querySelector("form").addEventListener("submit", (e) => {
-            const fullNumber = iti.getNumber();
-            phoneInput.value = fullNumber;
+            phoneInput.value = iti.getNumber();
         });
     } else {
         console.error("Element dengan id 'phone' tidak ditemukan");

@@ -27,7 +27,7 @@
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-5 col-12">
+                                                <div class="col-md-4 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="nama-pelanggan" class="form-label">
                                                             Nama Pelanggan
@@ -54,7 +54,7 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-3 col-12">
+                                                <div class="col-md-4 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="jumlah-transaksi" class="form-label">
                                                             Jumlah Transaksi

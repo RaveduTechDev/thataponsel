@@ -23,7 +23,7 @@ class PelangganRequest extends FormRequest
     {
         return [
             'nama_pelanggan' => 'required|string',
-            'nomor_wa' => 'required|string',
+            'nomor_wa' => 'required|phone:ID',
             'jumlah_transaksi' => 'required|integer',
         ];
     }
