@@ -79,6 +79,8 @@ class PelangganController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pelanggan = Pelanggan::findOrFail($id);
+        $pelanggan->delete();
+        return redirect()->route('master-data.pelanggan.index')->with('success', 'Data Pelanggan berhasil dihapus');
     }
 }
