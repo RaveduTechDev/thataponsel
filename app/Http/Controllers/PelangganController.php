@@ -44,7 +44,7 @@ class PelangganController extends Controller
         try {
             $data = $request->validated();
             Pelanggan::create($data);
-            return redirect()->route('master-data.index')->with('success', 'Data Pelanggan berhasil ditambahkan');
+            return redirect()->route('master-data.pelanggan.index')->with('success', 'Data Pelanggan berhasil ditambahkan');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors('error', 'Pelanggan gagal ditambahkan');
         }
