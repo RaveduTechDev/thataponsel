@@ -61,7 +61,7 @@
                             @foreach ($pelanggans as $pelanggan)
                                 <tr>
                                     <td class="text-nowrap w-xl-50">{{ $pelanggan->nama_pelanggan }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $pelanggan->nomor_wa }}</td>
+                                    <td class="text-nowrap w-xl-50">+62 {{ $pelanggan->nomor_wa }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $pelanggan->jumlah_transaksi }}</td>
                                     <td class="text-nowrap text-center">
                                         <div class="dropdown">
@@ -70,14 +70,8 @@
                                                     style="font-size: 18px;"></i>
                                             </a>
                                             <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                <li class="border-bottom">
-                                                    <a href={{ route('stocks.show', $stock->id) }} class="dropdown-item">
-                                                        <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Detail</span>
-                                                    </a>
-                                                </li>
                                                 <li>
-                                                    <a href={{ route('stocks.edit', $stock->kode_barang) }}
+                                                    <a href={{ route('master-data.pelanggan.edit', $pelanggan->id) }}
                                                         class="dropdown-item">
                                                         <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
                                                         <span>Edit</span>
@@ -121,8 +115,8 @@
                                                     <span class="d-none d-sm-block">Batal</span>
                                                 </button>
 
-                                                <form action={{ route('stocks.destroy', $stock->id) }} method="POST"
-                                                    id="formSubmit">
+                                                <form action={{ route('master-data.pelanggan.destroy', $pelanggan->id) }}
+                                                    method="POST" id="formSubmit">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger me-3 " id="submitBtn">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PelangganRequest;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 
@@ -27,15 +28,26 @@ class PelangganController extends Controller
      */
     public function create()
     {
-        //
+        return view(
+            'components.pages.pelanggans.create',
+            [
+                'title' => 'Tambah Pelanggan'
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PelangganRequest $request)
     {
-        //
+        try {
+            $data = $request->validated();
+            Pelanggan::create($data);
+            return redirect()->route('master-data.index')->with('success', 'Data Pelanggan berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('error', 'Pelanggan gagal ditambahkan');
+        }
     }
 
     /**
