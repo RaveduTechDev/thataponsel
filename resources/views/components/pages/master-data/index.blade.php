@@ -8,7 +8,7 @@
 
         <div class="row mb-5">
             <div class="col-6 col-lg-3 col-md-6">
-                <a href="" class="text-decoration-none">
+                <a href={{ route('master-data.pelanggan.index') }} class="text-decoration-none">
                     <div class="card card-hover-border-danger">
                         <div class="card-body d-flex flex-column align-items-center">
                             <div class="mb-1 fs-1 text-danger">

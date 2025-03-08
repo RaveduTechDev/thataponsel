@@ -88,11 +88,7 @@
                     </a>
                 </li>
 
-                <li class="menu-item
-                    @if (request()->is('master-data'))
-                        {{ request()->is('master-data') ? 'active font-bold' : '' }}
-                    @endif
-                ">
+                <li class="menu-item {{ request()->is('master-data*') ? 'active font-bold' : '' }}">
                     <a href={{ route('master-data.index') }} class="menu-link">
                         <span class="d-flex align-items-center">
                             <i class="bi bi-database-fill" style="margin: -12px 4px 0 0;"></i>
