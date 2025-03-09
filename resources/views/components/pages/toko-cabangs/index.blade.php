@@ -71,7 +71,7 @@
                                             </a>
                                             <ul class="dropdown-menu" style="z-index:50;position: relative;">
                                                 <li>
-                                                    <a href={{ route('master-data.pelanggan.edit', $toko_cabang->id) }}
+                                                    <a href={{ route('master-data.toko-cabang.edit', $toko_cabang->id) }}
                                                         class="dropdown-item">
                                                         <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
                                                         <span>Edit</span>
@@ -79,7 +79,8 @@
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item btn-delete-modal"
-                                                        data-bs-toggle="modal" data-bs-target="#modalStock">
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalStock{{ $toko_cabang->id }}">
                                                         <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
                                                         <span>Hapus</span>
                                                     </button>
@@ -88,8 +89,9 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade text-left modal-borderless" id="modalStock" tabindex="-1"
-                                    aria-labelledby="modalStockLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal fade text-left modal-borderless" id="modalStock{{ $toko_cabang->id }}"
+                                    tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
+                                    aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document"
                                         style="z-index: 30;">
                                         <div class="modal-content">
@@ -115,7 +117,8 @@
                                                     <span class="d-none d-sm-block">Batal</span>
                                                 </button>
 
-                                                <form action={{ route('master-data.pelanggan.destroy', $toko_cabang->id) }}
+                                                <form
+                                                    action={{ route('master-data.toko-cabang.destroy', $toko_cabang->id) }}
                                                     method="POST" id="formSubmit">
                                                     @csrf
                                                     @method('DELETE')

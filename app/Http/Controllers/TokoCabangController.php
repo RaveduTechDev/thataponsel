@@ -77,6 +77,9 @@ class TokoCabangController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $toko_cabang = TokoCabang::findOrFail($id);
+        $toko_cabang->delete();
+
+        return redirect()->route('master-data.toko-cabang.index')->with('success', 'Toko cabang berhasil dihapus');
     }
 }
