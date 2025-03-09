@@ -183,7 +183,8 @@
                                                 </li>
                                                 <li>
                                                     <button type="button" class="dropdown-item btn-delete-modal"
-                                                        data-bs-toggle="modal" data-bs-target="#modalStock">
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalStock-{{ $stock->kode_barang }}">
                                                         <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
                                                         <span>Hapus</span>
                                                     </button>
@@ -192,7 +193,8 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade text-left modal-borderless" id="modalStock" tabindex="-1"
+                                <div class="modal fade text-left modal-borderless"
+                                    id="modalStock-{{ $stock->kode_barang }}" tabindex="-1"
                                     aria-labelledby="modalStockLabel" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable"
                                         role="document" style="z-index: 30;">
