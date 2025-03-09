@@ -61,7 +61,14 @@ class TokoCabangController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $toko_cabang = TokoCabang::findOrFail($id);
+        return view(
+            'components.pages.toko-cabangs.edit',
+            [
+                'title' => 'Edit Toko Cabang',
+                'toko_cabang' => $toko_cabang,
+            ]
+        );
     }
 
     /**
@@ -69,7 +76,13 @@ class TokoCabangController extends Controller
      */
     public function update(TokoCabangRequest $request, string $id)
     {
-        //
+        try {
+            $toko_cabang = TokoCabang::findOrFail($id);
+            $toko_cabang->update($request->validated());
+            return redirect()->route('master-data.toko-cabang.index')->with('success', 'Toko cabang berhasil diubah');
+        } catch (\Exception $e) {
+            return redirect()->route('master-data.toko-cabang.index')->with('error', 'Toko cabang gagal diubah');
+        }
     }
 
     /**
