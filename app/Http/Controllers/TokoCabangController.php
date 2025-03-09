@@ -80,6 +80,6 @@ class TokoCabangController extends Controller
         $toko_cabang = TokoCabang::findOrFail($id);
         $toko_cabang->delete();
 
-        return redirect()->route('master-data.toko-cabang.index')->with('success', 'Toko cabang berhasil dihapus');
+        return redirect('/master-data/toko-cabang')->with('success', 'Toko cabang berhasil dihapus');
     }
 }
