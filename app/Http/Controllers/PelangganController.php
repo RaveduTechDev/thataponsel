@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PelangganRequest;
 use App\Models\Pelanggan;
-use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
@@ -63,15 +62,29 @@ class PelangganController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $pelanggan = Pelanggan::findOrFail($id);
+        return view(
+            'components.pages.pelanggans.edit',
+            [
+                'title' => 'Edit Data Pelanggan',
+                'pelanggan' => $pelanggan
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PelangganRequest $request, string $id)
     {
-        //
+        try {
+            $data = $request->validated();
+            $pelanggan = Pelanggan::findOrFail($id);
+            $pelanggan->update($data);
+            return redirect()->route('master-data.pelanggan.index')->with('success', 'Data Pelanggan berhasil diubah');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('error', 'Pelanggan gagal diubah');
+        }
     }
 
     /**
