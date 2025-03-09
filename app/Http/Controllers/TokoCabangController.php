@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TokoCabang;
-use Illuminate\Http\Request;
+use App\Http\Requests\TokoCabangRequest;
 
 class TokoCabangController extends Controller
 {
@@ -27,15 +27,25 @@ class TokoCabangController extends Controller
      */
     public function create()
     {
-        //
+        return view(
+            'components.pages.toko-cabangs.create',
+            [
+                'title' => 'Tambah Toko Cabang',
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TokoCabangRequest $request)
     {
-        //
+        try {
+            TokoCabang::create($request->validated());
+            return redirect()->route('master-data.toko-cabang.index')->with('success', 'Toko cabang berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->route('master-data.toko-cabang.index')->with('error', 'Toko cabang gagal ditambahkan');
+        }
     }
 
     /**
@@ -57,7 +67,7 @@ class TokoCabangController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TokoCabangRequest $request, string $id)
     {
         //
     }

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Stock;
-use App\Models\TokoCabang;
+// use App\Models\TokoCabang;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,6 +23,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Stock::factory(100)->create();
-        TokoCabang::factory(10)->create();
+        // TokoCabang::factory(10)->create();
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_toko_cabang');
             $table->string('penanggung_jawab_toko');
-            $table->string('alamat_toko');
+            $table->text('alamat_toko');
             $table->timestamps();
         });
     }
