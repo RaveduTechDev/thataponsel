@@ -3,11 +3,11 @@
 @section('content')
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
-            <h2 class="text-danger">Stok HP</h2>
+            <h2 class="text-danger">{{ $title }}</h2>
             <a href={{ route('master-data.barang.create') }} style="margin:-8px 0 0 0;"
                 class="d-inline-flex align-items-center btn btn-success btn-md">
                 <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                <span>Tambah Stock</span>
+                <span>Tambah Data</span>
             </a>
         </div>
 
@@ -24,64 +24,64 @@
                             <h2 class="dropdown-header fs-5" style="margin: 0 0 -10px -10px">Tampilkan Kolom</h2>
                             <div id="toggle-columns" class="card p-3 mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="0" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="0" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Foto</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="1" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="1" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Kode Barang</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="2" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="2" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Nama Barang</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="3" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="3" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Merk</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="4" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="4" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Tipe</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="5" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="5" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Memori</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="6" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="6" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Warna</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="7" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="7" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Satuan</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="8" data-name="stock"
+                                    <input class="form-check-input" type="checkbox" data-column="8" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Kategori</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="9" data-name="stock">
+                                    <input class="form-check-input" type="checkbox" data-column="9" data-name="barang">
                                     <label class="form-check-label">Grade</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="10" data-name="stock">
+                                    <input class="form-check-input" type="checkbox" data-column="10" data-name="barang">
                                     <label class="form-check-label">Keterangan</label>
                                 </div>
                             </div>
