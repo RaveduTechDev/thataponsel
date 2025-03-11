@@ -135,7 +135,7 @@
                                             </a>
                                             <ul class="dropdown-menu" style="z-index:50;position: relative;">
                                                 <li class="border-bottom">
-                                                    <a href={{ route('master-data.barang.show', $barang->id) }}
+                                                    <a href={{ route('master-data.barang.show', $barang->kode_barang) }}
                                                         class="dropdown-item">
                                                         <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
                                                         <span>Detail</span>

@@ -24,4 +24,9 @@ class Barang extends Model implements HasMedia
         'grade',
         'keterangan',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'kode_barang';
+    }
 }

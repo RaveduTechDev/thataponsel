@@ -76,9 +76,15 @@ class BarangController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Barang $barang)
     {
-        //
+        return view(
+            'components.pages.barangs.show',
+            [
+                'title' => 'Detail HP',
+                'barang' => $barang,
+            ]
+        );
     }
 
     /**
