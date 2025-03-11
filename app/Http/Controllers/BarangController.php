@@ -90,17 +90,42 @@ class BarangController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Barang $barang)
     {
-        //
+        return view(
+            'components.pages.barangs.edit',
+            [
+                'title' => 'Edit HP',
+                'barang' => $barang,
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(BarangRequest $request, string $id)
+    public function update(BarangRequest $request, Barang $barang)
     {
-        //
+        // update
+        $data = $request->validated();
+        $data['kode_barang'] = $barang->kode_barang;
+
+        try {
+            DB::transaction(function () use ($data, $request, $barang) {
+                $barang->update($data);
+                if ($request->hasFile('foto')) {
+                    $barang->clearMediaCollection('barang');
+                    $barang->addMediaFromRequest('foto')
+                        ->usingName($barang->nama_barang)
+                        ->toMediaCollection('barang');
+                }
+            });
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data.');
+        }
+
+        return redirect('/master-data/barang')->with('success', 'Data berhasil diubah.');
     }
 
     /**
