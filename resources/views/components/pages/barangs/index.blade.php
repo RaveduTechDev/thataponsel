@@ -114,8 +114,8 @@
                             @foreach ($barangs as $barang)
                                 <tr>
                                     <td class="text-nowrap w-xl-50">
-                                        <img src="{{ $barang->getFirstMediaUrl('barangs') }}"
-                                            alt={{ $barang->nama_barang }} width="70" loading="lazy">
+                                        <img src="{{ $barang->getFirstMediaUrl('barang') }}" alt={{ $barang->nama_barang }}
+                                            width="70" loading="lazy">
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->kode_barang }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->nama_barang }}</td>
