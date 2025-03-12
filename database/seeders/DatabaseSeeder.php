@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-// use App\Models\Barang;
+use App\Models\Agent;
+use App\Models\Barang;
 use App\Models\Stock;
-// use App\Models\TokoCabang;
+use App\Models\TokoCabang;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,7 +25,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Stock::factory(100)->create();
-        // TokoCabang::factory(10)->create();
-        // Barang::factory(100)->create();
+        TokoCabang::factory(10)->create();
+        Barang::factory(100)->create();
+        Agent::factory(100)->create();
     }
 }

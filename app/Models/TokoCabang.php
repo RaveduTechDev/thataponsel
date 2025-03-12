@@ -15,4 +15,9 @@ class TokoCabang extends Model
         'penanggung_jawab_toko',
         'alamat_toko'
     ];
+
+    public function agents()
+    {
+        return $this->hasMany(Agent::class);
+    }
 }
