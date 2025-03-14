@@ -60,7 +60,14 @@ class AgentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $agent = Agent::findOrFail($id);
+        $toko_cabangs = TokoCabang::select('id', 'nama_toko_cabang')->latest()->get();
+
+        return view('components.pages.agents.edit', [
+            'title' => 'Edit Agen',
+            'agent' => $agent,
+            'toko_cabangs' => $toko_cabangs,
+        ]);
     }
 
     /**
@@ -68,7 +75,14 @@ class AgentController extends Controller
      */
     public function update(AgentRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            Agent::findOrFail($id)->update($data);
+            return redirect('/master-data/agent')->with('success', 'Data agen berhasil diubah.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('error', 'Data agen gagal diubah.');
+        }
     }
 
     /**

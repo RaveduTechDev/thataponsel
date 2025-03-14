@@ -2,17 +2,34 @@ import Choices from "choices.js";
 
 $(document).ready(function () {
     const choicesData = [];
-    const placeholderText = $("#select-data").data("placeholder");
-    $("#select-data option").each(function () {
+    const $select = $("#select-data");
+    const placeholderText = $select.data("placeholder");
+    // Cek apakah select memiliki attribute data-check-selected="true"
+    const checkSelected = $select.attr("data-check-selected") === "true";
+
+    // Iterasi setiap <option> di dalam select
+    $select.find("option").each(function () {
         const value = $(this).attr("value");
-        const label = $(this).text().trim();
-        const description = $(this).data("description") || "";
-        if (value) {
-            choicesData.push({ value, label, description });
+        // Lewati placeholder (value kosong)
+        if (value !== "") {
+            const label = $(this).text().trim();
+            const description = $(this).data("description") || "";
+            // Jika checkSelected aktif, gunakan nilai native :selected
+            let isSelected = false;
+            if (checkSelected) {
+                isSelected = $(this).is(":selected");
+            }
+            choicesData.push({
+                value: value,
+                label: label,
+                description: description,
+                selected: isSelected,
+            });
         }
     });
 
-    $("#select-data").html("");
+    // Hapus isi select sehingga Choices.js akan menggunakan data dari choicesData
+    $select.html("");
 
     const element = document.getElementById("select-data");
     const choices = new Choices(element, {
@@ -27,5 +44,6 @@ $(document).ready(function () {
         },
     });
 
+    // Set data ke Choices.js. Argumen keempat false agar data tidak diurut ulang secara otomatis.
     choices.setChoices(choicesData, "value", "label", false);
 });
