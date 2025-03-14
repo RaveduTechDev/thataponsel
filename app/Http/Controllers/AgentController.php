@@ -52,7 +52,7 @@ class AgentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return abort(404);
     }
 
     /**
