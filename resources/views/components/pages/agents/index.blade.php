@@ -26,7 +26,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="0" data-name="agent"
                                         checked>
-                                    <label class="form-check-label">Nama Pelanggan</label>
+                                    <label class="form-check-label">Nama Agen</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="1" data-name="agent"
@@ -35,6 +35,11 @@
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="2" data-name="agent"
+                                        checked>
+                                    <label class="form-check-label">Toko Cabang</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="3" data-name="agent"
                                         checked>
                                     <label class="form-check-label">Jumlah Transaksi</label>
                                 </div>
@@ -51,7 +56,7 @@
                     <table class="table" id="table1">
                         <thead>
                             <tr>
-                                <th class="text-nowrap w-xl-50">Nama Agent</th>
+                                <th class="text-nowrap w-xl-50">Nama Agen</th>
                                 <th class="text-nowrap w-xl-50">No WhatsApp</th>
                                 <th class="text-nowrap w-xl-50">Toko Cabang</th>
                                 <th class="text-nowrap w-xl-50">Jumlah Transaksi</th>

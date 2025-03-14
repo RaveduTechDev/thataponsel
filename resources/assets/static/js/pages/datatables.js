@@ -93,6 +93,7 @@ let jquery_datatable = $("#table1").DataTable({
     responsive: true,
     pagingType: pagingTypes,
     autoWidth: false,
+    order: [],
     language: {
         search: "Cari: ",
         lengthMenu: "Tampilkan _MENU_ data",

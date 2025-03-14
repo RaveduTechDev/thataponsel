@@ -10,6 +10,7 @@ export default defineConfig({
                 "resources/js/datatables.js",
                 "resources/js/filepond.js",
                 "resources/js/telInput.js",
+                "resources/js/choices.js",
             ],
             refresh: true,
         }),
