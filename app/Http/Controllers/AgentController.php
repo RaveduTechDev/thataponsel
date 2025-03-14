@@ -90,6 +90,11 @@ class AgentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Agent::findOrFail($id)->delete();
+            return redirect('/master-data/agent')->with('success', 'Data agen berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('error', 'Data agen gagal dihapus.');
+        }
     }
 }
