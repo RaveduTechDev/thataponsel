@@ -16,7 +16,7 @@ class PelangganController extends Controller
         return view(
             'components.pages.pelanggans.index',
             [
-                'title' => 'Pelanggan',
+                'title' => 'Client',
                 'pelanggans' => $pelanggans
             ]
         );
@@ -30,7 +30,7 @@ class PelangganController extends Controller
         return view(
             'components.pages.pelanggans.create',
             [
-                'title' => 'Tambah Pelanggan'
+                'title' => 'Tambah Client'
             ]
         );
     }
@@ -66,7 +66,7 @@ class PelangganController extends Controller
         return view(
             'components.pages.pelanggans.edit',
             [
-                'title' => 'Edit Data Pelanggan',
+                'title' => 'Edit Data Client',
                 'pelanggan' => $pelanggan
             ]
         );
