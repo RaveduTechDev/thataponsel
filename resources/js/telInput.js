@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         Inputmask({
-            mask: "999 9999 9999[9999]",
+            mask: "999 9999 9999[9]",
             placeholder: "",
             greedy: false,
             showMaskOnHover: false,
