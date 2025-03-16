@@ -88,13 +88,41 @@
                     </a>
                 </li>
 
-                <li class="menu-item {{ request()->is('master-data*') ? 'active font-bold' : '' }}">
+                <li class="menu-item has-sub {{ request()->is('master-data*') ? 'active font-bold' : '' }}">
                     <a href={{ route('master-data.index') }} class="menu-link">
                         <span class="d-flex align-items-center">
                             <i class="bi bi-database-fill" style="margin: -12px 4px 0 0;"></i>
                             Master Data
                         </span>
                     </a>
+
+                    <div class="submenu">
+                        <div class="submenu-group-wrapper">
+                            <ul class="submenu-group">
+                                <li
+                                    class="submenu-item {{ request()->is('master-data/pelanggan*') ? 'active font-bold' : '' }}">
+                                    <a href={{ route('master-data.pelanggan.index') }}
+                                        class="submenu-link">Pelanggan</a>
+                                </li>
+                                <li
+                                    class="submenu-item {{ request()->is('master-data/agent*') ? 'active font-bold' : '' }}">
+                                    <a href={{ route('master-data.agent.index') }} class="submenu-link">Agent</a>
+                                </li>
+                                <li
+                                    class="submenu-item {{ request()->is('master-data/toko-cabang*') ? 'active font-bold' : '' }}">
+                                    <a href={{ route('master-data.toko-cabang.index') }} class="submenu-link">
+                                        Toko Cabang
+                                    </a>
+                                </li>
+                                <li
+                                    class="submenu-item {{ request()->is('master-data/barang*') ? 'active font-bold' : '' }}">
+                                    <a href={{ route('master-data.barang.index') }} class="submenu-link">
+                                        Data HP
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </li>
 
                 <li class="menu-item {{ request()->is('stocks*') ? 'active font-bold' : '' }}">
@@ -102,6 +130,15 @@
                         <span class="d-flex align-items-center">
                             <i class="bi bi-box-seam" style="margin: -12px 4px 0 0;"></i>
                             Stok HP
+                        </span>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ request()->is('stocks*') ? 'active font-bold' : '' }}">
+                    <a href={{ route('stocks.index') }} class="menu-link">
+                        <span class="d-flex align-items-center">
+                            <i class="bi bi-cash-coin" style="margin: -8px 4px 0 0;"></i>
+                            Penjualan
                         </span>
                     </a>
                 </li>
@@ -202,124 +239,6 @@
 
                                         <li class="subsubmenu-item">
                                             <a href="extra-component-divider.html" class="subsubmenu-link">Divider</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="menu-item has-sub">
-                    <a href="#" class="menu-link">
-                        <span><i class="bi bi-grid-1x2-fill"></i> Layouts</span>
-                    </a>
-                    <div class="submenu">
-                        <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                        <div class="submenu-group-wrapper">
-                            <ul class="submenu-group">
-                                <li class="submenu-item">
-                                    <a href="layout-default.html" class="submenu-link">Default Layout</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="layout-vertical-1-column.html" class="submenu-link">1
-                                        Column</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="layout-vertical-navbar.html" class="submenu-link">Vertical
-                                        Navbar</a>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="layout-rtl.html" class="submenu-link">RTL Layout</a>
-                                </li>
-
-                                <li class="submenu-item active">
-                                    <a href="layout-horizontal.html" class="submenu-link">Horizontal
-                                        Menu</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="menu-item has-sub">
-                    <a href="#" class="menu-link">
-                        <span><i class="bi bi-file-earmark-medical-fill"></i> Forms</span>
-                    </a>
-                    <div class="submenu">
-                        <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                        <div class="submenu-group-wrapper">
-                            <ul class="submenu-group">
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Form Elements</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="form-element-input.html" class="subsubmenu-link">Input</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="form-element-input-group.html" class="subsubmenu-link">Input
-                                                Group</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="form-element-select.html" class="subsubmenu-link">Select</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="form-element-radio.html" class="subsubmenu-link">Radio</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="form-element-checkbox.html" class="subsubmenu-link">Checkbox</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="form-element-textarea.html" class="subsubmenu-link">Textarea</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu-item">
-                                    <a href="form-layout.html" class="submenu-link">Form Layout</a>
-                                </li>
-
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Form Validation</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="form-validation-parsley.html" class="subsubmenu-link">Parsley</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Form Editor</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="form-editor-quill.html" class="subsubmenu-link">Quill</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="form-editor-ckeditor.html" class="subsubmenu-link">CKEditor</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="form-editor-summernote.html"
-                                                class="subsubmenu-link">Summernote</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="form-editor-tinymce.html" class="subsubmenu-link">TinyMCE</a>
                                         </li>
                                     </ul>
                                 </li>
