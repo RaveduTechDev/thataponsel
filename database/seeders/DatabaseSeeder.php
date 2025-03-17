@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Agent;
 use App\Models\Barang;
+use App\Models\Pelanggan;
+use App\Models\Penjualan;
 use App\Models\Stock;
 use App\Models\TokoCabang;
 use App\Models\User;
@@ -24,9 +26,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Stock::factory(100)->create();
-        TokoCabang::factory(10)->create();
-        Barang::factory(100)->create();
-        Agent::factory(100)->create();
+        TokoCabang::factory(1)->create();
+        Barang::factory(1)->create();
+        Stock::factory(1)->create();
+        Pelanggan::factory(1)->create();
+        Agent::factory(1)->create();
+        Penjualan::factory(1)->create();
     }
 }

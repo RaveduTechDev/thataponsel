@@ -134,8 +134,8 @@
                     </a>
                 </li>
 
-                <li class="menu-item {{ request()->is('stocks*') ? 'active font-bold' : '' }}">
-                    <a href={{ route('stocks.index') }} class="menu-link">
+                <li class="menu-item {{ request()->is('penjualan*') ? 'active font-bold' : '' }}">
+                    <a href={{ route('penjualan.index') }} class="menu-link">
                         <span class="d-flex align-items-center">
                             <i class="bi bi-cash-coin" style="margin: -8px 4px 0 0;"></i>
                             Penjualan

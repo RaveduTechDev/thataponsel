@@ -4,6 +4,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\TokoCabangController;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('agent', AgentController::class);
     });
     Route::resource('stocks', StockController::class);
+    Route::resource('penjualan', PenjualanController::class);
 });

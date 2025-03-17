@@ -40,4 +40,9 @@ class Agent extends Model
     {
         return $this->belongsTo(TokoCabang::class)->select('id', 'nama_toko_cabang');
     }
+
+    public function penjualans()
+    {
+        return $this->hasMany(Penjualan::class);
+    }
 }

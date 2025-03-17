@@ -26,6 +26,15 @@ class Pelanggan extends Model
             $number = '+62' . $number;
         }
 
-        return phone($number, 'ID')->formatInternational();
+        try {
+            return phone($number, 'ID')->formatInternational();
+        } catch (\Propaganistas\LaravelPhone\Exceptions\NumberParseException $e) {
+            return $this->nomor_wa;
+        }
+    }
+
+    public function penjualans()
+    {
+        return $this->hasMany(Penjualan::class);
     }
 }

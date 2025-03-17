@@ -20,4 +20,9 @@ class TokoCabang extends Model
     {
         return $this->hasMany(Agent::class);
     }
+
+    public function penjualans()
+    {
+        return $this->hasMany(Penjualan::class);
+    }
 }
