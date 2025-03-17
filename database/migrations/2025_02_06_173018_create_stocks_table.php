@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('jumlah_stok');
             $table->decimal('modal', 25, 0);
             $table->decimal('harga_jual', 25, 0);
-            $table->integer('invoice');
+            $table->string('invoice');
             $table->string('supplier');
             $table->string('no_kontak_supplier');
             $table->date('tanggal');
