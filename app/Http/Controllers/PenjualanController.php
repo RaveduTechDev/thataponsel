@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agent;
+use App\Models\Pelanggan;
 use App\Models\Penjualan;
+use App\Models\Stock;
+use App\Models\TokoCabang;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
@@ -24,7 +29,17 @@ class PenjualanController extends Controller
      */
     public function create()
     {
-        //
+        $stocks = Stock::latest()->get();
+        $pelanggans = Pelanggan::latest()->get();
+        $toko_cabangs = TokoCabang::latest()->get();
+        $agents = Agent::latest()->get();
+        return view('components.pages.penjualans.create', [
+            'title' => 'Tambah Penjualan',
+            'stocks' => $stocks,
+            'pelanggans' => $pelanggans,
+            'toko_cabangs' => $toko_cabangs,
+            'agents' => $agents,
+        ]);
     }
 
     /**

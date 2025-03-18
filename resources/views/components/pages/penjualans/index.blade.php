@@ -7,7 +7,7 @@
             <a href={{ route('penjualan.create') }} style="margin:-8px 0 0 0;"
                 class="d-inline-flex align-items-center btn btn-success btn-md">
                 <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                <span>Tambah Stock</span>
+                <span>Tambah Data</span>
             </a>
         </div>
 
