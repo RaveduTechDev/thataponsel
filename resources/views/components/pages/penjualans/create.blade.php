@@ -44,9 +44,7 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="sales-agent" class="form-label">
@@ -68,7 +66,9 @@
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
+                                            </div>
 
+                                            <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="toko-cabang-id" class="form-label">
@@ -94,23 +94,130 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="jumlah-transaksi" class="form-label">
-                                                            Jumlah Transaksi
+                                                        <label for="select-barang" class="form-label">
+                                                            Barang
                                                         </label>
-                                                        <input type="number" min="1" id="jumlah-transaksi"
-                                                            value="{{ @old('jumlah_transaksi') }}"
-                                                            class="form-control {{ $errors->has('jumlah_transaksi') ? 'is-invalid' : '' }}"
-                                                            placeholder="Jumlah Transaksi" name="jumlah_transaksi" required>
+                                                        <select id="select-barang" class="select-data form-select choice"
+                                                            style="cursor:pointer;" name="toko_cabang_id"
+                                                            id="toko-cabang-id" data-placeholder="-- Pilih Toko Cabang --"
+                                                            data-check-selected="false" data-calc="true" required>
+                                                            @foreach ($stocks as $stock)
+                                                                <option value="{{ $stock->id }}"
+                                                                    data-price="{{ $stock->harga_jual }}"
+                                                                    {{ old('toko_cabang_id') === $stock->id ? 'selected' : '' }}>
+                                                                    {{ $stock->nama_barang }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
-                                                    @error('jumlah_transaksi')
+                                                    @error('toko_cabang_id')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
                                             </div>
 
                                             <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="select-pelanggans" class="form-label">
+                                                            Pelanggan
+                                                        </label>
+                                                        <select id="select-pelanggans"
+                                                            class="select-data form-select choice" style="cursor:pointer;"
+                                                            name="toko_cabang_id" id="toko-cabang-id"
+                                                            data-placeholder="-- Pilih Pelanggan --"
+                                                            data-check-selected="false" required>
+                                                            @foreach ($pelanggans as $pelanggan)
+                                                                <option value="{{ $pelanggan->id }}"
+                                                                    {{ old('toko_cabang_id') === $pelanggan->id ? 'selected' : '' }}>
+                                                                    {{ $pelanggan->nama_pelanggan }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    @error('toko_cabang_id')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="select-status" class="form-label">
+                                                            Status
+                                                        </label>
+                                                        {{-- <select id="select-status" class="select-data form-select choice"
+                                                            style="cursor:pointer;" name="status"
+                                                            data-placeholder="-- Pilih Status Penjualan --"
+                                                            data-check-selected="false" required>
+                                                        </select> --}}
+                                                        <select id="select-status"
+                                                            class="select-data form-select choices multiple-remove"
+                                                            name="status" data-check-selected="false" multiple="multiple"
+                                                            placeholder="Pilih Status Penjualan" required>
+                                                            <option value="proses"
+                                                                {{ old('status', isset($data) ? $data->status : '') == 'proses' ? 'selected' : '' }}>
+                                                                Proses</option>
+                                                            <option value="selesai"
+                                                                {{ old('status', isset($data) ? $data->status : '') == 'selesai' ? 'selected' : '' }}>
+                                                                Selesai</option>
+                                                        </select>
+                                                    </div>
+                                                    @error('status')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="sub-total" class="form-label">
+                                                            Sub Total
+                                                        </label>
+                                                        <input type="text" id="sub-total" min="1"
+                                                            class="form-control {{ $errors->has('subtotal') ? 'is-invalid' : '' }}"
+                                                            placeholder="No. Invoice" name="subtotal"
+                                                            value="{{ @old('subtotal') }}" readonly required>
+                                                        @error('subtotal')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="diskon" class="form-label">
+                                                            Diskon (%)
+                                                        </label>
+                                                        <input
+                                                            class="form-control {{ $errors->has('diskon') ? 'is-invalid' : '' }}"
+                                                            type="number" id="diskon" min="1" max="100"
+                                                            placeholder="No. Invoice" name="diskon"
+                                                            value="{{ @old('diskon') }}">
+                                                        @error('diskon')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="total-bayar" class="form-label">
+                                                            Total Bayar
+                                                        </label>
+                                                        <input type="text" id="total-bayar" min="1" readonly
+                                                            class="form-control {{ $errors->has('nama_agen') ? 'is-invalid' : '' }}"
+                                                            placeholder="Total Bayar" name="nama_agen"
+                                                            value="{{ @old('nama_agen') }}" required>
+                                                        @error('nama_agen')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
                                                 <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-success me-3 mb-1" id="submitBtn">
+                                                    <button type="submit" class="btn btn-success me-3 mb-1"
+                                                        id="submitBtn">
                                                         Tambah
                                                     </button>
                                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">
@@ -129,6 +236,6 @@
         </section>
     </section>
 
-    @vite('resources/js/choices.js')
+    @vite(['resources/js/choices.js', 'resources/js/choices-multi.js', 'resources/js/calculate.js'])
     @include('components.ui.loading.button')
 @endsection

@@ -11,6 +11,8 @@ export default defineConfig({
                 "resources/js/filepond.js",
                 "resources/js/telInput.js",
                 "resources/js/choices.js",
+                "resources/js/choices-multi.js",
+                "resources/js/calculate.js",
             ],
             refresh: true,
         }),
