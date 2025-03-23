@@ -56,12 +56,13 @@
 
                                                 <div class="col-md-6 col-lg-3 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="toko-cabang-id" class="form-label">
+                                                        <label for="select-toko_cabangs" class="form-label">
                                                             Toko Cabang
                                                         </label>
-                                                        <select id="select-data" class="form-select choice"
+                                                        <select class="select-data form-select choice"
                                                             style="cursor:pointer;" name="toko_cabang_id"
-                                                            id="toko-cabang-id" data-placeholder="-- Pilih Toko Cabang --"
+                                                            id="select-toko_cabangs"
+                                                            data-placeholder="-- Pilih Toko Cabang --"
                                                             data-check-selected="false" required>
                                                             @foreach ($toko_cabangs as $toko_cabang)
                                                                 <option value="{{ $toko_cabang->id }}"

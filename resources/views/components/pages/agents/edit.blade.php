@@ -61,7 +61,7 @@
                                                         <label for="toko-cabang-id" class="form-label">
                                                             Toko Cabang
                                                         </label>
-                                                        <select id="select-data" class="form-select choice"
+                                                        <select class="select-data form-select choice"
                                                             style="cursor:pointer;" name="toko_cabang_id"
                                                             id="toko-cabang-id" data-placeholder="-- Pilih Toko Cabang --"
                                                             data-check-selected="true" required>
