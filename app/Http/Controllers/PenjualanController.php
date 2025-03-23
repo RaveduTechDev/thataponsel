@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PenjualanRequest;
 use App\Models\Agent;
 use App\Models\Pelanggan;
 use App\Models\Penjualan;
@@ -45,9 +46,16 @@ class PenjualanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PenjualanRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['tanggal_transaksi'] = date('Y-m-d');
+        try {
+            Penjualan::create($data);
+            return redirect()->route('penjualan.index')->with('success', 'Data Penjualan berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('error', 'Penjualan gagal ditambahkan');
+        }
     }
 
     /**

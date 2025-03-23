@@ -32,14 +32,14 @@
                                             <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="nama-agen" class="form-label">
+                                                        <label for="invoice" class="form-label">
                                                             No. Invoice
                                                         </label>
-                                                        <input type="text" id="nama-agen"
-                                                            class="form-control {{ $errors->has('nama_agen') ? 'is-invalid' : '' }}"
-                                                            placeholder="No. Invoice" name="nama_agen"
-                                                            value="{{ @old('nama_agen') }}" required>
-                                                        @error('nama_agen')
+                                                        <input type="text" id="invoice"
+                                                            class="form-control {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
+                                                            placeholder="No. Invoice" name="invoice"
+                                                            value="{{ @old('invoice') }}" required>
+                                                        @error('invoice')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
@@ -47,11 +47,11 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="sales-agent" class="form-label">
+                                                        <label for="select-agent" class="form-label">
                                                             Sales/Agent
                                                         </label>
                                                         <select id="select-agent" class="select-data form-select choice"
-                                                            style="cursor:pointer;" name="agent_id" id="sales-agent"
+                                                            style="cursor:pointer;" name="agent_id"
                                                             data-placeholder="-- Pilih Sales/Agent --"
                                                             data-check-selected="false" required>
                                                             @foreach ($agents as $agent)
@@ -71,13 +71,12 @@
                                             <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="toko-cabang-id" class="form-label">
+                                                        <label for="select-toko_cabangs" class="form-label">
                                                             Toko Cabang
                                                         </label>
                                                         <select id="select-toko_cabangs"
                                                             class="select-data form-select choice" style="cursor:pointer;"
-                                                            name="toko_cabang_id" id="toko-cabang-id"
-                                                            data-placeholder="-- Pilih Toko Cabang --"
+                                                            name="toko_cabang_id" data-placeholder="-- Pilih Toko Cabang --"
                                                             data-check-selected="false" required>
                                                             @foreach ($toko_cabangs as $toko_cabang)
                                                                 <option value="{{ $toko_cabang->id }}"
@@ -98,19 +97,19 @@
                                                             Barang
                                                         </label>
                                                         <select id="select-barang" class="select-data form-select choice"
-                                                            style="cursor:pointer;" name="toko_cabang_id"
-                                                            id="toko-cabang-id" data-placeholder="-- Pilih Toko Cabang --"
+                                                            style="cursor:pointer;" name="barang_id"
+                                                            data-placeholder="-- Pilih Toko Cabang --"
                                                             data-check-selected="false" data-calc="true" required>
                                                             @foreach ($stocks as $stock)
                                                                 <option value="{{ $stock->id }}"
                                                                     data-price="{{ $stock->harga_jual }}"
-                                                                    {{ old('toko_cabang_id') === $stock->id ? 'selected' : '' }}>
+                                                                    {{ old('barang_id') === $stock->id ? 'selected' : '' }}>
                                                                     {{ $stock->nama_barang }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    @error('toko_cabang_id')
+                                                    @error('barang_id')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
@@ -124,18 +123,17 @@
                                                         </label>
                                                         <select id="select-pelanggans"
                                                             class="select-data form-select choice" style="cursor:pointer;"
-                                                            name="toko_cabang_id" id="toko-cabang-id"
-                                                            data-placeholder="-- Pilih Pelanggan --"
+                                                            name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
                                                             data-check-selected="false" required>
                                                             @foreach ($pelanggans as $pelanggan)
                                                                 <option value="{{ $pelanggan->id }}"
-                                                                    {{ old('toko_cabang_id') === $pelanggan->id ? 'selected' : '' }}>
+                                                                    {{ old('pelanggan_id') === $pelanggan->id ? 'selected' : '' }}>
                                                                     {{ $pelanggan->nama_pelanggan }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    @error('toko_cabang_id')
+                                                    @error('pelanggan_id')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
@@ -145,21 +143,17 @@
                                                         <label for="select-status" class="form-label">
                                                             Status
                                                         </label>
-                                                        {{-- <select id="select-status" class="select-data form-select choice"
-                                                            style="cursor:pointer;" name="status"
-                                                            data-placeholder="-- Pilih Status Penjualan --"
-                                                            data-check-selected="false" required>
-                                                        </select> --}}
                                                         <select id="select-status"
-                                                            class="select-data form-select choices multiple-remove"
-                                                            name="status" data-check-selected="false" multiple="multiple"
-                                                            placeholder="Pilih Status Penjualan" required>
+                                                            class="select-status form-select choices multiple-remove"
+                                                            name="status" data-check-selected="false" multiple required>
                                                             <option value="proses"
                                                                 {{ old('status', isset($data) ? $data->status : '') == 'proses' ? 'selected' : '' }}>
-                                                                Proses</option>
+                                                                Proses
+                                                            </option>
                                                             <option value="selesai"
                                                                 {{ old('status', isset($data) ? $data->status : '') == 'selesai' ? 'selected' : '' }}>
-                                                                Selesai</option>
+                                                                Selesai
+                                                            </option>
                                                         </select>
                                                     </div>
                                                     @error('status')
@@ -174,10 +168,10 @@
                                                         <label for="sub-total" class="form-label">
                                                             Sub Total
                                                         </label>
-                                                        <input type="text" id="sub-total" min="1"
+                                                        <input type="text" id="sub-total" min="0" readonly
                                                             class="form-control {{ $errors->has('subtotal') ? 'is-invalid' : '' }}"
-                                                            placeholder="No. Invoice" name="subtotal"
-                                                            value="{{ @old('subtotal') }}" readonly required>
+                                                            placeholder="No. Invoice" name="subtotal" value="0"
+                                                            value="{{ @old('subtotal') }}" required>
                                                         @error('subtotal')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -190,8 +184,8 @@
                                                         </label>
                                                         <input
                                                             class="form-control {{ $errors->has('diskon') ? 'is-invalid' : '' }}"
-                                                            type="number" id="diskon" min="1" max="100"
-                                                            placeholder="No. Invoice" name="diskon"
+                                                            type="number" id="diskon" value="0" min="0"
+                                                            max="100" placeholder="No. Invoice" name="diskon"
                                                             value="{{ @old('diskon') }}">
                                                         @error('diskon')
                                                             <small class="text-danger">{{ $message }}</small>
@@ -203,11 +197,11 @@
                                                         <label for="total-bayar" class="form-label">
                                                             Total Bayar
                                                         </label>
-                                                        <input type="text" id="total-bayar" min="1" readonly
-                                                            class="form-control {{ $errors->has('nama_agen') ? 'is-invalid' : '' }}"
-                                                            placeholder="Total Bayar" name="nama_agen"
-                                                            value="{{ @old('nama_agen') }}" required>
-                                                        @error('nama_agen')
+                                                        <input type="text" id="total-bayar" readonly
+                                                            class="form-control {{ $errors->has('total_bayar') ? 'is-invalid' : '' }}"
+                                                            placeholder="Total Bayar" name="total_bayar" value="0"
+                                                            min="0" value="{{ @old('total_bayar') }}" required>
+                                                        @error('total_bayar')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>

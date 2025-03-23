@@ -102,10 +102,12 @@
                                     <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->tokoCabang->nama_toko_cabang }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->agent->nama_agen }}</td>
-                                    <td class="text-nowrap ">{{ $penjualan->subtotal }}</td>
+                                    <td class="text-nowrap ">
+                                        Rp. {{ number_format($penjualan->subtotal, 0, ',', '.') }}
+                                    </td>
                                     <td class="text-nowrap ">{{ $penjualan->diskon }}%</td>
                                     <td class="text-nowrap ">
-                                        Rp{{ number_format($penjualan->total_bayar, 0, ',', '.') }}
+                                        Rp. {{ number_format($penjualan->total_bayar, 0, ',', '.') }}
                                     </td>
                                     <td class="text-nowrap ">
 

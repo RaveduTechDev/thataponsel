@@ -15,6 +15,7 @@ class Penjualan extends Model
         'pelanggan_id',
         'toko_cabang_id',
         'agent_id',
+        'barang_id',
         'subtotal',
         'diskon',
         'total_bayar',
