@@ -103,6 +103,11 @@ class PenjualanController extends Controller
      */
     public function destroy(string $id)
     {
-        // 
+        try {
+            Penjualan::findOrFail($id)->delete();
+            return redirect('/penjualan')->with('success', 'Data Penjualan berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('error', 'Penjualan gagal dihapus');
+        }
     }
 }
