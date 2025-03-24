@@ -21,8 +21,7 @@ class PenjualanRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'invoice' => 'required|string|unique:penjualans,invoice',
+        $validate = [
             'barang_id' => 'required|exists:barangs,id',
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'toko_cabang_id' => 'required|exists:toko_cabangs,id',
@@ -32,5 +31,13 @@ class PenjualanRequest extends FormRequest
             'total_bayar' => 'required|numeric|digits_between:1,25',
             'status' => 'required|in:proses,selesai,batal',
         ];
+
+        if ($this->isMethod('post')) {
+            $validate['invoice'] = 'required|string|max:50|unique:penjualans,invoice';
+        } else if ($this->isMethod('put') || $this->isMethod('patch')) {
+            $validate['invoice'] = 'sometimes|required|string|max:50|unique:penjualans,invoice,' . $this->route('penjualan');
+        }
+
+        return $validate;
     }
 }

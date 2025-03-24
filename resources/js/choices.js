@@ -1,7 +1,15 @@
 import Choices from "choices.js";
 
 $(document).ready(function () {
-    // Fungsi untuk memformat angka ke Rupiah
+    var $subTotal = $("#sub-total");
+    var $totalBayar = $("#total-bayar");
+
+    [$subTotal, $totalBayar].forEach(function ($element) {
+        var rawValue = $element.val();
+        var numberValue = parseFloat(rawValue) || 0;
+        $element.val(formatRupiah(numberValue));
+    });
+
     function formatRupiah(angka) {
         angka = parseFloat(angka) || 0;
         return (
@@ -11,9 +19,8 @@ $(document).ready(function () {
 
     $(".select-status").each(function () {
         const element = this;
-
-        // Ambil nilai awal dari data attribute "selected"
-        let initialSelected = $(element).data("selected");
+        const checkSelected = $(element).data("check-selected");
+        let initialSelected = $(element).find("option:selected").val();
         let initialClass =
             initialSelected === "selesai"
                 ? "item__success"
@@ -32,8 +39,19 @@ $(document).ready(function () {
                 classNames: {
                     item: ["choices__item", initialClass],
                 },
+                shouldSort: false,
             });
             element.choicesInstance = instance;
+
+            if (
+                (checkSelected === true || checkSelected === "true") &&
+                initialSelected
+            ) {
+                instance.input.element.placeholder = "";
+            } else {
+                instance.input.element.placeholder =
+                    "-- Pilih Status Penjualan --";
+            }
 
             element.addEventListener("change", function () {
                 const selectedValues = instance.getValue(true);
@@ -58,11 +76,14 @@ $(document).ready(function () {
                     itemElement.classList.add(newClass);
                 }
 
-                if (selectedValues.length > 0) {
+                if (
+                    (checkSelected === true || checkSelected === "true") &&
+                    selectedValues.length > 0
+                ) {
                     instance.input.element.placeholder = "";
                 } else {
                     instance.input.element.placeholder =
-                        "--Pilih Status Penjualan--";
+                        "-- Pilih Status Penjualan --";
                 }
             });
         } else if (typeof Choices !== "undefined") {

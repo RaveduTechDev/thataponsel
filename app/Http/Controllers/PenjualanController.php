@@ -8,8 +8,6 @@ use App\Models\Pelanggan;
 use App\Models\Penjualan;
 use App\Models\Stock;
 use App\Models\TokoCabang;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
 {
@@ -71,15 +69,33 @@ class PenjualanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $penjualan = Penjualan::findOrFail($id);
+        $stocks = Stock::latest()->get();
+        $pelanggans = Pelanggan::latest()->get();
+        $toko_cabangs = TokoCabang::latest()->get();
+        $agents = Agent::latest()->get();
+        return view('components.pages.penjualans.edit', [
+            'title' => 'Edit Penjualan',
+            'penjualan' => $penjualan,
+            'stocks' => $stocks,
+            'pelanggans' => $pelanggans,
+            'toko_cabangs' => $toko_cabangs,
+            'agents' => $agents,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PenjualanRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+        try {
+            Penjualan::findOrFail($id)->update($data);
+            return redirect()->route('penjualan.index')->with('success', 'Data Penjualan berhasil diubah');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('error', 'Penjualan gagal diubah');
+        }
     }
 
     /**
@@ -87,6 +103,11 @@ class PenjualanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Penjualan::findOrFail($id)->delete();
+            return redirect('/penjualan')->with('success', 'Data Penjualan berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('error', 'Penjualan gagal dihapus');
+        }
     }
 }
