@@ -39,4 +39,9 @@ class Penjualan extends Model
     {
         return $this->belongsTo(Agent::class);
     }
+
+    public function barang()
+    {
+        return $this->belongsTo(Stock::class);
+    }
 }

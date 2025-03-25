@@ -61,7 +61,11 @@ class PenjualanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $penjualan = Penjualan::findOrFail($id);
+        return view('components.pages.penjualans.show', [
+            'title' => 'Detail Penjualan',
+            'penjualan' => $penjualan,
+        ]);
     }
 
     /**
