@@ -23,12 +23,12 @@
                         id="formSubmit">
                         @csrf
                         <div class="row">
-                            <div class="col-md-7 col-12">
+                            <div class="col-12">
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-6 col-12">
+                                                {{-- <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="kode-barang" class="form-label">Kode Barang</label>
                                                         <input type="text" id="kode-barang"
@@ -107,15 +107,92 @@
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
+                                                </div> --}}
+                                                <div class="col-md-6 col-12 z-2">
+                                                    <div class="form-group mandatory">
+                                                        <label for="select-barangs" class="form-label">
+                                                            Barang
+                                                        </label>
+                                                        <select id="select-barangs" class="select-data form-select choice"
+                                                            style="cursor:pointer;" name="barang_id"
+                                                            data-placeholder="-- Pilih Barang --"
+                                                            data-check-selected="false" required>
+                                                            @foreach ($barangs as $barang)
+                                                                <option value="{{ $barang->id }}"
+                                                                    {{ old('barang_id"') === $barang->id ? 'selected' : '' }}>
+                                                                    {{ $barang->nama_barang }} - {{ $barang->merk }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    @error('barang_id"')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
+                                                        <label for="supplier" class="form-label">Supplier</label>
+                                                        <input type="text" id="supplier"
+                                                            class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
+                                                            value="{{ @old('supplier') }}" placeholder="Supplier"
+                                                            name="supplier" required>
+                                                        @error('supplier')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                {{-- <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="no_kontak_supplier" class="form-label">
+                                                            No Kontak Supplier
+                                                        </label>
+                                                        <input type="text" id="no_kontak_supplier"
+                                                            class="form-control {{ $errors->has('no_kontak_supplier') ? 'is-invalid' : '' }}"
+                                                            value="{{ @old('no_kontak_supplier') }}"
+                                                            placeholder="No Kontak Supplier" name="no_kontak_supplier">
+                                                        @error('no_kontak_supplier')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div> --}}
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group d-flex flex-column">
+                                                        <label for="phone" class="form-label">
+                                                            No Kontak Supplier
+                                                        </label>
+                                                        <input id="phone" type="tel"
+                                                            value="{{ old('no_kontak_supplier') }}"
+                                                            class="form-control {{ $errors->has('no_kontak_supplier') ? 'is-invalid' : '' }}"
+                                                            name="no_kontak_supplier">
+                                                    </div>
+                                                    @error('no_kontak_supplier')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="tanggal" class="form-label">Tanggal</label>
+                                                        <input type="date" id="tanggal"
+                                                            class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
+                                                            value="{{ @old('tanggal') }}" placeholder="tanggal"
+                                                            name="tanggal" required>
+                                                        @error('tanggal')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
                                                         <label for="imei_1" class="form-label">IMEI 1</label>
                                                         <input type="text" id="imei_1"
                                                             class="form-control {{ $errors->has('imei_1') ? 'is-invalid' : '' }}"
                                                             value="{{ @old('imei_1') }}" placeholder="IMEI 1"
-                                                            name="imei_1" required>
+                                                            name="imei_1">
                                                         @error('imei_1')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -123,12 +200,12 @@
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group">
                                                         <label for="imei_2" class="form-label">IMEI 2</label>
                                                         <input type="text" id="imei_2"
                                                             class="form-control {{ $errors->has('imei_2') ? 'is-invalid' : '' }}"
                                                             placeholder="IMEI 2" name="imei_2"
-                                                            value="{{ @old('imei_2') }}" required>
+                                                            value="{{ @old('imei_2') }}">
                                                         @error('imei_2')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -151,10 +228,9 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="modal" class="form-label">Modal</label>
-                                                        <input type="number" min="1" id="modal"
-                                                            value="{{ @old('modal') }}"
+                                                        <input type="text" id="modal" value="{{ @old('modal') }}"
                                                             class="form-control {{ $errors->has('modal') ? 'is-invalid' : '' }}"
-                                                            placeholder="IMEI 2" name="modal" required>
+                                                            placeholder="Rp. 0" name="modal" required>
                                                         @error('modal')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -164,7 +240,7 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="harga-jual" class="form-label">Harga Jual</label>
-                                                        <input type="number" min="1" id="harga-jual"
+                                                        <input type="text" id="harga-jual"
                                                             value="{{ @old('harga_jual') }}"
                                                             class="form-control {{ $errors->has('harga_jual') ? 'is-invalid' : '' }}"
                                                             placeholder="Harga Jual" name="harga_jual" required>
@@ -177,7 +253,7 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="invoice" class="form-label">Invoice</label>
-                                                        <input type="number" min="1" id="invoice"
+                                                        <input type="text" id="invoice"
                                                             value="{{ @old('invoice') }}"
                                                             class="form-control {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
                                                             placeholder="Invoice" name="invoice" required>
@@ -187,7 +263,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6 col-12">
+                                                {{-- <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="keterangan" class="form-label">Keterangan</label>
                                                         <input type="text" min="1" id="keterangan"
@@ -198,7 +274,7 @@
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="col-12 mt-2">
                                                     <div class="form-group">
@@ -231,22 +307,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-md-5 col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Upload Foto</h4>
-                                    </div>
-                                    <div class="card-content" style="margin-top: -20px;">
-                                        <div class="card-body">
-                                            <input type="file" class="image-preview-filepond" name="foto">
-                                            @error('foto')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -254,6 +314,6 @@
         </section>
     </section>
 
-    @vite('resources/js/filepond.js')
+    @vite(['resources/js/choices.js', 'resources/js/telInput.js', 'resources/js/calculate2.js'])
     @include('components.ui.loading.button')
 @endsection

@@ -142,26 +142,29 @@
                             @foreach ($stocks as $stock)
                                 <tr>
                                     <td class="text-nowrap w-xl-50">
-                                        <img src="{{ $stock->getFirstMediaUrl('stocks') }}" alt={{ $stock->nama_barang }}
-                                            width="70" loading="lazy">
+                                        <img src="{{ $stock->barang->getFirstMediaUrl('barang') }}"
+                                            alt="{{ $stock->nama_barang }}" width="70" loading="lazy">
                                     </td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->kode_barang }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->nama_barang }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->satuan }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->kategori }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->grade }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->kode_barang }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->nama_barang }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->satuan }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->kategori }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->grade }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->imei_1 }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->imei_2 }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->jumlah_stok }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->modal }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->harga_jual }}</td>
+                                    <td class="text-nowrap w-xl-50">
+                                        Rp. {{ number_format($stock->modal, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-nowrap w-xl-50">
+                                        Rp. {{ number_format($stock->harga_jual, 0, ',', '.') }}
+                                    </td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->invoice }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->supplier }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->no_kontak_supplier }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->NoKontakSupplier }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->tanggal }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->keterangan }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->keterangan }}</td>
                                     <td class="text-nowrap text-center">
-                                        {{-- dropdown but not button --}}
                                         <div class="dropdown">
                                             <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
                                                 <i class="bi bi-three-dots text-secondary details-button"
@@ -175,8 +178,7 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href={{ route('stocks.edit', $stock->kode_barang) }}
-                                                        class="dropdown-item">
+                                                    <a href={{ route('stocks.edit', $stock->id) }} class="dropdown-item">
                                                         <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
                                                         <span>Edit</span>
                                                     </a>
@@ -184,7 +186,7 @@
                                                 <li>
                                                     <button type="button" class="dropdown-item btn-delete-modal"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#modalStock{{ $stock->kode_barang }}">
+                                                        data-bs-target="#modalStock{{ $stock->id }}">
                                                         <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
                                                         <span>Hapus</span>
                                                     </button>
@@ -193,9 +195,9 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade text-left modal-borderless"
-                                    id="modalStock{{ $stock->kode_barang }}" tabindex="-1"
-                                    aria-labelledby="modalStockLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal fade text-left modal-borderless" id="modalStock{{ $stock->id }}"
+                                    tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
+                                    aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable"
                                         role="document" style="z-index: 30;">
                                         <div class="modal-content">

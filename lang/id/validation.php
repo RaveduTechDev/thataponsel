@@ -124,7 +124,7 @@ return [
         'symbols'       => ' :attribute harus mengandung setidaknya satu simbol.',
         'uncompromised' => 'Nilai :attribute yang diberikan telah muncul dalam kebocoran data. Silakan pilih :attribute yang berbeda.',
     ],
-    'phone'                => ' :attribute Format tidak valid. Gunakan: 08 atau +628.',
+    'phone'                => ' Format :attribute tidak valid.',
     'present'              => ' :attribute harus ada.',
     'present_if'           => ' :attribute harus ada ketika :other adalah :value.',
     'present_unless'       => ' :attribute harus ada kecuali :other adalah :value.',

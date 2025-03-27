@@ -13,11 +13,7 @@ class Stock extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'kode_barang',
-        'nama_barang',
-        'satuan',
-        'kategori',
-        'grade',
+        'barang_id',
         'imei_1',
         'imei_2',
         'jumlah_stok',
@@ -27,12 +23,23 @@ class Stock extends Model implements HasMedia
         'supplier',
         'no_kontak_supplier',
         'tanggal',
-        'keterangan',
         'garansi',
     ];
 
-    public function getRouteKeyName(): string
+    protected $with = ['barang'];
+
+    public function barang()
     {
-        return 'kode_barang';
+        return $this->belongsTo(Barang::class);
+    }
+
+    // format phone number to INTERNATIONAL
+    public function getNoKontakSupplierAttribute()
+    {
+        try {
+            return phone($this->attributes['no_kontak_supplier'], 'ZZ', \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+        } catch (\Propaganistas\LaravelPhone\Exceptions\NumberParseException $e) {
+            return 'Invalid phone number';
+        }
     }
 }

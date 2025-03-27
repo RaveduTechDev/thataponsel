@@ -26,8 +26,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        TokoCabang::factory(1)->create();
         Barang::factory(1)->create();
+        TokoCabang::factory(1)->create();
         Stock::factory(1)->create();
         Pelanggan::factory(1)->create();
         Agent::factory(1)->create();

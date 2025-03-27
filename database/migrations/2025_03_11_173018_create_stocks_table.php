@@ -13,21 +13,17 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_barang')->unique();
-            $table->string('nama_barang');
-            $table->enum('satuan', ['unit', 'fullset']);
-            $table->string('kategori');
-            $table->string('grade');
-            $table->string('imei_1');
-            $table->string('imei_2');
+            $table->foreignId('barang_id')->constrained('barangs')->onDelete('cascade');
+            $table->string('imei_1')->nullable();
+            $table->string('imei_2')->nullable();
             $table->integer('jumlah_stok');
             $table->decimal('modal', 25, 0);
             $table->decimal('harga_jual', 25, 0);
             $table->string('invoice');
             $table->string('supplier');
-            $table->string('no_kontak_supplier');
+            $table->string('no_kontak_supplier')->nullable();
             $table->date('tanggal');
-            $table->string('keterangan');
+            // $table->string('keterangan');
             $table->enum('garansi', ['tidak', 'ya']);
             $table->timestamps();
         });

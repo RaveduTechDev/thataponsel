@@ -25,8 +25,15 @@ class Barang extends Model implements HasMedia
         'keterangan',
     ];
 
+
+
     public function getRouteKeyName(): string
     {
         return 'kode_barang';
+    }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
     }
 }

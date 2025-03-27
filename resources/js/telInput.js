@@ -1,33 +1,33 @@
 import intlTelInput from "intl-tel-input";
 import "intl-tel-input/build/css/intlTelInput.css";
-import Inputmask from "inputmask";
 
 document.addEventListener("DOMContentLoaded", function () {
     const phoneInput = document.getElementById("phone");
     if (phoneInput) {
         const iti = intlTelInput(phoneInput, {
             initialCountry: "id",
-            allowDropdown: false,
+            allowDropdown: true,
             separateDialCode: true,
-            nationalMode: false,
-            autoPlaceholder: "aggressive",
-            utilsScript: new URL(
-                "intl-tel-input/build/js/utils.js",
-                import.meta.url
-            ).href,
+            nationalMode: false, //
+            autoPlaceholder: "polite",
+            formatAsYouType: true,
+            formatOnDisplay: true,
+            placeholderNumberType: "MOBILE",
+            strictMode: true,
+            countryOrder: ["ID", "US", "MY", "SG", "TH", "VN"],
+
+            loadUtils: () => import("intl-tel-input/build/js/utils.js"),
         });
 
-        Inputmask({
-            mask: "999 9999 9999[9]",
-            placeholder: "",
-            greedy: false,
-            showMaskOnHover: false,
-            showMaskOnFocus: false,
-        }).mask(phoneInput);
-
-        document.querySelector("#formSubmit").addEventListener("submit", () => {
-            phoneInput.value = iti.getNumber(intlTelInput.numberFormat.E164);
-        });
+        document
+            .getElementById("formSubmit")
+            .addEventListener("submit", function (e) {
+                const phone = iti.getNumber();
+                document.getElementById("phone").value = phone;
+                if (!phone) {
+                    location.reload();
+                }
+            });
     } else {
         console.error("Element dengan id 'phone' tidak ditemukan");
     }

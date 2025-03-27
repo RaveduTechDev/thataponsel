@@ -57,18 +57,18 @@
 
             <div class="row match-height">
                 <div class="col-12">
-                    <form action={{ route('stocks.update', $stock->kode_barang) }} method="POST"
-                        enctype="multipart/form-data" class="form" id="formSubmit">
+                    <form action={{ route('stocks.update', $stock->id) }} method="POST" enctype="multipart/form-data"
+                        class="form" id="formSubmit">
                         @csrf
                         @method('PUT')
 
                         <div class="row">
-                            <div class="col-md-8 col-12">
+                            <div class="col-12">
                                 <div class="card">
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-6 col-12">
+                                                {{-- <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="kode-barang" class="form-label text-nowrap">
                                                             Kode Barang
@@ -152,16 +152,79 @@
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
+                                                </div> --}}
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="select-barangs" class="form-label">
+                                                            Barang
+                                                        </label>
+                                                        <select id="select-barangs" class="select-data form-select choice"
+                                                            style="cursor:pointer;" name="barang_id"
+                                                            data-placeholder="-- Pilih Barang --" data-check-selected="true"
+                                                            required>
+                                                            @foreach ($barangs as $barang)
+                                                                <option value="{{ $barang->id }}"
+                                                                    {{ $stock->barang_id === $barang->id ? 'selected' : '' }}>
+                                                                    {{ $barang->nama_barang }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    @error('barang_id"')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
+                                                        <label for="supplier" class="form-label">Supplier</label>
+                                                        <input type="text" id="supplier"
+                                                            class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
+                                                            value="{{ $stock->supplier }}" placeholder="Supplier"
+                                                            name="supplier" required>
+                                                        @error('supplier')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group d-flex flex-column">
+                                                        <label for="phone" class="form-label">
+                                                            No Kontak Supplier
+                                                        </label>
+                                                        <input id="phone" type="tel"
+                                                            value="{{ $stock->no_kontak_supplier }}"
+                                                            class="form-control {{ $errors->has('no_kontak_supplier') ? 'is-invalid' : '' }}"
+                                                            name="no_kontak_supplier">
+                                                    </div>
+                                                    @error('no_kontak_supplier')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="tanggal" class="form-label">Tanggal</label>
+                                                        <input type="date" id="tanggal"
+                                                            class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
+                                                            value="{{ $stock->tanggal }}" placeholder="tanggal"
+                                                            name="tanggal" required>
+                                                        @error('tanggal')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
                                                         <label for="imei_1" class="form-label text-nowrap">
                                                             IMEI 1
                                                         </label>
                                                         <input type="text" id="imei_1"
                                                             class="form-control {{ $errors->has('imei_1') ? 'is-invalid' : '' }}"
-                                                            placeholder="IMEI 1" name="imei_1" required
+                                                            placeholder="IMEI 1" name="imei_1"
                                                             value="{{ $stock->imei_1 }}">
                                                         @error('imei_1')
                                                             <small class="text-danger">{{ $message }}</small>
@@ -169,14 +232,15 @@
                                                     </div>
                                                 </div>
 
+
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group">
                                                         <label for="imei_2" class="form-label text-nowrap">
                                                             IMEI 2
                                                         </label>
                                                         <input type="text" id="imei_2"
                                                             class="form-control {{ $errors->has('imei_2') ? 'is-invalid' : '' }}"
-                                                            placeholder="IMEI 2" name="imei_2" required
+                                                            placeholder="IMEI 2" name="imei_2"
                                                             value="{{ $stock->imei_2 }}">
                                                         @error('imei_2')
                                                             <small class="text-danger">{{ $message }}</small>
@@ -201,7 +265,7 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="modal" class="form-label text-nowrap">Modal</label>
-                                                        <input type="number" min="1" id="modal"
+                                                        <input type="text" min="1" id="modal"
                                                             class="form-control {{ $errors->has('modal') ? 'is-invalid' : '' }}"
                                                             placeholder="IMEI 2" name="modal" required
                                                             value="{{ $stock->modal }}">
@@ -210,9 +274,10 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="harga-jual" class="form-label text-nowrap">Harga
-                                                            Jual</label>
-                                                        <input type="number" min="1" id="harga-jual"
+                                                        <label for="harga-jual" class="form-label text-nowrap">
+                                                            Harga Jual
+                                                        </label>
+                                                        <input type="text" min="1" id="harga-jual"
                                                             class="form-control {{ $errors->has('harga_jual') ? 'is-invalid' : '' }}"
                                                             placeholder="Harga Jual" name="harga_jual" required
                                                             value="{{ $stock->harga_jual }}">
@@ -226,7 +291,7 @@
                                                     <div class="form-group mandatory">
                                                         <label for="invoice"
                                                             class="form-label text-nowrap">Invoice</label>
-                                                        <input type="number" min="1" id="invoice"
+                                                        <input type="text" min="1" id="invoice"
                                                             class="form-control {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
                                                             placeholder="Invoice" name="invoice" required
                                                             value="{{ $stock->invoice }}">
@@ -236,7 +301,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6 col-12">
+                                                {{-- <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="keterangan"
                                                             class="form-label text-nowrap">Keterangan</label>
@@ -248,7 +313,7 @@
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="col-12 mt-2">
                                                     <div class="form-group mandatory">
@@ -289,7 +354,7 @@
 
                             </div>
 
-                            <div class="col-md-4 col-12">
+                            {{-- <div class="col-md-4 col-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title text-nowrap">Upload Foto</h4>
@@ -304,7 +369,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </form>
                 </div>
@@ -312,31 +377,7 @@
         </section>
     </section>
 
-    {{-- @vite('resources/js/filepond.js') --}}
+    @vite(['resources/js/choices.js', 'resources/js/telInput.js', 'resources/js/calculate2.js'])
     @include('components.ui.loading.button')
-    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-    <script>
-        FilePond.registerPlugin(FilePondPluginImagePreview, )
-        FilePond.create(document.querySelector(".image-preview-filepond"), {
-            credits: null,
-            allowImagePreview: true,
-            allowImageFilter: false,
-            allowImageExifOrientation: false,
-            allowImageCrop: false,
-            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
-            fileValidateTypeDetectType: (source, type) =>
-                new Promise((resolve, reject) => {
-                    // Do custom type detection here and return with promise
-                    resolve(type)
-                }),
-            storeAsFile: true,
-            @if ($stock->getFirstMediaUrl('stocks'))
-                files: [{
-                    source: "{{ $stock->getFirstMediaUrl('stocks') }}",
-                }]
-            @endif
-        })
-    </script>
 
 @endsection

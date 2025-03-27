@@ -17,11 +17,7 @@ class StockFactory extends Factory
     public function definition(): array
     {
         return [
-            'kode_barang' => fake()->unique()->word(),
-            'nama_barang' => fake()->word(),
-            'satuan' => fake()->randomElement(['unit', 'fullset']),
-            'kategori' => fake()->word(),
-            'grade' => fake()->word(),
+            'barang_id' => \App\Models\Barang::factory(),
             'imei_1' => fake()->word(),
             'imei_2' => fake()->word(),
             'jumlah_stok' => fake()->randomNumber(),
@@ -31,7 +27,6 @@ class StockFactory extends Factory
             'supplier' => fake()->randomNumber(),
             'no_kontak_supplier' => fake()->word(),
             'tanggal' => fake()->date(),
-            'keterangan' => fake()->word(),
             'garansi' => fake()->randomElement(['tidak', 'ya']),
         ];
     }
