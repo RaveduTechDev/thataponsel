@@ -49,8 +49,17 @@ class PenjualanController extends Controller
         $data = $request->validated();
         $data['tanggal_transaksi'] = date('Y-m-d');
         try {
-            Penjualan::create($data);
-            return redirect()->route('penjualan.index')->with('success', 'Data Penjualan berhasil ditambahkan');
+            $stock = Stock::findOrFail($data['stock_id']);
+            if ($stock->jumlah_stok <= 0) {
+                return redirect()->back()->with('error', 'Stok dari ' . $stock->barang->nama_barang . ' habis');
+            }
+
+            $stock->decrement('jumlah_stok');
+            $penjualan = Penjualan::create($data);
+
+            if ($penjualan) {
+                return redirect()->route('penjualan.index')->with('success', 'Data Penjualan berhasil ditambahkan');
+            }
         } catch (\Exception $e) {
             return redirect()->back()->withErrors('error', 'Penjualan gagal ditambahkan');
         }
@@ -94,11 +103,28 @@ class PenjualanController extends Controller
     public function update(PenjualanRequest $request, string $id)
     {
         $data = $request->validated();
+
         try {
-            Penjualan::findOrFail($id)->update($data);
-            return redirect()->route('penjualan.index')->with('success', 'Data Penjualan berhasil diubah');
+            $penjualan = Penjualan::findOrFail($id);
+            $oldStockId = $penjualan->stock_id;
+            $newStockId = $data['stock_id'];
+
+            if ($oldStockId != $newStockId) {
+                $oldStock = Stock::findOrFail($oldStockId);
+                $oldStock->increment('jumlah_stok');
+
+                $newStock = Stock::findOrFail($newStockId);
+                if ($newStock->jumlah_stok <= 0) {
+                    return redirect()->back()->with('error', 'Stok dari ' . $newStock->barang->nama_barang . ' habis');
+                }
+                $newStock->decrement('jumlah_stok');
+            }
+
+            $penjualan->update($data);
+
+            return redirect()->route('penjualan.index')->with('success', 'Data penjualan berhasil diperbarui');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors('error', 'Penjualan gagal diubah');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -108,10 +134,17 @@ class PenjualanController extends Controller
     public function destroy(string $id)
     {
         try {
-            Penjualan::findOrFail($id)->delete();
+            $penjualan = Penjualan::findOrFail($id);
+
+            if ($penjualan->status !== 'selesai') {
+                $stock = Stock::findOrFail($penjualan->stock_id);
+                $stock->increment('jumlah_stok');
+            }
+
+            $penjualan->delete();
             return redirect('/penjualan')->with('success', 'Data Penjualan berhasil dihapus');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors('error', 'Penjualan gagal dihapus');
+            return redirect('/penjualan')->withErrors('error', 'Penjualan gagal dihapus');
         }
     }
 }

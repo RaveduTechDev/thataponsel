@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
             $table->string('invoice')->unique();
-            $table->foreignId('barang_id')->constrained('barangs');
+            $table->foreignId('stock_id')->constrained('stocks');
             $table->foreignId('pelanggan_id')->constrained('pelanggans');
             $table->foreignId('toko_cabang_id')->constrained('toko_cabangs');
             $table->foreignId('agent_id')->constrained('agents');

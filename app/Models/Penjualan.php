@@ -15,7 +15,7 @@ class Penjualan extends Model
         'pelanggan_id',
         'toko_cabang_id',
         'agent_id',
-        'barang_id',
+        'stock_id',
         'subtotal',
         'diskon',
         'total_bayar',
@@ -23,7 +23,7 @@ class Penjualan extends Model
         'status',
     ];
 
-    protected $with = ['pelanggan', 'tokoCabang', 'agent'];
+    protected $with = ['pelanggan', 'tokoCabang', 'agent', 'stock'];
 
     public function pelanggan()
     {
@@ -40,7 +40,7 @@ class Penjualan extends Model
         return $this->belongsTo(Agent::class);
     }
 
-    public function barang()
+    public function stock()
     {
         return $this->belongsTo(Stock::class);
     }

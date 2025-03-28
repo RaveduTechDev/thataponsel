@@ -97,14 +97,15 @@
                                                             Barang
                                                         </label>
                                                         <select id="select-barang" class="select-data form-select choice"
-                                                            style="cursor:pointer;" name="barang_id"
+                                                            style="cursor:pointer;" name="stock_id"
                                                             data-placeholder="-- Pilih Toko Cabang --"
                                                             data-check-selected="false" data-calc="true" required>
                                                             @foreach ($stocks as $stock)
                                                                 <option value="{{ $stock->id }}"
                                                                     data-price="{{ $stock->harga_jual }}"
-                                                                    {{ old('barang_id') === $stock->id ? 'selected' : '' }}>
-                                                                    {{ $stock->nama_barang }}
+                                                                    {{ old('stock_id') === $stock->id ? 'selected' : '' }}>
+                                                                    {{ $stock->barang->merk }} -
+                                                                    {{ $stock->barang->nama_barang }}
                                                                 </option>
                                                             @endforeach
                                                         </select>

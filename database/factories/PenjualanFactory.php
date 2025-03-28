@@ -18,7 +18,7 @@ class PenjualanFactory extends Factory
     {
         return [
             'invoice' => $this->faker->unique()->numerify('INV-#####'),
-            'barang_id' => \App\Models\Barang::factory(),
+            'stock_id' => \App\Models\Stock::factory(),
             'pelanggan_id' => \App\Models\Pelanggan::factory(),
             'toko_cabang_id' => \App\Models\TokoCabang::factory(),
             'agent_id' => \App\Models\Agent::factory(),

@@ -4,10 +4,47 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <a href={{ route('penjualan.index') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-secondary btn-md">
-                <span>Kembali</span>
-            </a>
+            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalStock">
+                <i class="bi bi-trash" style="margin: -12px 2px 0 0; font-size: 18px;"></i>
+                <span>Hapus</span>
+            </button>
+            <div class="modal fade text-left modal-borderless" id="modalStock" tabindex="-1"
+                aria-labelledby="modalStockLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document"
+                    style="z-index: 30;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-danger" id="modalStockLabel">
+                                <i class="bi bi-exclamation-triangle-fill fs-5" style="margin-top:-8px;"></i>
+                                <span>Peringatan</span>
+                            </h5>
+                            <button type="button" class="close text-danger close-btn" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <i class="bi bi-x-lg fs-6"></i>
+                                <span class="visually-hidden">Close</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Yakin Ingin Menghapus Data Ini?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Batal</span>
+                            </button>
+
+                            <form action={{ route('penjualan.destroy', $penjualan->id) }} method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger ms-1 d-flex">
+                                    <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
+                                    <span class="d-none d-sm-block">Hapus</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <section id="multiple-column-form">
             @session('error')
@@ -101,19 +138,20 @@
                                                         </label>
 
                                                         <select id="select-barang" class="select-data form-select choice"
-                                                            style="cursor:pointer;" name="barang_id"
+                                                            style="cursor:pointer;" name="stock_id"
                                                             data-placeholder="-- Pilih Toko Cabang --"
                                                             data-check-selected="true" data-calc="true" required>
                                                             @foreach ($stocks as $stock)
                                                                 <option value="{{ $stock->id }}"
                                                                     data-price="{{ $stock->harga_jual }}"
-                                                                    {{ $penjualan->barang_id === $stock->id ? 'selected' : '' }}>
-                                                                    {{ $stock->nama_barang }}
+                                                                    {{ $penjualan->stock_id === $stock->id ? 'selected' : '' }}>
+                                                                    {{ $stock->barang->merk }} -
+                                                                    {{ $stock->barang->nama_barang }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    @error('barang_id')
+                                                    @error('stock_id"')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
@@ -157,10 +195,6 @@
                                                             <option value="proses"
                                                                 {{ $penjualan->status == 'proses' ? 'selected' : '' }}>
                                                                 Proses
-                                                            </option>
-                                                            <option value="batal"
-                                                                {{ $penjualan->status == 'batal' ? 'selected' : '' }}>
-                                                                Batal
                                                             </option>
                                                         </select>
                                                     </div>
@@ -224,9 +258,10 @@
                                                         id="submitBtn">
                                                         Edit
                                                     </button>
-                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                                        Reset
-                                                    </button>
+                                                    <a href="{{ route('penjualan.index') }}"
+                                                        class="btn btn-secondary me-3 mb-1">
+                                                        Kembali
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

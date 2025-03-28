@@ -33,6 +33,11 @@ class Stock extends Model implements HasMedia
         return $this->belongsTo(Barang::class);
     }
 
+    public function penjualan()
+    {
+        return $this->hasMany(Penjualan::class);
+    }
+
     // format phone number to INTERNATIONAL
     public function getNoKontakSupplierAttribute()
     {

@@ -22,7 +22,7 @@ class PenjualanRequest extends FormRequest
     public function rules(): array
     {
         $validate = [
-            'barang_id' => 'required|exists:barangs,id',
+            'stock_id' => 'required|exists:stocks,id',
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'toko_cabang_id' => 'required|exists:toko_cabangs,id',
             'agent_id' => 'required|exists:agents,id',
