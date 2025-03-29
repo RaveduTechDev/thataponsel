@@ -143,6 +143,15 @@
                     </a>
                 </li>
 
+                <li class="menu-item {{ request()->is('jasa-imei*') ? 'active font-bold' : '' }}">
+                    <a href={{ route('jasa-imei.index') }} class="menu-link">
+                        <span class="d-flex align-items-center">
+                            <i class="bi bi-upc-scan" style="margin: -10px 6px 0 0;"></i>
+                            Jasa IMEI
+                        </span>
+                    </a>
+                </li>
+
                 <li class="menu-item has-sub">
                     <a href="#" class="menu-link">
                         <span><i class="bi bi-stack"></i> Components</span>
@@ -239,73 +248,6 @@
 
                                         <li class="subsubmenu-item">
                                             <a href="extra-component-divider.html" class="subsubmenu-link">Divider</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="menu-item has-sub">
-                    <a href="#" class="menu-link">
-                        <span><i class="bi bi-plus-square-fill"></i> Extras</span>
-                    </a>
-                    <div class="submenu">
-                        <!-- Wrap to submenu-group-wrapper if you want 3-level submenu. Otherwise remove it. -->
-                        <div class="submenu-group-wrapper">
-                            <ul class="submenu-group">
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Widgets</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-widgets-chatbox.html" class="subsubmenu-link">Chatbox</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-widgets-pricing.html" class="subsubmenu-link">Pricing</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-widgets-todolist.html" class="subsubmenu-link">To-do List</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Icons</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-icons-bootstrap-icons.html" class="subsubmenu-link">Bootstrap
-                                                Icons </a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-icons-fontawesome.html"
-                                                class="subsubmenu-link">Fontawesome</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-icons-dripicons.html" class="subsubmenu-link">Dripicons</a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu-item has-sub">
-                                    <a href="#" class="submenu-link">Charts</a>
-
-                                    <!-- 3 Level Submenu -->
-                                    <ul class="subsubmenu">
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-chart-chartjs.html" class="subsubmenu-link">ChartJS</a>
-                                        </li>
-
-                                        <li class="subsubmenu-item">
-                                            <a href="ui-chart-apexcharts.html" class="subsubmenu-link">Apexcharts</a>
                                         </li>
                                     </ul>
                                 </li>

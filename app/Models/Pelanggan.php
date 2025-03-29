@@ -37,4 +37,9 @@ class Pelanggan extends Model
     {
         return $this->hasMany(Penjualan::class);
     }
+
+    public function jasaImeis()
+    {
+        return $this->hasMany(JasaImei::class);
+    }
 }

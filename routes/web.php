@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\JasaIMEIController;
 use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenjualanController;
@@ -23,4 +24,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     Route::resource('stocks', StockController::class);
     Route::resource('penjualan', PenjualanController::class);
+    Route::resource('jasa-imei', JasaIMEIController::class);
 });

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Agent;
 use App\Models\Barang;
+use App\Models\JasaImei;
 use App\Models\Pelanggan;
 use App\Models\Penjualan;
 use App\Models\Stock;
@@ -32,5 +33,6 @@ class DatabaseSeeder extends Seeder
         Pelanggan::factory(1)->create();
         Agent::factory(1)->create();
         Penjualan::factory(1)->create();
+        JasaImei::factory(3)->create();
     }
 }
