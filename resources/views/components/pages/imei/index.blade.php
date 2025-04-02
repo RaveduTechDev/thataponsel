@@ -4,7 +4,7 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <a href={{ route('jasa-imei.create') }} style="margin:-8px 0 0 0;"
+            <a href="{{ route('jasa-imei.create') }}" style="margin:-8px 0 0 0;"
                 class="d-inline-flex align-items-center btn btn-success btn-md">
                 <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
                 <span>Tambah Data</span>
@@ -35,6 +35,59 @@
                                     <label class="form-check-label">Tipe</label>
                                 </div>
 
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="2" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">IMEI</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="3" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Biaya</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="4" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Modal</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="5" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Profit</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="6" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Status</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="7" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Supplier</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="8" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Agen</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="9" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Tanggal Transaksi</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="10" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Tanggal Selesai</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -49,6 +102,15 @@
                             <tr>
                                 <th class="text-nowrap w-xl-50">Pelanggan</th>
                                 <th class="text-nowrap">Tipe</th>
+                                <th class="text-nowrap">IMEI</th>
+                                <th class="text-nowrap">Biaya</th>
+                                <th class="text-nowrap">Modal</th>
+                                <th class="text-nowrap">Profit</th>
+                                <th class="text-nowrap">Status</th>
+                                <th class="text-nowrap">Supplier</th>
+                                <th class="text-nowrap">Agen</th>
+                                <th class="text-nowrap">Tanggal Transaksi</th>
+                                <th class="text-nowrap">Tanggal Selesai</th>
                                 <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
                             </tr>
                         </thead>
@@ -57,6 +119,21 @@
                                 <tr>
                                     <td class="text-nowrap w-xl-50">{{ $jasa_imei->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->imei }}</td>
+                                    <td class="text-nowrap">Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}</td>
+                                    <td class="text-nowrap">Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}</td>
+                                    <td class="text-nowrap">Rp. {{ number_format($jasa_imei->profit, 0, ',', '.') }}</td>
+                                    <td class="text-nowrap">
+                                        @if ($jasa_imei->status == 'selesai')
+                                            <span class="badge bg-success">Selesai</span>
+                                        @elseif($jasa_imei->status == 'proses')
+                                            <span class="badge bg-warning">Proses</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-nowrap">{{ $jasa_imei->supplier }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->agent->nama_agen }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->created_at->format('d-M-Y') }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->updated_at->format('d-M-Y') }}</td>
                                     <td class="text-nowrap text-center">
                                         <div class="dropdown">
                                             <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
@@ -93,8 +170,8 @@
                                 <div class="modal fade text-left modal-borderless" id="modalStock{{ $jasa_imei->id }}"
                                     tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
                                     aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document"
-                                        style="z-index: 30;">
+                                    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable"
+                                        role="document" style="z-index: 30;">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title text-danger" id="modalStockLabel">
@@ -118,8 +195,8 @@
                                                     <span class="d-none d-sm-block">Batal</span>
                                                 </button>
 
-                                                <form action={{ route('jasa-imei.destroy', $jasa_imei->id) }} method="POST"
-                                                    id="formSubmit">
+                                                <form action={{ route('jasa-imei.destroy', $jasa_imei->id) }}
+                                                    method="POST" id="formSubmit">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
