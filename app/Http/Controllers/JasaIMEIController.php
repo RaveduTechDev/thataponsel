@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImeiRequest;
+use App\Models\Agent;
 use App\Models\JasaImei;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 
 class JasaIMEIController extends Controller
@@ -24,15 +27,28 @@ class JasaIMEIController extends Controller
      */
     public function create()
     {
-        //
+        $pelanggans = Pelanggan::latest()->get();
+        $agents = Agent::latest()->get();
+        return view('components.pages.imei.create', [
+            'title' => 'Tambah Jasa Imei',
+            'pelanggans' => $pelanggans,
+            'agents' => $agents,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ImeiRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        try {
+            JasaImei::create($validated);
+            return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data jasa imei gagal ditambahkan: ' . $e->getMessage());
+        }
     }
 
     /**
