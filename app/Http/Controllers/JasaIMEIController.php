@@ -47,7 +47,7 @@ class JasaIMEIController extends Controller
             JasaImei::create($validated);
             return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil ditambahkan');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Data jasa imei gagal ditambahkan: ' . $e->getMessage());
+            return redirect()->back()->withErrors('error', 'Data jasa imei gagal ditambahkan: ' . $e->getMessage());
         }
     }
 

@@ -24,7 +24,7 @@ class ImeiRequest extends FormRequest
         return [
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'tipe' => 'required|string|max:255',
-            'imei' => 'required|string|max:255',
+            'imei' => 'required|string|max:255|unique:jasa_imeis,imei',
             'biaya' => 'required|numeric',
             'modal' => 'required|numeric',
             'profit' => 'required|numeric',
