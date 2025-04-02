@@ -80,6 +80,12 @@ class JasaIMEIController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $jasa_imei = JasaImei::findOrFail($id);
+            $jasa_imei->delete();
+            return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data jasa imei gagal dihapus: ' . $e->getMessage());
+        }
     }
 }
