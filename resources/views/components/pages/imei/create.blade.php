@@ -39,7 +39,7 @@
                                                             data-check-selected="false" required>
                                                             @foreach ($pelanggans as $pelanggan)
                                                                 <option value="{{ $pelanggan->id }}"
-                                                                    {{ old('pelanggan_id', $currentData->id ?? '') == $pelanggan->id ? 'selected' : '' }}>
+                                                                    {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
                                                                     {{ $pelanggan->nama_pelanggan }}
                                                                 </option>
                                                             @endforeach
