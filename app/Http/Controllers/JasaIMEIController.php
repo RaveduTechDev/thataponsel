@@ -7,6 +7,7 @@ use App\Models\Agent;
 use App\Models\JasaImei;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class JasaIMEIController extends Controller
 {
@@ -47,7 +48,8 @@ class JasaIMEIController extends Controller
             JasaImei::create($validated);
             return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil ditambahkan');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors('error', 'Data jasa imei gagal ditambahkan: ' . $e->getMessage());
+            Log::error('Error creating Jasa Imei: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Data jasa imei gagal ditambahkan');
         }
     }
 

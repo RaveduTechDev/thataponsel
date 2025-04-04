@@ -39,7 +39,7 @@
                                                             data-check-selected="false" required>
                                                             @foreach ($pelanggans as $pelanggan)
                                                                 <option value="{{ $pelanggan->id }}"
-                                                                    {{ old('pelanggan_id') === $pelanggan->id ? 'selected' : '' }}>
+                                                                    {{ old('pelanggan_id', $currentData->id ?? '') == $pelanggan->id ? 'selected' : '' }}>
                                                                     {{ $pelanggan->nama_pelanggan }}
                                                                 </option>
                                                             @endforeach
@@ -68,13 +68,14 @@
                                                         <label for="select-agent" class="form-label">
                                                             Sales/Agent
                                                         </label>
-                                                        <select id="select-agent" class="select-data form-select choice"
+                                                        <select id="select-agent"
+                                                            class="select-data form-select choice {{ $errors->has('agent_id') ? 'is-invalid' : '' }}"
                                                             style="cursor:pointer;" name="agent_id"
                                                             data-placeholder="-- Pilih Sales/Agent --"
                                                             data-check-selected="false" required>
                                                             @foreach ($agents as $agent)
                                                                 <option value="{{ $agent->id }}"
-                                                                    {{ old('agent_id') === $agent->id ? 'selected' : '' }}>
+                                                                    {{ old('agent_id') == $agent->id ? 'selected' : '' }}>
                                                                     {{ $agent->nama_agen }}
                                                                 </option>
                                                             @endforeach
@@ -192,6 +193,6 @@
         </section>
     </section>
 
-    @vite(['resources/js/choices.js', 'resources/js/choices-multi.js', 'resources/js/calculate2.js'])
+    @vite(['resources/js/choices.js', 'resources/js/calculate2.js'])
     @include('components.ui.loading.button')
 @endsection
