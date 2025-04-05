@@ -66,15 +66,33 @@ class JasaIMEIController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $jasa_imei = JasaImei::findOrFail($id);
+        $pelanggans = Pelanggan::latest()->get();
+        $agents = Agent::latest()->get();
+        return view('components.pages.imei.edit', [
+            'title' => 'Edit Jasa Imei',
+            'jasa_imei' => $jasa_imei,
+            'pelanggans' => $pelanggans,
+            'agents' => $agents,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ImeiRequest $request, string $id)
     {
-        //
+        $validated = $request->validated();
+        $validated['imei'] = $request->imei;
+
+        try {
+            $jasa_imei = JasaImei::findOrFail($id);
+            $jasa_imei->update($validated);
+            return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil diubah');
+        } catch (\Exception $e) {
+            Log::error('Error updating Jasa Imei: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Data jasa imei gagal diubah');
+        }
     }
 
     /**

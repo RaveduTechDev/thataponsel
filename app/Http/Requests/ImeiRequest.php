@@ -21,7 +21,19 @@ class ImeiRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        // return [
+        //     'pelanggan_id' => 'required|exists:pelanggans,id',
+        //     'tipe' => 'required|string|max:255',
+        //     'imei' => 'required|string|max:255|unique:jasa_imeis,imei',
+        //     'biaya' => 'required|numeric',
+        //     'modal' => 'required|numeric',
+        //     'profit' => 'required|numeric',
+        //     'status' => 'required|string|max:255',
+        //     'supplier' => 'nullable|string|max:255',
+        //     'agent_id' => 'nullable|exists:agents,id',
+        // ];
+
+        $validate = [
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'tipe' => 'required|string|max:255',
             'imei' => 'required|string|max:255|unique:jasa_imeis,imei',
@@ -32,5 +44,13 @@ class ImeiRequest extends FormRequest
             'supplier' => 'nullable|string|max:255',
             'agent_id' => 'nullable|exists:agents,id',
         ];
+
+        if ($this->isMethod('post')) {
+            $validate['imei'] = 'required|string|max:255|unique:jasa_imeis,imei';
+        } else if ($this->isMethod('put') || $this->isMethod('patch')) {
+            $validate['imei'] = 'sometimes|required|string|max:255|unique:jasa_imeis,imei,' . $this->route('jasa_imei');
+        }
+
+        return $validate;
     }
 }
