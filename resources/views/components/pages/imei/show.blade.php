@@ -55,18 +55,6 @@
                 </div>
                 <table class="table table-borderless table-striped table-hover">
                     <tbody>
-                        {{-- 
-                            'pelanggan_id',
-                            'tipe',
-                            'imei',
-                            'biaya',
-                            'modal',
-                            'profit',
-                            'status',
-                            'supplier',
-                            'agent_id'
-                        --}}
-
                         <tr>
                             <th scope="row">Pelanggan</th>
                             <td>{{ $jasa_imei->pelanggan->nama_pelanggan }}</td>
