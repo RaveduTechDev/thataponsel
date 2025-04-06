@@ -58,7 +58,11 @@ class JasaIMEIController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $jasa_imei = JasaImei::findOrFail($id);
+        return view('components.pages.imei.show', [
+            'title' => 'Detail Jasa Imei',
+            'jasa_imei' => $jasa_imei,
+        ]);
     }
 
     /**
