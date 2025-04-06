@@ -69,15 +69,15 @@
                         </tr>
                         <tr>
                             <th scope="row">Biaya</th>
-                            <td>{{ $jasa_imei->biaya }}</td>
+                            <td>Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Modal</th>
-                            <td>{{ $jasa_imei->modal }}</td>
+                            <td>Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Profit</th>
-                            <td>{{ $jasa_imei->profit }}</td>
+                            <td>Rp. {{ number_format($jasa_imei->profit, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Supplier</th>
@@ -93,11 +93,15 @@
                         </tr>
                         <tr>
                             <th scope="row">Tanggal Masuk</th>
-                            <td>{{ $jasa_imei->created_at->isoFormat('d-m-Y H:i:s') }}</td>
+                            <td>{{ $jasa_imei->created_at->isoFormat('D MMMM Y') }}</td>
                         </tr>
                         <tr>
                             <th scope="row">Tanggal Update</th>
-                            <td>{{ $jasa_imei->updated_at->isoFormat('d-m-Y H:i:s') }}</td>
+                            @if ($jasa_imei->status == 'selesai')
+                                <td>{{ $jasa_imei->updated_at->isoFormat('D MMMM Y') }}</td>
+                            @else
+                                <td>-</td>
+                            @endif
                         </tr>
                     </tbody>
                 </table>
