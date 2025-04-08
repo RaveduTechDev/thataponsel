@@ -110,15 +110,11 @@ $(document).ready(function () {
                 const label = $(this).text().trim();
                 const description = $(this).data("description") || "";
                 const price = $(this).data("price") || 0;
-                let isSelected = false;
-                if (checkSelected) {
-                    isSelected = $(this).is(":selected");
-                }
                 choicesData.push({
                     value: value,
                     label: label,
                     description: description,
-                    selected: isSelected,
+                    selected: false,
                     price: price,
                 });
             }

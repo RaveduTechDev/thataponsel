@@ -6,6 +6,7 @@ use App\Http\Controllers\JasaIMEIController;
 use App\Http\Controllers\MasterDataController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\RekapController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\TokoCabangController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('agent', AgentController::class);
     });
     Route::resource('stocks', StockController::class);
+    Route::get('/rekap', [RekapController::class, 'rekapPenjualan'])->name('rekap');
+    Route::get('/rekap/agen', [RekapController::class, 'rekapPenjualanAgen'])->name('rekap.agen');
     Route::resource('penjualan', PenjualanController::class);
     Route::resource('jasa-imei', JasaIMEIController::class);
 });

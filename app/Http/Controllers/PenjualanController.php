@@ -18,7 +18,7 @@ class PenjualanController extends Controller
     {
         $penjualans = Penjualan::latest()->get();
         return view('components.pages.penjualans.index', [
-            'title' => 'Data Penjualan',
+            'title' => 'Transaksi Penjualan',
             'penjualans' => $penjualans,
         ]);
     }
