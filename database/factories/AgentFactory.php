@@ -18,6 +18,7 @@ class AgentFactory extends Factory
     {
         return [
             'nama_agen' => $this->faker->name,
+            'username' => $this->faker->unique()->regexify('[a-zA-Z0-9_]+'),
             'nomor_wa' => $this->faker->phoneNumber,
             'toko_cabang_id' => \App\Models\TokoCabang::factory(),
             'jumlah_transaksi' => $this->faker->randomNumber(5),

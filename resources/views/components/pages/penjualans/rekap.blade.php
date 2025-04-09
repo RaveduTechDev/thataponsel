@@ -29,15 +29,14 @@
                     @if (request()->is('rekap/agen'))
                         <div class="col-12 col-md-8 col-lg-4">
                             <label for="agent_name" class="form-label">Nama Agen/Sales</label>
-                            {{-- <input type="text" class="form-control" id="agent_name" name="search"
-                                placeholder="Cari Agen/Sales" value="{{ request('agent_name') }}"> --}}
                             <select id="select-agent"
                                 class="select-data form-select choice {{ $errors->has('agent_id') ? 'is-invalid' : '' }}"
                                 style="cursor:pointer;" name="search" data-placeholder="-- Pilih Sales/Agent --"
-                                data-check-selected="{{ request('search') ? 'true' : 'false' }}" required>
+                                data-check-selected="{{ request('search') ? 'true' : 'false' }}">
+                                <option></option>
                                 @foreach ($agents as $agent)
                                     <option value="{{ $agent->nama_agen }}"
-                                        {{ request('search') === $agent->nama_agen ? 'selected' : '' }}>
+                                        {{ $displayPerAgent === $agent->nama_agen ? 'selected' : '' }}>
                                         {{ $agent->nama_agen }}
                                     </option>
                                 @endforeach
@@ -58,24 +57,37 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="text-danger">{{ $title }}</h3>
+                <h3 class="text-danger mb-4">{{ $title }}</h3>
             </div>
             <div class="card-body">
 
                 {{-- menampilkan data dari get request search  --}}
-                @if (request('start_date') || request('end_date') || request('agent_name'))
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
-                        <strong>Hasil Pencarian:</strong>
-                        @if (request('start_date'))
-                            {{ request('start_date') }}
+                @if (request('start_date') || request('end_date') || request('search') || request('username'))
+                    <table class="mb-4">
+                        <tr>
+                            <th class="text-nowrap me-lg-2">Mulai Tanggal</th>
+                            <td class="text-nowrap">: </td>
+                            <td class="text-nowrap">
+                                {{ request('start_date') ? \Carbon\Carbon::parse(request('start_date'))->isoFormat('D MMMM Y') : '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-nowrap me-lg-2">Sampai Tanggal</th>
+                            <td class="text-nowrap">: </td>
+                            <td class="text-nowrap">
+                                {{ request('end_date') ? \Carbon\Carbon::parse(request('end_date'))->isoFormat('D MMMM Y') : '-' }}
+                            </td>
+                        </tr>
+                        @if (request()->is('rekap/agen') || request('search') || request('username'))
+                            <tr>
+                                <th class="text-nowrap me-lg-2">Nama Agen/Sales</th>
+                                <td class="text-nowrap">:</td>
+                                <td class="text-nowrap">
+                                    {{ $displayPerAgent }}
+                                </td>
+                            </tr>
                         @endif
-                        @if (request('end_date'))
-                            {{ request('end_date') }}
-                        @endif
-                        @if (request('agent_name'))
-                            {{ request('agent_name') }}
-                        @endif
-                    </div>
+                    </table>
                 @endif
 
                 <div class="table-responsive pt-2 pe-2" id="table-container">
@@ -119,8 +131,8 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="5" data-name="penjualan"
-                                        checked>
+                                    <input class="form-check-input" type="checkbox" data-column="5"
+                                        data-name="penjualan" checked>
                                     <label class="form-check-label">Sub Total</label>
                                 </div>
 
@@ -169,7 +181,7 @@
                                     <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->tokoCabang->nama_toko_cabang }}</td>
                                     <td class="text-nowrap ">
-                                        <a href="{{ route('rekap.agen', ['username' => $penjualan->agent->id]) }}"
+                                        <a href="{{ route('rekap.agen', ['username' => $penjualan->agent->username]) }}"
                                             style="text-decoration: underline;">
                                             {{ $penjualan->agent->nama_agen }}
                                         </a>

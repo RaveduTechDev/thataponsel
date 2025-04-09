@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('agents', function (Blueprint $table) {
             $table->id();
             $table->string('nama_agen');
+            $table->string('username')->unique();
             $table->string('nomor_wa');
             $table->foreignId('toko_cabang_id')->constrained('toko_cabangs')->onDelete('cascade');
             $table->decimal('jumlah_transaksi', 25, 0);

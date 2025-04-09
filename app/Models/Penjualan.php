@@ -46,6 +46,12 @@ class Penjualan extends Model
         return $this->belongsTo(Stock::class);
     }
 
+    // filter yang status selesai 
+    public function scopeSuccess(Builder $query)
+    {
+        return $query->where('status', 'selesai');
+    }
+
     public function scopeFilter(Builder $query, array $filters)
     {
         $query->when($filters['search'] ?? false, function (Builder $query, string $search) {
@@ -62,8 +68,10 @@ class Penjualan extends Model
             return $query->whereDate('tanggal_transaksi', '<=', $end_date);
         });
 
-        $query->when($filters['username'] ?? false, function (Builder $query, string $agent_id) {
-            return $query->where('agent_id', $agent_id);
+        $query->when($filters['agent'] ?? false, function (Builder $query, string $username) {
+            return $query->whereHas('agent', function (Builder $query) use ($username) {
+                $query->where('username', $username);
+            });
         });
     }
 }
