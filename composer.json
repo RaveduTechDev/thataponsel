@@ -11,7 +11,8 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "propaganistas/laravel-phone": "^5.3",
-        "spatie/laravel-medialibrary": "^11.12"
+        "spatie/laravel-medialibrary": "^11.12",
+        "spatie/laravel-permission": "^6.17"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
