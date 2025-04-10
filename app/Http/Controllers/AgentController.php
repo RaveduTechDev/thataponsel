@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Agent;
 use App\Models\TokoCabang;
 use App\Http\Requests\AgentRequest;
+use Illuminate\Routing\Controller;
 
 class AgentController extends Controller
 {
+    /**
+     * Validation role.
+     */
+    public function __construct()
+    {
+        $this->middleware('role:super_admin|admin|agent')->only(['index', 'create', 'store', 'edit', 'update']);
+        $this->middleware('role:super_admin|admin')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +37,7 @@ class AgentController extends Controller
     {
         $toko_cabangs = TokoCabang::select('id', 'nama_toko_cabang')->latest()->get();
         return view('components.pages.agents.create', [
-            'title' => 'Tambah Agen',
+            'title' => 'Tambah Data Agen',
             'toko_cabangs' => $toko_cabangs,
         ]);
     }
