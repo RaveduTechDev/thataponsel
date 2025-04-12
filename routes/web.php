@@ -9,6 +9,7 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\TokoCabangController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -21,7 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('pelanggan', PelangganController::class);
         Route::resource('toko-cabang', TokoCabangController::class);
         Route::resource('barang', BarangController::class);
-        Route::resource('agent', AgentController::class);
+
+        Route::middleware(['role:super_admin|admin'])->group(function () {
+            Route::resource('agent', UserController::class);
+        });
     });
     Route::resource('stocks', StockController::class);
     Route::get('/rekap', [RekapController::class, 'rekapPenjualan'])->name('rekap');

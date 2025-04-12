@@ -1,0 +1,148 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\UserRequest;
+use App\Models\TokoCabang;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+
+class UserController extends Controller
+{
+    /**
+     * Validation role.
+     */
+    // public function __construct()
+    // {
+    //     $this->middleware('role:super_admin|admin|agent')->only(['index', 'edit', 'update']);
+    //     $this->middleware('role:super_admin|admin')->only(['create', 'store', 'destroy']);
+    // }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $agents = [];
+
+        if (Auth::user()->hasRole('super_admin')) {
+            $agents = User::latest()->get();
+        } else {
+            $agents = User::nonSuperAdmin()->latest()->get();
+        }
+
+        return view('components.pages.agents.index', [
+            'title' => 'Data Agen',
+            'agents' => $agents,
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $toko_cabangs = TokoCabang::latest()->select('id', 'nama_toko_cabang')->get();
+        return view('components.pages.agents.create', [
+            'title' => 'Tambah Data Agen',
+            'toko_cabangs' => $toko_cabangs,
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(UserRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['password'] = Hash::make($validated['password']);
+
+        try {
+            $user = User::create($validated);
+            $user->assignRole($validated['level']);
+
+            return redirect()->route('master-data.agent.index')->with('success', 'Agen berhasil ditambahkan');
+        } catch (\Exception $e) {
+            Log::error('Error creating agent: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal menambahkan agent');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $agent = User::findOrFail($id);
+        $toko_cabangs = TokoCabang::latest()->select('id', 'nama_toko_cabang')->get();
+
+        return view('components.pages.agents.edit', [
+            'title' => 'Edit Data Agen',
+            'agent' => $agent,
+            'toko_cabangs' => $toko_cabangs,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UserRequest $request, string $id)
+    {
+        $agent = User::findOrFail($id);
+        $validated = $request->validated();
+
+        $check_current_password = Hash::check($request->input('current_password'), $agent->password);
+        if (!$check_current_password) {
+            return redirect()->back()->withErrors(['current_password' => 'Password saat ini tidak sesuai']);
+        }
+
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        try {
+
+            if (Auth::id() !== $agent->id) {
+                $agent->update(['remember_token' => null]);
+            }
+
+            $agent->update($validated);
+            $agent->syncRoles($validated['level']);
+
+            return redirect()->route('master-data.agent.index')->with('success', 'Agen berhasil diperbarui');
+        } catch (\Exception $e) {
+            Log::error('Error updating agent: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal memperbarui agen');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $agent = User::findOrFail($id);
+
+        try {
+            $agent->delete();
+            return redirect()->route('master-data.agent.index')->with('success', 'Agen berhasil dihapus');
+        } catch (\Exception $e) {
+            Log::error('Error deleting agent: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal menghapus agen');
+        }
+    }
+}

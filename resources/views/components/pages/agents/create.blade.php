@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
-            <h2 class="text-danger">Tambah Data Pelanggan</h2>
+            <h2 class="text-danger">{{ $title }}</h2>
             <a href={{ route('master-data.agent.index') }} style="margin:-8px 0 0 0;"
                 class="d-inline-flex align-items-center btn btn-secondary btn-md">
                 <span>Kembali</span>
@@ -24,37 +24,105 @@
                         <div class="row">
                             <div class=" col-12">
                                 <div class="card">
+                                    <div class="card-header">
+                                        {{-- informasi mandatory --}}
+                                        <li>Kolom yang ditandai dengan <span class="text-danger">*</span> wajib diisi.</li>
+                                    </div>
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-6 col-lg-3 col-12">
+                                                <h5 class="mb-3 text-secondary">Informasi Agen</h5>
+
+                                                <div class=" col-lg-4 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="nama-agen" class="form-label">
                                                             Nama Agen
                                                         </label>
                                                         <input type="text" id="nama-agen"
-                                                            class="form-control {{ $errors->has('nama_agen') ? 'is-invalid' : '' }}"
-                                                            placeholder="Nama Agen" name="nama_agen"
-                                                            value="{{ @old('nama_agen') }}" required>
-                                                        @error('nama_agen')
+                                                            class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
+                                                            placeholder="Nama Agen" name="name"
+                                                            value="{{ @old('name') }}" required>
+                                                        @error('name')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6 col-lg-3 col-12">
+                                                <div class=" col-lg-4 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="username" class="form-label">
+                                                            Username
+                                                        </label>
+                                                        <input type="text" id="username"
+                                                            class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
+                                                            placeholder="Nama Agen" name="username"
+                                                            value="{{ @old('username') }}" required>
+                                                        @error('username')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class=" col-lg-4 col-12">
+                                                    <div class="form-group">
+                                                        <label for="email" class="form-label">
+                                                            Email
+                                                        </label>
+                                                        <input type="email" id="email"
+                                                            class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
+                                                            placeholder="Email" name="email" value="{{ @old('email') }}">
+                                                        @error('email')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-4">
+                                                <div class="col-md-6 col-lg-4 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="new_password" class="form-label">
+                                                            Password
+                                                        </label>
+                                                        <input type="password" id="password"
+                                                            class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                                                            placeholder="Password" name="password"
+                                                            value="{{ @old('password') }}" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-lg-4 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="password_confirmation" class="form-label">
+                                                            Konfirmasi Password
+                                                        </label>
+                                                        <input type="password" id="password_confirmation"
+                                                            class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                                                            placeholder="Konfirmasi Password" name="password_confirmation"
+                                                            value="{{ @old('password_confirmation') }}" required>
+                                                        @error('password')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <h5 class="mb-3 text-secondary">Informasi Lainnya</h5>
+
+                                                <div class="col-md-6 col-lg-4 col-12">
                                                     <div class="form-group mandatory d-flex flex-column">
                                                         <label for="phone" class="form-label">Nomor HP/WhatsApp</label>
                                                         <input type="tel" value="{{ old('nomor_wa') }}" id="phone"
                                                             class="form-control {{ $errors->has('no_wa') ? 'is-invalid' : '' }}"
-                                                            name="nomor_wa" placeholder="893 1234 5678" required>
+                                                            name="nomor_wa" required>
                                                     </div>
                                                     @error('nomor_wa')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-6 col-lg-3 col-12">
+                                                <div class="col-md-6 col-lg-4 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="select-toko_cabangs" class="form-label">
                                                             Toko Cabang
@@ -77,25 +145,33 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-6 col-lg-3 col-12">
+                                                <div class="col-md-6 col-lg-4 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="jumlah-transaksi" class="form-label">
-                                                            Jumlah Transaksi
-                                                        </label>
-                                                        <input type="number" min="1" id="jumlah-transaksi"
-                                                            value="{{ @old('jumlah_transaksi') }}"
-                                                            class="form-control {{ $errors->has('jumlah_transaksi') ? 'is-invalid' : '' }}"
-                                                            placeholder="Jumlah Transaksi" name="jumlah_transaksi" required>
+                                                        <label for="level-akses" class="form-label ">Level Akses</label>
+                                                        <select class="form-select" style="cursor: pointer;"
+                                                            id="level-akses" name="level" name="level" required>
+                                                            <option value="" disabled selected>
+                                                                -- Pilih Level Akses --
+                                                            </option>
+                                                            <option value="admin"
+                                                                {{ old('level') === 'admin' ? 'selected' : '' }}>Admin
+                                                            </option>
+                                                            <option value="agent"
+                                                                {{ old('level') === 'agent' ? 'selected' : '' }}>
+                                                                Agent/Sales
+                                                            </option>
+                                                        </select>
+                                                        @error('level')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
-                                                    @error('jumlah_transaksi')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
                                                 </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-success me-3 mb-1" id="submitBtn">
+                                                    <button type="submit" class="btn btn-success me-3 mb-1"
+                                                        id="submitBtn">
                                                         Tambah
                                                     </button>
                                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">
@@ -115,7 +191,6 @@
     </section>
 
 
-    @vite('resources/js/telInput.js')
-    @vite('resources/js/choices.js')
+    @vite(['resources/js/telInput.js', 'resources/js/choices.js'])
     @include('components.ui.loading.button')
 @endsection

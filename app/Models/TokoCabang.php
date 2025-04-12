@@ -16,9 +16,9 @@ class TokoCabang extends Model
         'alamat_toko'
     ];
 
-    public function agents()
+    public function users()
     {
-        return $this->hasMany(Agent::class);
+        return $this->hasMany(User::class);
     }
 
     public function penjualans()

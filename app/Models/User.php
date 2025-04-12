@@ -21,6 +21,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'nomor_wa',
+        'toko_cabang_id',
+        'jumlah_transaksi',
+        'username',
         'password',
     ];
 
@@ -45,5 +49,38 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $with = ['tokoCabang'];
+
+    public function tokoCabang()
+    {
+        return $this->belongsTo(TokoCabang::class)->select('id', 'nama_toko_cabang');
+    }
+
+    public function penjualans()
+    {
+        return $this->hasMany(Penjualan::class);
+    }
+
+    public function jasaImeis()
+    {
+        return $this->hasMany(JasaImei::class);
+    }
+
+    public function scopeNonSuperAdmin()
+    {
+        return $this->whereHas('roles', function ($query) {
+            $query->where('name', '!=', 'super_admin');
+        });
+    }
+
+    public function getNomorWaAgentFormattedAttribute(): string
+    {
+        try {
+            return phone($this->attributes['nomor_wa'], 'ZZ', \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+        } catch (\Propaganistas\LaravelPhone\Exceptions\NumberParseException $e) {
+            return $this->attributes['nomor_wa'];
+        }
     }
 }
