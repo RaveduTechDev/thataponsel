@@ -41,6 +41,11 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="3" data-name="agent"
                                         checked>
+                                    <label class="form-check-label">Level</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="4" data-name="agent"
+                                        checked>
                                     <label class="form-check-label">Jumlah Transaksi</label>
                                 </div>
                             </div>
@@ -59,6 +64,7 @@
                                 <th class="text-nowrap w-xl-50">Nama Agen</th>
                                 <th class="text-nowrap w-xl-50">No WhatsApp</th>
                                 <th class="text-nowrap w-xl-50">Toko Cabang</th>
+                                <th class="text-nowrap w-xl-50">Level</th>
                                 <th class="text-nowrap w-xl-50">Jumlah Transaksi</th>
                                 <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
                             </tr>
@@ -69,6 +75,11 @@
                                     <td class="text-nowrap w-xl-50">{{ $agent->name }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $agent->nomor_wa_agent_formatted }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $agent->tokoCabang->nama_toko_cabang }}</td>
+                                    <td class="text-nowrap w-xl-50">
+                                        @foreach ($agent->getRoleNames() as $role)
+                                            {{ ucwords(str_replace(['-', '_'], ' ', $role)) }}
+                                        @endforeach
+                                    </td>
                                     <td class="text-nowrap w-xl-50">{{ $agent->jumlah_transaksi }}</td>
                                     <td class="text-nowrap text-center">
                                         <div class="dropdown">

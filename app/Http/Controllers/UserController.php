@@ -16,27 +16,29 @@ class UserController extends Controller
     /**
      * Validation role.
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('role:super_admin|admin|agent')->only(['index', 'edit', 'update']);
-    //     $this->middleware('role:super_admin|admin')->only(['create', 'store', 'destroy']);
-    // }
+    public function __construct()
+    {
+        $this->middleware('role:super_admin|owner|admin')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $title = '';
         $agents = [];
 
         if (Auth::user()->hasRole('super_admin')) {
+            $title = 'Data User';
             $agents = User::latest()->get();
         } else {
+            $title = Auth::user()->hasRole('admin') ? 'Data Agen' : (Auth::user()->hasRole('owner') ? 'Data User' : 'Data Agen');
             $agents = User::nonSuperAdmin()->latest()->get();
         }
 
         return view('components.pages.agents.index', [
-            'title' => 'Data Agen',
+            'title' => $title,
             'agents' => $agents,
         ]);
     }
@@ -48,7 +50,7 @@ class UserController extends Controller
     {
         $toko_cabangs = TokoCabang::latest()->select('id', 'nama_toko_cabang')->get();
         return view('components.pages.agents.create', [
-            'title' => 'Tambah Data Agen',
+            'title' => 'Tambah Data',
             'toko_cabangs' => $toko_cabangs,
         ]);
     }
@@ -59,6 +61,11 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $validated = $request->validated();
+
+        if (!isset($validated['level']) && Auth::user()->hasRole('admin')) {
+            $validated['level'] = 'agent';
+        }
+
         $validated['password'] = Hash::make($validated['password']);
 
         try {

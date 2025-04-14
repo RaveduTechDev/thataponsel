@@ -29,13 +29,22 @@ class DatabaseSeeder extends Seeder
             'email' => 'developer@test.com',
         ])->assignRole('super_admin');
 
+        // owner
+        User::factory()->create([
+            'name' => 'Owner',
+            'username' => 'owner',
+            'email' => 'owner@test.com',
+        ])->assignRole('owner');
+
         User::factory()->create([
             'name' => 'Admin',
+            'username' => 'admin',
             'email' => 'admin@test.com',
         ])->assignRole('admin');
 
         User::factory()->create([
             'name' => 'Agent',
+            'username' => 'agent',
             'email' => 'agent@test.com',
         ])->assignRole('agent');
 

@@ -17,11 +17,7 @@ class UserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if ($this->user()->hasRole(['super_admin', 'admin'])) {
-            return true;
-        }
-
-        if ($this->user()->hasRole('agent') && $this->isMethod('PUT')) {
+        if ($this->user()->hasRole(['super_admin', 'admin', 'owner'])) {
             return true;
         }
 
@@ -35,14 +31,22 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $level = [];
 
+        if ($this->user()->hasRole('super_admin')) {
+            $level = ['required', 'string', 'in:admin,agent'];
+        } elseif ($this->user()->hasRole('admin')) {
+            $level = ['nullable', 'string', 'in:agent', 'default:agent'];
+        } elseif ($this->user()->hasRole('owner')) {
+            $level = ['required', 'string', 'in:admin,agent'];
+        }
 
         $validated = [
             'name' => 'required|string|max:255',
             'nomor_wa' => 'required|string|max:255',
             'toko_cabang_id' => 'required|exists:toko_cabangs,id',
             'password' => $this->passwordRules(),
-            'level' => 'required|string|in:admin,agent',
+            'level' => $level,
         ];
 
         if ($this->isMethod('post')) {

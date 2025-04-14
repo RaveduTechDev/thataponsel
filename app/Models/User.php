@@ -51,7 +51,7 @@ class User extends Authenticatable
         ];
     }
 
-    protected $with = ['tokoCabang'];
+    protected $with = ['tokoCabang', 'roles'];
 
     public function tokoCabang()
     {
