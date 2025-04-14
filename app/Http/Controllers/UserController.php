@@ -103,8 +103,7 @@ class UserController extends Controller
         $agent = User::findOrFail($id);
         $validated = $request->validated();
 
-        $check_current_password = Hash::check($request->input('current_password'), $agent->password);
-        if (!$check_current_password) {
+        if ($request->filled('current_password') && !Hash::check($request->input('current_password'), $agent->password)) {
             return redirect()->back()->withErrors(['current_password' => 'Password saat ini tidak sesuai']);
         }
 

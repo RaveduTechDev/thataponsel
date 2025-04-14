@@ -79,6 +79,7 @@ class UserRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->route('agent')),
             ];
 
+            $validated['current_password'] = ['nullable', 'string', 'min:8', 'max:255'];
             $validated['password'] = ['nullable', 'string', Password::default(), 'confirmed'];
         }
 
