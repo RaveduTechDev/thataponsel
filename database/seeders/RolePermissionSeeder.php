@@ -47,7 +47,7 @@ class RolePermissionSeeder extends Seeder
             'update-agent',
             'delete-agent',
         ]);
-        Role::create(['name' => 'agent'])->givePermissionTo([
+        Role::create(['name' => 'agen'])->givePermissionTo([
             'view-dashboard',
         ]);
     }

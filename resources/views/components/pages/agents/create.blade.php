@@ -36,7 +36,7 @@
                                                 <div class=" col-lg-4 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="nama-agen" class="form-label">
-                                                            Nama Agen
+                                                            Nama
                                                         </label>
                                                         <input type="text" id="nama-agen"
                                                             class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
@@ -158,9 +158,9 @@
                                                                 <option value="admin"
                                                                     {{ old('level') === 'admin' ? 'selected' : '' }}>Admin
                                                                 </option>
-                                                                <option value="agent"
-                                                                    {{ old('level') === 'agent' ? 'selected' : '' }}>
-                                                                    Agent/Sales
+                                                                <option value="agen"
+                                                                    {{ old('level') === 'agen' ? 'selected' : '' }}>
+                                                                    Agen/Sales
                                                                 </option>
                                                             </select>
                                                             @error('level')

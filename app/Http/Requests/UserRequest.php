@@ -33,12 +33,10 @@ class UserRequest extends FormRequest
     {
         $level = [];
 
-        if ($this->user()->hasRole('super_admin')) {
-            $level = ['required', 'string', 'in:admin,agent'];
-        } elseif ($this->user()->hasRole('admin')) {
-            $level = ['nullable', 'string', 'in:agent', 'default:agent'];
-        } elseif ($this->user()->hasRole('owner')) {
-            $level = ['required', 'string', 'in:admin,agent'];
+        if ($this->user()->hasRole(['super_admin', 'owner'])) {
+            $level = ['required', 'string', 'in:admin,agen'];
+        } else {
+            $level = ['nullable', 'string', 'in:agen'];
         }
 
         $validated = [
@@ -50,39 +48,13 @@ class UserRequest extends FormRequest
         ];
 
         if ($this->isMethod('post')) {
-            $validated['email'] = [
-                'nullable',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ];
-
-            $validated['username'] = [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique(User::class),
-            ];
-
+            $validated['email'] = ['nullable', 'string', 'email', 'max:255', Rule::unique(User::class)];
+            $validated['username'] = ['required', 'string', 'max:255', Rule::unique(User::class)];
             $validated['password'] = ['required', 'string', Password::default(), 'confirmed'];
         }
         if ($this->isMethod('put') || $this->isMethod('patch')) {
-            $validated['email'] = [
-                'nullable',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($this->route('agent')),
-            ];
-
-            $validated['username'] = [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique(User::class)->ignore($this->route('agent')),
-            ];
-
+            $validated['email'] = ['nullable', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($this->route('agent'))];
+            $validated['username'] = ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($this->route('agent'))];
             $validated['current_password'] = ['nullable', 'string', 'min:8', 'max:255'];
             $validated['password'] = ['nullable', 'string', Password::default(), 'confirmed'];
         }

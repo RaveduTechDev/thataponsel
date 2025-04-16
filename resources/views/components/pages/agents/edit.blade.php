@@ -33,12 +33,12 @@
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                <h5 class="mb-3 text-secondary">Informasi Agen</h5>
+                                                <h5 class="mb-3 text-secondary">Informasi Pengguna</h5>
 
                                                 <div class=" col-lg-4 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="nama-agen" class="form-label">
-                                                            Nama Agen
+                                                            Nama
                                                         </label>
                                                         <input type="text" id="nama-agen"
                                                             class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
@@ -161,28 +161,31 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-6 col-lg-4 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="level-akses" class="form-label ">Level Akses</label>
-                                                        <select class="form-select" style="cursor: pointer;"
-                                                            id="level-akses" name="level" required>
-                                                            <option value="" disabled>
-                                                                -- Pilih Level Akses --
-                                                            </option>
-                                                            <option value="lalal"
-                                                                {{ $agent->hasRole('admin') ? 'selected' : '' }}>
-                                                                Admin
-                                                            </option>
-                                                            <option value="agent"
-                                                                {{ $agent->hasRole('agent') ? 'selected' : '' }}>
-                                                                Agent/Sales
-                                                            </option>
-                                                        </select>
-                                                        @error('level')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
+                                                @if (Auth::user()->hasRole('owner') || Auth::user()->hasRole('super_admin'))
+                                                    <div class="col-md-6 col-lg-4 col-12">
+                                                        <div class="form-group mandatory">
+                                                            <label for="level-akses" class="form-label ">Level
+                                                                Akses</label>
+                                                            <select class="form-select" style="cursor: pointer;"
+                                                                id="level-akses" name="level" required>
+                                                                <option value="" disabled>
+                                                                    -- Pilih Level Akses --
+                                                                </option>
+                                                                <option value="admin"
+                                                                    {{ $agent->hasRole('admin') ? 'selected' : '' }}>
+                                                                    Admin
+                                                                </option>
+                                                                <option value="agen"
+                                                                    {{ $agent->hasRole('agen') ? 'selected' : '' }}>
+                                                                    Agen/Sales
+                                                                </option>
+                                                            </select>
+                                                            @error('level')
+                                                                <small class="text-danger">{{ $message }}</small>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </div>
 
                                             <div class="row">

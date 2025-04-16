@@ -28,13 +28,14 @@ class UserController extends Controller
     {
         $title = '';
         $agents = [];
+        $userRole = Auth::user()->getRoleNames()->first();
 
         if (Auth::user()->hasRole('super_admin')) {
             $title = 'Data User';
             $agents = User::latest()->get();
         } else {
             $title = Auth::user()->hasRole('admin') ? 'Data Agen' : (Auth::user()->hasRole('owner') ? 'Data User' : 'Data Agen');
-            $agents = User::nonSuperAdmin()->latest()->get();
+            $agents = User::roleLogin($userRole)->latest()->get();
         }
 
         return view('components.pages.agents.index', [
@@ -62,8 +63,8 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        if (!isset($validated['level']) && Auth::user()->hasRole('admin')) {
-            $validated['level'] = 'agent';
+        if (empty($validated['level']) && Auth::user()->hasRole('admin')) {
+            $validated['level'] = 'agen';
         }
 
         $validated['password'] = Hash::make($validated['password']);
@@ -75,7 +76,7 @@ class UserController extends Controller
             return redirect()->route('master-data.agent.index')->with('success', 'Agen berhasil ditambahkan');
         } catch (\Exception $e) {
             Log::error('Error creating agent: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Gagal menambahkan agent');
+            return redirect()->back()->with('error', 'Gagal menambahkan agen');
         }
     }
 
@@ -96,7 +97,7 @@ class UserController extends Controller
         $toko_cabangs = TokoCabang::latest()->select('id', 'nama_toko_cabang')->get();
 
         return view('components.pages.agents.edit', [
-            'title' => 'Edit Data Agen',
+            'title' => 'Edit Data',
             'agent' => $agent,
             'toko_cabangs' => $toko_cabangs,
         ]);
@@ -109,6 +110,10 @@ class UserController extends Controller
     {
         $agent = User::findOrFail($id);
         $validated = $request->validated();
+
+        if (empty($validated['level']) && Auth::user()->hasRole('admin') && $agent->hasRole('agen')) {
+            $validated['level'] = 'agen';
+        }
 
         if ($request->filled('current_password') && !Hash::check($request->input('current_password'), $agent->password)) {
             return redirect()->back()->withErrors(['current_password' => 'Password saat ini tidak sesuai']);

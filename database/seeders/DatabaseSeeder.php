@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Agent',
             'username' => 'agent',
             'email' => 'agent@test.com',
-        ])->assignRole('agent');
+        ])->assignRole('agen');
 
         Barang::factory(1)->create();
         TokoCabang::factory(1)->create();

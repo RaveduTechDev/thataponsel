@@ -61,7 +61,7 @@
                     <table class="table" id="table1">
                         <thead>
                             <tr>
-                                <th class="text-nowrap w-xl-50">Nama Agen</th>
+                                <th class="text-nowrap w-xl-50">Nama</th>
                                 <th class="text-nowrap w-xl-50">No WhatsApp</th>
                                 <th class="text-nowrap w-xl-50">Toko Cabang</th>
                                 <th class="text-nowrap w-xl-50">Level</th>
