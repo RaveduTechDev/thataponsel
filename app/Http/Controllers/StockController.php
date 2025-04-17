@@ -10,9 +10,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Routing\Controller;
 
 class StockController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('role:super_admin|owner|admin|agen')->only('index');
+        $this->middleware('role:super_admin|admin|agen')->only(['create', 'store', 'edit', 'update']);
+        $this->middleware('role:super_admin|admin')->only('destroy');
+        $this->middleware('role:super_admin|owner|admin')->only('show');
+    }
     /**
      * Display a listing of the resource.
      */

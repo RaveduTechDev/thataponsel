@@ -4,16 +4,18 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">Stok HP</h2>
-            <a href={{ route('stocks.create') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-success btn-md">
-                <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                <span>Tambah Stock</span>
-            </a>
+            @if (!Auth::user()->hasRole('owner'))
+                <a href={{ route('stocks.create') }} style="margin:-8px 0 0 0;"
+                    class="d-inline-flex align-items-center btn btn-success btn-md">
+                    <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
+                    <span>Tambah Stock</span>
+                </a>
+            @endif
         </div>
 
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive pt-2 pe-2" id="table-container">
+                <div class="table-responsive  pt-2 pe-2" id="table-container">
                     <div class="dropdown" id="dropdown-columns">
                         <button class="btn btn-danger btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -24,8 +26,7 @@
                             <h2 class="dropdown-header fs-5" style="margin: 0 0 -10px -10px">Tampilkan Kolom</h2>
                             <div id="toggle-columns" class="card p-3 mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="0" data-name="stock"
-                                        checked>
+                                    <input class="form-check-input" type="checkbox" data-column="0" data-name="stock">
                                     <label class="form-check-label">Foto</label>
                                 </div>
                                 <div class="form-check">
@@ -141,9 +142,9 @@
                         <tbody>
                             @foreach ($stocks as $stock)
                                 <tr>
-                                    <td class="text-nowrap w-xl-50">
-                                        <img src="{{ $stock->barang->getFirstMediaUrl('barang') }}"
-                                            alt="{{ $stock->nama_barang }}" width="70" loading="lazy">
+                                    <td class="text-nowrap w-xl-50 overflow-hidden">
+                                        <img src="{{ $stock->barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
+                                            alt="{{ $stock->barang->nama_barang }}" width="70" loading="lazy">
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->barang->kode_barang }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->barang->nama_barang }}</td>
@@ -165,76 +166,93 @@
                                     <td class="text-nowrap w-xl-50">{{ $stock->tanggal }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->barang->keterangan }}</td>
                                     <td class="text-nowrap text-center">
-                                        <div class="dropdown">
-                                            <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots text-secondary details-button"
-                                                    style="font-size: 18px;"></i>
+                                        @if (Auth::user()->hasRole(['admin', 'agen']))
+                                            <div class="dropdown">
+                                                <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
+                                                    <i class="bi bi-three-dots text-secondary details-button"
+                                                        style="font-size: 18px;"></i>
+                                                </a>
+                                                <ul class="dropdown-menu" style="z-index:50;position: relative;">
+                                                    @if (!Auth::user()->hasRole('agen'))
+                                                        <li class="border-bottom">
+                                                            <a href={{ route('stocks.show', $stock->id) }}
+                                                                class="dropdown-item">
+                                                                <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
+                                                                <sp an>Detail</sp>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                    <li>
+                                                        <a href={{ route('stocks.edit', $stock->id) }}
+                                                            class="dropdown-item">
+                                                            <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
+                                                            <span>Edit</span>
+                                                        </a>
+                                                    </li>
+                                                    @if (!Auth::user()->hasRole('agen'))
+                                                        <li>
+                                                            <button type="button" class="dropdown-item btn-delete-modal"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalStock{{ $stock->id }}">
+                                                                <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
+                                                                <span>Hapus</span>
+                                                            </button>
+                                                        </li>
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                        @elseif (Auth::user()->hasRole('owner'))
+                                            <a class="btn btn-secondary btn-sm d-inline-flex align-items-center"
+                                                href="{{ route('stocks.show', $stock->id) }}">
+                                                <i class="bi bi-eye" style="margin: 0 0 6px 0"></i>
+                                                <span class="visually-hidden">Detail</span>
                                             </a>
-                                            <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                <li class="border-bottom">
-                                                    <a href={{ route('stocks.show', $stock->id) }} class="dropdown-item">
-                                                        <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Detail</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href={{ route('stocks.edit', $stock->id) }} class="dropdown-item">
-                                                        <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item btn-delete-modal"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modalStock{{ $stock->id }}">
-                                                        <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Hapus</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        @endif
                                     </td>
                                 </tr>
-                                <div class="modal fade text-left modal-borderless" id="modalStock{{ $stock->id }}"
-                                    tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable"
-                                        role="document" style="z-index: 30;">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-danger" id="modalStockLabel">
-                                                    <i class="bi bi-exclamation-triangle-fill fs-5"
-                                                        style="margin-top:-8px;"></i>
-                                                    <span>Peringatan</span>
-                                                </h5>
-                                                <button type="button" class="close text-danger close-btn"
-                                                    data-bs-dismiss="modal" aria-label="Close">
-                                                    <i class="bi bi-x-lg fs-6"></i>
-                                                    <span class="visually-hidden">Close</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Yakin Ingin Menghapus Data Ini?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-light-secondary"
-                                                    data-bs-dismiss="modal">
-                                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                                    <span class="d-none d-sm-block">Batal</span>
-                                                </button>
-
-                                                <form action={{ route('stocks.destroy', $stock->id) }} method="POST"
-                                                    id="formSubmit">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
-                                                        <span class="d-none d-sm-block">Hapus</span>
+                                @if (!Auth::user()->hasRole('agen'))
+                                    <div class="modal fade text-left modal-borderless" id="modalStock{{ $stock->id }}"
+                                        tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable"
+                                            role="document" style="z-index: 30;">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-danger" id="modalStockLabel">
+                                                        <i class="bi bi-exclamation-triangle-fill fs-5"
+                                                            style="margin-top:-8px;"></i>
+                                                        <span>Peringatan</span>
+                                                    </h5>
+                                                    <button type="button" class="close text-danger close-btn"
+                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                        <i class="bi bi-x-lg fs-6"></i>
+                                                        <span class="visually-hidden">Close</span>
                                                     </button>
-                                                </form>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Yakin Ingin Menghapus Data Ini?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                                        <span class="d-none d-sm-block">Batal</span>
+                                                    </button>
+
+                                                    <form action={{ route('stocks.destroy', $stock->id) }} method="POST"
+                                                        id="formSubmit">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger me-3 "
+                                                            id="submitBtn">
+                                                            <span class="d-none d-sm-block">Hapus</span>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
