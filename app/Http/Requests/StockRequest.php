@@ -11,7 +11,10 @@ class StockRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if ($this->user()->hasRole(['super_admin', 'admin', 'owner', 'agen'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
