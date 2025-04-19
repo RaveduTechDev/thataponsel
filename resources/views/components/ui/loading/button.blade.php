@@ -3,7 +3,7 @@
         const submitButton = document.getElementById("submitBtn");
         submitButton.disabled = true;
         submitButton.innerHTML = `
-      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span class="spinner-border spinner-border-sm" style="margin: 4px 2px 0 0;" role="status" aria-hidden="true"></span>
       Loading...
     `;
     });

@@ -4,11 +4,13 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <a href={{ route('master-data.barang.create') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-success btn-md">
-                <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                <span>Tambah Data</span>
-            </a>
+            @if (!Auth::user()->hasRole('owner'))
+                <a href={{ route('master-data.barang.create') }} style="margin:-8px 0 0 0;"
+                    class="d-inline-flex align-items-center btn btn-success btn-md">
+                    <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
+                    <span>Tambah Data</span>
+                </a>
+            @endif
         </div>
 
         <div class="card">
@@ -114,8 +116,8 @@
                             @foreach ($barangs as $barang)
                                 <tr>
                                     <td class="text-nowrap w-xl-50">
-                                        <img src="{{ $barang->getFirstMediaUrl('barang') }}" alt={{ $barang->nama_barang }}
-                                            width="70" loading="lazy">
+                                        <img src="{{ $barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
+                                            alt="{{ $barang->nama_barang }}" width="70" loading="lazy">
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->kode_barang }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->nama_barang }}</td>
@@ -128,7 +130,7 @@
                                     <td class="text-nowrap w-xl-50">{{ $barang->grade }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->keterangan }}</td>
                                     <td class="text-nowrap text-center">
-                                        <div class="dropdown">
+                                        {{-- <div class="dropdown">
                                             <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
                                                 <i class="bi bi-three-dots text-secondary details-button"
                                                     style="font-size: 18px;"></i>
@@ -157,6 +159,34 @@
                                                     </button>
                                                 </li>
                                             </ul>
+                                        </div> --}}
+                                        {{-- jadikan button sejajar dengan warna sesuai aksinya dan menggunakan tooltips bootstrap --}}
+                                        <div class="d-flex gap-1 justify-content-center">
+                                            @if (Auth::user()->hasRole(['super_admin', 'owner', 'admin', 'agen']))
+                                                @if (!Auth::user()->hasRole(['agen']))
+                                                    <a href={{ route('master-data.barang.show', $barang->kode_barang) }}
+                                                        class="btn btn-secondary btn-sm" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Detail">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                @endif
+                                                @if (!Auth::user()->hasRole('owner'))
+                                                    <a href="{{ route('master-data.barang.edit', $barang->kode_barang) }}"
+                                                        class="btn btn-primary btn-sm" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Edit">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    @if (!Auth::user()->hasRole('agen'))
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm btn-delete-modal"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#modalStock{{ $barang->kode_barang }}"
+                                                            data-bs-placement="top" title="Hapus">
+                                                            <i class="bi bi-trash text-white"></i>
+                                                        </button>
+                                                    @endif
+                                                @endif
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

@@ -7,10 +7,23 @@ use App\Http\Requests\BarangRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Routing\Controller;
 
 
 class BarangController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('role:super_admin|admin|owner|agen')->only('index');
+        $this->middleware('role:super_admin|admin|agen')->only(['create', 'store', 'edit', 'update']);
+        $this->middleware('role:super_admin|admin|owner')->only('show');
+        $this->middleware('role:super_admin|admin')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      */

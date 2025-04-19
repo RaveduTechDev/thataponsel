@@ -11,7 +11,11 @@ class BarangRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if ($this->user()->hasRole(['super_admin', 'admin', 'agen'])) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
