@@ -112,12 +112,14 @@
                                     class="submenu-item {{ request()->is('master-data/agent*') ? 'active font-bold' : '' }}">
                                     <a href={{ route('master-data.agent.index') }} class="submenu-link">Agent</a>
                                 </li>
-                                <li
-                                    class="submenu-item {{ request()->is('master-data/toko-cabang*') ? 'active font-bold' : '' }}">
-                                    <a href={{ route('master-data.toko-cabang.index') }} class="submenu-link">
-                                        Toko Cabang
-                                    </a>
-                                </li>
+                                @if (Auth::user()->hasRole(['super_admin', 'admin']))
+                                    <li
+                                        class="submenu-item {{ request()->is('master-data/toko-cabang*') ? 'active font-bold' : '' }}">
+                                        <a href={{ route('master-data.toko-cabang.index') }} class="submenu-link">
+                                            Toko Cabang
+                                        </a>
+                                    </li>
+                                @endif
                                 <li
                                     class="submenu-item {{ request()->is('master-data/barang*') ? 'active font-bold' : '' }}">
                                     <a href={{ route('master-data.barang.index') }} class="submenu-link">

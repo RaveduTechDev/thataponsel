@@ -64,28 +64,20 @@
                                     <td class="text-nowrap w-xl-50">{{ $toko_cabang->penanggung_jawab_toko }}</td>
                                     <td class="text-wrap w-xl-50">{{ $toko_cabang->alamat_toko }}</td>
                                     <td class="text-nowrap text-center">
-                                        <div class="dropdown">
-                                            <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots text-secondary details-button"
-                                                    style="font-size: 18px;"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                <li>
-                                                    <a href={{ route('master-data.toko-cabang.edit', $toko_cabang->id) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item btn-delete-modal"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modalStock{{ $toko_cabang->id }}">
-                                                        <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Hapus</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
+                                        <div class="d-flex gap-1 justify-content-center">
+                                            @if (Auth::user()->hasRole(['super_admin', 'admin']))
+                                                <a href="{{ route('master-data.toko-cabang.edit', $toko_cabang->id) }}"
+                                                    class="btn btn-primary btn-sm" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-danger btn-sm btn-delete-modal"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalStock{{ $toko_cabang->id }}"
+                                                    data-bs-placement="top" title="Hapus">
+                                                    <i class="bi bi-trash text-white"></i>
+                                                </button>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

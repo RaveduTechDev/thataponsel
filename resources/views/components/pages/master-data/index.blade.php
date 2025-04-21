@@ -33,18 +33,20 @@
                 </a>
             </div>
 
-            <div class="col-6 col-lg-3 col-md-6">
-                <a href={{ route('master-data.toko-cabang.index') }} class="text-decoration-none">
-                    <div class="card card-hover-border-danger">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <div class="mb-1 fs-1 text-danger">
-                                <i class="bi bi-shop fs-1"></i>
+            @if (Auth::user()->hasRole(['super_admin', 'admin']))
+                <div class="col-6 col-lg-3 col-md-6">
+                    <a href={{ route('master-data.toko-cabang.index') }} class="text-decoration-none">
+                        <div class="card card-hover-border-danger">
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <div class="mb-1 fs-1 text-danger">
+                                    <i class="bi bi-shop fs-1"></i>
+                                </div>
+                                <h5 class="text-danger font-extrabold">Toko Cabang</h5>
                             </div>
-                            <h5 class="text-danger font-extrabold">Toko Cabang</h5>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            @endif
 
             <div class="col-6 col-lg-3 col-md-6">
                 <a href={{ route('master-data.barang.index') }} class="text-decoration-none">
