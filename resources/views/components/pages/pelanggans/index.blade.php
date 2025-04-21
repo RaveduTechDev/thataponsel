@@ -7,7 +7,7 @@
             <a href={{ route('master-data.pelanggan.create') }} style="margin:-8px 0 0 0;"
                 class="d-inline-flex align-items-center btn btn-success btn-md">
                 <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                <span>Tambah Pelanggan</span>
+                <span>Tambah Data</span>
             </a>
         </div>
 
@@ -64,28 +64,30 @@
                                     <td class="text-nowrap w-xl-50">{{ $pelanggan->nomor_wa_formatted }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $pelanggan->jumlah_transaksi }}</td>
                                     <td class="text-nowrap text-center">
-                                        <div class="dropdown">
-                                            <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots text-secondary details-button"
-                                                    style="font-size: 18px;"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                <li>
-                                                    <a href={{ route('master-data.pelanggan.edit', $pelanggan->id) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Edit</span>
+                                        <div class="d-flex gap-1 justify-content-center">
+                                            @if (Auth::user()->hasRole(['super_admin', 'admin', 'agen']))
+                                                {{-- @if (!Auth::user()->hasRole(['agen']))
+                                                    <a href={{ route('master-data.pelanggan.show', $pelanggan->id) }}
+                                                        class="btn btn-secondary btn-sm" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Detail">
+                                                        <i class="bi bi-eye"></i>
                                                     </a>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item btn-delete-modal"
+                                                @endif --}}
+
+                                                <a href="{{ route('master-data.pelanggan.edit', $pelanggan->id) }}"
+                                                    class="btn btn-primary btn-sm" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                @if (!Auth::user()->hasRole('agen'))
+                                                    <button type="button" class="btn btn-danger btn-sm btn-delete-modal"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#modalStock{{ $pelanggan->id }}">
-                                                        <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Hapus</span>
+                                                        data-bs-target="#modalStock{{ $pelanggan->id }}"
+                                                        data-bs-placement="top" title="Hapus">
+                                                        <i class="bi bi-trash text-white"></i>
                                                     </button>
-                                                </li>
-                                            </ul>
+                                                @endif
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

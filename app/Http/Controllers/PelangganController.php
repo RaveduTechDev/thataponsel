@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PelangganRequest;
 use App\Models\Pelanggan;
+use Illuminate\Routing\Controller;
 
 class PelangganController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('role:super_admin|admin|agen')->only(['index', 'create', 'store', 'edit', 'update']);
+        $this->middleware('role:super_admin|admin')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -16,7 +25,7 @@ class PelangganController extends Controller
         return view(
             'components.pages.pelanggans.index',
             [
-                'title' => 'Client',
+                'title' => 'Data Pelanggan',
                 'pelanggans' => $pelanggans
             ]
         );
@@ -30,7 +39,7 @@ class PelangganController extends Controller
         return view(
             'components.pages.pelanggans.create',
             [
-                'title' => 'Tambah Client'
+                'title' => 'Tambah Data Pelanggan'
             ]
         );
     }
@@ -66,7 +75,7 @@ class PelangganController extends Controller
         return view(
             'components.pages.pelanggans.edit',
             [
-                'title' => 'Edit Data Client',
+                'title' => 'Edit Data Pelanggan',
                 'pelanggan' => $pelanggan
             ]
         );

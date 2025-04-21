@@ -101,11 +101,13 @@
                     <div class="submenu">
                         <div class="submenu-group-wrapper">
                             <ul class="submenu-group">
-                                <li
-                                    class="submenu-item {{ request()->is('master-data/pelanggan*') ? 'active font-bold' : '' }}">
-                                    <a href={{ route('master-data.pelanggan.index') }}
-                                        class="submenu-link">Pelanggan</a>
-                                </li>
+                                @if (!Auth::user()->hasRole('owner'))
+                                    <li
+                                        class="submenu-item {{ request()->is('master-data/pelanggan*') ? 'active font-bold' : '' }}">
+                                        <a href={{ route('master-data.pelanggan.index') }}
+                                            class="submenu-link">Pelanggan</a>
+                                    </li>
+                                @endif
                                 <li
                                     class="submenu-item {{ request()->is('master-data/agent*') ? 'active font-bold' : '' }}">
                                     <a href={{ route('master-data.agent.index') }} class="submenu-link">Agent</a>

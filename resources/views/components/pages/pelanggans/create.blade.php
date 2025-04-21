@@ -47,7 +47,7 @@
                                                         <label for="phone" class="form-label">Nomor HP/WhatsApp</label>
                                                         <input type="tel" value="{{ old('nomor_wa') }}" id="phone"
                                                             class="form-control {{ $errors->has('no_wa') ? 'is-invalid' : '' }}"
-                                                            name="nomor_wa" placeholder="893 1234 5678" required>
+                                                            name="nomor_wa" required>
                                                     </div>
                                                     @error('nomor_wa')
                                                         <small class="text-danger">{{ $message }}</small>

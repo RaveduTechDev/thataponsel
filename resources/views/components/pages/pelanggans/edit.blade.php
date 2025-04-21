@@ -4,10 +4,56 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <a href={{ route('master-data.pelanggan.index') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-secondary btn-md">
-                <span>Kembali</span>
-            </a>
+            <div class="gap-2 d-flex justify-content-between justify-content-sm-end">
+                @if (!Auth::user()->hasRole('agen'))
+                    <button type="button" class="btn btn-danger btn-sm d-inline-flex justify-content-center w-100"
+                        data-bs-toggle="modal" data-bs-target="#modalBarang">
+                        <i class="bi bi-trash" style="margin: -2px 2px 0 0; font-size: 15px;"></i>
+                        <span>Hapus</span>
+                    </button>
+                    <div class="modal fade text-left modal-borderless" id="modalBarang" tabindex="-1"
+                        aria-labelledby="modalBarangLabel" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"
+                            style="z-index: 30;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-danger" id="modalBarangLabel">
+                                        <i class="bi bi-exclamation-triangle-fill fs-5" style="margin-top:-8px;"></i>
+                                        <span>Peringatan</span>
+                                    </h5>
+                                    <button type="button" class="close text-danger close-btn" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <i class="bi bi-x-lg fs-6"></i>
+                                        <span class="visually-hidden">Close</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Yakin Ingin Menghapus Data Ini?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-block">Batal</span>
+                                    </button>
+                                    <form action="{{ route('master-data.pelanggan.destroy', $pelanggan->id) }}"
+                                        method="POST" id="formSubmit">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex" id="submitBtn">
+                                            <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
+                                            <span class="d-none d-sm-block">Hapus</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                <a href="{{ route('master-data.pelanggan.index') }}"
+                    class="btn btn-secondary btn-sm d-inline-flex justify-content-center w-100">
+                    <span>Kembali</span>
+                </a>
+            </div>
         </div>
         <section id="multiple-column-form">
             @session('error')
@@ -50,7 +96,7 @@
                                                         <input type="tel" value="{{ $pelanggan->nomor_wa }}"
                                                             id="phone"
                                                             class="form-control {{ $errors->has('no_wa') ? 'is-invalid' : '' }}"
-                                                            name="nomor_wa" placeholder="893 1234 5678" required>
+                                                            name="nomor_wa" required>
                                                     </div>
                                                     @error('nomor_wa')
                                                         <small class="text-danger">{{ $message }}</small>
@@ -75,7 +121,8 @@
 
                                             <div class="row">
                                                 <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-primary me-3 mb-1" id="submitBtn">
+                                                    <button type="submit" class="btn btn-primary me-3 mb-1"
+                                                        id="submitBtn">
                                                         Ubah
                                                     </button>
                                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">
