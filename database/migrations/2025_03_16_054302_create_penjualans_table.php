@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('stock_id')->constrained('stocks');
             $table->foreignId('pelanggan_id')->constrained('pelanggans');
             $table->foreignId('toko_cabang_id')->constrained('toko_cabangs');
-            $table->foreignId('agent_id')->constrained('agents');
+            $table->foreignId('user_id')->constrained('users');
             $table->decimal('subtotal', 25, 0);
             $table->decimal('diskon', 25, 0);
             $table->string('total_bayar');

@@ -21,7 +21,7 @@ class PenjualanFactory extends Factory
             'stock_id' => \App\Models\Stock::factory(),
             'pelanggan_id' => \App\Models\Pelanggan::factory(),
             'toko_cabang_id' => \App\Models\TokoCabang::factory(),
-            'agent_id' => \App\Models\Agent::factory(),
+            'user_id' => \App\Models\User::factory(),
             'subtotal' => $this->faker->randomNumber(),
             'diskon' => $this->faker->numberBetween(0, 100),
             'total_bayar' => $this->faker->randomNumber(),

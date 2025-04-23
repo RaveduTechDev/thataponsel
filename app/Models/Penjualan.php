@@ -15,7 +15,7 @@ class Penjualan extends Model
         'invoice',
         'pelanggan_id',
         'toko_cabang_id',
-        'agent_id',
+        'user_id',
         'stock_id',
         'subtotal',
         'diskon',
@@ -24,7 +24,7 @@ class Penjualan extends Model
         'status',
     ];
 
-    protected $with = ['pelanggan', 'tokoCabang', 'agent', 'stock'];
+    protected $with = ['pelanggan', 'tokoCabang', 'stock', 'user'];
 
     public function pelanggan()
     {
@@ -36,9 +36,9 @@ class Penjualan extends Model
         return $this->belongsTo(TokoCabang::class);
     }
 
-    public function agent()
+    public function user()
     {
-        return $this->belongsTo(Agent::class);
+        return $this->belongsTo(User::class)->select('id', 'name', 'username');
     }
 
     public function stock()
@@ -46,10 +46,18 @@ class Penjualan extends Model
         return $this->belongsTo(Stock::class);
     }
 
-    // filter yang status selesai 
     public function scopeSuccess(Builder $query)
     {
         return $query->where('status', 'selesai');
+    }
+
+    public function scopeIsAgen(Builder $query, $role, $username)
+    {
+        return $query->whereHas('user', function (Builder $query) use ($role, $username) {
+            $query->where('username', $username)->whereHas('roles', function (Builder $query) use ($role) {
+                $query->where('name', $role);
+            });
+        });
     }
 
     public function scopeFilter(Builder $query, array $filters)

@@ -11,7 +11,13 @@ class PenjualanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if ($this->isMethod('post') && $this->user()->hasRole(['super_admin', 'admin', 'agen'])) {
+            return true;
+        }
+        if (($this->isMethod('put') || $this->isMethod('patch')) && $this->user()->hasRole(['super_admin', 'admin'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -25,7 +31,7 @@ class PenjualanRequest extends FormRequest
             'stock_id' => 'required|exists:stocks,id',
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'toko_cabang_id' => 'required|exists:toko_cabangs,id',
-            'agent_id' => 'required|exists:agents,id',
+            'user_id' => 'required|exists:users,id',
             'subtotal' => 'required|numeric|digits_between:1,25',
             'diskon' => 'numeric',
             'total_bayar' => 'required|numeric|digits_between:1,25',

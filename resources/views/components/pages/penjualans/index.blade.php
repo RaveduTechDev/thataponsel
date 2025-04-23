@@ -4,11 +4,13 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <a href={{ route('penjualan.create') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-success btn-md">
-                <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                <span>Tambah Data</span>
-            </a>
+            @if (!Auth::user()->hasRole('owner'))
+                <a href={{ route('penjualan.create') }} style="margin:-8px 0 0 0;"
+                    class="d-inline-flex align-items-center btn btn-success btn-md">
+                    <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
+                    <span>Tambah Data</span>
+                </a>
+            @endif
         </div>
 
         <div class="card">
@@ -91,7 +93,9 @@
                                 <th class="text-nowrap">Diskon(%)</th>
                                 <th class="text-nowrap">Total Bayar</th>
                                 <th class="text-nowrap">Status</th>
-                                <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
+                                @if (!Auth::user()->hasRole(['agen', 'owner']))
+                                    <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -101,7 +105,7 @@
                                     <td class="text-nowrap ">{{ $penjualan->tanggal_transaksi }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->tokoCabang->nama_toko_cabang }}</td>
-                                    <td class="text-nowrap ">{{ $penjualan->agent->nama_agen }}</td>
+                                    <td class="text-nowrap ">{{ $penjualan->user->name }}</td>
                                     <td class="text-nowrap ">
                                         Rp. {{ number_format($penjualan->subtotal, 0, ',', '.') }}
                                     </td>
@@ -125,38 +129,31 @@
                                             </span>
                                         @endif
                                     </td>
-                                    <td class="text-nowrap text-center">
-                                        <div class="dropdown">
-                                            <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots text-secondary details-button"
-                                                    style="font-size: 18px;"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                <li class="border-bottom">
-                                                    <a href={{ route('penjualan.show', $penjualan->id) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Detail</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href={{ route('penjualan.edit', $penjualan->id) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item btn-delete-modal"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modalStock{{ $penjualan->id }}">
-                                                        <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Hapus</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                    @if (Auth::user()->hasRole(['super_admin', 'admin']))
+                                        <td class="text-nowrap text-center">
+                                            <div class="d-flex gap-1 justify-content-center">
+
+                                                <a href={{ route('penjualan.show', $penjualan->id) }}
+                                                    class="btn btn-secondary btn-sm" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Detail">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+
+                                                <a href="{{ route('penjualan.edit', $penjualan->id) }}"
+                                                    class="btn btn-primary btn-sm" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+
+                                                <button type="button" class="btn btn-danger btn-sm btn-delete-modal"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalStock{{ $penjualan->id }}"
+                                                    data-bs-placement="top" title="Hapus">
+                                                    <i class="bi bi-trash text-white"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 <div class="modal fade text-left modal-borderless" id="modalStock{{ $penjualan->id }}"
                                     tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"

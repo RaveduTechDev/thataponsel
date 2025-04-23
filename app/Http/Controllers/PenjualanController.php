@@ -2,21 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PenjualanRequest;
 use App\Models\Agent;
+use App\Models\Stock;
 use App\Models\Pelanggan;
 use App\Models\Penjualan;
-use App\Models\Stock;
 use App\Models\TokoCabang;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\PenjualanRequest;
 
 class PenjualanController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('role:super_admin|owner|admin|agen')->only('index');
+        $this->middleware('role:super_admin|admin|agen')->only(['create', 'store']);
+        $this->middleware('role:super_admin|admin')->only(['edit', 'update', 'destroy']);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $penjualans = Penjualan::latest()->get();
+        $penjualans = [];
+        $role = Auth::user()->getRoleNames()->first();
+
+        if ($role == 'agen') {
+            $penjualans = Penjualan::isAgen($role, Auth::user()->username)->latest()->get();
+        } else {
+            $penjualans = Penjualan::latest()->get();
+        }
+
         return view('components.pages.penjualans.index', [
             'title' => 'Transaksi Penjualan',
             'penjualans' => $penjualans,
