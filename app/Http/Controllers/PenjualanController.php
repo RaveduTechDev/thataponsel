@@ -10,6 +10,7 @@ use App\Models\TokoCabang;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PenjualanRequest;
+use App\Models\User;
 
 class PenjualanController extends Controller
 {
@@ -31,7 +32,7 @@ class PenjualanController extends Controller
         $role = Auth::user()->getRoleNames()->first();
 
         if ($role == 'agen') {
-            $penjualans = Penjualan::isAgen($role, Auth::user()->username)->latest()->get();
+            $penjualans = Penjualan::isAgenAuth($role, Auth::user()->username)->latest()->get();
         } else {
             $penjualans = Penjualan::latest()->get();
         }
@@ -50,13 +51,13 @@ class PenjualanController extends Controller
         $stocks = Stock::latest()->get();
         $pelanggans = Pelanggan::latest()->get();
         $toko_cabangs = TokoCabang::latest()->get();
-        $agents = Agent::latest()->get();
+        $users = User::latest()->get();
         return view('components.pages.penjualans.create', [
             'title' => 'Tambah Penjualan',
             'stocks' => $stocks,
             'pelanggans' => $pelanggans,
             'toko_cabangs' => $toko_cabangs,
-            'agents' => $agents,
+            'users' => $users,
         ]);
     }
 
@@ -73,6 +74,15 @@ class PenjualanController extends Controller
                 return redirect()->back()->with('error', 'Stok dari ' . $stock->barang->nama_barang . ' habis');
             }
 
+            $user = null;
+            if (empty($data['user_id']) && Auth::user()->hasRole('agen')) {
+                $data['user_id'] = Auth::user()->id;
+                $user = User::findOrFail(Auth::user()->id);
+                $user->increment('jumlah_transaksi');
+            }
+
+            $user = User::findOrFail($data['user_id']);
+            $user->increment('jumlah_transaksi');
             $stock->decrement('jumlah_stok');
             $penjualan = Penjualan::create($data);
 

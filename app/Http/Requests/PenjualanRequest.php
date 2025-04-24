@@ -31,7 +31,7 @@ class PenjualanRequest extends FormRequest
             'stock_id' => 'required|exists:stocks,id',
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'toko_cabang_id' => 'required|exists:toko_cabangs,id',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'sometimes|exists:users,id',
             'subtotal' => 'required|numeric|digits_between:1,25',
             'diskon' => 'numeric',
             'total_bayar' => 'required|numeric|digits_between:1,25',

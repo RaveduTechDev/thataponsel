@@ -51,7 +51,7 @@ class Penjualan extends Model
         return $query->where('status', 'selesai');
     }
 
-    public function scopeIsAgen(Builder $query, $role, $username)
+    public function scopeIsAgenAuth(Builder $query, $role, $username)
     {
         return $query->whereHas('user', function (Builder $query) use ($role, $username) {
             $query->where('username', $username)->whereHas('roles', function (Builder $query) use ($role) {

@@ -58,7 +58,7 @@
                                                                 @foreach ($users as $user)
                                                                     <option value="{{ $user->id }}"
                                                                         {{ old('user_id') === $user->id ? 'selected' : '' }}>
-                                                                        {{ $user->nama_agen }}
+                                                                        {{ $user->name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
