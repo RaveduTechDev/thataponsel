@@ -48,6 +48,11 @@ class PenjualanController extends Controller
      */
     public function create()
     {
+        $date = now()->format('dmy');
+        $lastPenjualan = Penjualan::where('invoice', 'like', '%' . $date . '%')->latest()->first();
+        $lastInvoice = $lastPenjualan ? (int) substr($lastPenjualan->invoice, -4) : 0;
+        $newInvoice = 'INV-' . $date . '-' . str_pad($lastInvoice + 1, 4, '0', STR_PAD_LEFT);
+
         $stocks = Stock::latest()->get();
         $pelanggans = Pelanggan::latest()->get();
         $toko_cabangs = TokoCabang::latest()->get();
@@ -58,6 +63,7 @@ class PenjualanController extends Controller
             'pelanggans' => $pelanggans,
             'toko_cabangs' => $toko_cabangs,
             'users' => $users,
+            'newInvoice' => $newInvoice,
         ]);
     }
 

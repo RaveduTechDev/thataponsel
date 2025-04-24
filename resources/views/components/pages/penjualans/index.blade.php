@@ -102,7 +102,9 @@
                             @foreach ($penjualans as $penjualan)
                                 <tr>
                                     <td class="text-nowrap w-xl-50">{{ $penjualan->invoice }}</td>
-                                    <td class="text-nowrap ">{{ $penjualan->tanggal_transaksi }}</td>
+                                    <td class="text-nowrap ">
+                                        {{ \Carbon\Carbon::parse($penjualan->tanggal_transaksi)->isoFormat('D MMMM Y') }}
+                                    </td>
                                     <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->tokoCabang->nama_toko_cabang }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->user->name }}</td>

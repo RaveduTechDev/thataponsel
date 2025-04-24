@@ -25,20 +25,21 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">Data Penjualan</h4>
+                                        <h5 class="mb-3 text-secondary">Data Penjualan</h5>
+                                        <li>Kolom yang ditandai dengan <span class="text-danger">*</span> wajib diisi.</li>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group">
                                                         <label for="invoice" class="form-label">
                                                             No. Invoice
                                                         </label>
-                                                        <input type="text" id="invoice"
+                                                        <input type="text" id="invoice" readonly
                                                             class="form-control {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
                                                             placeholder="No. Invoice" name="invoice"
-                                                            value="{{ @old('invoice') }}" required>
+                                                            value="{{ $newInvoice }}" required>
                                                         @error('invoice')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -167,7 +168,7 @@
 
                                             <div class="row">
                                                 <div class="col-md-4 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group">
                                                         <label for="sub-total" class="form-label">
                                                             Sub Total
                                                         </label>
@@ -181,7 +182,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group">
                                                         <label for="diskon" class="form-label">
                                                             Diskon (%)
                                                         </label>
@@ -196,7 +197,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group">
                                                         <label for="total-bayar" class="form-label">
                                                             Total Bayar
                                                         </label>
