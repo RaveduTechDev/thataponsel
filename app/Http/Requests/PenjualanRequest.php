@@ -35,7 +35,7 @@ class PenjualanRequest extends FormRequest
             'subtotal' => 'required|numeric|digits_between:1,25',
             'diskon' => 'numeric',
             'total_bayar' => 'required|numeric|digits_between:1,25',
-            'status' => 'required|in:proses,selesai,batal',
+            'status' => 'sometimes|in:proses,selesai',
         ];
 
         if ($this->isMethod('post')) {

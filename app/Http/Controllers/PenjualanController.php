@@ -121,14 +121,14 @@ class PenjualanController extends Controller
         $stocks = Stock::latest()->get();
         $pelanggans = Pelanggan::latest()->get();
         $toko_cabangs = TokoCabang::latest()->get();
-        $agents = Agent::latest()->get();
+        $users = User::latest()->get();
         return view('components.pages.penjualans.edit', [
             'title' => 'Edit Penjualan',
             'penjualan' => $penjualan,
             'stocks' => $stocks,
             'pelanggans' => $pelanggans,
             'toko_cabangs' => $toko_cabangs,
-            'agents' => $agents,
+            'users' => $users,
         ]);
     }
 
