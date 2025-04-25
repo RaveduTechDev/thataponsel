@@ -5,11 +5,13 @@
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
             @if (!Auth::user()->hasRole('owner'))
-                <a href={{ route('penjualan.create') }} style="margin:-8px 0 0 0;"
-                    class="d-inline-flex align-items-center btn btn-success btn-md">
-                    <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                    <span>Tambah Data</span>
-                </a>
+                <div class="d-flex justify-content-between justify-content-sm-end">
+                    <a href={{ route('penjualan.create') }} style="margin:-8px 0 0 0;"
+                        class="d-inline-flex align-items-center btn btn-success btn-sm justify-content-center w-100">
+                        <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
+                        <span>Tambah Data</span>
+                    </a>
+                </div>
             @endif
         </div>
 

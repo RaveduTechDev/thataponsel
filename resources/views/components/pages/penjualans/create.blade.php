@@ -4,10 +4,12 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <a href={{ route('penjualan.index') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-secondary btn-md">
-                <span>Kembali</span>
-            </a>
+            <div class="d-flex justify-content-between flex-column flex-sm-row align-items-sm-center">
+                <a href="{{ route('penjualan.index') }}"
+                    class="btn btn-secondary btn-sm d-inline-flex justify-content-center w-100 w-sm-auto">
+                    <span>Kembali</span>
+                </a>
+            </div>
         </div>
         <section id="multiple-column-form">
             @session('error')
