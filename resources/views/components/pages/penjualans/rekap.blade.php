@@ -34,10 +34,10 @@
                                 style="cursor:pointer;" name="search" data-placeholder="-- Pilih Sales/Agent --"
                                 data-check-selected="{{ request('search') ? 'true' : 'false' }}">
                                 <option></option>
-                                @foreach ($agents as $agent)
-                                    <option value="{{ $agent->nama_agen }}"
-                                        {{ $displayPerAgent === $agent->nama_agen ? 'selected' : '' }}>
-                                        {{ $agent->nama_agen }}
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->name }}"
+                                        {{ $displayPerUser === $user->name ? 'selected' : '' }}>
+                                        {{ $user->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -47,7 +47,7 @@
                         class="col-12 {{ request()->is('rekap/agen') ? 'col-md-4' : 'col-md-12' }} col-lg-2 d-flex align-items-end">
                         <button type="submit" id="submitBtn"
                             class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
-                            <i class="bi bi-search me-1" style="margin-top: -10px"></i>
+                            <i class="bi bi-search me-1" style="margin-top: -12px"></i>
                             <span>Cari</span>
                         </button>
                     </div>
@@ -83,7 +83,7 @@
                                 <th class="text-nowrap me-lg-2">Nama Agen/Sales</th>
                                 <td class="text-nowrap">:</td>
                                 <td class="text-nowrap">
-                                    {{ $displayPerAgent }}
+                                    {{ $displayPerUser }}
                                 </td>
                             </tr>
                         @endif
@@ -181,9 +181,9 @@
                                     <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->tokoCabang->nama_toko_cabang }}</td>
                                     <td class="text-nowrap ">
-                                        <a href="{{ route('rekap.agen', ['username' => $penjualan->agent->username]) }}"
+                                        <a href="{{ route('rekap.agen', ['username' => $penjualan->user->username]) }}"
                                             style="text-decoration: underline;">
-                                            {{ $penjualan->agent->nama_agen }}
+                                            {{ $penjualan->user->name }}
                                         </a>
                                     </td>
                                     <td class="text-nowrap ">

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agent;
 use App\Models\Penjualan;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RekapController extends Controller
@@ -21,22 +21,21 @@ class RekapController extends Controller
     public function rekapPenjualanAgen(Request $request)
     {
         $filters = $request->only(['search', 'start_date', 'end_date', 'username']);
-        $agents = Agent::latest()->get();
-        $displayPerAgent = '-';
+        $users = User::latest()->get();
+        $displayPerUser = '-';
         if ($request->filled('username')) {
-            $agent = $agents->firstWhere('username', $request->username);
-            $displayPerAgent = optional($agent)->nama_agen;
+            $user = $users->firstWhere('username', $request->username);
+            $displayPerUser = optional($user)->name;
         } elseif ($request->filled('search')) {
-            $displayPerAgent = $request->search;
+            $displayPerUser = $request->search;
         }
 
-
-        $penjualans = Penjualan::latest()->filter($filters)->get();
+        $penjualans = Penjualan::isAgent()->latest()->filter($filters)->get();
         return view('components.pages.penjualans.rekap', [
             'title' => 'Data Penjualan Agen',
             'penjualans' => $penjualans,
-            'agents' => $agents,
-            'displayPerAgent' => $displayPerAgent,
+            'users' => $users,
+            'displayPerUser' => $displayPerUser,
         ]);
     }
 }

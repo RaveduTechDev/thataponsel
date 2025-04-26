@@ -38,7 +38,7 @@ class PenjualanController extends Controller
         }
 
         return view('components.pages.penjualans.index', [
-            'title' => 'Transaksi Penjualan',
+            'title' => $role == 'agen' ? 'History Penjualan Anda' : 'Transaksi Penjualan',
             'penjualans' => $penjualans,
         ]);
     }

@@ -51,6 +51,15 @@ class Penjualan extends Model
         return $query->where('status', 'selesai');
     }
 
+    public function scopeIsAgent()
+    {
+        return $this->whereHas('user', function (Builder $query) {
+            $query->whereHas('roles', function (Builder $query) {
+                $query->where('name', 'agen');
+            });
+        });
+    }
+
     public function scopeIsAgenAuth(Builder $query, $role, $username)
     {
         return $query->whereHas('user', function (Builder $query) use ($role, $username) {
@@ -63,8 +72,8 @@ class Penjualan extends Model
     public function scopeFilter(Builder $query, array $filters)
     {
         $query->when($filters['search'] ?? false, function (Builder $query, string $search) {
-            return $query->whereHas('agent', function (Builder $query) use ($search) {
-                $query->whereRaw('LOWER(nama_agen) LIKE ?', ['%' . strtolower($search) . '%']);
+            return $query->whereHas('user', function (Builder $query) use ($search) {
+                $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%']);
             });
         });
 
@@ -77,7 +86,7 @@ class Penjualan extends Model
         });
 
         $query->when($filters['agent'] ?? false, function (Builder $query, string $username) {
-            return $query->whereHas('agent', function (Builder $query) use ($username) {
+            return $query->whereHas('user', function (Builder $query) use ($username) {
                 $query->where('username', $username);
             });
         });
