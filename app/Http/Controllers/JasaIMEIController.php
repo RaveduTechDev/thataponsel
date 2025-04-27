@@ -29,7 +29,9 @@ class JasaIMEIController extends Controller
      */
     public function index()
     {
-        $jasa_imeis = JasaImei::latest()->get();
+        $role = Auth::user()->getRoleNames()->first();
+
+        $jasa_imeis = JasaImei::isAgent($role)->latest()->get();
         return view('components.pages.imei.index', [
             'title' => 'Data Jasa Imei',
             'jasa_imeis' => $jasa_imeis,
