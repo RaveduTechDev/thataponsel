@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('profit', 30, 0);
             $table->enum('status', ['proses', 'selesai']);
             $table->string('supplier');
-            $table->foreignId('agent_id')->constrained('agents')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

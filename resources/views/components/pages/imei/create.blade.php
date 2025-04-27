@@ -28,7 +28,8 @@
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-4 col-12">
+                                                <div
+                                                    class="{{ Auth::user()->hasRole('agen') ? 'col-md-6' : 'col-md-4' }} col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="select-pelanggans" class="form-label">
                                                             Pelanggan
@@ -50,7 +51,8 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-4 col-12">
+                                                <div
+                                                    class="{{ Auth::user()->hasRole('agen') ? 'col-md-6' : 'col-md-4' }} col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="supplier" class="form-label">Supplier</label>
                                                         <input type="text" id="supplier"
@@ -63,28 +65,30 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="select-agent" class="form-label">
-                                                            Sales/Agent
-                                                        </label>
-                                                        <select id="select-agent"
-                                                            class="select-data form-select choice {{ $errors->has('agent_id') ? 'is-invalid' : '' }}"
-                                                            style="cursor:pointer;" name="agent_id"
-                                                            data-placeholder="-- Pilih Sales/Agent --"
-                                                            data-check-selected="false" required>
-                                                            @foreach ($agents as $agent)
-                                                                <option value="{{ $agent->id }}"
-                                                                    {{ old('agent_id') == $agent->id ? 'selected' : '' }}>
-                                                                    {{ $agent->nama_agen }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                @if (!Auth::user()->hasRole('agen'))
+                                                    <div class="col-md-4 col-12">
+                                                        <div class="form-group mandatory">
+                                                            <label for="select-agent" class="form-label">
+                                                                Sales/Agent
+                                                            </label>
+                                                            <select id="select-agent"
+                                                                class="select-data form-select choice {{ $errors->has('user_id') ? 'is-invalid' : '' }}"
+                                                                style="cursor:pointer;" name="user_id"
+                                                                data-placeholder="-- Pilih Sales/Agent --"
+                                                                data-check-selected="false" required>
+                                                                @foreach ($users as $user)
+                                                                    <option value="{{ $user->id }}"
+                                                                        {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        @error('user_id')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
-                                                    @error('agent_id')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
-                                                </div>
+                                                @endif
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">

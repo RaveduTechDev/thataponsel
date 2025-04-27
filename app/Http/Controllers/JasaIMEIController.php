@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ImeiRequest;
+use App\Models\User;
 use App\Models\Agent;
 use App\Models\JasaImei;
 use App\Models\Pelanggan;
-use Illuminate\Http\Request;
+use App\Http\Requests\ImeiRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class JasaIMEIController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('role:super_admin|admin|agen|owner')->only('index');
+        $this->middleware('role:super_admin|admin|owner')->only('show');
+        $this->middleware('role:super_admin|admin|agen')->only(['create', 'store', 'edit', 'update']);
+        $this->middleware('role:super_admin|admin')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -29,11 +42,11 @@ class JasaIMEIController extends Controller
     public function create()
     {
         $pelanggans = Pelanggan::latest()->get();
-        $agents = Agent::latest()->get();
+        $users = User::latest()->get();
         return view('components.pages.imei.create', [
             'title' => 'Tambah Jasa Imei',
             'pelanggans' => $pelanggans,
-            'agents' => $agents,
+            'users' => $users,
         ]);
     }
 
@@ -43,6 +56,10 @@ class JasaIMEIController extends Controller
     public function store(ImeiRequest $request)
     {
         $validated = $request->validated();
+
+        if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
+            $validated['user_id'] = Auth::user()->id;
+        }
 
         try {
             JasaImei::create($validated);
@@ -72,12 +89,12 @@ class JasaIMEIController extends Controller
     {
         $jasa_imei = JasaImei::findOrFail($id);
         $pelanggans = Pelanggan::latest()->get();
-        $agents = Agent::latest()->get();
+        $users = User::latest()->get();
         return view('components.pages.imei.edit', [
             'title' => 'Edit Jasa Imei',
             'jasa_imei' => $jasa_imei,
             'pelanggans' => $pelanggans,
-            'agents' => $agents,
+            'users' => $users,
         ]);
     }
 
@@ -88,6 +105,9 @@ class JasaIMEIController extends Controller
     {
         $validated = $request->validated();
         $validated['imei'] = $request->imei;
+        if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
+            $validated['user_id'] = Auth::user()->id;
+        }
 
         try {
             $jasa_imei = JasaImei::findOrFail($id);

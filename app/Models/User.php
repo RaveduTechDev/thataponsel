@@ -65,7 +65,7 @@ class User extends Authenticatable
         return $this->hasMany(Penjualan::class);
     }
 
-    public function jasaImeis()
+    public function jasaImei()
     {
         return $this->hasMany(JasaImei::class);
     }

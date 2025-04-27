@@ -4,11 +4,13 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <a href="{{ route('jasa-imei.create') }}" style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-success btn-md">
-                <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                <span>Tambah Data</span>
-            </a>
+            @if (!Auth::user()->hasRole('owner'))
+                <a href="{{ route('jasa-imei.create') }}" style="margin:-8px 0 0 0;"
+                    class="d-inline-flex align-items-center btn btn-success btn-md">
+                    <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
+                    <span>Tambah Data</span>
+                </a>
+            @endif
         </div>
 
         <div class="card">
@@ -131,39 +133,37 @@
                                         @endif
                                     </td>
                                     <td class="text-nowrap">{{ $jasa_imei->supplier }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->agent->nama_agen }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->user->name }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->created_at->format('d-M-Y') }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->updated_at->format('d-M-Y') }}</td>
                                     <td class="text-nowrap text-center">
-                                        <div class="dropdown">
-                                            <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots text-secondary details-button"
-                                                    style="font-size: 18px;"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                <li class="border-bottom">
-                                                    <a href={{ route('jasa-imei.show', $jasa_imei->id) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Detail</span>
+                                        <div class="d-flex gap-1 justify-content-center">
+                                            @if (Auth::user()->hasRole(['super_admin', 'owner', 'admin', 'agen']))
+                                                @if (!Auth::user()->hasRole('agen'))
+                                                    <a href="{{ route('jasa-imei.show', $jasa_imei->id) }}"
+                                                        class="btn btn-icon btn-sm btn-secondary" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Detail Data">
+                                                        <i class="bi bi-eye"></i>
                                                     </a>
-                                                </li>
-                                                <li>
-                                                    <a href={{ route('jasa-imei.edit', $jasa_imei->id) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Edit</span>
+                                                @endif
+                                                @if (!Auth::user()->hasRole('owner'))
+                                                    <a href="{{ route('jasa-imei.edit', $jasa_imei->id) }}"
+                                                        class="btn btn-icon btn-sm btn-primary" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Edit Data">
+                                                        <i class="bi bi-pencil-square"></i>
                                                     </a>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item btn-delete-modal"
+                                                @endif
+                                                @if (!Auth::user()->hasRole(['agen', 'owner']))
+                                                    <button type="button"
+                                                        class="btn btn-icon btn-danger btn-sm btn-delete-modal"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#modalStock{{ $jasa_imei->id }}">
-                                                        <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Hapus</span>
+                                                        data-bs-target="#modalStock{{ $jasa_imei->id }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Hapus Data">
+                                                        <i class="bi bi-trash text-white"></i>
                                                     </button>
-                                                </li>
-                                            </ul>
+                                                @endif
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

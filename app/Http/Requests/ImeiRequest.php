@@ -11,7 +11,10 @@ class ImeiRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if ($this->user()->hasRole(['super_admin', 'admin', 'agen'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -21,18 +24,6 @@ class ImeiRequest extends FormRequest
      */
     public function rules(): array
     {
-        // return [
-        //     'pelanggan_id' => 'required|exists:pelanggans,id',
-        //     'tipe' => 'required|string|max:255',
-        //     'imei' => 'required|string|max:255|unique:jasa_imeis,imei',
-        //     'biaya' => 'required|numeric',
-        //     'modal' => 'required|numeric',
-        //     'profit' => 'required|numeric',
-        //     'status' => 'required|string|max:255',
-        //     'supplier' => 'nullable|string|max:255',
-        //     'agent_id' => 'nullable|exists:agents,id',
-        // ];
-
         $validate = [
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'tipe' => 'required|string|max:255',
@@ -41,8 +32,8 @@ class ImeiRequest extends FormRequest
             'modal' => 'required|numeric',
             'profit' => 'required|numeric',
             'status' => 'required|string|max:255',
-            'supplier' => 'nullable|string|max:255',
-            'agent_id' => 'nullable|exists:agents,id',
+            'supplier' => 'sometimes|string|max:255',
+            'user_id' => 'sometimes|exists:users,id',
         ];
 
         if ($this->isMethod('post')) {

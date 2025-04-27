@@ -19,18 +19,18 @@ class JasaImei extends Model
         'profit',
         'status',
         'supplier',
-        'agent_id'
+        'user_id'
     ];
 
-    protected $with = ['pelanggan', 'agent'];
+    protected $with = ['pelanggan', 'user'];
 
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class);
     }
 
-    public function agent()
+    public function user()
     {
-        return $this->belongsTo(Agent::class);
+        return $this->belongsTo(User::class)->select('id', 'name');
     }
 }

@@ -25,7 +25,7 @@ class JasaImeiFactory extends Factory
             'profit' => $this->faker->randomFloat(2, 10000, 100000),
             'status' => $this->faker->randomElement(['proses', 'selesai']),
             'supplier' => $this->faker->word,
-            'agent_id' => \App\Models\Agent::factory(),
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 }
