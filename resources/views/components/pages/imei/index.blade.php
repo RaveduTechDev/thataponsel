@@ -134,8 +134,10 @@
                                     </td>
                                     <td class="text-nowrap">{{ $jasa_imei->supplier }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->user->name }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->created_at->format('d-M-Y') }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->updated_at->format('d-M-Y') }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->created_at->isoFormat('D MMMM Y') }}</td>
+                                    <td class="text-nowrap">
+                                        {{ $jasa_imei->status == 'selesai' ? $jasa_imei->updated_at->isoFormat('D MMMM Y') : 'Dalam Proses' }}
+                                    </td>
                                     <td class="text-nowrap text-center">
                                         <div class="d-flex gap-1 justify-content-center">
                                             @if (Auth::user()->hasRole(['super_admin', 'owner', 'admin', 'agen']))
