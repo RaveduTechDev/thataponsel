@@ -85,10 +85,11 @@ class PenjualanController extends Controller
                 $data['user_id'] = Auth::user()->id;
                 $user = User::findOrFail(Auth::user()->id);
                 $user->increment('jumlah_transaksi');
+            } else {
+                $user = User::findOrFail($data['user_id']);
+                $user->increment('jumlah_transaksi');
             }
 
-            $user = User::findOrFail($data['user_id']);
-            $user->increment('jumlah_transaksi');
             $stock->decrement('jumlah_stok');
             $penjualan = Penjualan::create($data);
 
