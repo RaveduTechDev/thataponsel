@@ -14,6 +14,7 @@ export default defineConfig({
                 "resources/js/choices-multi.js",
                 "resources/js/calculate.js",
                 "resources/js/calculate2.js",
+                "resources/js/chart.js",
             ],
             refresh: true,
         }),

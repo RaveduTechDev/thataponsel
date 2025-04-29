@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('diskon', 25, 0);
             $table->string('total_bayar');
             $table->date('tanggal_transaksi');
-            $table->enum('status', ['proses', 'selesai', 'batal']);
+            $table->enum('status', ['proses', 'selesai']);
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

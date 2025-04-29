@@ -102,4 +102,23 @@ class User extends Authenticatable
             return $this->attributes['nomor_wa'];
         }
     }
+
+    public function shortName(): string
+    {
+        $parts = preg_split('/\s+/', trim($this->attributes['name']));
+        if (count($parts) <= 2) {
+            $name = $this->attributes['name'];
+        } else {
+            $firstName = array_shift($parts);
+            $lastName = array_pop($parts);
+            $name = $firstName . ' ' . $lastName;
+        }
+
+        return strlen($name) > 17 ? substr($name, 0, 15) . '...' : $name;
+    }
+
+    public function shortUsername(): string
+    {
+        return strlen($this->attributes['username']) > 20 ? substr($this->attributes['username'], 0, 17) . '...' : $this->attributes['username'];
+    }
 }
