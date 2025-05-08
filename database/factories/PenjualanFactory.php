@@ -26,7 +26,7 @@ class PenjualanFactory extends Factory
             'diskon' => $this->faker->numberBetween(0, 100),
             'total_bayar' => $this->faker->randomNumber(),
             'tanggal_transaksi' => $this->faker->date(),
-            'status' => $this->faker->randomElement(['proses', 'selesai', 'batal']),
+            'status' => $this->faker->randomElement(['proses', 'selesai']),
         ];
     }
 }

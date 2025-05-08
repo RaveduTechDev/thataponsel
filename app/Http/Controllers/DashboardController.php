@@ -8,13 +8,26 @@ use App\Models\Stock;
 use App\Models\Penjualan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\NumberCustom;
+use App\Models\JasaImei;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $start = Carbon::now()->subMonths(5)->startOfMonth();
-        $end = Carbon::now()->endOfMonth();
+        $start = null;
+        $end = null;
+
+        if ($request->has('start_date') || $request->has('end_date')) {
+            $start = Carbon::parse($request->input('start_date'));
+            $end = Carbon::parse($request->input('end_date'));
+        } else {
+            $start = Carbon::now()->subMonths(5)->startOfMonth();
+            $end = Carbon::now()->endOfMonth();
+        }
+
+        // $start = Carbon::now()->subMonths(5)->startOfMonth();
+        // $end = Carbon::now()->endOfMonth();
 
         $penjualan = Penjualan::whereBetween('tanggal_transaksi', [$start, $end])
             ->orderBy('tanggal_transaksi')
@@ -36,6 +49,9 @@ class DashboardController extends Controller
         $users = User::select('name', 'jumlah_transaksi')
             ->orderBy('jumlah_transaksi', 'asc')
             ->take(7)
+            ->whereHas('penjualans', function ($query) use ($start, $end) {
+                $query->whereBetween('tanggal_transaksi', [$start, $end]);
+            })
             ->whereHas('roles', function ($query) {
                 $query->where('name', 'agen');
             })->get();
@@ -45,11 +61,12 @@ class DashboardController extends Controller
 
         // top 5 barang paling laku beserta nama barangnya yang diambil dari stock
         $top5 = DB::table('penjualans')
-            ->join('stocks', 'stocks.id', '=', 'penjualans.stock_id') // Corrected table name
+            ->join('stocks', 'stocks.id', '=', 'penjualans.stock_id')
             ->join('barangs', 'barangs.id', '=', 'stocks.barang_id')
+            ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
             ->select(
                 'barangs.nama_barang',
-                DB::raw('COUNT(*) as total_terjual')   // hitung baris
+                DB::raw('COUNT(*) as total_terjual')
             )
             ->groupBy('stocks.id', 'barangs.nama_barang')
             ->limit(5)
@@ -64,6 +81,73 @@ class DashboardController extends Controller
             ];
         });
 
+        // cashflow penjualan modal dari tabel stock, harga jual dari tabel penjualan yang akan digunakan ke pie chart
+        $totalHargaModal = DB::table('penjualans')
+            ->join('stocks', 'penjualans.stock_id', '=', 'stocks.id')
+            ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
+            ->sum('stocks.modal');
+        $totalHargaPenjualan = DB::table('penjualans')
+            ->whereBetween('tanggal_transaksi', [$start, $end])
+            ->sum(DB::raw('CAST(total_bayar AS NUMERIC)'));
+
+        // unit masuk dari stock => jumlah_stok dan unit keluar => jumlah terjual dari stock_id dengan status selesai
+        $totalUnitMasuk = Stock::whereHas('penjualan', function ($query) use ($start, $end) {
+            $query->whereBetween('tanggal_transaksi', [$start, $end]);
+        })->sum('jumlah_stok');
+        $totalUnitKeluar = Penjualan::where('status', 'selesai')
+            ->whereBetween('tanggal_transaksi', [$start, $end])
+            ->count('penjualans.status');
+
+        // total yang selesai dari imeis
+        $totalLayananImei = JasaImei::where('status', 'selesai')
+            ->count('jasa_imeis.status');
+
+        // unit terjual dari penjualan
+        $totalUnitTerjual = Penjualan::where('status', 'selesai')
+            ->whereBetween('tanggal_transaksi', [$start, $end])
+            ->count('penjualans.status');
+
+        // total harga keseluruhan penjualan dan imei 
+        $totalHargaPenjualan = DB::table('penjualans')
+            ->where('status', 'selesai')
+            ->whereBetween('tanggal_transaksi', [$start, $end])
+            ->sum(DB::raw('CAST(total_bayar AS NUMERIC)'));
+
+        $totalBiayaImei = DB::table('jasa_imeis')
+            ->where('status', 'selesai')
+            ->whereBetween('created_at', [$start, $end])
+            ->sum(DB::raw('CAST(biaya AS NUMERIC)'));
+
+        $totalPenjualanDanImei = $totalHargaPenjualan + $totalBiayaImei;
+        $formatHumanNumber = 'Rp.' . NumberCustom::formatNumber($totalPenjualanDanImei);
+
+        // keuntungan penjualan dan imei
+        $totalKeuntunganPenjualan = $totalHargaPenjualan - $totalHargaModal;
+
+        $modalImei = DB::table('jasa_imeis')
+            ->where('status', 'selesai')
+            ->whereBetween('created_at', [$start, $end])
+            ->sum(DB::raw('CAST(modal AS NUMERIC)'));
+        $totalKeuntunganImei = $totalBiayaImei - $modalImei;
+
+        $totalKeuntungan = $totalKeuntunganPenjualan + $totalKeuntunganImei;
+        $formatKeuntungan = NumberCustom::formatNumber($totalKeuntungan);
+
+        // penjualan imei untuk per 6 bulan
+        $penjualanImeiPerBulan = JasaImei::where('status', 'selesai')
+            ->whereBetween('created_at', [$start, $end])
+            ->get()
+            ->groupBy(fn($item) => Carbon::parse($item->created_at)->isoFormat('MMMM Y'));
+
+        $imeiMonths = collect();
+        $imeiData = collect();
+        $currentImei = $start->copy();
+        while ($currentImei <= $end) {
+            $label = $currentImei->isoFormat('MMMM Y');
+            $imeiMonths->push($label);
+            $imeiData->push($penjualanImeiPerBulan->has($label) ? $penjualanImeiPerBulan->get($label)->count() : 0);
+            $currentImei->addMonth();
+        }
 
         return view('welcome', [
             'months' => $months,
@@ -72,6 +156,18 @@ class DashboardController extends Controller
             'totalPenjualan' => $totalPenjualan,
             'barangLabel' => $barangLabel,
             'jumlahBarang' => $jumlahBarang,
+            'totalHargaModal' => $totalHargaModal,
+            'totalHargaPenjualan' => $totalHargaPenjualan,
+            'totalUnitMasuk' => $totalUnitMasuk,
+            'totalUnitKeluar' => $totalUnitKeluar,
+            'totalUnitTerjual' => $totalUnitTerjual,
+            'totalLayananImei' => $totalLayananImei,
+            'totalBiayaImei' => $totalBiayaImei,
+            'formatHumanNumber' => $formatHumanNumber,
+            'formatKeuntungan' => $formatKeuntungan,
+            'modalImei' => $modalImei,
+            'imeiMonths' => $imeiMonths,
+            'imeiData' => $imeiData,
         ]);
     }
 }
