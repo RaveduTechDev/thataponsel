@@ -36,10 +36,11 @@
                                         <span class="d-block">Batal</span>
                                     </button>
                                     <form action="{{ route('jasa-imei.destroy', $jasa_imei->id) }}" method="POST"
-                                        id="formSubmit">
+                                        id="formSubmitPopUp">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex" id="submitBtn">
+                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex"
+                                            id="submitBtnPopUp">
                                             <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
                                             <span class="d-none d-sm-block">Hapus</span>
                                         </button>
