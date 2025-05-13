@@ -15,6 +15,13 @@ class PenjualanRequest extends FormRequest
             return true;
         }
         if (($this->isMethod('put') || $this->isMethod('patch')) && $this->user()->hasRole(['super_admin', 'admin'])) {
+            $penjualan = $this->route('penjualan');
+            if (is_string($penjualan)) {
+                $penjualan = \App\Models\Penjualan::find($penjualan);
+            }
+            if ($penjualan && $penjualan->status === 'selesai') {
+                return false;
+            }
             return true;
         }
         return false;
@@ -35,6 +42,7 @@ class PenjualanRequest extends FormRequest
             'subtotal' => 'required|numeric|digits_between:1,25',
             'diskon' => 'numeric',
             'total_bayar' => 'required|numeric|digits_between:1,25',
+            'metode_pembayaran' => 'required|in:tunai,transfer,qris,e-wallet',
             'status' => 'sometimes|in:proses,selesai',
         ];
 

@@ -7,17 +7,17 @@
             <div class="gap-2 d-flex justify-content-between justify-content-sm-end">
                 @if (!Auth::user()->hasRole('agen'))
                     <button type="button" class="btn btn-danger btn-sm d-inline-flex justify-content-center w-100"
-                        data-bs-toggle="modal" data-bs-target="#modalBarang">
+                        data-bs-toggle="modal" data-bs-target="#modalPenjualanDelete">
                         <i class="bi bi-trash" style="margin: -2px 2px 0 0; font-size: 15px;"></i>
                         <span>Hapus</span>
                     </button>
-                    <div class="modal fade text-left modal-borderless" id="modalBarang" tabindex="-1"
-                        aria-labelledby="modalBarangLabel" style="display: none;" aria-hidden="true">
+                    <div class="modal fade text-left modal-borderless" id="modalPenjualanDelete" tabindex="-1"
+                        aria-labelledby="modalPenjualanLabel" style="display: none;" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document"
                             style="z-index: 30;">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title text-danger" id="modalBarangLabel">
+                                    <h5 class="modal-title text-danger" id="modalPenjualanLabel">
                                         <i class="bi bi-exclamation-triangle-fill fs-5" style="margin-top:-8px;"></i>
                                         <span>Peringatan</span>
                                     </h5>
@@ -36,10 +36,11 @@
                                         <span class="d-block">Batal</span>
                                     </button>
                                     <form action="{{ route('penjualan.destroy', $penjualan->id) }}" method="POST"
-                                        id="formSubmit">
+                                        id="formSubmitPopUp">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex" id="submitBtn">
+                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex"
+                                            id="submitBtnPopUp">
                                             <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
                                             <span class="d-none d-sm-block">Hapus</span>
                                         </button>
@@ -271,13 +272,46 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-primary me-3 mb-1"
-                                                        id="submitBtn">
-                                                        Edit
-                                                    </button>
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group madatory">
+                                                        <label for="metode-pembayaran" class="form-label">
+                                                            Metode Pembayaran
+                                                        </label>
+                                                        <select name="metode_pembayaran" id="metode-pembayaran"
+                                                            style="cursor:pointer"
+                                                            class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
+                                                            <option>-- Pilih Metode Pembayaran--</option>
+                                                            <option value="tunai"
+                                                                {{ $penjualan->metode_pembayaran == 'tunai' ? 'selected' : '' }}>
+                                                                Tunai
+                                                            </option>
+                                                            <option value="transfer"
+                                                                {{ $penjualan->metode_pembayaran == 'transfer' ? 'selected' : '' }}>
+                                                                Transfer
+                                                            </option>
+                                                            <option value="qris"
+                                                                {{ $penjualan->metode_pembayaran == 'qris' ? 'selected' : '' }}>
+                                                                QRIS
+                                                            </option>
+                                                            <option value="e-wallet"
+                                                                {{ $penjualan->metode_pembayaran == 'e-wallet' ? 'selected' : '' }}>
+                                                                E-Wallet
+                                                            </option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            @if ($penjualan->status !== 'selesai')
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-end">
+                                                        <button type="submit" class="btn btn-primary me-3 mb-1"
+                                                            id="submitBtn">
+                                                            Edit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -289,6 +323,10 @@
         </section>
     </section>
 
-    @vite(['resources/js/choices.js', 'resources/js/choices-multi.js', 'resources/js/calculate.js'])
-    @include('components.ui.loading.button')
+
 @endsection
+
+@push('scripts')
+    @vite(['resources/js/choices.js', 'resources/js/calculate.js'])
+    @include('components.ui.loading.button')
+@endpush

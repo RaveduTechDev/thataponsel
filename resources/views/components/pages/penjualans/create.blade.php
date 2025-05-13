@@ -176,7 +176,7 @@
                                                         </label>
                                                         <input type="text" id="sub-total" min="0" readonly
                                                             class="form-control {{ $errors->has('subtotal') ? 'is-invalid' : '' }}"
-                                                            placeholder="No. Invoice" name="subtotal" value="0"
+                                                            placeholder="No. Invoice" name="subtotal"
                                                             value="{{ @old('subtotal') }}" required>
                                                         @error('subtotal')
                                                             <small class="text-danger">{{ $message }}</small>
@@ -215,6 +215,37 @@
                                             </div>
 
                                             <div class="row">
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group madatory">
+                                                        <label for="metode-pembayaran" class="form-label">
+                                                            Metode Pembayaran
+                                                        </label>
+                                                        <select name="metode_pembayaran" id="metode-pembayaran"
+                                                            style="cursor:pointer"
+                                                            class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
+                                                            <option>-- Pilih Metode Pembayaran--</option>
+                                                            <option value="tunai"
+                                                                {{ old('metode_pembayaran') == 'tunai' ? 'selected' : '' }}>
+                                                                Tunai
+                                                            </option>
+                                                            <option value="transfer"
+                                                                {{ old('metode_pembayaran') == 'transfer' ? 'selected' : '' }}>
+                                                                Transfer
+                                                            </option>
+                                                            <option value="qris"
+                                                                {{ old('metode_pembayaran') == 'qris' ? 'selected' : '' }}>
+                                                                QRIS
+                                                            </option>
+                                                            <option value="e-wallet"
+                                                                {{ old('metode_pembayaran') == 'e-wallet' ? 'selected' : '' }}>
+                                                                E-Wallet
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
                                                 <div class="col-12 d-flex justify-content-end">
                                                     <button type="submit" class="btn btn-success me-3 mb-1"
                                                         id="submitBtn">
@@ -236,6 +267,11 @@
         </section>
     </section>
 
-    @vite(['resources/js/choices.js', 'resources/js/choices-multi.js', 'resources/js/calculate.js'])
-    @include('components.ui.loading.button')
+
 @endsection
+
+
+@push('scripts')
+    @vite(['resources/js/choices.js', 'resources/js/calculate.js'])
+    @include('components.ui.loading.button')
+@endpush

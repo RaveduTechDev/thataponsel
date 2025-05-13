@@ -20,6 +20,7 @@ class Penjualan extends Model
         'subtotal',
         'diskon',
         'total_bayar',
+        'metode_pembayaran',
         'tanggal_transaksi',
         'status',
     ];

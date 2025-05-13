@@ -1,12 +1,12 @@
-$("#formSubmit").on("submit", function (e) {
-    var subTotalFormatted = $("#sub-total").val();
-    var totalBayarFormatted = $("#total-bayar").val();
-
-    var subTotalNumber =
-        parseInt(subTotalFormatted.replace(/[^0-9]/g, "")) || 0;
-    var totalBayarNumber =
-        parseInt(totalBayarFormatted.replace(/[^0-9]/g, "")) || 0;
-
-    $("#sub-total").val(subTotalNumber);
-    $("#total-bayar").val(totalBayarNumber);
-});
+if ($("#formSubmit").length) {
+    $("#formSubmit").on("submit", function () {
+        ["#sub-total", "#total-bayar"].forEach((selector) => {
+            if ($(selector).length) {
+                let formattedValue = $(selector).val();
+                let numberValue =
+                    parseInt(formattedValue.replace(/[^0-9]/g, "")) || 0;
+                $(selector).val(numberValue);
+            }
+        });
+    });
+}

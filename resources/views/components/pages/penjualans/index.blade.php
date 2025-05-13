@@ -94,6 +94,7 @@
                                 <th class="text-nowrap">Sub Total</th>
                                 <th class="text-nowrap">Diskon(%)</th>
                                 <th class="text-nowrap">Total Bayar</th>
+                                <th class="text-nowrap">Metode Pembayaran</th>
                                 <th class="text-nowrap">Status</th>
                                 @if (!Auth::user()->hasRole(['agen', 'owner']))
                                     <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
@@ -117,19 +118,22 @@
                                     <td class="text-nowrap ">
                                         Rp. {{ number_format($penjualan->total_bayar, 0, ',', '.') }}
                                     </td>
+                                    <td class="text-nowrap">
+                                        {{ ucwords($penjualan->metode_pembayaran) }}
+                                    </td>
                                     <td class="text-nowrap ">
 
                                         @if ($penjualan->status == 'selesai')
                                             <span class="badge text-bg-success rounded-pill">
-                                                {{ $penjualan->status }}
+                                                {{ ucwords($penjualan->status) }}
                                             </span>
                                         @elseif ($penjualan->status == 'proses')
                                             <span class="badge text-bg-warning rounded-pill">
-                                                {{ $penjualan->status }}
+                                                {{ ucwords($penjualan->status) }}
                                             </span>
                                         @else
                                             <span class="badge text-bg-danger rounded-pill">
-                                                {{ $penjualan->status }}
+                                                {{ ucwords($penjualan->status) }}
                                             </span>
                                         @endif
                                     </td>
@@ -188,10 +192,10 @@
                                                 </button>
 
                                                 <form action={{ route('penjualan.destroy', $penjualan->id) }}
-                                                    method="POST" id="formSubmit">
+                                                    method="POST" class="formSubmit">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
+                                                    <button type="submit" class="btn btn-danger me-3 submitBtn">
                                                         <span class="d-none d-sm-block">Hapus</span>
                                                     </button>
                                                 </form>

@@ -11,7 +11,6 @@ export default defineConfig({
                 "resources/js/filepond.js",
                 "resources/js/telInput.js",
                 "resources/js/choices.js",
-                "resources/js/choices-multi.js",
                 "resources/js/calculate.js",
                 "resources/js/calculate2.js",
                 "resources/js/chart.js",
@@ -19,4 +18,9 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        watch: {
+            usePolling: true,
+        },
+    },
 });
