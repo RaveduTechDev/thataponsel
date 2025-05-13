@@ -119,8 +119,6 @@ class PenjualanController extends Controller
     public function edit(string $id)
     {
         $penjualan = Penjualan::findOrFail($id);
-        $this->authorize('update', $penjualan);
-
         $stocks = Stock::latest()->get();
         $pelanggans = Pelanggan::latest()->get();
         $toko_cabangs = TokoCabang::latest()->get();
@@ -141,7 +139,6 @@ class PenjualanController extends Controller
     public function update(PenjualanRequest $request, string $id)
     {
         $data = $request->validated();
-        $this->authorize('update', Penjualan::findOrFail($id));
 
         try {
             $penjualan = Penjualan::findOrFail($id);

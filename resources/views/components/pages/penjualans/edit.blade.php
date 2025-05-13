@@ -100,17 +100,23 @@
                                                         <label for="select-agent" class="form-label">
                                                             Sales/Agent
                                                         </label>
-                                                        <select id="select-agent" class="select-data form-select choice"
-                                                            style="cursor:pointer;" name="user_id"
-                                                            data-placeholder="-- Pilih Sales/Agent --"
-                                                            data-check-selected="true" required>
-                                                            @foreach ($users as $user)
-                                                                <option value="{{ $user->id }}"
-                                                                    {{ $penjualan->user_id === $user->id ? 'selected' : '' }}>
-                                                                    {{ $user->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <select id="select-agent" class="select-data form-select choice"
+                                                                style="cursor:pointer;" name="user_id"
+                                                                data-placeholder="-- Pilih Sales/Agent --"
+                                                                data-check-selected="true" required>
+                                                                @foreach ($users as $user)
+                                                                    <option value="{{ $user->id }}"
+                                                                        {{ $penjualan->user_id === $user->id ? 'selected' : '' }}>
+                                                                        {{ $user->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        @else
+                                                            <input type="text" value="{{ $penjualan->user->name }}"
+                                                                class="form-control" id="user_name" readonly>
+                                                        @endif
                                                     </div>
                                                     @error('user_id')
                                                         <small class="text-danger">{{ $message }}</small>
@@ -124,18 +130,25 @@
                                                         <label for="select-toko_cabangs" class="form-label">
                                                             Toko Cabang
                                                         </label>
-                                                        <select id="select-toko_cabangs"
-                                                            class="select-data form-select choice" style="cursor:pointer;"
-                                                            name="toko_cabang_id"
-                                                            data-placeholder="-- Pilih Toko Cabang --"
-                                                            data-check-selected="true" required>
-                                                            @foreach ($toko_cabangs as $toko_cabang)
-                                                                <option value="{{ $toko_cabang->id }}"
-                                                                    {{ $penjualan->toko_cabang_id === $toko_cabang->id ? 'selected' : '' }}>
-                                                                    {{ $toko_cabang->nama_toko_cabang }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <select id="select-toko_cabangs"
+                                                                class="select-data form-select choice"
+                                                                style="cursor:pointer;" name="toko_cabang_id"
+                                                                data-placeholder="-- Pilih Toko Cabang --"
+                                                                data-check-selected="true" required>
+                                                                @foreach ($toko_cabangs as $toko_cabang)
+                                                                    <option value="{{ $toko_cabang->id }}"
+                                                                        {{ $penjualan->toko_cabang_id === $toko_cabang->id ? 'selected' : '' }}>
+                                                                        {{ $toko_cabang->nama_toko_cabang }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        @else
+                                                            <input type="text"
+                                                                value="{{ $penjualan->tokoCabang->nama_toko_cabang }}"
+                                                                class="form-control" id="toko_cabang_name" readonly>
+                                                        @endif
                                                     </div>
 
                                                     @error('toko_cabang_id')
@@ -149,19 +162,26 @@
                                                             Barang
                                                         </label>
 
-                                                        <select id="select-barang" class="select-data form-select choice"
-                                                            style="cursor:pointer;" name="stock_id"
-                                                            data-placeholder="-- Pilih Toko Cabang --"
-                                                            data-check-selected="true" data-calc="true" required>
-                                                            @foreach ($stocks as $stock)
-                                                                <option value="{{ $stock->id }}"
-                                                                    data-price="{{ $stock->harga_jual }}"
-                                                                    {{ $penjualan->stock_id === $stock->id ? 'selected' : '' }}>
-                                                                    {{ $stock->barang->merk }} -
-                                                                    {{ $stock->barang->nama_barang }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <select id="select-barang"
+                                                                class="select-data form-select choice"
+                                                                style="cursor:pointer;" name="stock_id"
+                                                                data-placeholder="-- Pilih Toko Cabang --"
+                                                                data-check-selected="true" data-calc="true" required>
+                                                                @foreach ($stocks as $stock)
+                                                                    <option value="{{ $stock->id }}"
+                                                                        data-price="{{ $stock->harga_jual }}"
+                                                                        {{ $penjualan->stock_id === $stock->id ? 'selected' : '' }}>
+                                                                        {{ $stock->barang->merk }} -
+                                                                        {{ $stock->barang->nama_barang }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        @else
+                                                            <input type="text"
+                                                                value="{{ $penjualan->stock->barang->merk }} - {{ $penjualan->stock->barang->nama_barang }}"
+                                                                class="form-control" id="barang_name" readonly>
+                                                        @endif
                                                     </div>
                                                     @error('stock_id"')
                                                         <small class="text-danger">{{ $message }}</small>
@@ -175,17 +195,24 @@
                                                         <label for="select-pelanggans" class="form-label">
                                                             Pelanggan
                                                         </label>
-                                                        <select id="select-pelanggans"
-                                                            class="select-data form-select choice" style="cursor:pointer;"
-                                                            name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
-                                                            data-check-selected="true" required>
-                                                            @foreach ($pelanggans as $pelanggan)
-                                                                <option value="{{ $pelanggan->id }}"
-                                                                    {{ $penjualan->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
-                                                                    {{ $pelanggan->nama_pelanggan }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <select id="select-pelanggans"
+                                                                class="select-data form-select choice"
+                                                                style="cursor:pointer;" name="pelanggan_id"
+                                                                data-placeholder="-- Pilih Pelanggan --"
+                                                                data-check-selected="true" required>
+                                                                @foreach ($pelanggans as $pelanggan)
+                                                                    <option value="{{ $pelanggan->id }}"
+                                                                        {{ $penjualan->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
+                                                                        {{ $pelanggan->nama_pelanggan }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        @else
+                                                            <input type="text"
+                                                                value="{{ $penjualan->pelanggan->nama_pelanggan }}"
+                                                                class="form-control" id="pelanggan_name" readonly>
+                                                        @endif
                                                     </div>
                                                     @error('pelanggan_id')
                                                         <small class="text-danger">{{ $message }}</small>
@@ -244,11 +271,16 @@
                                                         <label for="diskon" class="form-label">
                                                             Diskon (%)
                                                         </label>
-                                                        <input
-                                                            class="form-control {{ $errors->has('diskon') ? 'is-invalid' : '' }}"
-                                                            type="number" id="diskon"
-                                                            value="{{ $penjualan->diskon }}" min="0"
-                                                            max="100" placeholder="No. Invoice" name="diskon">
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <input
+                                                                class="form-control {{ $errors->has('diskon') ? 'is-invalid' : '' }}"
+                                                                type="number" id="diskon"
+                                                                value="{{ $penjualan->diskon }}" min="0"
+                                                                max="100" placeholder="Diskon" name="diskon">
+                                                        @else
+                                                            <input type="text" value="{{ $penjualan->diskon }}%"
+                                                                class="form-control" id="diskon" readonly>
+                                                        @endif
                                                         @error('diskon')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -277,27 +309,33 @@
                                                         <label for="metode-pembayaran" class="form-label">
                                                             Metode Pembayaran
                                                         </label>
-                                                        <select name="metode_pembayaran" id="metode-pembayaran"
-                                                            style="cursor:pointer"
-                                                            class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
-                                                            <option>-- Pilih Metode Pembayaran--</option>
-                                                            <option value="tunai"
-                                                                {{ $penjualan->metode_pembayaran == 'tunai' ? 'selected' : '' }}>
-                                                                Tunai
-                                                            </option>
-                                                            <option value="transfer"
-                                                                {{ $penjualan->metode_pembayaran == 'transfer' ? 'selected' : '' }}>
-                                                                Transfer
-                                                            </option>
-                                                            <option value="qris"
-                                                                {{ $penjualan->metode_pembayaran == 'qris' ? 'selected' : '' }}>
-                                                                QRIS
-                                                            </option>
-                                                            <option value="e-wallet"
-                                                                {{ $penjualan->metode_pembayaran == 'e-wallet' ? 'selected' : '' }}>
-                                                                E-Wallet
-                                                            </option>
-                                                        </select>
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <select name="metode_pembayaran" id="metode-pembayaran"
+                                                                style="cursor:pointer"
+                                                                class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
+                                                                <option>-- Pilih Metode Pembayaran--</option>
+                                                                <option value="tunai"
+                                                                    {{ $penjualan->metode_pembayaran == 'tunai' ? 'selected' : '' }}>
+                                                                    Tunai
+                                                                </option>
+                                                                <option value="transfer"
+                                                                    {{ $penjualan->metode_pembayaran == 'transfer' ? 'selected' : '' }}>
+                                                                    Transfer
+                                                                </option>
+                                                                <option value="qris"
+                                                                    {{ $penjualan->metode_pembayaran == 'qris' ? 'selected' : '' }}>
+                                                                    QRIS
+                                                                </option>
+                                                                <option value="e-wallet"
+                                                                    {{ $penjualan->metode_pembayaran == 'e-wallet' ? 'selected' : '' }}>
+                                                                    E-Wallet
+                                                                </option>
+                                                            </select>
+                                                        @else
+                                                            <input type="text"
+                                                                value="{{ $penjualan->metode_pembayaran }}"
+                                                                class="form-control" id="metode_pembayaran" readonly>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

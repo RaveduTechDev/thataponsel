@@ -122,7 +122,6 @@
                                         {{ ucwords($penjualan->metode_pembayaran) }}
                                     </td>
                                     <td class="text-nowrap ">
-
                                         @if ($penjualan->status == 'selesai')
                                             <span class="badge text-bg-success rounded-pill">
                                                 {{ ucwords($penjualan->status) }}
@@ -139,19 +138,20 @@
                                     </td>
                                     @if (Auth::user()->hasRole(['super_admin', 'admin']))
                                         <td class="text-nowrap text-center">
-                                            <div class="d-flex gap-1 justify-content-center">
-
+                                            <div class="d-flex gap-1 justify-content-end">
                                                 <a href={{ route('penjualan.show', $penjualan->id) }}
                                                     class="btn btn-secondary btn-sm" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Detail">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
 
-                                                <a href="{{ route('penjualan.edit', $penjualan->id) }}"
-                                                    class="btn btn-primary btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Edit">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
+                                                @if ($penjualan->status !== 'selesai')
+                                                    <a href={{ route('penjualan.edit', $penjualan->id) }}
+                                                        class="btn btn-primary btn-sm" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Edit">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+                                                @endif
 
                                                 <button type="button" class="btn btn-danger btn-sm btn-delete-modal"
                                                     data-bs-toggle="modal"
