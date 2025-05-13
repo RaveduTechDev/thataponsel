@@ -48,29 +48,35 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="3" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Toko Cabang</label>
+                                    <label class="form-check-label">Pelanggan</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="4" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Agent</label>
+                                    <label class="form-check-label">Toko Cabang</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="5" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Sub Total</label>
+                                    <label class="form-check-label">Agent</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="6" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Total Bayar</label>
+                                    <label class="form-check-label">Sub Total</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="7" data-name="penjualan"
+                                        checked>
+                                    <label class="form-check-label">Total Bayar</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="8" data-name="penjualan"
                                         checked>
                                     <label class="form-check-label">Status</label>
                                 </div>
@@ -89,6 +95,7 @@
                                 <th class="text-nowrap w-xl-50">Invoice</th>
                                 <th class="text-nowrap">Tanggal Transaksi</th>
                                 <th class="text-nowrap">Pelanggan</th>
+                                <th class="text-nowrap">Nama Barang</th>
                                 <th class="text-nowrap">Toko Cabang</th>
                                 <th class="text-nowrap">Agent</th>
                                 <th class="text-nowrap">Sub Total</th>
@@ -109,6 +116,9 @@
                                         {{ \Carbon\Carbon::parse($penjualan->tanggal_transaksi)->isoFormat('D MMMM Y') }}
                                     </td>
                                     <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
+                                    <td class="text-nowrap ">
+                                        {{ $penjualan->stock->barang->nama_barang }}
+                                    </td>
                                     <td class="text-nowrap ">{{ $penjualan->tokoCabang->nama_toko_cabang }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->user->name }}</td>
                                     <td class="text-nowrap ">
