@@ -8,6 +8,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\JasaIMEIController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\MasterDataController;
@@ -27,5 +28,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rekap', [RekapController::class, 'rekapPenjualan'])->name('rekap');
     Route::get('/rekap/agen', [RekapController::class, 'rekapPenjualanAgen'])->name('rekap.agen');
     Route::resource('penjualan', PenjualanController::class);
+    Route::post('/penjualan/export', [ExportController::class, 'export'])->name('penjualan.export');
     Route::resource('jasa-imei', JasaIMEIController::class);
 });

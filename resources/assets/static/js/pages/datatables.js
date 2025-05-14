@@ -140,3 +140,37 @@ let customized_datatable = $("#table2").DataTable({
         searchPlaceholder: "Search..",
     },
 });
+
+function updateSelectAllCheckbox() {
+    const $visible = $(".row-checkbox:visible");
+    const total = $visible.length;
+    const checked = $visible.filter(":checked").length;
+    $("#select-all").prop("checked", total > 0 && checked === total);
+}
+
+// Select-all
+$("#select-all").on("click", function () {
+    const cek = $(this).prop("checked");
+    $(".row-checkbox:visible").prop("checked", cek).trigger("change");
+});
+
+// Enable/disable tombol Cetak
+$(".row-checkbox").on("change", function () {
+    const selectedCount = $(".row-checkbox:checked").length;
+    $("#btn-print").prop("disabled", selectedCount === 0);
+    updateSelectAllCheckbox();
+});
+
+// Cegah submit jika tidak ada yang dipilih
+$("#form-print").on("submit", function (e) {
+    if ($(".row-checkbox:checked").length === 0) {
+        e.preventDefault();
+        alert("Silakan pilih data yang akan dicetak.");
+    }
+});
+
+// Saat DataTable redraw (jika pakai DataTables)
+$("#table1").on("draw.dt", updateSelectAllCheckbox);
+
+// Inisialisasi
+updateSelectAllCheckbox();
