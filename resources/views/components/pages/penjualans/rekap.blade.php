@@ -7,26 +7,26 @@
             <div class="card-header mb-3">
                 @if (request()->is('rekap'))
                     <h4 class="text-danger">Cari Berdasarkan Tanggal</h4>
-                @elseif (request()->is('rekap/agen'))
+                @elseif (request()->is('rekap/agen*'))
                     <h4 class="text-danger">Cari Berdasarkan Agen/Sales</h4>
                 @endif
             </div>
 
             <div class="card-body">
                 <form
-                    action="@if (request()->is('rekap')) {{ route('rekap') }} @elseif('rekap/agen') {{ route('rekap.agen') }} @endif"
+                    action="@if (request()->is('rekap')) {{ route('rekap') }} @elseif(request()->is('rekap/agen*')) {{ route('rekap.agen') }} @endif"
                     method="GET" id="formSubmit" class="row g-3">
-                    <div class="col-12 col-md-6 {{ request()->is('rekap/agen') ? 'col-lg-3' : 'col-lg-5' }}">
+                    <div class="col-12 col-md-6 {{ request()->is('rekap/agen*') ? 'col-lg-3' : 'col-lg-5' }}">
                         <label for="start_date" class="form-label">Mulai Tanggal</label>
                         <input type="date" class="form-control" id="start_date" name="start_date"
                             value="{{ request('start_date') }}">
                     </div>
-                    <div class="col-12 col-md-6 {{ request()->is('rekap/agen') ? 'col-lg-3' : 'col-lg-5' }}">
+                    <div class="col-12 col-md-6 {{ request()->is('rekap/agen*') ? 'col-lg-3' : 'col-lg-5' }}">
                         <label for="end_date" class="form-label">Sampai Tanggal</label>
                         <input type="date" class="form-control" id="end_date" name="end_date"
                             value="{{ request('end_date') }}">
                     </div>
-                    @if (request()->is('rekap/agen'))
+                    @if (request()->is('rekap/agen*'))
                         <div class="col-12 col-md-8 col-lg-4">
                             <label for="agent_name" class="form-label">Nama Agen/Sales</label>
                             <select id="select-agent"
@@ -44,7 +44,7 @@
                         </div>
                     @endif
                     <div
-                        class="col-12 {{ request()->is('rekap/agen') ? 'col-md-4' : 'col-md-12' }} col-lg-2 d-flex align-items-end">
+                        class="col-12 {{ request()->is('rekap/agen*') ? 'col-md-4' : 'col-md-12' }} col-lg-2 d-flex align-items-end">
                         <button type="submit" id="submitBtn"
                             class="btn btn-danger w-100 d-flex align-items-center justify-content-center">
                             <i class="bi bi-search me-1" style="margin-top: -12px"></i>
@@ -78,7 +78,7 @@
                                 {{ request('end_date') ? \Carbon\Carbon::parse(request('end_date'))->isoFormat('D MMMM Y') : '-' }}
                             </td>
                         </tr>
-                        @if (request()->is('rekap/agen') || request('search') || request('username'))
+                        @if (request()->is('rekap/agen*') || request('search') || request('username'))
                             <tr>
                                 <th class="text-nowrap me-lg-2">Nama Agen/Sales</th>
                                 <td class="text-nowrap">:</td>
@@ -141,12 +141,6 @@
                                         data-name="penjualan" checked>
                                     <label class="form-check-label">Total Bayar</label>
                                 </div>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="7"
-                                        data-name="penjualan" checked>
-                                    <label class="form-check-label">Status</label>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,10 +159,7 @@
                                 <th class="text-nowrap">Toko Cabang</th>
                                 <th class="text-nowrap">Agent</th>
                                 <th class="text-nowrap">Sub Total</th>
-                                <th class="text-nowrap">Diskon(%)</th>
                                 <th class="text-nowrap">Total Bayar</th>
-                                <th class="text-nowrap">Status</th>
-                                <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -181,66 +172,23 @@
                                     <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->tokoCabang->nama_toko_cabang }}</td>
                                     <td class="text-nowrap ">
-                                        <a href="{{ route('rekap.agen', ['username' => $penjualan->user->username]) }}"
-                                            style="text-decoration: underline;">
+                                        @if (request()->is('rekap/agen*'))
+                                            <a href="{{ route('rekap.agen', ['username' => $penjualan->user->username]) }}"
+                                                style="text-decoration: underline;">
+                                                {{ $penjualan->user->name }}
+                                            </a>
+                                        @else
                                             {{ $penjualan->user->name }}
-                                        </a>
+                                        @endif
                                     </td>
                                     <td class="text-nowrap ">
                                         Rp. {{ number_format($penjualan->subtotal, 0, ',', '.') }}
                                     </td>
-                                    <td class="text-nowrap ">{{ $penjualan->diskon }}%</td>
+
                                     <td class="text-nowrap ">
                                         Rp. {{ number_format($penjualan->total_bayar, 0, ',', '.') }}
                                     </td>
-                                    <td class="text-nowrap ">
 
-                                        @if ($penjualan->status == 'selesai')
-                                            <span class="badge text-bg-success rounded-pill">
-                                                {{ $penjualan->status }}
-                                            </span>
-                                        @elseif ($penjualan->status == 'proses')
-                                            <span class="badge text-bg-warning rounded-pill">
-                                                {{ $penjualan->status }}
-                                            </span>
-                                        @else
-                                            <span class="badge text-bg-danger rounded-pill">
-                                                {{ $penjualan->status }}
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="text-nowrap text-center">
-                                        <div class="dropdown">
-                                            <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots text-secondary details-button"
-                                                    style="font-size: 18px;"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                <li class="border-bottom">
-                                                    <a href={{ route('penjualan.show', $penjualan->id) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Detail</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href={{ route('penjualan.edit', $penjualan->id) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item btn-delete-modal"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modalStock{{ $penjualan->id }}">
-                                                        <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Hapus</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
                                 </tr>
                                 <div class="modal fade text-left modal-borderless" id="modalStock{{ $penjualan->id }}"
                                     tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
@@ -284,6 +232,19 @@
                                 </div>
                             @endforeach
                         </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <th colspan="4"></th>
+                                <th class="text-nowrap">Total :</th>
+                                <th class="text-nowrap">
+                                    Rp. {{ number_format($penjualans->sum('subtotal'), 0, ',', '.') }}
+                                </th>
+                                <th class="text-nowrap">
+                                    Rp. {{ number_format($penjualans->sum('total_bayar'), 0, ',', '.') }}
+                                </th>
+                            </tr>
+
+                        </tfoot>
                     </table>
                 </div>
             </div>

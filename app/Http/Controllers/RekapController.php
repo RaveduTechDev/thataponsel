@@ -21,8 +21,9 @@ class RekapController extends Controller
     public function rekapPenjualanAgen(Request $request)
     {
         $filters = $request->only(['search', 'start_date', 'end_date', 'username']);
-        $users = User::latest()->get();
-        $displayPerUser = '-';
+        $users = User::isAgent()->latest()->get();
+        $displayPerUser = null;
+
         if ($request->filled('username')) {
             $user = $users->firstWhere('username', $request->username);
             $displayPerUser = optional($user)->name;

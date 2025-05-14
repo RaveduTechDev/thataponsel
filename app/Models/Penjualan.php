@@ -72,23 +72,28 @@ class Penjualan extends Model
 
     public function scopeFilter(Builder $query, array $filters)
     {
+
+        $startDate = $filters['start_date'] ?? null;
+        $endDate = $filters['end_date'] ?? null;
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('tanggal_transaksi', [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $query->whereDate('tanggal_transaksi', '>=', $startDate);
+        } elseif ($endDate) {
+            $query->whereDate('tanggal_transaksi', '<=', $endDate);
+        }
+
+
         $query->when($filters['search'] ?? false, function (Builder $query, string $search) {
             return $query->whereHas('user', function (Builder $query) use ($search) {
                 $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%']);
             });
         });
 
-        $query->when($filters['start_date'] ?? false, function (Builder $query, string $start_date) {
-            return $query->whereDate('tanggal_transaksi', '>=', $start_date);
-        });
-
-        $query->when($filters['end_date'] ?? false, function (Builder $query, string $end_date) {
-            return $query->whereDate('tanggal_transaksi', '<=', $end_date);
-        });
-
-        $query->when($filters['agent'] ?? false, function (Builder $query, string $username) {
-            return $query->whereHas('user', function (Builder $query) use ($username) {
-                $query->where('username', $username);
+        $query->when(isset($filters['username']), function (Builder $query) use ($filters) {
+            $query->whereHas('user', function (Builder $query) use ($filters) {
+                $query->where('username', 'like', '%' . $filters['username'] . '%');
             });
         });
     }

@@ -70,6 +70,13 @@ class User extends Authenticatable
         return $this->hasMany(JasaImei::class);
     }
 
+    public function scopeIsAgent()
+    {
+        return $this->whereHas('roles', function ($query) {
+            $query->where('name', 'agen');
+        });
+    }
+
     public function scopeNonSuperAdmin()
     {
         return $this->whereHas('roles', function ($query) {
