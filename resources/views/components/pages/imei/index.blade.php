@@ -23,8 +23,8 @@
                             <span class="visually-hidden">Filter</span>
                         </button>
                         <div class="dropdown-menu">
-                            <h2 class="dropdown-header fs-5" style="margin: 0 0 -10px -10px">Tampilkan Kolom</h2>
-                            <div id="toggle-columns" class="card p-3 mb-3">
+                            <h2 class="fs-5" style="padding: 10px 10px 0;margin-bottom: -10px;">Tampilkan Kolom</h2>
+                            <div id="toggle-columns" class="p-3 mb-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="0" data-name="imei"
                                         checked>

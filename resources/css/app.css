@@ -43,6 +43,18 @@
     box-shadow: 2px 2px 5px 0 #d1d1d1;
 }
 
+div.dataTables_filter {
+    position: absolute;
+    top: 22px;
+    right: 25px;
+    z-index: 10;
+}
+
+div.dataTables_length {
+    padding-bottom: 10px;
+    margin-top: -5px;
+}
+
 .card-hover-border-danger:hover,
 .card-hover-border-danger:active,
 .card-hover-border-danger:focus {
@@ -498,6 +510,19 @@
 
 .sidebar-top {
     top: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    div.dataTables_filter {
+        position: relative;
+        top: 0;
+        right: 0;
+        z-index: 10;
+    }
+    div.dataTables_length {
+        padding-bottom: 10px;
+        margin-top: 0;
+    }
 }
 
 @media (max-width: 500px) {

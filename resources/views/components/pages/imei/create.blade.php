@@ -116,18 +116,6 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="biaya" class="form-label">Biaya</label>
-                                                        <input type="text" id="biaya" value="{{ @old('biaya') }}"
-                                                            class="form-control {{ $errors->has('biaya') ? 'is-invalid' : '' }}"
-                                                            placeholder="Rp. 0" name="biaya" required>
-                                                        @error('biaya')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
                                                         <label for="modal" class="form-label">Modal</label>
                                                         <input type="text" id="modal" value="{{ @old('modal') }}"
                                                             class="form-control {{ $errors->has('modal') ? 'is-invalid' : '' }}"
@@ -140,9 +128,21 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
+                                                        <label for="biaya" class="form-label">Biaya Jasa</label>
+                                                        <input type="text" id="biaya" value="{{ @old('biaya') }}"
+                                                            class="form-control {{ $errors->has('biaya') ? 'is-invalid' : '' }}"
+                                                            placeholder="Rp. 0" name="biaya" required>
+                                                        @error('biaya')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
                                                         <label for="profit" class="form-label">Profit</label>
                                                         <input type="text" id="profit"
-                                                            value="{{ @old('profit') }}"
+                                                            value="{{ @old('profit') }}" readonly
                                                             class="form-control {{ $errors->has('profit') ? 'is-invalid' : '' }}"
                                                             placeholder="Harga Jual" name="profit" required>
                                                         @error('profit')

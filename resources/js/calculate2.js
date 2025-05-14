@@ -69,3 +69,18 @@ if ($("#formSubmit").length) {
         });
     });
 }
+
+function calculateProfit() {
+    let modalVal = $("#modal").val();
+    let biayaVal = $("#biaya").val();
+
+    let modal = parseInt((modalVal !== undefined ? modalVal.replace(/[^0-9]/g, "") : "0")) || 0;
+    let biaya = parseInt((biayaVal !== undefined ? biayaVal.replace(/[^0-9]/g, "") : "0")) || 0;
+    let profit = biaya - modal;
+
+    $("#profit").val(formatRupiah(profit));
+}
+$("#modal, #harga-jual, #biaya").on("input", calculateProfit);
+$(document).ready(function () {
+    calculateProfit();
+});

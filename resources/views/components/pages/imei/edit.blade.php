@@ -155,17 +155,6 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="biaya" class="form-label">Biaya</label>
-                                                        <input type="text" id="biaya" class="form-control"
-                                                            name="biaya" value="{{ $jasa_imei->biaya }}" required>
-                                                    </div>
-                                                    @error('biaya')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
                                                         <label for="modal" class="form-label">Modal</label>
                                                         <input type="text" id="modal" class="form-control"
                                                             name="modal" value="{{ $jasa_imei->modal }}" required>
@@ -177,9 +166,21 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
+                                                        <label for="biaya" class="form-label">Biaya</label>
+                                                        <input type="text" id="biaya" class="form-control"
+                                                            name="biaya" value="{{ $jasa_imei->biaya }}" required>
+                                                    </div>
+                                                    @error('biaya')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
                                                         <label for="profit" class="form-label">Profit</label>
                                                         <input type="text" id="profit" class="form-control"
-                                                            name="profit" value="{{ $jasa_imei->profit }}" required>
+                                                            readonly name="profit" value="{{ $jasa_imei->profit }}"
+                                                            required>
                                                     </div>
                                                     @error('profit')
                                                         <small class="text-danger">{{ $message }}</small>
@@ -210,8 +211,7 @@
 
                                             <div class="row">
                                                 <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-primary me-3 mb-1"
-                                                        id="submitBtn">
+                                                    <button type="submit" class="btn btn-primary mb-1" id="submitBtn">
                                                         Ubah
                                                     </button>
                                                 </div>
