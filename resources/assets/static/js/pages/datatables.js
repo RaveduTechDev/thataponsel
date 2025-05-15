@@ -174,3 +174,28 @@ $("#table1").on("draw.dt", updateSelectAllCheckbox);
 
 // Inisialisasi
 updateSelectAllCheckbox();
+
+const formExport = document.querySelector("#form-export");
+const ids = document.querySelector("#ids");
+const checkboxes = document.querySelectorAll(".row-checkbox");
+const btnExport = document.querySelector("#btn-export");
+
+formExport.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const selectedIds = Array.from(checkboxes)
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => checkbox.value);
+
+    if (selectedIds.length === 0) {
+        alert("Silakan pilih data yang akan diekspor.");
+        return;
+    }
+
+    ids.value = selectedIds.join(",");
+    formExport.submit();
+
+    // Reset checkboxes setelah submit
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+    });
+});

@@ -8,6 +8,6 @@ class ExportController extends Controller
 {
     public function export(Request $request)
     {
-        // 
+        dd($request);
     }
 }
