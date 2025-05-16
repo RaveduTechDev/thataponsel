@@ -76,7 +76,6 @@ $(document).ready(function () {
 });
 
 var pagingTypes = $(window).width() < 600 ? "simple" : "simple_numbers";
-console.log(pagingTypes);
 
 $(window).resize(function () {
     let newPagingTypes = $(window).width() < 600 ? "simple" : "simple_numbers";
@@ -141,61 +140,56 @@ let customized_datatable = $("#table2").DataTable({
     },
 });
 
-function updateSelectAllCheckbox() {
-    const $visible = $(".row-checkbox:visible");
-    const total = $visible.length;
-    const checked = $visible.filter(":checked").length;
-    $("#select-all").prop("checked", total > 0 && checked === total);
+// gunakan Set untuk menampung ID yang dipilih
+const selectedIds = new Set();
+
+// setiap kali user nge-klik checkbox baris
+$(document).on("change", ".row-checkbox", function () {
+    const id = $(this).val();
+    if (this.checked) selectedIds.add(id);
+    else selectedIds.delete(id);
+    updateSelectAll();
+});
+
+// saat “select all” di header diklik
+$("#select-all").on("click", function () {
+    const cek = this.checked;
+    $(".row-checkbox:visible").each(function () {
+        $(this).prop("checked", cek).trigger("change");
+    });
+});
+
+// ketika DataTable redraw (user ganti page / cari / sort)
+$("#table1").on("draw.dt", function () {
+    // restore state checkbox
+    $(".row-checkbox").each(function () {
+        $(this).prop("checked", selectedIds.has($(this).val()));
+    });
+    updateSelectAll();
+});
+
+function updateSelectAll() {
+    const visible = $(".row-checkbox:visible");
+    const total = visible.length;
+    const ceked = visible.filter(":checked").length;
+    $("#select-all").prop("checked", total > 0 && ceked === total);
+
+    buttonPDF();
 }
 
-// Select-all
-$("#select-all").on("click", function () {
-    const cek = $(this).prop("checked");
-    $(".row-checkbox:visible").prop("checked", cek).trigger("change");
-});
+function buttonPDF() {
+    const btnPDF = $("#btn-export-pdf");
+    btnPDF.css("cursor", selectedIds.size === 0 ? "no-allowed" : "pointer");
+    btnPDF.prop("disabled", selectedIds.size === 0);
+}
 
-// Enable/disable tombol Cetak
-$(".row-checkbox").on("change", function () {
-    const selectedCount = $(".row-checkbox:checked").length;
-    $("#btn-print").prop("disabled", selectedCount === 0);
-    updateSelectAllCheckbox();
-});
+// Event click tombol export
+$(".btn-export").on("click", function () {
+    const action = $(this).data("action");
 
-// Cegah submit jika tidak ada yang dipilih
-$("#form-print").on("submit", function (e) {
-    if ($(".row-checkbox:checked").length === 0) {
-        e.preventDefault();
-        alert("Silakan pilih data yang akan dicetak.");
-    }
-});
+    $("#ids").val(Array.from(selectedIds).join(","));
+    $("#export").val(action);
 
-// Saat DataTable redraw (jika pakai DataTables)
-$("#table1").on("draw.dt", updateSelectAllCheckbox);
-
-// Inisialisasi
-updateSelectAllCheckbox();
-
-const formExport = document.querySelector("#form-export");
-const ids = document.querySelector("#ids");
-const checkboxes = document.querySelectorAll(".row-checkbox");
-const btnExport = document.querySelector("#btn-export");
-
-formExport.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const selectedIds = Array.from(checkboxes)
-        .filter((checkbox) => checkbox.checked)
-        .map((checkbox) => checkbox.value);
-
-    if (selectedIds.length === 0) {
-        alert("Silakan pilih data yang akan diekspor.");
-        return;
-    }
-
-    ids.value = selectedIds.join(",");
-    formExport.submit();
-
-    // Reset checkboxes setelah submit
-    checkboxes.forEach((checkbox) => {
-        checkbox.checked = false;
-    });
+    $("#form-export")[0].submit();
+    window.location.reload();
 });

@@ -14,23 +14,31 @@
                     </a>
                 @endif
 
-                <form action="{{ route('penjualan.export') }}" method="POST" id="form-export">
+                <form action="{{ route('penjualan.export') }}" method="POST" id="form-export" target="_blank"
+                    rel="noopener noreferrer" class="user-select-none">
                     @csrf
                     <input type="hidden" name="ids" id="ids">
-                    <button type="submit" name="action" value="pdf"
-                        class="btn btn-outline-danger btn-sm d-inline-flex align-items-center justify-content-center me-2">
-                        <i class="bi bi-file-earmark-pdf me-2" style="margin: -12px 2px 0 0;font-size: 16px;"></i>
-                        <span>Export PDF</span>
+                    <input type="hidden" name="export" id="export">
+
+                    <button type="button" data-action="pdf" id="btn-export-pdf" style="cursor: not-allowed"
+                        class="btn btn-danger btn-sm d-inline-flex justify-content-center align-items-center btn-export">
+                        <i class="bi bi-file-earmark-pdf" style="margin: -14px 2px 0 0; font-size: 18px;"></i> Cetak PDF
                     </button>
 
-                    <button type="submit" name="action" value="excel"
-                        class="btn btn-outline-success btn-sm d-inline-flex align-items-center justify-content-center">
-                        <i class="bi bi-file-earmark-excel me-2" style="margin: -12px 2px 0 0;font-size: 16px;"></i>
-                        <span>Export Excel</span>
+                    <button type="button" data-action="excel" id="btn-export-excel"
+                        class="btn btn-primary btn-sm d-inline-flex justify-content-center align-items-center btn-export">
+                        <i class="bi bi-file-earmark-excel" style="margin: -14px 2px 0 0; font-size: 18px;"></i> Cetak Excel
                     </button>
                 </form>
             </div>
         </div>
+
+        @if ($errors->has('ids'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> {{ $errors->first('ids') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <div class="card">
             <div class="card-body">
@@ -93,8 +101,8 @@
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="8" data-name="penjualan"
-                                        checked>
+                                    <input class="form-check-input" type="checkbox" data-column="8"
+                                        data-name="penjualan" checked>
                                     <label class="form-check-label">Status</label>
                                 </div>
                             </div>

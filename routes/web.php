@@ -28,6 +28,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rekap', [RekapController::class, 'rekapPenjualan'])->name('rekap');
     Route::get('/rekap/agen', [RekapController::class, 'rekapPenjualanAgen'])->name('rekap.agen');
     Route::resource('penjualan', PenjualanController::class);
-    Route::post('/penjualan/export', [ExportController::class, 'export'])->name('penjualan.export');
+    Route::post('/penjualan/download', [ExportController::class, 'export'])->name('penjualan.export');
     Route::resource('jasa-imei', JasaIMEIController::class);
 });

@@ -60,6 +60,10 @@ div.dataTables_length {
     margin-top: -5px;
 }
 
+button#btn-export-pdf:disabled {
+    cursor: not-allowed;
+}
+
 .card-hover-border-danger:hover,
 .card-hover-border-danger:active,
 .card-hover-border-danger:focus {
