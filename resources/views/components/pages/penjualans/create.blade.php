@@ -4,9 +4,14 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <div class="d-flex justify-content-between flex-column flex-sm-row align-items-sm-center">
-                <a href="{{ route('penjualan.index') }}"
-                    class="btn btn-secondary btn-sm d-inline-flex justify-content-center w-100 w-sm-auto">
+            <div class="gap-2 d-flex justify-content-between justify-content-sm-end">
+                <a href="{{ route('master-data.pelanggan.create') }}"
+                    class="btn btn-success btn-sm d-inline-flex justify-content-center">
+                    <i class="bi bi-plus-circle" style="margin: -2px 2px 0 0; font-size: 15px;"></i>
+                    <span>Tambah Pelanggan</span>
+                </a>
+
+                <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm d-inline-flex justify-content-center">
                     <span>Kembali</span>
                 </a>
             </div>
@@ -103,7 +108,7 @@
                                                         </label>
                                                         <select id="select-barang" class="select-data form-select choice"
                                                             style="cursor:pointer;" name="stock_id"
-                                                            data-placeholder="-- Pilih Toko Cabang --"
+                                                            data-placeholder="-- Pilih Barang --"
                                                             data-check-selected="false" data-calc="true" required>
                                                             @foreach ($stocks as $stock)
                                                                 <option value="{{ $stock->id }}"
@@ -198,6 +203,23 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group">
+                                                        <label for="qty" class="form-label">
+                                                            QTY (Jumlah Barang)
+                                                        </label>
+                                                        <input
+                                                            class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}"
+                                                            type="number" id="qty" value="1" min="1"
+                                                            placeholder="No. Invoice" name="qty"
+                                                            value="{{ @old('qty') }}">
+                                                        @error('qty')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-md-4 col-12">
                                                     <div class="form-group">
                                                         <label for="total-bayar" class="form-label">

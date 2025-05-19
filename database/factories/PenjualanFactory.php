@@ -22,6 +22,7 @@ class PenjualanFactory extends Factory
             'pelanggan_id' => \App\Models\Pelanggan::factory(),
             'toko_cabang_id' => \App\Models\TokoCabang::factory(),
             'user_id' => \App\Models\User::factory(),
+            'qty' => $this->faker->numberBetween(1, 100),
             'subtotal' => $this->faker->randomFloat(2, 100, 10000000),
             'diskon' => $this->faker->numberBetween(0, 100),
             'total_bayar' => $this->faker->randomFloat(2, 100, 10000000),

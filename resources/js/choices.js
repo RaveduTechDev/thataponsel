@@ -1,12 +1,14 @@
 import Choices from "choices.js";
 
 $(document).ready(function () {
-    var $subTotal = $("#sub-total");
-    var $totalBayar = $("#total-bayar");
+    let $subTotal = $("#sub-total");
+    let $totalBayar = $("#total-bayar");
+    let $qty = $("#qty");
+    let currentPrice = 0;
 
     [$subTotal, $totalBayar].forEach(function ($element) {
-        var rawValue = $element.val();
-        var numberValue = parseFloat(rawValue) || 0;
+        let rawValue = $element.val();
+        let numberValue = parseFloat(rawValue) || 0;
         $element.val(formatRupiah(numberValue));
     });
 
@@ -144,37 +146,66 @@ $(document).ready(function () {
         choices.setChoices(choicesData, "value", "label", false);
 
         if (isCalculateSelect) {
+            // Saat produk dipilih
             $(element).on("change", function () {
-                var selectedValue = choices.getValue(true);
-                var price = 0;
+                let selectedValue = choices.getValue(true);
+                let price = 0;
                 choicesData.forEach(function (item) {
                     if (item.value == selectedValue) {
                         price = item.price;
                     }
                 });
-                $("#sub-total").val(formatRupiah(price));
-                calculateTotal(price);
+                currentPrice = price; // simpan harga satuan
+
+                let qtyVal = parseInt($qty.val()) || 1;
+                let subTotal = currentPrice * qtyVal;
+
+                $subTotal.val(formatRupiah(subTotal));
+                calculateTotal(subTotal);
             });
+
+            // Hitung ulang jika data-check-selected dan item sudah terpilih
+            if (checkSelected) {
+                let selectedItem = choicesData.find((item) => item.selected);
+                if (selectedItem) {
+                    currentPrice = selectedItem.price || 0;
+                    let qtyVal = parseInt($qty.val()) || 1;
+                    let subTotal = currentPrice * qtyVal;
+                    $subTotal.val(formatRupiah(subTotal));
+                    calculateTotal(subTotal);
+                }
+            }
         }
     });
 
+    $qty.on("input", function () {
+        let qtyVal = parseInt($(this).val()) || 1;
+        if (qtyVal < 1) {
+            qtyVal = 1;
+            $(this).val(1);
+        }
+        let subTotal = currentPrice * qtyVal;
+        $subTotal.val(formatRupiah(subTotal));
+        calculateTotal(subTotal);
+    });
+
     $("#diskon").on("input", function () {
-        var discountVal = parseFloat($(this).val()) || 0;
+        let discountVal = parseFloat($(this).val()) || 0;
         if (discountVal > 100) {
             $(this).val(100);
             discountVal = 100;
         }
-        var priceString = $("#sub-total")
+        let priceString = $("#sub-total")
             .val()
             .replace(/[^0-9]/g, "");
-        var price = parseFloat(priceString) || 0;
+        let price = parseFloat(priceString) || 0;
         calculateTotal(price);
     });
 
     function calculateTotal(price) {
-        var discountPercent = parseFloat($("#diskon").val()) || 0;
-        var discountAmount = Math.round((price * discountPercent) / 100);
-        var total = price - discountAmount;
+        let discountPercent = parseFloat($("#diskon").val()) || 0;
+        let discountAmount = Math.round((price * discountPercent) / 100);
+        let total = price - discountAmount;
         $("#total-bayar").val(formatRupiah(total));
     }
 });

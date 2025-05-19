@@ -14,28 +14,29 @@
                     </a>
                 @endif
 
-                <form action="{{ route('penjualan.export') }}" method="POST" id="form-export" target="_blank"
-                    rel="noopener noreferrer" class="user-select-none">
+                <form action="{{ route('penjualan.export') }}" method="POST" id="form-export" class="user-select-none">
                     @csrf
                     <input type="hidden" name="ids" id="ids">
                     <input type="hidden" name="export" id="export">
 
                     <button type="button" data-action="pdf" id="btn-export-pdf" style="cursor: not-allowed"
                         class="btn btn-danger btn-sm d-inline-flex justify-content-center align-items-center btn-export">
-                        <i class="bi bi-file-earmark-pdf" style="margin: -14px 2px 0 0; font-size: 18px;"></i> Cetak PDF
+                        <i class="bi bi-file-earmark-pdf" style="margin: -14px 2px 0 0; font-size: 18px;"></i>
+                        Cetak PDF
                     </button>
 
                     <button type="button" data-action="excel" id="btn-export-excel"
                         class="btn btn-primary btn-sm d-inline-flex justify-content-center align-items-center btn-export">
-                        <i class="bi bi-file-earmark-excel" style="margin: -14px 2px 0 0; font-size: 18px;"></i> Cetak Excel
+                        <i class="bi bi-file-earmark-excel" style="margin: -14px 2px 0 0; font-size: 18px;"></i>
+                        Cetak Excel
                     </button>
                 </form>
             </div>
         </div>
 
         @if ($errors->has('ids'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong> {{ $errors->first('ids') }}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-error">
+                <strong>Terjadi Kesalahan!</strong> {{ $errors->first('ids') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -127,6 +128,7 @@
                                 <th class="text-nowrap">Nama Barang</th>
                                 <th class="text-nowrap">Toko Cabang</th>
                                 <th class="text-nowrap">Agent</th>
+                                <th class="text-nowrap">Jumlah Barang</th>
                                 <th class="text-nowrap">Sub Total</th>
                                 <th class="text-nowrap">Diskon(%)</th>
                                 <th class="text-nowrap">Total Bayar</th>
@@ -155,6 +157,10 @@
                                     </td>
                                     <td class="text-nowrap ">{{ $penjualan->tokoCabang->nama_toko_cabang }}</td>
                                     <td class="text-nowrap ">{{ $penjualan->user->name }}</td>
+                                    {{-- qty --}}
+                                    <td class="text-nowrap ">
+                                        {{ $penjualan->qty }}
+                                    </td>
                                     <td class="text-nowrap ">
                                         Rp. {{ number_format($penjualan->subtotal, 0, ',', '.') }}
                                     </td>

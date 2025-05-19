@@ -190,6 +190,5 @@ $(".btn-export").on("click", function () {
     $("#ids").val(Array.from(selectedIds).join(","));
     $("#export").val(action);
 
-    $("#form-export")[0].submit();
-    window.location.reload();
+    $("#form-export")[0].submit().refresh();
 });

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->decimal('subtotal', 25, 0);
             $table->decimal('diskon', 25, 0);
+            $table->integer('qty');
             $table->string('total_bayar');
             $table->date('tanggal_transaksi');
             $table->string('metode_pembayaran');

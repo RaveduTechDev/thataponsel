@@ -104,7 +104,6 @@
                 <p><span class="label">Telepon:</span> {{ $pelanggan->telepon ?? '-' }}</p>
             </div>
 
-            {{-- Daftar Barang --}}
             <div class="items">
                 <table>
                     <thead>
@@ -121,7 +120,7 @@
                             <tr>
                                 <td>{{ $i + 1 }}</td>
                                 <td>{{ $item->stock->barang->nama_barang }}</td>
-                                <td>{{ $item->quantity ?? 1 }}</td>
+                                <td>{{ $item->qty ?? 1 }}</td>
                                 <td>Rp {{ number_format($item->stock->harga_jual, 0, ',', '.') }}</td>
                                 <td>Rp {{ number_format($item->total_bayar, 0, ',', '.') }}</td>
                             </tr>
@@ -130,7 +129,6 @@
                 </table>
             </div>
 
-            {{-- Ringkasan Total --}}
             @php $grand = $penjualans->sum('total_bayar'); @endphp
             <div class="totals">
                 <table>
@@ -141,19 +139,15 @@
                 </table>
             </div>
 
-            {{-- Jika lebih dari satu pelanggan (meski di validasi tidak mungkin), pisah halaman --}}
             @if (!$loop->last)
                 <div class="page-break"></div>
             @endif
         @endforeach
 
-        {{-- Footer --}}
         <div style="clear:both; text-align:center; font-size:10px; margin-top:50px;">
             <p>Terima kasih atas kepercayaan Anda. Hubungi kami di (021) 1234-5678 jika ada pertanyaan.</p>
         </div>
     </div>
-
-    {{-- styling modern  --}}
 </body>
 
 </html>

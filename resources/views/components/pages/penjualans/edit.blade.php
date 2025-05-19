@@ -167,7 +167,7 @@
                                                                 class="select-data form-select choice"
                                                                 style="cursor:pointer;" name="stock_id"
                                                                 data-placeholder="-- Pilih Toko Cabang --"
-                                                                data-check-selected="true" data-calc="true" required>
+                                                                data-check-selected="true" data-calc="true" data-init="true" required>
                                                                 @foreach ($stocks as $stock)
                                                                     <option value="{{ $stock->id }}"
                                                                         data-price="{{ $stock->harga_jual }}"
@@ -282,6 +282,21 @@
                                                                 class="form-control" id="diskon" readonly>
                                                         @endif
                                                         @error('diskon')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group">
+                                                        <label for="qty" class="form-label">
+                                                            QTY (Jumlah Barang)
+                                                        </label>
+                                                        <input
+                                                            class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}"
+                                                            type="number" id="qty" min="1"
+                                                            placeholder="No. Invoice" name="qty"
+                                                            value="{{ $penjualan->qty }}">
+                                                        @error('qty')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
