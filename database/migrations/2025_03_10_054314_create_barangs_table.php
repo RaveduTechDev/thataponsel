@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('satuan', ['unit', 'fullset']);
             $table->string('kategori');
             $table->string('grade');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

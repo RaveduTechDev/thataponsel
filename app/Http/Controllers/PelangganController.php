@@ -52,7 +52,7 @@ class PelangganController extends Controller
         try {
             $data = $request->validated();
             Pelanggan::create($data);
-            return redirect()->route('master-data.pelanggan.index')->with('success', 'Data Pelanggan berhasil ditambahkan');
+            return redirect()->route('penjualan.create')->with('success', 'Data Pelanggan berhasil ditambahkan');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors('error', 'Pelanggan gagal ditambahkan');
         }
@@ -102,6 +102,8 @@ class PelangganController extends Controller
     public function destroy(string $id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
+        $pelanggan->penjualans()->delete();
+        $pelanggan->jasaImeis()->delete();
         $pelanggan->delete();
         return redirect('/master-data/pelanggan')->with('success', 'Data Pelanggan berhasil dihapus');
     }

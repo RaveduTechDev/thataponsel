@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_pelanggan');
             $table->string('nomor_wa', 25);
-            $table->integer('jumlah_transaksi');
+            $table->integer('jumlah_transaksi')->default(0);
             $table->timestamps();
         });
     }

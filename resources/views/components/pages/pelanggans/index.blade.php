@@ -110,7 +110,10 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                Yakin Ingin Menghapus Data Ini?
+                                                Apakah Anda yakin ingin menghapus data pelanggan
+                                                <span class="font-bold italic">'{{ $pelanggan->nama_pelanggan }}'</span>?
+                                                Jika dihapus, seluruh data terkait penjualan atau IMEI akan ikut terhapus.
+                                                <br>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-light-secondary"

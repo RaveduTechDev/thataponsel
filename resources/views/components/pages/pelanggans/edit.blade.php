@@ -75,7 +75,7 @@
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="nama-pelanggan" class="form-label">
                                                             Nama Pelanggan
@@ -90,7 +90,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory d-flex flex-column">
                                                         <label for="phone" class="form-label">Nomor HP/WhatsApp</label>
                                                         <input type="tel" value="{{ $pelanggan->nomor_wa }}"
@@ -103,26 +103,11 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-4 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="jumlah-transaksi" class="form-label">
-                                                            Jumlah Transaksi
-                                                        </label>
-                                                        <input type="number" min="1" id="jumlah-transaksi"
-                                                            value="{{ $pelanggan->jumlah_transaksi }}"
-                                                            class="form-control {{ $errors->has('jumlah_transaksi') ? 'is-invalid' : '' }}"
-                                                            placeholder="Jumlah Transaksi" name="jumlah_transaksi" required>
-                                                    </div>
-                                                    @error('jumlah_transaksi')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
-                                                </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-primary me-3 mb-1"
-                                                        id="submitBtn">
+                                                    <button type="submit" class="btn btn-primary me-3 mb-1" id="submitBtn">
                                                         Ubah
                                                     </button>
                                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">

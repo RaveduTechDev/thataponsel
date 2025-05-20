@@ -81,13 +81,22 @@ class PenjualanController extends Controller
             }
 
             $user = null;
-            if (empty($data['user_id']) && Auth::user()->hasRole('agen')) {
-                $data['user_id'] = Auth::user()->id;
-                $user = User::findOrFail(Auth::user()->id);
-                $user->increment('jumlah_transaksi');
-            } else {
-                $user = User::findOrFail($data['user_id']);
-                $user->increment('jumlah_transaksi');
+            $pelanggan = null;
+            if ($data['status'] == 'selesai') {
+                if (empty($data['user_id']) && Auth::user()->hasRole('agen')) {
+                    $data['user_id'] = Auth::user()->id;
+                    $user = User::findOrFail(Auth::user()->id);
+                    $user->increment('jumlah_transaksi');
+                } else {
+                    $user = User::findOrFail($data['user_id']);
+                    $user->increment('jumlah_transaksi');
+                }
+
+                if (empty($data['pelanggan_id'])) {
+                    return redirect()->back()->with('error', 'Pilih pelanggan untuk menyelesaikan transaksi');
+                }
+                $pelanggan = Pelanggan::findOrFail($data['pelanggan_id']);
+                $pelanggan->increment('jumlah_transaksi');
             }
 
             $stock->decrement('jumlah_stok');
@@ -144,6 +153,28 @@ class PenjualanController extends Controller
             $penjualan = Penjualan::findOrFail($id);
             $oldStockId = $penjualan->stock_id;
             $newStockId = $data['stock_id'];
+            $oldStatus = $penjualan->status;
+            $newStatus = $data['status'];
+            $user = null;
+            $pelanggan = null;
+
+            if ($newStatus === 'selesai' && $oldStatus === 'proses') {
+                if (empty($data['user_id']) && Auth::user()->hasRole('agen')) {
+                    $data['user_id'] = Auth::user()->id;
+                    $user = User::findOrFail(Auth::user()->id);
+                    $user->increment('jumlah_transaksi');
+                } else {
+                    $user = User::findOrFail($data['user_id']);
+                    $user->increment('jumlah_transaksi');
+                }
+
+                if (empty($data['pelanggan_id'])) {
+                    return redirect()->back()->with('error', 'Pilih pelanggan untuk menyelesaikan transaksi');
+                }
+                $pelanggan = Pelanggan::findOrFail($data['pelanggan_id']);
+                $pelanggan->increment('jumlah_transaksi');
+            }
+
 
             if ($oldStockId != $newStockId) {
                 $oldStock = Stock::findOrFail($oldStockId);
@@ -155,6 +186,7 @@ class PenjualanController extends Controller
                 }
                 $newStock->decrement('jumlah_stok');
             }
+
 
             $penjualan->update($data);
 
