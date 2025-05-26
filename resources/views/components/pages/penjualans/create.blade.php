@@ -181,7 +181,7 @@
                                                         </label>
                                                         <input type="text" id="sub-total" min="0" readonly
                                                             class="form-control {{ $errors->has('subtotal') ? 'is-invalid' : '' }}"
-                                                            placeholder="No. Invoice" name="subtotal"
+                                                            placeholder="Sub Total" name="subtotal"
                                                             value="{{ @old('subtotal') }}" required>
                                                         @error('subtotal')
                                                             <small class="text-danger">{{ $message }}</small>
@@ -196,7 +196,7 @@
                                                         <input
                                                             class="form-control {{ $errors->has('diskon') ? 'is-invalid' : '' }}"
                                                             type="number" id="diskon" value="0" min="0"
-                                                            max="100" placeholder="No. Invoice" name="diskon"
+                                                            max="100" placeholder="Diskon" name="diskon"
                                                             value="{{ @old('diskon') }}">
                                                         @error('diskon')
                                                             <small class="text-danger">{{ $message }}</small>

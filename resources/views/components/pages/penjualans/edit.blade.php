@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 @endif
-                <a href="{{ route('penjualan.index') }}"
+                <a href="{{ url()->previous() }}"
                     class="btn btn-secondary btn-sm d-inline-flex justify-content-center w-100">
                     <span>Kembali</span>
                 </a>
@@ -167,7 +167,8 @@
                                                                 class="select-data form-select choice"
                                                                 style="cursor:pointer;" name="stock_id"
                                                                 data-placeholder="-- Pilih Toko Cabang --"
-                                                                data-check-selected="true" data-calc="true" data-init="true" required>
+                                                                data-check-selected="true" data-calc="true"
+                                                                data-init="true" required>
                                                                 @foreach ($stocks as $stock)
                                                                     <option value="{{ $stock->id }}"
                                                                         data-price="{{ $stock->harga_jual }}"

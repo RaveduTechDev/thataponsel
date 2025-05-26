@@ -36,10 +36,11 @@
                                         <span class="d-block">Batal</span>
                                     </button>
                                     <form action="{{ route('master-data.barang.destroy', $barang->id) }}" method="POST"
-                                        id="formSubmit">
+                                        id="formSubmitPopUp">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex" id="submitBtn">
+                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex"
+                                            id="submitBtnPopUp">
                                             <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
                                             <span class="d-none d-sm-block">Hapus</span>
                                         </button>
@@ -189,6 +190,18 @@
                                                             <option value="apple"
                                                                 {{ $barang->kategori === 'apple' ? 'selected' : '' }}>
                                                                 Apple
+                                                            </option>
+                                                            <option value="smartwatch"
+                                                                {{ $barang->kategori === 'smartwatch' ? 'selected' : '' }}>
+                                                                Smartwatch
+                                                            </option>
+                                                            <option value="ipad"
+                                                                {{ $barang->kategori === 'ipad' ? 'selected' : '' }}>
+                                                                Ipad
+                                                            </option>
+                                                            <option value="tablet"
+                                                                {{ $barang->kategori === 'tablet' ? 'selected' : '' }}>
+                                                                Tablet
                                                             </option>
                                                         </select>
                                                         @error('kategori')

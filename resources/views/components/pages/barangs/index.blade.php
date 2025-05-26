@@ -219,10 +219,10 @@
                                                 </button>
 
                                                 <form action={{ route('master-data.barang.destroy', $barang->id) }}
-                                                    method="POST" id="formSubmit">
+                                                    method="POST" class="formSubmit">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
+                                                    <button type="submit" class="btn btn-danger me-3 submitBtn">
                                                         <span class="d-none d-sm-block">Hapus</span>
                                                     </button>
                                                 </form>

@@ -20,7 +20,7 @@
                     <input type="hidden" name="export" id="export">
 
                     <button type="button" data-action="pdf" id="btn-export-pdf" style="cursor: not-allowed"
-                        class="btn btn-danger btn-sm d-inline-flex justify-content-center align-items-center btn-export">
+                        class="btn btn-danger btn-sm d-inline-flex justify-content-center align-items-center btn-export me-1">
                         <i class="bi bi-file-earmark-pdf" style="margin: -14px 2px 0 0; font-size: 18px;"></i>
                         Cetak PDF
                     </button>

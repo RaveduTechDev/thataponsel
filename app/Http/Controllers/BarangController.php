@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\KodeBarangGenerator;
 use App\Models\Barang;
 use App\Http\Requests\BarangRequest;
 use Illuminate\Support\Facades\DB;
@@ -44,10 +45,12 @@ class BarangController extends Controller
      */
     public function create()
     {
+        $kodeBarang = KodeBarangGenerator::generateKode();
         return view(
             'components.pages.barangs.create',
             [
                 'title' => 'Tambah HP',
+                'kodeBarang' => $kodeBarang,
             ]
         );
     }

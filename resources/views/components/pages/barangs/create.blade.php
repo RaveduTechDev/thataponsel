@@ -31,10 +31,10 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="kode-barang" class="form-label">Kode Barang</label>
-                                                        <input type="text" id="kode-barang"
+                                                        <input type="text" id="kode-barang" readonly
                                                             class="form-control {{ $errors->has('kode_barang') ? 'is-invalid' : '' }}"
                                                             placeholder="Kode Barang" name="kode_barang"
-                                                            value="{{ @old('kode_barang') }}" required>
+                                                            value="{{ $kodeBarang }}" required>
                                                         @error('kode_barang')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -140,6 +140,18 @@
                                                             <option value="apple"
                                                                 {{ old('kategori') === 'apple' ? 'selected' : '' }}>
                                                                 Apple
+                                                            </option>
+                                                            <option value="smartwatch"
+                                                                {{ old('kategori') === 'smartwatch' ? 'selected' : '' }}>
+                                                                Smartwatch
+                                                            </option>
+                                                            <option value="ipad"
+                                                                {{ old('kategori') === 'ipad' ? 'selected' : '' }}>
+                                                                Ipad
+                                                            </option>
+                                                            <option value="tablet"
+                                                                {{ old('kategori') === 'tablet' ? 'selected' : '' }}>
+                                                                Tablet
                                                             </option>
                                                         </select>
                                                         @error('kategori')
