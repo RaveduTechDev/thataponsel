@@ -96,12 +96,6 @@
                         <div class="col-xl-3 col-lg-4 col-6">
                             <table class="table table-borderless table-show mb-0">
                                 <tr>
-                                    <th>Grade:</th>
-                                </tr>
-                                <tr>
-                                    <td>{{ $stock->grade }}</td>
-                                </tr>
-                                <tr>
                                     <th>IMEI 1:</th>
                                 </tr>
                                 <tr>
@@ -118,6 +112,12 @@
                                 </tr>
                                 <tr>
                                     <td>{{ $stock->jumlah_stok }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Garansi:</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ $stock->garansi }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -143,10 +143,10 @@
                                     <td>{{ $stock->invoice }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Garansi:</th>
+                                    <th>Tanggal:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->garansi }}</td>
+                                    <td>{{ $stock->tanggal }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -163,13 +163,7 @@
                                     <th>No Kontak Supplier:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->no_kontak_supplier }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal:</th>
-                                </tr>
-                                <tr>
-                                    <td>{{ $stock->tanggal }}</td>
+                                    <td>{{ $stock->NoKontakSupplier }}</td>
                                 </tr>
                                 <tr>
                                     <th>Keterangan:</th>

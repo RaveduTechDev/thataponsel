@@ -75,14 +75,14 @@ class DatabaseSeeder extends Seeder
             'harga_jual' => 20000000,
             'invoice' => 'INV-230316-0001',
             'supplier' => 'Supplier Test',
-            'no_kontak_supplier' => '081234567890',
+            'no_kontak_supplier' => '+6281234567890',
             'tanggal' => now(),
             'garansi' => 'ya',
         ]);
 
         Pelanggan::factory()->create([
             'nama_pelanggan' => 'Ravedu Test Pelanggan',
-            'nomor_wa' => '081234567890',
+            'nomor_wa' => '+6281234567890',
         ]);
 
         Penjualan::factory()->create([

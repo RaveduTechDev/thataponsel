@@ -116,16 +116,17 @@
                                                         <select id="select-barangs" class="select-data form-select choice"
                                                             style="cursor:pointer;" name="barang_id"
                                                             data-placeholder="-- Pilih Barang --"
-                                                            data-check-selected="false" required>
+                                                            {{ old('barang_id') ? 'data-check-selected=true' : 'data-check-selected="false"' }}
+                                                            required>
                                                             @foreach ($barangs as $barang)
                                                                 <option value="{{ $barang->id }}"
-                                                                    {{ old('barang_id"') === $barang->id ? 'selected' : '' }}>
+                                                                    {{ old('barang_id') === $barang->id ? 'selected' : '' }}>
                                                                     {{ $barang->nama_barang }} - {{ $barang->merk }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    @error('barang_id"')
+                                                    @error('barang_id')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
@@ -251,12 +252,12 @@
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group">
                                                         <label for="invoice" class="form-label">Invoice</label>
                                                         <input type="text" id="invoice"
                                                             value="{{ @old('invoice') }}"
                                                             class="form-control {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
-                                                            placeholder="Invoice" name="invoice" required>
+                                                            placeholder="Invoice" name="invoice">
                                                         @error('invoice')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror

@@ -162,17 +162,18 @@
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->invoice }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->supplier }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->NoKontakSupplier }}</td>
+                                    <td class="text-nowrap w-xl-50">
+                                        {{ $stock->NoKontakSupplier ? $stock->NoKontakSupplier : 'Tidak Ada' }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->tanggal }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->barang->keterangan }}</td>
                                     <td class="text-nowrap text-center">
                                         @if (Auth::user()->hasRole(['admin', 'agen']))
                                             <div class="dropdown">
-                                                <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
+                                                {{-- <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
                                                     <i class="bi bi-three-dots text-secondary details-button"
                                                         style="font-size: 18px;"></i>
-                                                </a>
-                                                <ul class="dropdown-menu" style="z-index:50;position: relative;">
+                                                </a> --}}
+                                                {{-- <ul class="dropdown-menu" style="z-index:50;position: relative;">
                                                     @if (!Auth::user()->hasRole('agen'))
                                                         <li class="border-bottom">
                                                             <a href={{ route('stocks.show', $stock->id) }}
@@ -199,7 +200,33 @@
                                                             </button>
                                                         </li>
                                                     @endif
-                                                </ul>
+                                                </ul> --}}
+
+                                            </div>
+
+                                            <div class="d-flex gap-1 justify-content-end">
+                                                @if (!Auth::user()->hasRole('agen'))
+                                                    <a href="{{ route('stocks.show', $stock->id) }}"
+                                                        class="btn btn-secondary btn-sm" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Detail">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                @endif
+                                                <a href="{{ route('stocks.edit', $stock->id) }}"
+                                                    class="btn btn-primary btn-sm" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Edit">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+
+                                                @if (!Auth::user()->hasRole('agen'))
+                                                    <button type="button" class="btn btn-danger btn-sm btn-delete-modal"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalStock{{ $stock->id }}"
+                                                        data-bs-placement="top" title="Hapus">
+                                                        <i class="bi bi-trash text-white"></i>
+                                                    </button>
+                                                @endif
+
                                             </div>
                                         @elseif (Auth::user()->hasRole('owner'))
                                             <a class="btn btn-secondary btn-sm d-inline-flex align-items-center"

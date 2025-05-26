@@ -288,12 +288,12 @@
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group">
                                                         <label for="invoice"
                                                             class="form-label text-nowrap">Invoice</label>
                                                         <input type="text" min="1" id="invoice"
                                                             class="form-control {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
-                                                            placeholder="Invoice" name="invoice" required
+                                                            placeholder="Invoice" name="invoice"
                                                             value="{{ $stock->invoice }}">
                                                         @error('invoice')
                                                             <small class="text-danger">{{ $message }}</small>

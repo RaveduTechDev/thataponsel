@@ -44,7 +44,7 @@ class Stock extends Model implements HasMedia
         try {
             return phone($this->attributes['no_kontak_supplier'], 'ZZ', \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
         } catch (\Propaganistas\LaravelPhone\Exceptions\NumberParseException $e) {
-            return 'Invalid phone number';
+            return $this->attributes['no_kontak_supplier'];
         }
     }
 }
