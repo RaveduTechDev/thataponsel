@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 @endif
-                <a href="{{ url()->previous() }}"
+                <a href="{{ route('penjualan.index') }}" role="button"
                     class="btn btn-secondary btn-sm d-inline-flex justify-content-center w-100">
                     <span>Kembali</span>
                 </a>
@@ -71,7 +71,7 @@
                         @csrf
                         @method('PUT')
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-8 col-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title">Data Penjualan</h4>
@@ -115,7 +115,7 @@
                                                             </select>
                                                         @else
                                                             <input type="text" value="{{ $penjualan->user->name }}"
-                                                                class="form-control" id="user_name" readonly>
+                                                                class="form-control" id="agent" readonly>
                                                         @endif
                                                     </div>
                                                     @error('user_id')
@@ -158,6 +158,37 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
+                                                        <label for="select-pelanggans" class="form-label">
+                                                            Pelanggan
+                                                        </label>
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <select id="select-pelanggans"
+                                                                class="select-data form-select choice"
+                                                                style="cursor:pointer;" name="pelanggan_id"
+                                                                data-placeholder="-- Pilih Pelanggan --"
+                                                                data-check-selected="true" required>
+                                                                @foreach ($pelanggans as $pelanggan)
+                                                                    <option value="{{ $pelanggan->id }}"
+                                                                        {{ $penjualan->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
+                                                                        {{ $pelanggan->nama_pelanggan }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        @else
+                                                            <input type="text"
+                                                                value="{{ $penjualan->pelanggan->nama_pelanggan }}"
+                                                                class="form-control" id="pelanggan_name" readonly>
+                                                        @endif
+                                                    </div>
+                                                    @error('pelanggan_id')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
                                                         <label for="select-barang" class="form-label">
                                                             Barang
                                                         </label>
@@ -188,38 +219,31 @@
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="qty" class="form-label">
+                                                            QTY (Jumlah Barang)
+                                                        </label>
+
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <input type="number" id="qty"
+                                                                class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}"
+                                                                placeholder="QTY" name="qty" min="1"
+                                                                value="{{ $penjualan->qty }}" required>
+                                                        @else
+                                                            <input type="text" id="qty" class="form-control"
+                                                                placeholder="QTY" value="{{ $penjualan->qty }}" readonly>
+                                                        @endif
+
+                                                        @error('qty')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="select-pelanggans" class="form-label">
-                                                            Pelanggan
-                                                        </label>
-                                                        @if ($penjualan->status !== 'selesai')
-                                                            <select id="select-pelanggans"
-                                                                class="select-data form-select choice"
-                                                                style="cursor:pointer;" name="pelanggan_id"
-                                                                data-placeholder="-- Pilih Pelanggan --"
-                                                                data-check-selected="true" required>
-                                                                @foreach ($pelanggans as $pelanggan)
-                                                                    <option value="{{ $pelanggan->id }}"
-                                                                        {{ $penjualan->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
-                                                                        {{ $pelanggan->nama_pelanggan }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        @else
-                                                            <input type="text"
-                                                                value="{{ $penjualan->pelanggan->nama_pelanggan }}"
-                                                                class="form-control" id="pelanggan_name" readonly>
-                                                        @endif
-                                                    </div>
-                                                    @error('pelanggan_id')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
-                                                </div>
-
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="select-status" class="form-label">
@@ -249,10 +273,44 @@
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
-                                            </div>
 
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="tanggal" class="form-label">
+                                                            Tanggal Transaksi
+                                                        </label>
+
+                                                        @if ($penjualan->status !== 'selesai')
+                                                            <input type="date" id="tanggal_transaksi"
+                                                                class="form-control {{ $errors->has('tanggal_transaksi') ? 'is-invalid' : '' }}"
+                                                                placeholder="Tanggal Transaksi" name="tanggal_transaksi"
+                                                                value="{{ $penjualan->tanggal_transaksi }}" required>
+                                                        @else
+                                                            <input type="text" id="tanggal_transaksi"
+                                                                class="form-control" placeholder="Tanggal Transaksi"
+                                                                value="{{ $penjualan->tanggal_transaksi }}" readonly>
+                                                        @endif
+
+                                                        @error('tanggal_transaksi')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="text-secondary">Detail Penjualan</h5>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="sub-total" class="form-label">
                                                             Sub Total
@@ -267,7 +325,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="diskon" class="form-label">
                                                             Diskon (%)
@@ -287,22 +345,8 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-12">
-                                                    <div class="form-group">
-                                                        <label for="qty" class="form-label">
-                                                            QTY (Jumlah Barang)
-                                                        </label>
-                                                        <input
-                                                            class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}"
-                                                            type="number" id="qty" min="1"
-                                                            placeholder="No. Invoice" name="qty"
-                                                            value="{{ $penjualan->qty }}">
-                                                        @error('qty')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-12">
+
+                                                <div class="col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="total-bayar" class="form-label">
                                                             Total Bayar
@@ -320,7 +364,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-12">
                                                     <div class="form-group madatory">
                                                         <label for="metode-pembayaran" class="form-label">
                                                             Metode Pembayaran
@@ -357,8 +401,8 @@
                                             </div>
 
                                             @if ($penjualan->status !== 'selesai')
-                                                <div class="row">
-                                                    <div class="col-12 d-flex justify-content-end">
+                                                <div class="row mt-1">
+                                                    <div class="col-12 d-flex justify-content-start">
                                                         <button type="submit" class="btn btn-primary me-3 mb-1"
                                                             id="submitBtn">
                                                             Edit

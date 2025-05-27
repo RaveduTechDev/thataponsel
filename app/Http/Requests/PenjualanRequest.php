@@ -42,6 +42,7 @@ class PenjualanRequest extends FormRequest
             'qty' => 'required|numeric|digits_between:1,25',
             'subtotal' => 'required|numeric|digits_between:1,25',
             'diskon' => 'numeric',
+            'tanggal_transaksi' => 'required|date',
             'total_bayar' => 'required|numeric|digits_between:1,25',
             'metode_pembayaran' => 'required|in:tunai,transfer,qris,e-wallet',
             'status' => 'sometimes|in:proses,selesai',

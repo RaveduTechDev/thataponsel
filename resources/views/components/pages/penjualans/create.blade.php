@@ -11,7 +11,8 @@
                     <span>Tambah Pelanggan</span>
                 </a>
 
-                <a href="{{ url()->previous() }}" class="btn btn-secondary btn-sm d-inline-flex justify-content-center">
+                <a href="{{ route('penjualan.index') }}"
+                    class="btn btn-secondary btn-sm d-inline-flex justify-content-center">
                     <span>Kembali</span>
                 </a>
             </div>
@@ -29,10 +30,10 @@
                     <form action={{ route('penjualan.store') }} method="POST" class="form" id="formSubmit">
                         @csrf
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-8 col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="mb-3 text-secondary">Data Penjualan</h5>
+                                        <h5 class="card-title">Data Penjualan</h5>
                                         <li>Kolom yang ditandai dengan <span class="text-danger">*</span> wajib diisi.</li>
                                     </div>
                                     <div class="card-content">
@@ -103,6 +104,30 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
+                                                        <label for="select-pelanggans" class="form-label">
+                                                            Pelanggan
+                                                        </label>
+                                                        <select id="select-pelanggans"
+                                                            class="select-data form-select choice" style="cursor:pointer;"
+                                                            name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
+                                                            data-check-selected="false" required>
+                                                            @foreach ($pelanggans as $pelanggan)
+                                                                <option value="{{ $pelanggan->id }}"
+                                                                    {{ old('pelanggan_id') === $pelanggan->id ? 'selected' : '' }}>
+                                                                    {{ $pelanggan->nama_pelanggan }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    @error('pelanggan_id')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
                                                         <label for="select-barang" class="form-label">
                                                             Barang
                                                         </label>
@@ -124,31 +149,25 @@
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="qty" class="form-label">
+                                                            QTY (Jumlah Barang)
+                                                        </label>
+                                                        <input
+                                                            class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}"
+                                                            type="number" id="qty" value="1" min="1"
+                                                            placeholder="No. Invoice" name="qty"
+                                                            value="{{ @old('qty') }}" required>
+                                                        @error('qty')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="select-pelanggans" class="form-label">
-                                                            Pelanggan
-                                                        </label>
-                                                        <select id="select-pelanggans"
-                                                            class="select-data form-select choice" style="cursor:pointer;"
-                                                            name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
-                                                            data-check-selected="false" required>
-                                                            @foreach ($pelanggans as $pelanggan)
-                                                                <option value="{{ $pelanggan->id }}"
-                                                                    {{ old('pelanggan_id') === $pelanggan->id ? 'selected' : '' }}>
-                                                                    {{ $pelanggan->nama_pelanggan }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    @error('pelanggan_id')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
-                                                </div>
-
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="select-status" class="form-label">
@@ -171,10 +190,36 @@
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
-                                            </div>
 
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="tanggal_transaksi" class="form-label">
+                                                            Tanggal Transaksi
+                                                        </label>
+                                                        <input type="date" id="tanggal_transaksi"
+                                                            class="form-control {{ $errors->has('tanggal_transaksi') ? 'is-invalid' : '' }}"
+                                                            placeholder="Tanggal Transaksi" name="tanggal_transaksi"
+                                                            value="{{ old('tanggal_transaksi') }}" required>
+                                                        @error('tanggal_transaksi')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="text-secondary">Detail Penjualan</h5>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="sub-total" class="form-label">
                                                             Sub Total
@@ -188,7 +233,7 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="diskon" class="form-label">
                                                             Diskon (%)
@@ -204,23 +249,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4 col-12">
-                                                    <div class="form-group">
-                                                        <label for="qty" class="form-label">
-                                                            QTY (Jumlah Barang)
-                                                        </label>
-                                                        <input
-                                                            class="form-control {{ $errors->has('qty') ? 'is-invalid' : '' }}"
-                                                            type="number" id="qty" value="1" min="1"
-                                                            placeholder="No. Invoice" name="qty"
-                                                            value="{{ @old('qty') }}">
-                                                        @error('qty')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="total-bayar" class="form-label">
                                                             Total Bayar
@@ -237,13 +266,13 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-4 col-12">
-                                                    <div class="form-group madatory">
+                                                <div class="col-12">
+                                                    <div class="form-group mandatory">
                                                         <label for="metode-pembayaran" class="form-label">
                                                             Metode Pembayaran
                                                         </label>
                                                         <select name="metode_pembayaran" id="metode-pembayaran"
-                                                            style="cursor:pointer"
+                                                            style="cursor:pointer" required
                                                             class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
                                                             <option>-- Pilih Metode Pembayaran--</option>
                                                             <option value="tunai"
@@ -267,8 +296,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-12 d-flex justify-content-end">
+                                            <div class="row mt-1">
+                                                <div class="col-12 d-flex justify-content-start">
                                                     <button type="submit" class="btn btn-success me-3 mb-1"
                                                         id="submitBtn">
                                                         Tambah

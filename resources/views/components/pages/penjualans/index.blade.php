@@ -52,23 +52,23 @@
                         </button>
                         <div class="dropdown-menu">
                             <h2 class="dropdown-header fs-5" style="margin: 0 0 -10px -10px">Tampilkan Kolom</h2>
-                            <div id="toggle-columns" class="card p-3 mb-3">
+                            <div id="toggle-columns" class="p-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="0" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Invoice</label>
+                                    <label class="form-check-label">Kotak Centang</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="1" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Tanggal Transaksi</label>
+                                    <label class="form-check-label">Invoice</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="2" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Pelanggan</label>
+                                    <label class="form-check-label">Tanggal Transaksi</label>
                                 </div>
 
                                 <div class="form-check">
@@ -80,29 +80,53 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="4" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Toko Cabang</label>
+                                    <label class="form-check-label">Nama Barang</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="5" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Agent</label>
+                                    <label class="form-check-label">Toko Cabang</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="6" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Sub Total</label>
+                                    <label class="form-check-label">Agent</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="7" data-name="penjualan"
                                         checked>
-                                    <label class="form-check-label">Total Bayar</label>
+                                    <label class="form-check-label">Jumlah Barang</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="8"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Sub Total</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="9"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Diskon (%)</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="10"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Total Bayar</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="11"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Metode Pembayaran</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="12"
                                         data-name="penjualan" checked>
                                     <label class="form-check-label">Status</label>
                                 </div>
