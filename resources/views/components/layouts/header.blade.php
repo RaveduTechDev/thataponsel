@@ -168,7 +168,7 @@
                                             Rekap Penjualan
                                         </a>
                                     </li>
-                                    @if (Auth::user()->hasRole(['super_admin', 'owner']))
+                                    @if (Auth::user()->hasRole(['super_admin', 'owner', 'admin']))
                                         <li
                                             class="submenu-item {{ request()->is('rekap/agen') ? 'active font-bold' : '' }}">
                                             <a href={{ route('rekap.agen') }} class="submenu-link">

@@ -73,7 +73,6 @@ class PenjualanController extends Controller
     public function store(PenjualanRequest $request)
     {
         $data = $request->validated();
-        $data['tanggal_transaksi'] = date('Y-m-d');
         try {
             $stock = Stock::findOrFail($data['stock_id']);
             if ($stock->jumlah_stok <= 0) {
@@ -82,6 +81,11 @@ class PenjualanController extends Controller
 
             $user = null;
             $pelanggan = null;
+
+            if (empty($data['user_id']) && Auth::user()->hasRole('agen')) {
+                $data['user_id'] = Auth::user()->id;
+            }
+
             if ($data['status'] == 'selesai') {
                 if (empty($data['user_id']) && Auth::user()->hasRole('agen')) {
                     $data['user_id'] = Auth::user()->id;
@@ -99,7 +103,14 @@ class PenjualanController extends Controller
                 $pelanggan->increment('jumlah_transaksi');
             }
 
-            $stock->decrement('jumlah_stok');
+            if ($stock->jumlah_stok < $data['qty']) {
+                return redirect()->back()->with('error', 'Stok tidak cukup untuk transaksi ini');
+            }
+
+            $jumlahStok = $stock->jumlah_stok - $data['qty'];
+            $stock->jumlah_stok = $jumlahStok;
+            $stock->save();
+
             $penjualan = Penjualan::create($data);
 
             if ($penjualan) {
@@ -159,14 +170,8 @@ class PenjualanController extends Controller
             $pelanggan = null;
 
             if ($newStatus === 'selesai' && $oldStatus === 'proses') {
-                if (empty($data['user_id']) && Auth::user()->hasRole('agen')) {
-                    $data['user_id'] = Auth::user()->id;
-                    $user = User::findOrFail(Auth::user()->id);
-                    $user->increment('jumlah_transaksi');
-                } else {
-                    $user = User::findOrFail($data['user_id']);
-                    $user->increment('jumlah_transaksi');
-                }
+                $user = User::findOrFail($data['user_id']);
+                $user->increment('jumlah_transaksi');
 
                 if (empty($data['pelanggan_id'])) {
                     return redirect()->back()->with('error', 'Pilih pelanggan untuk menyelesaikan transaksi');
@@ -178,15 +183,16 @@ class PenjualanController extends Controller
 
             if ($oldStockId != $newStockId) {
                 $oldStock = Stock::findOrFail($oldStockId);
-                $oldStock->increment('jumlah_stok');
+                $oldStock->jumlah_stok = $oldStock->jumlah_stok + $penjualan->qty;
+                $oldStock->save();
 
                 $newStock = Stock::findOrFail($newStockId);
-                if ($newStock->jumlah_stok <= 0) {
-                    return redirect()->back()->with('error', 'Stok dari ' . $newStock->barang->nama_barang . ' habis');
+                if ($newStock->jumlah_stok < $penjualan->qty) {
+                    return redirect()->back()->with('error', 'Stok dari ' . $newStock->barang->nama_barang . ' tidak cukup');
                 }
-                $newStock->decrement('jumlah_stok');
+                $newStock->jumlah_stok = $newStock->jumlah_stok - $penjualan->qty;
+                $newStock->save();
             }
-
 
             $penjualan->update($data);
 
@@ -206,7 +212,8 @@ class PenjualanController extends Controller
 
             if ($penjualan->status !== 'selesai') {
                 $stock = Stock::findOrFail($penjualan->stock_id);
-                $stock->increment('jumlah_stok');
+                $stock->jumlah_stok = $stock->jumlah_stok + $penjualan->qty;
+                $stock->save();
             }
 
             if ($penjualan->pelanggan_id) {

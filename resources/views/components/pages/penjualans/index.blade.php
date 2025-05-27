@@ -128,6 +128,18 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="12"
                                         data-name="penjualan" checked>
+                                    <label class="form-check-label">Garansi</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="13"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Keterangan</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="14"
+                                        data-name="penjualan" checked>
                                     <label class="form-check-label">Status</label>
                                 </div>
                             </div>
@@ -157,6 +169,8 @@
                                 <th class="text-nowrap">Diskon(%)</th>
                                 <th class="text-nowrap">Total Bayar</th>
                                 <th class="text-nowrap">Metode Pembayaran</th>
+                                <th class="text-nowrap">Garansi</th>
+                                <th class="text-nowrap">Keterangan</th>
                                 <th class="text-nowrap">Status</th>
                                 @if (!Auth::user()->hasRole(['agen', 'owner']))
                                     <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
@@ -195,6 +209,8 @@
                                     <td class="text-nowrap">
                                         {{ ucwords($penjualan->metode_pembayaran) }}
                                     </td>
+                                    <td class="text-nowrap ">{{ ucwords($penjualan->stock->garansi) }}</td>
+                                    <td class="text-nowrap ">{{ $penjualan->stock->barang->keterangan }}</td>
                                     <td class="text-nowrap ">
                                         @if ($penjualan->status == 'selesai')
                                             <span class="badge text-bg-success rounded-pill">
