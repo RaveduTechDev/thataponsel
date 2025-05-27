@@ -30,7 +30,7 @@ class Penjualan extends Model
 
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class);
+        return $this->belongsTo(Pelanggan::class)->withTrashed()->select('id', 'nama_pelanggan', 'nomor_wa');
     }
 
     public function tokoCabang()

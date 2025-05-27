@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nomor_wa', 25);
             $table->integer('jumlah_transaksi')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,5 +27,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('pelanggans');
+        
     }
 };

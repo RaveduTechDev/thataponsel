@@ -209,6 +209,16 @@ class PenjualanController extends Controller
                 $stock->increment('jumlah_stok');
             }
 
+            if ($penjualan->pelanggan_id) {
+                $pelanggan = Pelanggan::findOrFail($penjualan->pelanggan_id);
+                $pelanggan->decrement('jumlah_transaksi');
+            }
+
+            if ($penjualan->user_id) {
+                $user = User::findOrFail($penjualan->user_id);
+                $user->decrement('jumlah_transaksi');
+            }
+
             $penjualan->delete();
             return redirect('/penjualan')->with('success', 'Data Penjualan berhasil dihapus');
         } catch (\Exception $e) {
