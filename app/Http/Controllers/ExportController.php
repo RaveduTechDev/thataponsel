@@ -14,7 +14,6 @@ class ExportController extends Controller
     public function export(Request $request)
     {
         if ($request->ids) {
-
             $ids = $request->ids
                 ? explode(',', $request->ids)
                 : Penjualan::pluck('id')->toArray();
@@ -47,6 +46,8 @@ class ExportController extends Controller
                 ]);
                 return $pdf->stream("invoice_{$pelangganIds->first()}.pdf");
             }
+        } else  if ($request->export == 'excel') {
+            return Excel::download(new PenjualanExport(), 'penjualan.xlsx');
         } else {
             return redirect()
                 ->back()

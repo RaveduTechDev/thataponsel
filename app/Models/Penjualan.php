@@ -85,7 +85,6 @@ class Penjualan extends Model
             $query->whereDate('tanggal_transaksi', '<=', $endDate);
         }
 
-
         $query->when($filters['search'] ?? false, function (Builder $query, string $search) {
             return $query->whereHas('user', function (Builder $query) use ($search) {
                 $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%']);
