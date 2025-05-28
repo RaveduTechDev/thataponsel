@@ -47,7 +47,15 @@ class ExportController extends Controller
                 return $pdf->stream("invoice_{$pelangganIds->first()}.pdf");
             }
         } else  if ($request->export == 'excel') {
-            return Excel::download(new PenjualanExport(), 'penjualan.xlsx');
+            $randomDate = now()->format('dmY');
+            if (auth()->user()->hasRole('agen')) {
+                $nama = auth()->user()->username;
+                $fileName = "penjualan_thataponsel_{$nama}_{$randomDate}.xlsx";
+            } else {
+                $fileName = "penjualan_thataponsel_{$randomDate}.xlsx";
+            }
+
+            return Excel::download(new PenjualanExport(), $fileName);
         } else {
             return redirect()
                 ->back()

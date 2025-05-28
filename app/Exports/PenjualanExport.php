@@ -16,7 +16,18 @@ class PenjualanExport implements FromCollection, WithHeadings, WithMapping, With
      */
     public function collection()
     {
-        return Penjualan::success()->isAgent()->get();
+        if (auth()->user()->hasRole('agen')) {
+            return Penjualan::success()
+                ->latest()
+                ->isAgent()
+                ->with(['pelanggan', 'tokoCabang', 'stock.barang'])
+                ->get();
+        } else {
+            return Penjualan::success()
+                ->latest()
+                ->with(['pelanggan', 'tokoCabang', 'stock.barang'])
+                ->get();
+        }
     }
 
     /**
@@ -25,10 +36,9 @@ class PenjualanExport implements FromCollection, WithHeadings, WithMapping, With
     public function headings(): array
     {
         return [
-            'ID',
+            '#',
             'Invoice',
             'Pelanggan',
-            'Nomor WA',
             'Toko Cabang',
             'Agen',
             'Barang',
@@ -48,11 +58,13 @@ class PenjualanExport implements FromCollection, WithHeadings, WithMapping, With
      */
     public function map($penjualan): array
     {
+        static $loopIndex = 0;
+        $loopIndex++;
+
         return [
-            $penjualan->id,
+            $loopIndex,
             $penjualan->invoice,
             $penjualan->pelanggan->nama_pelanggan ?? 'Tidak Ada',
-            $penjualan->pelanggan->nomor_wa ?? 'Tidak Ada',
             $penjualan->tokoCabang->nama_toko ?? 'Tidak Ada',
             $penjualan->user->name ?? 'Tidak Ada',
             $penjualan->stock->barang->nama_barang ?? 'Tidak Ada',
