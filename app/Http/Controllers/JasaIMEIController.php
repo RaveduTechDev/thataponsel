@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Agent;
 use App\Models\JasaImei;
 use App\Models\Pelanggan;
 use App\Http\Requests\ImeiRequest;

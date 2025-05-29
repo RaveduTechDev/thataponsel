@@ -34,18 +34,21 @@ class DatabaseSeeder extends Seeder
             'name' => 'Owner',
             'username' => 'owner',
             'email' => 'owner@test.com',
+            'jumlah_transaksi' => 0,
         ])->assignRole('owner');
 
         User::factory()->create([
             'name' => 'Admin',
             'username' => 'admin',
             'email' => 'admin@test.com',
+            'jumlah_transaksi' => 0,
         ])->assignRole('admin');
 
         User::factory()->create([
             'name' => 'Agent',
             'username' => 'agent',
             'email' => 'agent@test.com',
+            'jumlah_transaksi' => 1,
         ])->assignRole('agen');
 
         Barang::factory()->create([
@@ -83,6 +86,7 @@ class DatabaseSeeder extends Seeder
         Pelanggan::factory()->create([
             'nama_pelanggan' => 'Ravedu Test Pelanggan',
             'nomor_wa' => '+6281234567890',
+            'jumlah_transaksi' => 1
         ]);
 
         Penjualan::factory()->create([
@@ -107,9 +111,10 @@ class DatabaseSeeder extends Seeder
             'biaya' => 1000000,
             'modal' => 500000,
             'profit' => 500000,
-            'status' => 'proses',
+            'status' => 'selesai',
             'supplier' => 'Supplier Test',
             'user_id' => 4,
+            'tanggal' => now(),
         ]);
     }
 }

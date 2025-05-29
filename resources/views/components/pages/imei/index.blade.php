@@ -134,7 +134,8 @@
                                     </td>
                                     <td class="text-nowrap">{{ $jasa_imei->supplier }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->user->name }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->created_at->isoFormat('D MMMM Y') }}</td>
+                                    <td class="text-nowrap">
+                                        {{ \Carbon\Carbon::parse($jasa_imei->tanggal)->isoFormat('D MMMM Y') }}</td>
                                     <td class="text-nowrap">
                                         {{ $jasa_imei->status == 'selesai' ? $jasa_imei->updated_at->isoFormat('D MMMM Y') : 'Dalam Proses' }}
                                     </td>

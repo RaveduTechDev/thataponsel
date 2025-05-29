@@ -34,6 +34,7 @@ class ImeiRequest extends FormRequest
             'status' => 'required|string|max:255',
             'supplier' => 'sometimes|string|max:255',
             'user_id' => 'sometimes|exists:users,id',
+            'tanggal' => 'required|date',
         ];
 
         if ($this->isMethod('post')) {

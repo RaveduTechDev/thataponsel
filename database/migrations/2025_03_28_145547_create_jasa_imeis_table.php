@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('jasa_imeis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pelanggan_id')->constrained('pelanggans')->onDelete('cascade');
+            $table->foreignId('pelanggan_id')->constrained('pelanggans');
             $table->string('tipe');
             $table->string('imei')->unique();
             $table->decimal('biaya', 30, 0);
@@ -21,7 +21,8 @@ return new class extends Migration
             $table->decimal('profit', 30, 0);
             $table->enum('status', ['proses', 'selesai']);
             $table->string('supplier');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users');
+            $table->date('tanggal');
             $table->timestamps();
         });
     }

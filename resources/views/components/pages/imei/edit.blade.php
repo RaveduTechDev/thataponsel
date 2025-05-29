@@ -70,149 +70,193 @@
                         class="form">
                         @csrf
                         @method('PUT')
+
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-8 col-12">
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Data Jasa IMEI</h5>
+                                        <li>Kolom yang ditandai dengan <span class="text-danger">*</span> wajib diisi.</li>
+                                    </div>
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div
-                                                    class="{{ Auth::user()->hasRole('agen') ? 'col-md-6' : 'col-md-4' }} col-12">
+                                                <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="select-pelanggans" class="form-label">Pelanggan</label>
-                                                        <select id="select-pelanggans" class="form-select"
-                                                            name="pelanggan_id" required>
+                                                        <label for="select-pelanggans" class="form-label">
+                                                            Pelanggan
+                                                        </label>
+                                                        <select id="select-pelanggans"
+                                                            class="select-data form-select choice" style="cursor:pointer;"
+                                                            name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
+                                                            data-check-selected="true" required>
                                                             @foreach ($pelanggans as $pelanggan)
                                                                 <option value="{{ $pelanggan->id }}"
-                                                                    {{ $jasa_imei->pelanggan_id == $pelanggan->id ? 'selected' : '' }}>
+                                                                    {{ $jasa_imei->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
                                                                     {{ $pelanggan->nama_pelanggan }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    @error('pelanggan_id')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
                                                 </div>
 
-                                                <div
-                                                    class="{{ Auth::user()->hasRole('agen') ? 'col-md-6' : 'col-md-4' }} col-12">
+                                                <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="supplier" class="form-label">Supplier</label>
-                                                        <input type="text" id="supplier" class="form-control"
-                                                            name="supplier" value="{{ $jasa_imei->supplier }}" required>
+                                                        <input type="text" id="supplier"
+                                                            class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
+                                                            value="{{ old('supplier', $jasa_imei->supplier) }}"
+                                                            placeholder="Supplier" name="supplier" required>
+                                                        @error('supplier')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
-                                                    @error('supplier')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
                                                 </div>
 
                                                 @if (!Auth::user()->hasRole('agen'))
-                                                    <div class="col-md-4 col-12">
+                                                    <div class="col-md-6 col-12">
                                                         <div class="form-group mandatory">
-                                                            <label for="select-agent" class="form-label">Sales/Agent</label>
-                                                            <select id="select-agent"
-                                                                class="select-data form-select choice {{ $errors->has('user_id') ? 'is-invalid' : '' }}"
+                                                            <label for="select-agent" class="form-label">
+                                                                Sales/Agent
+                                                            </label>
+                                                            <select id="select-agent" class="select-data form-select choice"
                                                                 style="cursor:pointer;" name="user_id"
-                                                                data-placeholder="-- Pilih Sales/Agent --" name="user_id"
+                                                                data-placeholder="-- Pilih Sales/Agent --"
                                                                 data-check-selected="true" required>
                                                                 @foreach ($users as $user)
                                                                     <option value="{{ $user->id }}"
-                                                                        {{ $jasa_imei->user_id == $user->id ? 'selected' : '' }}>
+                                                                        {{ $jasa_imei->user_id === $user->id ? 'selected' : '' }}>
                                                                         {{ $user->name }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        @error('user_id')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
                                                     </div>
                                                 @endif
 
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group">
-                                                        <label for="tipe" class="form-label">Tipe</label>
-                                                        <input type="text" id="tipe" class="form-control"
-                                                            name="tipe" value="{{ $jasa_imei->tipe }}" required>
-                                                    </div>
-                                                    @error('tipe')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group">
+                                                    <div class="form-group mandatory">
                                                         <label for="imei" class="form-label">IMEI</label>
-                                                        <input type="text" id="imei" class="form-control"
-                                                            name="imei" value="{{ $jasa_imei->imei }}" readonly
-                                                            required>
+                                                        <input type="text" id="imei"
+                                                            class="form-control {{ $errors->has('imei') ? 'is-invalid' : '' }}"
+                                                            value="{{ old('imei', $jasa_imei->imei) }}"
+                                                            placeholder="IMEI" name="imei">
+                                                        @error('imei')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
-                                                    @error('imei')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="modal" class="form-label">Modal</label>
-                                                        <input type="text" id="modal" class="form-control"
-                                                            name="modal" value="{{ $jasa_imei->modal }}" required>
+                                                        <label for="tipe" class="form-label">Tipe</label>
+                                                        <input type="text" id="tipe"
+                                                            class="form-control {{ $errors->has('tipe') ? 'is-invalid' : '' }}"
+                                                            value="{{ old('tipe', $jasa_imei->tipe) }}"
+                                                            placeholder="Tipe" name="tipe">
+                                                        @error('tipe')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
-                                                    @error('modal')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group">
+                                                        <label for="tanggal" class="form-label">Tanggal</label>
+                                                        <input type="date" id="tanggal"
+                                                            class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
+                                                            value="{{ old('tanggal', $jasa_imei->tanggal) }}"
+                                                            placeholder="Tanggal" name="tanggal">
+                                                        @error('tanggal')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="biaya" class="form-label">Biaya</label>
-                                                        <input type="text" id="biaya" class="form-control"
-                                                            name="biaya" value="{{ $jasa_imei->biaya }}" required>
-                                                    </div>
-                                                    @error('biaya')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="profit" class="form-label">Profit</label>
-                                                        <input type="text" id="profit" class="form-control"
-                                                            readonly name="profit" value="{{ $jasa_imei->profit }}"
-                                                            required>
-                                                    </div>
-                                                    @error('profit')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="select-status" class="form-label">Status</label>
+                                                        <label for="select-status" class="form-label">
+                                                            Status
+                                                        </label>
                                                         <select id="select-status"
                                                             class="select-status form-select choices multiple-remove"
-                                                            name="status" data-check-selected="true" multiple required>
+                                                            name="status" data-check-selected="false" multiple required>
                                                             <option value="proses"
-                                                                {{ $jasa_imei->status == 'proses' ? 'selected' : '' }}>
+                                                                {{ old('status', $jasa_imei->status) == 'proses' ? 'selected' : '' }}>
                                                                 Proses
                                                             </option>
                                                             <option value="selesai"
-                                                                {{ $jasa_imei->status == 'selesai' ? 'selected' : '' }}>
+                                                                {{ old('status', $jasa_imei->status) == 'selesai' ? 'selected' : '' }}>
                                                                 Selesai
                                                             </option>
                                                         </select>
+                                                        @error('status')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
-                                                    @error('status')
-                                                        <small class="text-danger">{{ $message }}</small>
-                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Detail Jasa IMEI</h4>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="modal" class="form-label">Modal</label>
+                                                        <input type="text" id="modal"
+                                                            value="{{ old('modal', $jasa_imei->modal) }}"
+                                                            class="form-control {{ $errors->has('modal') ? 'is-invalid' : '' }}"
+                                                            placeholder="Harga Modal" name="modal" required>
+                                                        @error('modal')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="biaya" class="form-label">Biaya Jasa</label>
+                                                        <input type="text" id="biaya"
+                                                            value="{{ old('biaya', $jasa_imei->biaya) }}"
+                                                            class="form-control {{ $errors->has('biaya') ? 'is-invalid' : '' }}"
+                                                            placeholder="Rp. 0" name="biaya" required>
+                                                        @error('biaya')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="profit" class="form-label">Profit</label>
+                                                        <input type="text" id="profit"
+                                                            value="{{ old('profit', $jasa_imei->profit) }}" readonly
+                                                            class="form-control {{ $errors->has('profit') ? 'is-invalid' : '' }}"
+                                                            placeholder="Harga Jual" name="profit" required>
+                                                        @error('profit')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-12 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-primary mb-1" id="submitBtn">
+                                            <div class="row mt-2">
+                                                <div class="col-12 d-flex justify-content-start">
+                                                    <button type="submit" class="btn btn-primary me-3 mb-1"
+                                                        id="submitBtn">
                                                         Ubah
+                                                    </button>
+                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">
+                                                        Reset
                                                     </button>
                                                 </div>
                                             </div>

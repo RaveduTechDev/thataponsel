@@ -20,14 +20,15 @@ class JasaImei extends Model
         'profit',
         'status',
         'supplier',
-        'user_id'
+        'user_id',
+        'tanggal',
     ];
 
     protected $with = ['pelanggan', 'user'];
 
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class);
+        return $this->belongsTo(Pelanggan::class)->withTrashed()->select('id', 'nama_pelanggan', 'nomor_wa');
     }
 
     public function user()
