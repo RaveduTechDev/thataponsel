@@ -18,6 +18,8 @@
         @yield('login')
     </section>
     </div>
+
+    @stack('scripts')
 </body>
 
 </html>

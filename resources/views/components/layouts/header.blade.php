@@ -53,15 +53,15 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="topbarUserDropdown">
-                        <li><a class="dropdown-item" href="#">My Account</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
+                        <li><a class="dropdown-item" href="#">Profil Saya</a></li>
+
+                        <hr class="dropdown-divider" />
+
                         <li>
                             <a class="dropdown-item" href={{ route('logout') }}
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
+                                <i class="bi bi-box-arrow-right"></i>
                                 Logout
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

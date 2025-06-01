@@ -25,7 +25,6 @@
                             <div class=" col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        {{-- informasi mandatory --}}
                                         <li>Kolom yang ditandai dengan <span class="text-danger">*</span> wajib diisi.</li>
                                     </div>
                                     <div class="card-content">
@@ -57,6 +56,7 @@
                                                             class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
                                                             placeholder="Nama Agen" name="username"
                                                             value="{{ @old('username') }}" required>
+                                                        <small id="username-error" class="text-danger"></small>
                                                         @error('username')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -80,14 +80,23 @@
 
                                             <div class="row mb-4">
                                                 <div class="col-md-6 col-lg-4 col-12">
-                                                    <div class="form-group mandatory">
+                                                    <div class="form-group position-relative mandatory">
                                                         <label for="new_password" class="form-label">
                                                             Password
                                                         </label>
-                                                        <input type="password" id="password"
-                                                            class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                                                            placeholder="Password" name="password"
-                                                            value="{{ @old('password') }}" required>
+
+                                                        <div class="position-relative">
+                                                            <input type="password" id="password"
+                                                                class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                                                                placeholder="Password" name="password"
+                                                                value="{{ @old('password') }}" required>
+
+                                                            <div class="position-absolute"
+                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                                                <i class="bi bi-eye-slash" id="togglePasswordIcon"></i>
+                                                            </div>
+                                                        </div>
+                                                        <small id="password-error" class="text-danger"></small>
                                                     </div>
                                                 </div>
 
@@ -96,10 +105,21 @@
                                                         <label for="password_confirmation" class="form-label">
                                                             Konfirmasi Password
                                                         </label>
-                                                        <input type="password" id="password_confirmation"
-                                                            class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                                                            placeholder="Konfirmasi Password" name="password_confirmation"
-                                                            value="{{ @old('password_confirmation') }}" required>
+
+                                                        <div class="position-relative">
+                                                            <input type="password" id="password_confirmation"
+                                                                class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                                                                placeholder="Konfirmasi Password"
+                                                                name="password_confirmation"
+                                                                value="{{ @old('password_confirmation') }}" required>
+
+                                                            <div class="position-absolute"
+                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                                                <i class="bi bi-eye-slash"
+                                                                    id="togglePasswordConfirmationIcon"></i>
+                                                            </div>
+                                                        </div>
+                                                        <small id="password_confirmation-error" class="text-danger"></small>
                                                         @error('password')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -113,7 +133,8 @@
                                                 <div class="col-md-6 col-lg-4 col-12">
                                                     <div class="form-group mandatory d-flex flex-column">
                                                         <label for="phone" class="form-label">Nomor HP/WhatsApp</label>
-                                                        <input type="tel" value="{{ old('nomor_wa') }}" id="phone"
+                                                        <input type="tel" value="{{ old('nomor_wa') }}"
+                                                            id="phone"
                                                             class="form-control {{ $errors->has('no_wa') ? 'is-invalid' : '' }}"
                                                             name="nomor_wa" required>
                                                     </div>
@@ -194,6 +215,75 @@
     </section>
 
 
+@endsection
+
+@push('scripts')
     @vite(['resources/js/telInput.js', 'resources/js/choices.js'])
     @include('components.ui.loading.button')
-@endsection
+
+    <script type="module">
+        const usernameInput = document.getElementById("username");
+        const togglePasswordIcon = document.getElementById("togglePasswordIcon");
+        const togglePasswordConfirmationIcon = document.getElementById("togglePasswordConfirmationIcon");
+
+        usernameInput.addEventListener("input", function() {
+            const invalidChars = /[^a-z0-9_]/g;
+            if (invalidChars.test(this.value)) {
+                const usernameError = document.getElementById("username-error");
+                usernameError.textContent =
+                    "Username hanya boleh mengandung huruf kecil, angka, dan garis bawah.";
+                setTimeout(() => {
+                    usernameError.textContent = "";
+                }, 4000);
+            }
+            this.value = this.value.toLowerCase().replace(invalidChars, "");
+        });
+
+        togglePasswordIcon.addEventListener("click", function() {
+            const passwordInput = document.getElementById("password");
+            const isPasswordVisible = passwordInput.type === "text";
+
+            passwordInput.type = isPasswordVisible ? "password" : "text";
+            this.classList.toggle("bi-eye", !isPasswordVisible);
+            this.classList.toggle("bi-eye-slash", isPasswordVisible);
+        });
+
+        togglePasswordConfirmationIcon.addEventListener("click", function() {
+            const passwordConfirmationInput = document.getElementById("password_confirmation");
+            const isPasswordVisible = passwordConfirmationInput.type === "text";
+
+            passwordConfirmationInput.type = isPasswordVisible ? "password" : "text";
+            this.classList.toggle("bi-eye", !isPasswordVisible);
+            this.classList.toggle("bi-eye-slash", isPasswordVisible);
+        });
+
+        const passwordInput = document.getElementById("password");
+        const passwordConfirmationInput = document.getElementById("password_confirmation");
+        const passwordError = document.getElementById("password-error");
+        const passwordConfirmationError = document.getElementById("password_confirmation-error");
+
+        passwordInput.addEventListener("input", function() {
+            this.value = this.value.replace(/\s/g, "");
+            if (/\s/.test(this.value)) {
+                passwordError.textContent = "Password tidak boleh mengandung spasi.";
+            } else if (this.value.length < 8) {
+                passwordError.textContent = "Password minimal 8 karakter.";
+            } else {
+                passwordError.textContent = "";
+            }
+        });
+
+        passwordConfirmationInput.addEventListener("input", function() {
+            this.value = this.value.replace(/\s/g, "");
+            if (/\s/.test(this.value)) {
+                passwordConfirmationError.textContent = "Password konfirmasi tidak boleh mengandung spasi.";
+            } else if (this.value.length < 8) {
+                passwordConfirmationError.textContent = "Password konfirmasi minimal 8 karakter.";
+            } else if (this.value !== passwordInput.value) {
+                passwordConfirmationError.textContent = "Password konfirmasi tidak cocok.";
+            } else {
+                passwordConfirmationError.textContent = "";
+            }
+        });
+    </script>
+@endpush

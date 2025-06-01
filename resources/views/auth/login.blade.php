@@ -1,83 +1,3 @@
-{{-- @extends('layouts.app')
-
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Login') }}</div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-
-                            <div class="row mb-3">
-                                <label for="email"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="current-password">
-
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6 offset-md-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                            {{ old('remember') ? 'checked' : '' }}>
-
-                                        <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
-                                    </button>
-
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Your Password?') }}
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection --}}
-
 @extends('layouts.guest')
 
 @section('login')
@@ -90,16 +10,16 @@
                         <form action="{{ route('login') }}" method="POST" class="mt-10">
                             @csrf
                             <div class="form-group position-relative has-icon-left mb-4">
-                                <input type="email" id="email"
-                                    class="form-control form-control-lg @error('email') is-invalid @enderror"
-                                    placeholder="Email" required autocomplete="email" autofocus name="email"
-                                    value="{{ old('email') }}">
+                                <input type="text" id="username"
+                                    class="form-control form-control-lg @error('username') is-invalid @enderror"
+                                    placeholder="Username" required autocomplete="username" autofocus name="username"
+                                    value="{{ old('username') }}">
 
                                 <div class="form-control-icon" style="margin-top: -2px;">
-                                    <i class="bi bi-envelope"></i>
+                                    <i class="bi bi-person-vcard"></i>
                                 </div>
-
-                                @error('email')
+                                <small id="username-error" class="text-danger"></small>
+                                @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ __($message) }}</strong>
                                     </span>
@@ -115,14 +35,17 @@
                                     <i class="bi bi-shield-lock"></i>
                                 </div>
 
+                                <div class="position-absolute"
+                                    style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                    <i class="bi bi-eye-slash" id="togglePasswordIcon"></i>
+                                </div>
+
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ __($message) }}</strong>
                                     </span>
                                 @enderror
                             </div>
-
-
 
                             <div class="form-check form-check-lg d-flex align-items-end">
                                 <input id="remember" class="form-check-input me-2" type="checkbox" id="flexCheckDefault"
@@ -138,10 +61,13 @@
                                 {{ __('Log in') }}
                             </button>
                         </form>
-                        <div class="mt-2 fs-6">
-                            <p><a class="font-bold text-danger link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
-                                    href="">Lupa Passowrd ?</a>.</p>
-                        </div>
+                        {{-- <div class="mt-2 fs-6">
+                            <p>
+                                <a class="font-bold text-danger link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                                    href="">Lupa Password ?
+                                </a>.
+                            </p>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-lg-7 d-none d-lg-block">
@@ -156,3 +82,36 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="module">
+        const usernameInput = document.getElementById("username");
+        usernameInput.addEventListener("input", function() {
+            const invalidChars = /[^a-z0-9_]/g;
+            if (invalidChars.test(this.value)) {
+                const usernameError = document.getElementById("username-error");
+                usernameError.textContent =
+                    "Username hanya boleh mengandung huruf kecil, angka, dan garis bawah.";
+                setTimeout(() => {
+                    usernameError.textContent = "";
+                }, 4000);
+            }
+
+            this.value = this.value.toLowerCase().replace(invalidChars, "");
+        });
+
+        const togglePasswordIcon = document.getElementById("togglePasswordIcon");
+        const passwordInput = document.getElementById("password");
+        togglePasswordIcon.addEventListener("click", function() {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                this.classList.remove("bi-eye-slash");
+                this.classList.add("bi-eye");
+            } else {
+                passwordInput.type = "password";
+                this.classList.remove("bi-eye");
+                this.classList.add("bi-eye-slash");
+            }
+        });
+    </script>
+@endpush
