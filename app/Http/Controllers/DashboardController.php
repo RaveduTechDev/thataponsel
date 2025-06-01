@@ -10,11 +10,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\NumberCustom;
 use App\Models\JasaImei;
+use Illuminate\Container\Attributes\Auth;
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+
+        $notAgent = auth()->user()->hasRole(['super_admin', 'admin', 'owner']) ? true : false;
+
         $start = null;
         $end = null;
 
@@ -25,9 +29,6 @@ class DashboardController extends Controller
             $start = Carbon::now()->subMonths(5)->startOfMonth();
             $end = Carbon::now()->endOfMonth();
         }
-
-        // $start = Carbon::now()->subMonths(5)->startOfMonth();
-        // $end = Carbon::now()->endOfMonth();
 
         $penjualan = Penjualan::whereBetween('tanggal_transaksi', [$start, $end])
             ->orderBy('tanggal_transaksi')
@@ -45,50 +46,57 @@ class DashboardController extends Controller
             $current->addMonth();
         }
 
-        // performance agen/penjualan
-        $users = User::select('name', 'jumlah_transaksi')
-            ->orderBy('jumlah_transaksi', 'asc')
-            ->take(7)
-            ->whereHas('penjualans', function ($query) use ($start, $end) {
-                $query->whereBetween('tanggal_transaksi', [$start, $end]);
-            })
-            ->whereHas('roles', function ($query) {
-                $query->where('name', 'agen');
-            })->get();
+        if ($notAgent) {
+            // performance agen/penjualan
+            $users = User::select('name', 'jumlah_transaksi')
+                ->orderBy('jumlah_transaksi', 'asc')
+                ->take(7)
+                ->whereHas('penjualans', function ($query) use ($start, $end) {
+                    $query->whereBetween('tanggal_transaksi', [$start, $end]);
+                })
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'agen');
+                })->get();
 
-        $dataAgen = $users->pluck('name')->map(fn($name) => ucfirst($name));
-        $totalPenjualan = $users->pluck('jumlah_transaksi');
+            $dataAgen = $users->pluck('name')->map(fn($name) => ucfirst($name));
+            $totalPenjualan = $users->pluck('jumlah_transaksi');
 
-        // top 5 barang paling laku beserta nama barangnya yang diambil dari stock
-        $top5 = DB::table('penjualans')
-            ->join('stocks', 'stocks.id', '=', 'penjualans.stock_id')
-            ->join('barangs', 'barangs.id', '=', 'stocks.barang_id')
-            ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
-            ->select(
-                'barangs.nama_barang',
-                DB::raw('COUNT(*) as total_terjual')
-            )
-            ->groupBy('stocks.id', 'barangs.nama_barang')
-            ->limit(5)
-            ->get();
+            // top 5 barang paling laku beserta nama barangnya yang diambil dari stock
+            $top5 = DB::table('penjualans')
+                ->join('stocks', 'stocks.id', '=', 'penjualans.stock_id')
+                ->join('barangs', 'barangs.id', '=', 'stocks.barang_id')
+                ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
+                ->select(
+                    'barangs.nama_barang',
+                    DB::raw('COUNT(*) as total_terjual')
+                )
+                ->groupBy('stocks.id', 'barangs.nama_barang')
+                ->limit(5)
+                ->get();
 
-        $barangLabel = $top5->pluck('nama_barang');
-        $colors = ['#8B0000', '#B22222', '#DC143C', '#FF6347', '#FF7F7F'];
-        $jumlahBarang = $top5->map(function ($item, $idx) use ($colors) {
-            return [
-                'value'     => $item->total_terjual,
-                'itemStyle' => ['color' => $colors[$idx] ?? '#' . dechex(rand(0xFF0000, 0xFF9999))]
-            ];
-        });
+            $barangLabel = $top5->pluck('nama_barang');
+            $colors = ['#8B0000', '#B22222', '#DC143C', '#FF6347', '#FF7F7F'];
+            $jumlahBarang = $top5->map(function ($item, $idx) use ($colors) {
+                return [
+                    'value'     => $item->total_terjual,
+                    'itemStyle' => ['color' => $colors[$idx] ?? '#' . dechex(rand(0xFF0000, 0xFF9999))]
+                ];
+            });
+        }
 
         // cashflow penjualan modal dari tabel stock, harga jual dari tabel penjualan yang akan digunakan ke pie chart
         $totalHargaModal = DB::table('penjualans')
             ->join('stocks', 'penjualans.stock_id', '=', 'stocks.id')
+            ->where('penjualans.status', 'selesai')
             ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
-            ->sum('stocks.modal');
-        $totalHargaPenjualan = DB::table('penjualans')
+            ->sum(DB::raw('COALESCE(stocks.modal,0) * penjualans.qty'));
+
+
+        $totalPenjualan = DB::table('penjualans')
+            ->where('penjualans.status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
             ->sum(DB::raw('CAST(total_bayar AS NUMERIC)'));
+
 
         // unit masuk dari stock => jumlah_stok dan unit keluar => jumlah terjual dari stock_id dengan status selesai
         $totalUnitMasuk = Stock::whereHas('penjualan', function ($query) use ($start, $end) {
@@ -100,12 +108,13 @@ class DashboardController extends Controller
 
         // total yang selesai dari imeis
         $totalLayananImei = JasaImei::where('status', 'selesai')
+            ->whereBetween('created_at', [$start, $end])
             ->count('jasa_imeis.status');
 
         // unit terjual dari penjualan
         $totalUnitTerjual = Penjualan::where('status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
-            ->count('penjualans.status');
+            ->sum('qty');
 
         // total harga keseluruhan penjualan dan imei 
         $totalHargaPenjualan = DB::table('penjualans')
@@ -152,10 +161,10 @@ class DashboardController extends Controller
         return view('welcome', [
             'months' => $months,
             'data' => $data,
-            'dataAgen' => $dataAgen,
-            'totalPenjualan' => $totalPenjualan,
-            'barangLabel' => $barangLabel,
-            'jumlahBarang' => $jumlahBarang,
+            'dataAgen' => $notAgent ? $dataAgen : null,
+            'totalPenjualan' => $notAgent ? $totalPenjualan : null,
+            'barangLabel' => $notAgent ? $barangLabel : null,
+            'jumlahBarang' => $notAgent ? $jumlahBarang : null,
             'totalHargaModal' => $totalHargaModal,
             'totalHargaPenjualan' => $totalHargaPenjualan,
             'totalUnitMasuk' => $totalUnitMasuk,
