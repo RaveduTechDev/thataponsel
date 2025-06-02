@@ -12,6 +12,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\MasterDataController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TokoCabangController;
 
 Route::middleware(['auth'])->group(function () {
@@ -25,9 +26,15 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('agent', UserController::class);
     });
     Route::resource('stocks', StockController::class);
+
     Route::get('/rekap', [RekapController::class, 'rekapPenjualan'])->name('rekap');
     Route::get('/rekap/agen', [RekapController::class, 'rekapPenjualanAgen'])->name('rekap.agen');
     Route::resource('penjualan', PenjualanController::class);
     Route::post('/penjualan/download', [ExportController::class, 'export'])->name('penjualan.export');
     Route::resource('jasa-imei', JasaIMEIController::class);
+
+    Route::get('/@{user:username}', [ProfileController::class, 'showProfile'])->name('profile');
+    Route::post('/@{user:username}/upload', [ProfileController::class, 'uploadProfilePhoto'])->name('profile.upload');
+
+    Route::put('/user/profile-information', [ProfileController::class, 'updateProfileInformation'])->name('user-profile-information.update');
 });

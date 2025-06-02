@@ -42,8 +42,15 @@
                     <a href="#" id="topbarUserDropdown"
                         class="user-dropdown d-flex align-items-center dropend dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="avatar avatar-md2">
-                            <img src="" alt="Avatar" />
+                        <div class="avatar avatar-md2 rounded-circle overflow-hidden me-2"
+                            style="width: 40px; height: 40px; border: 2px solid #ccc;">
+                            @if (Auth::user()->getFirstMediaUrl('profile_photo'))
+                                <img src="{{ Auth::user()->getFirstMediaUrl('profile_photo') }}"
+                                    alt="{{ Auth::user()->name }}" class="rounded-circle"
+                                    style="width: 40px; height: 40px; object-fit: cover;">
+                            @else
+                                {!! Avatar::create(strtoupper(auth()->user()->name))->setDimension(40, 40)->setFontSize(20)->toSvg() !!}
+                            @endif
                         </div>
                         <div class="text">
                             <h6 class="user-dropdown-name">{{ Auth::user()->name }}</h6>
@@ -53,7 +60,9 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="topbarUserDropdown">
-                        <li><a class="dropdown-item" href="#">Profil Saya</a></li>
+                        <li><a class="dropdown-item"
+                                href="{{ route('profile', ['user' => Auth::user()->username]) }}">Profil
+                                Saya</a></li>
 
                         <hr class="dropdown-divider" />
 

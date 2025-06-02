@@ -22,11 +22,17 @@ class UpdateUserPassword implements UpdatesUserPasswords
             'current_password' => ['required', 'string', 'current_password:web'],
             'password' => $this->passwordRules(),
         ], [
-            'current_password.current_password' => __('The provided password does not match your current password.'),
+            'current_password.current_password' => __('Password saat ini tidak cocok.'),
         ])->validateWithBag('updatePassword');
 
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
+
+        if ($user) {
+            session()->flash('success', 'Password berhasil diperbarui.');
+        } else {
+            session()->flash('error', 'Gagal memperbarui password. Silakan coba lagi.');
+        }
     }
 }
