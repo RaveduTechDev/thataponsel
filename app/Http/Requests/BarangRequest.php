@@ -34,7 +34,7 @@ class BarangRequest extends FormRequest
             'satuan' => 'required|string|max:50|in:unit,fullset',
             'kategori' => 'required|string|max:50|in:android,apple,smartwatch,ipad,tablet',
             'grade' => 'required|string|max:50',
-            'keterangan' => 'required|string',
+            'keterangan' => 'nullable|string',
             'foto' => 'nullable|file|image|mimes:jpeg,png,jpg|max:2048',
         ];
 

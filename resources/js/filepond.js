@@ -6,4 +6,3 @@ import "../assets/extensions/filepond-plugin-image-filter/filepond-plugin-image-
 import "../assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min";
 import "../assets/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min";
 import "../assets/extensions/filepond/filepond";
-import "../assets/static/js/pages/filepond";
