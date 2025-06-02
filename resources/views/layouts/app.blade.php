@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="icon" href="{{ asset('logo-thata-png-col.png') }}" type="image/x-icon">
+
     <title>Thata Ponsel - Aplikasi Sistem Manajemen</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
