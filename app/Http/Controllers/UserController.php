@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\TokoCabang;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 
 class UserController extends Controller
 {
@@ -150,6 +151,8 @@ class UserController extends Controller
 
         try {
             $agent->delete();
+            DB::table('sessions')->where('user_id', $agent->id)->delete();
+
             return redirect()->route('master-data.agent.index')->with('success', 'Agen berhasil dihapus');
         } catch (\Exception $e) {
             Log::error('Error deleting agent: ' . $e->getMessage());
