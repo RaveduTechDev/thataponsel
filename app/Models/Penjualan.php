@@ -40,7 +40,7 @@ class Penjualan extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->select('id', 'name', 'username');
+        return $this->belongsTo(User::class)->withTrashed()->select('id', 'name', 'username');
     }
 
     public function stock()
