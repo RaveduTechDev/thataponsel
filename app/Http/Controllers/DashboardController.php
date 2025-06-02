@@ -54,6 +54,12 @@ class DashboardController extends Controller
                 })
                 ->whereHas('roles', function ($query) {
                     $query->where('name', 'agen');
+                })
+                ->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('penjualans')
+                        ->whereRaw('users.id = penjualans.user_id')
+                        ->where('penjualans.status', 'selesai');
                 })->get();
 
             $dataAgen = $users->pluck('name')->map(fn($name) => ucfirst($name));
