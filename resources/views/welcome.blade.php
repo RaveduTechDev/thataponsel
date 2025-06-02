@@ -184,9 +184,18 @@
             <div class="card">
                 <div class="card-body py-4 px-3">
                     <div class="d-flex align-items-center">
-                        <div class="avatar avatar-md2">
-                            <img src="" alt="Face 1" class="select-none" />
-                        </div>
+                        @if (Auth::user()->getFirstMediaUrl('profile_photo'))
+                            <div class="avatar avatar-md2 select-none"
+                                style="width: 40px; height: 40px; overflow: hidden; border: 2px solid #ccc;">
+                                <img src="{{ Auth::user()->getFirstMediaUrl('profile_photo') }}" alt="Profile Photo"
+                                    class="select-none" style="object-fit: cover;" />
+                            </div>
+                        @else
+                            <div class="select-none avatar avatar-md2"
+                                style="width: 40px; height: 40px; overflow: hidden; border: 2px solid #ccc;">
+                                {!! Avatar::create(strtoupper(Auth::user()->name))->setDimension(36, 36)->setFontSize(14)->toSvg() !!}
+                            </div>
+                        @endif
                         <div class="ms-3 name flex-grow-1">
                             <h5 class=" font-bold text-secondary" style="font-size:16px;margin-bottom:2px">
                                 {{ Auth::user()->shortName() }}

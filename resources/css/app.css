@@ -39,8 +39,35 @@
 .card-hover-success:hover {
     background-color: #198754;
 }
+
+/* dark */
+html[data-bs-theme="dark"] .card-hover-success {
+    background-color: #198754 !important;
+    color: #fff !important;
+    transition: all 0.3s ease;
+}
+
+html[data-bs-theme="dark"] .layout-horizontal .main-navbar {
+    background-color: #22223c !important;
+}
+
+html[data-bs-theme="dark"] .card-hover-success:hover {
+    background: linear-gradient(to right, #198754 0%, #0a8823 100%) !important;
+    color: #fff !important;
+}
+
 .card-hover-success:hover h5,
 .card-hover-success:hover h6 {
+    color: #fff !important;
+}
+
+html[data-bs-theme="dark"] .card-hover-success h5,
+html[data-bs-theme="dark"] .card-hover-success h6 {
+    color: #fff !important;
+}
+
+html[data-bs-theme="dark"] .card-hover-success:hover h5,
+html[data-bs-theme="dark"] .card-hover-success:hover h6 {
     color: #fff !important;
 }
 

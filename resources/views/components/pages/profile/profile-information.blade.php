@@ -14,14 +14,15 @@
                         <div class="profile-photo me-3">
                             <div id="profile-photo-preview-content"
                                 class="rounded-circle overflow-hidden {{ Auth::user()->getFirstMediaUrl('profile_photo') ? 'd-block' : 'd-none' }}"
-                                style="width: 50px; height: 50px; position: relative; border: 2px solid #ccc;">
+                                style="width: 80px; height: 80px; position: relative; border: 2px solid #ccc;">
                                 <img src="{{ Auth::user()->getFirstMediaUrl('profile_photo') }}"
                                     alt="{{ Auth::user()->name }}" class="img-fluid rounded-circle"
-                                    id="profile-photo-preview" style="width: 50px; height: 50px; object-fit: cover;">
+                                    id="profile-photo-preview" style="width: 80px; height: 80px; object-fit: cover;">
                             </div>
                             <div id="profile-avatar-preview-content"
-                                class="{{ Auth::user()->getFirstMediaUrl('profile_photo') == '' ? 'd-block' : 'd-none' }}">
-                                {!! Avatar::create(strtoupper(Auth::user()->name))->setDimension(50, 50)->setFontSize(18)->toSvg() !!}
+                                style="width: 80px; height: 80px; border: 2px solid #ccc; overflow: hidden;"
+                                class="{{ Auth::user()->getFirstMediaUrl('profile_photo') == '' ? 'd-block' : 'd-none' }} rounded-circle ">
+                                {!! Avatar::create(strtoupper(Auth::user()->name))->setDimension(76, 76)->setFontSize(24)->toSvg() !!}
                             </div>
                         </div>
                         @csrf
