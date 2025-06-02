@@ -186,9 +186,46 @@ function buttonPDF() {
 // Event click tombol export
 $(".btn-export").on("click", function () {
     const action = $(this).data("action");
+    const idsArray = Array.from(selectedIds);
+    const form = $("#form-export");
 
-    $("#ids").val(Array.from(selectedIds).join(","));
+    if (action === "pdf") {
+        // PDF harus ada pilihan checkbox
+        if (idsArray.length === 0) {
+            alert("Pilih minimal 1 invoice untuk export PDF");
+            return;
+        }
+
+        const firstId = idsArray[0];
+        const firstInvoice = $(`.row-checkbox[value="${firstId}"]`).data(
+            "invoice"
+        );
+        const baseRoute = form.data("route");
+        const finalRoute = baseRoute.replace("__INVOICE__", firstInvoice);
+
+        form.attr("action", finalRoute);
+        $("#ids").val(idsArray.join(","));
+    } else if (action === "excel") {
+        // Excel bisa submit dengan atau tanpa pilihan
+        const baseRoute = form.data("route");
+
+        // Kalau ada pilihan, pakai invoice pertama
+        // Kalau tidak ada pilihan, pakai 'all' (atau sesuai handle di route/controller)
+        let invoiceForRoute = "all";
+        if (idsArray.length > 0) {
+            const firstId = idsArray[0];
+            invoiceForRoute = $(`.row-checkbox[value="${firstId}"]`).data(
+                "invoice"
+            );
+            $("#ids").val(idsArray.join(","));
+        } else {
+            $("#ids").val("");
+        }
+
+        const finalRoute = baseRoute.replace("__INVOICE__", invoiceForRoute);
+        form.attr("action", finalRoute);
+    }
+
     $("#export").val(action);
-
-    $("#form-export")[0].submit().refresh();
+    form.submit();
 });

@@ -14,8 +14,10 @@
                     </a>
                 @endif
 
-                <form action="{{ route('penjualan.export') }}" method="POST" id="form-export" class="user-select-none">
+                <form data-route="{{ route('penjualan.export', ['invoice' => '__INVOICE__']) }}" method="POST"
+                    id="form-export" class="user-select-none">
                     @csrf
+
                     <input type="hidden" name="ids" id="ids">
                     <input type="hidden" name="export" id="export">
 
@@ -36,7 +38,7 @@
 
         @if ($errors->has('ids'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-error">
-                <strong>Terjadi Kesalahan!</strong> {{ $errors->first('ids') }}
+                {{ $errors->first('ids') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -183,7 +185,7 @@
                                     <td>
                                         <input type="checkbox" style="cursor: pointer"
                                             class="form-check-input row-checkbox" id="" name="ids[]"
-                                            value="{{ $penjualan->id }}">
+                                            value="{{ $penjualan->id }}" data-invoice="{{ $penjualan->invoice }}">
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $penjualan->invoice }}</td>
                                     <td class="text-nowrap ">
@@ -301,8 +303,10 @@
             </div>
         </div>
     </section>
+@endsection
 
+@push('scripts')
     @vite('resources/js/datatables.js')
     @include('components.sweetalert2.alert')
     @include('components.ui.loading.button')
-@endsection
+@endpush

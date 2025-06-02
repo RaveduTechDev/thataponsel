@@ -26,6 +26,11 @@ class Penjualan extends Model
         'status',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'invoice';
+    }
+
     protected $with = ['pelanggan', 'tokoCabang', 'stock', 'user'];
 
     public function pelanggan()

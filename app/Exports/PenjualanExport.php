@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Penjualan;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -11,28 +12,33 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class PenjualanExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function collection()
+    protected $data;
+
+    public function __construct(?Collection $data = null)
     {
-        if (auth()->user()->hasRole('agen')) {
-            return Penjualan::success()
-                ->latest()
-                ->isAgent()
-                ->with(['pelanggan', 'tokoCabang', 'stock.barang'])
-                ->get();
+        if ($data) {
+            $this->data = $data;
         } else {
-            return Penjualan::success()
-                ->latest()
-                ->with(['pelanggan', 'tokoCabang', 'stock.barang'])
-                ->get();
+            $this->data = $this->defaultData();
         }
     }
 
-    /**
-     * @return array
-     */
+    protected function defaultData()
+    {
+        $query = Penjualan::success()->latest()->with(['pelanggan', 'tokoCabang', 'stock.barang']);
+
+        if (auth()->user()->hasRole('agen')) {
+            $query->isAgent();
+        }
+
+        return $query->get();
+    }
+
+    public function collection()
+    {
+        return $this->data;
+    }
+
     public function headings(): array
     {
         return [
@@ -52,10 +58,6 @@ class PenjualanExport implements FromCollection, WithHeadings, WithMapping, With
         ];
     }
 
-    /**
-     * @param Penjualan $penjualan
-     * @return array
-     */
     public function map($penjualan): array
     {
         static $loopIndex = 0;
@@ -65,7 +67,7 @@ class PenjualanExport implements FromCollection, WithHeadings, WithMapping, With
             $loopIndex,
             $penjualan->invoice,
             $penjualan->pelanggan->nama_pelanggan ?? 'Tidak Ada',
-            $penjualan->tokoCabang->nama_toko ?? 'Tidak Ada',
+            $penjualan->tokoCabang->nama_toko_cabang ?? 'Tidak Ada',
             $penjualan->user->name ?? 'Tidak Ada',
             $penjualan->stock->barang->nama_barang ?? 'Tidak Ada',
             $penjualan->qty,
@@ -78,18 +80,17 @@ class PenjualanExport implements FromCollection, WithHeadings, WithMapping, With
         ];
     }
 
-    /**
-     * @return \Illuminate\Contracts\Support\Styler
-     */
     public function styles(Worksheet $sheet)
     {
-        $totalRows = count($this->collection()) + 1;
+        $totalRows = $this->collection()->count() + 1;
+
         $sheet->getStyle('A1:N' . $totalRows)->getAlignment()->setWrapText(false);
         $sheet->getStyle('A1:N' . $totalRows)->getFont()->setName('Times New Roman');
         $sheet->getStyle('A1:N' . $totalRows)->getFont()->setSize(12);
         $sheet->getStyle('A1:N1')->getFont()->setBold(true);
         $sheet->getStyle('A1:N' . $totalRows)->getAlignment()->setHorizontal('left');
         $sheet->getStyle('A1:N' . $totalRows)->getAlignment()->setVertical('left');
+
         foreach (range('A', 'N') as $column) {
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
