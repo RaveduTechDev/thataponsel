@@ -17,22 +17,21 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
 
-        $notAgent = auth()->user()->hasRole(['super_admin', 'admin', 'owner']) ? true : false;
+        $notAgent = auth()->user()->hasRole(['super_admin', 'admin', 'owner']);
 
-        $start = null;
-        $end = null;
+        $start = $request->has('start_date') ? Carbon::parse($request->input('start_date')) : Carbon::now()->subMonths(5)->startOfMonth();
+        $end = $request->has('end_date') ? Carbon::parse($request->input('end_date')) : Carbon::now()->endOfMonth();
 
-        if ($request->has('start_date') || $request->has('end_date')) {
-            $start = Carbon::parse($request->input('start_date'));
-            $end = Carbon::parse($request->input('end_date'));
-        } else {
-            $start = Carbon::now()->subMonths(5)->startOfMonth();
-            $end = Carbon::now()->endOfMonth();
+        $penjualanQuery = Penjualan::where('status', 'selesai')
+            ->whereBetween('tanggal_transaksi', [$start, $end]);
+
+        if (!$notAgent) {
+            $penjualanQuery->whereHas('user.roles', function ($query) {
+                $query->where('name', 'agen');
+            })->where('user_id', auth()->id());
         }
 
-        $penjualan = Penjualan::whereBetween('tanggal_transaksi', [$start, $end])
-            ->orderBy('tanggal_transaksi')
-            ->get();
+        $penjualan = $penjualanQuery->get();
 
         $grouped = $penjualan->groupBy(fn($item) => Carbon::parse($item->tanggal_transaksi)->isoFormat('MMMM Y'));
 
@@ -47,7 +46,6 @@ class DashboardController extends Controller
         }
 
         if ($notAgent) {
-            // performance agen/penjualan
             $users = User::select('name', 'jumlah_transaksi')
                 ->orderBy('jumlah_transaksi', 'asc')
                 ->take(7)
@@ -61,14 +59,14 @@ class DashboardController extends Controller
             $dataAgen = $users->pluck('name')->map(fn($name) => ucfirst($name));
             $totalPenjualan = $users->pluck('jumlah_transaksi');
 
-            // top 5 barang paling laku beserta nama barangnya yang diambil dari stock
             $top5 = DB::table('penjualans')
                 ->join('stocks', 'stocks.id', '=', 'penjualans.stock_id')
                 ->join('barangs', 'barangs.id', '=', 'stocks.barang_id')
                 ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
+                ->where('penjualans.status', 'selesai')
                 ->select(
                     'barangs.nama_barang',
-                    DB::raw('COUNT(*) as total_terjual')
+                    DB::raw('SUM(penjualans.qty) as total_terjual'),
                 )
                 ->groupBy('stocks.id', 'barangs.nama_barang')
                 ->limit(5)
@@ -84,39 +82,39 @@ class DashboardController extends Controller
             });
         }
 
-        // cashflow penjualan modal dari tabel stock, harga jual dari tabel penjualan yang akan digunakan ke pie chart
         $totalHargaModal = DB::table('penjualans')
             ->join('stocks', 'penjualans.stock_id', '=', 'stocks.id')
             ->where('penjualans.status', 'selesai')
             ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
             ->sum(DB::raw('COALESCE(stocks.modal,0) * penjualans.qty'));
 
-
         $totalPenjualan = DB::table('penjualans')
             ->where('penjualans.status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
             ->sum(DB::raw('CAST(total_bayar AS NUMERIC)'));
 
-
-        // unit masuk dari stock => jumlah_stok dan unit keluar => jumlah terjual dari stock_id dengan status selesai
         $totalUnitMasuk = Stock::whereHas('penjualan', function ($query) use ($start, $end) {
             $query->whereBetween('tanggal_transaksi', [$start, $end]);
         })->sum('jumlah_stok');
+
         $totalUnitKeluar = Penjualan::where('status', 'selesai')
-            ->whereBetween('tanggal_transaksi', [$start, $end])
-            ->count('penjualans.status');
-
-        // total yang selesai dari imeis
-        $totalLayananImei = JasaImei::where('status', 'selesai')
-            ->whereBetween('created_at', [$start, $end])
-            ->count('jasa_imeis.status');
-
-        // unit terjual dari penjualan
-        $totalUnitTerjual = Penjualan::where('status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
             ->sum('qty');
 
-        // total harga keseluruhan penjualan dan imei 
+        $totalLayananImei = JasaImei::where('status', 'selesai')
+            ->whereBetween('created_at', [$start, $end])
+            ->when(!$notAgent, function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->count('jasa_imeis.status');
+
+        $totalUnitTerjual = Penjualan::where('status', 'selesai')
+            ->whereBetween('tanggal_transaksi', [$start, $end])
+            ->when(!$notAgent, function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->sum('qty');
+
         $totalHargaPenjualan = DB::table('penjualans')
             ->where('status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
@@ -130,21 +128,23 @@ class DashboardController extends Controller
         $totalPenjualanDanImei = $totalHargaPenjualan + $totalBiayaImei;
         $formatHumanNumber = 'Rp.' . NumberCustom::formatNumber($totalPenjualanDanImei);
 
-        // keuntungan penjualan dan imei
         $totalKeuntunganPenjualan = $totalHargaPenjualan - $totalHargaModal;
 
         $modalImei = DB::table('jasa_imeis')
             ->where('status', 'selesai')
             ->whereBetween('created_at', [$start, $end])
             ->sum(DB::raw('CAST(modal AS NUMERIC)'));
+
         $totalKeuntunganImei = $totalBiayaImei - $modalImei;
 
         $totalKeuntungan = $totalKeuntunganPenjualan + $totalKeuntunganImei;
         $formatKeuntungan = NumberCustom::formatNumber($totalKeuntungan);
 
-        // penjualan imei untuk per 6 bulan
         $penjualanImeiPerBulan = JasaImei::where('status', 'selesai')
             ->whereBetween('created_at', [$start, $end])
+            ->when(!$notAgent, function ($query) {
+                $query->where('user_id', auth()->id());
+            })
             ->get()
             ->groupBy(fn($item) => Carbon::parse($item->created_at)->isoFormat('MMMM Y'));
 

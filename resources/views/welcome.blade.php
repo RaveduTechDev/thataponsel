@@ -304,7 +304,7 @@
                     left: 'center',
                     top: 'middle',
                     style: {
-                        text: 'Tidak Penjualan pada periode ini',
+                        text: 'Tidak Ada Penjualan pada periode ini',
                         fontSize: 20,
                         fontWeight: 'bold',
                         fill: '#495057'
@@ -370,124 +370,174 @@
                 }],
             });
         }
-
-
-
         @if (Auth::user()->hasRole(['super_admin', 'admin', 'owner']))
             let performanceSales = echarts.init(document.getElementById('performance-sales'));
-            performanceSales.setOption({
-                title: {
-                    text: 'Kinerja Agen/Sales (Penjualan per agen/sales)',
-                    left: 'center',
-                    top: '10px',
-                    textStyle: {
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                        color: '#495057',
-                        fontFamily: 'Poppins, sans-serif'
-                    }
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        dataView: {
-                            show: true,
-                            title: 'Lihat Data',
-                            readOnly: true,
-                            lang: ['Data', 'Tutup'],
-                        },
-                        saveAsImage: {
-                            type: 'png',
-                            name: 'Kinerja-Agen-Sales-Penjualan-per-agen-sales',
-                            title: 'Simpan Gambar',
-                            backgroundColor: '#fff',
-                        },
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                yAxis: [{
-                    type: 'category',
-                    data: @json($dataAgen),
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }],
-                xAxis: [{
-                    type: 'value'
-                }],
-                series: [{
-                    name: 'Penjualan',
-                    type: 'bar',
-                    barWidth: '60%',
-                    data: @json($totalPenjualan),
-                    itemStyle: {
-                        color: '#BF3131'
+            if (@json($dataAgen).length === 0) {
+                performanceSales.setOption({
+                    title: {
+                        text: 'Kinerja Agen/Sales (Penjualan per agen/sales)',
+                        left: 'center',
+                        top: '10px',
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            color: '#495057',
+                            fontFamily: 'Poppins, sans-serif'
+                        }
                     },
-                    label: {
-                        show: true
+                    graphic: {
+                        type: 'text',
+                        left: 'center',
+                        top: 'middle',
+                        style: {
+                            text: 'Tidak ada penjualan pada periode ini',
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            fill: '#495057'
+                        }
                     }
-                }]
-
-            });
+                });
+            } else {
+                performanceSales.setOption({
+                    title: {
+                        text: 'Kinerja Agen/Sales (Penjualan per agen/sales)',
+                        left: 'center',
+                        top: '10px',
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            color: '#495057',
+                            fontFamily: 'Poppins, sans-serif'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataView: {
+                                show: true,
+                                title: 'Lihat Data',
+                                readOnly: true,
+                                lang: ['Data', 'Tutup'],
+                            },
+                            saveAsImage: {
+                                type: 'png',
+                                name: 'Kinerja-Agen-Sales-Penjualan-per-agen-sales',
+                                title: 'Simpan Gambar',
+                                backgroundColor: '#fff',
+                            },
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    yAxis: [{
+                        type: 'category',
+                        data: @json($dataAgen),
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }],
+                    xAxis: [{
+                        type: 'value'
+                    }],
+                    series: [{
+                        name: 'Penjualan',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: @json($totalPenjualan),
+                        itemStyle: {
+                            color: '#BF3131'
+                        },
+                        label: {
+                            show: true
+                        }
+                    }]
+                });
+            }
 
             let top5Item = echarts.init(document.getElementById('top-5-item'));
-            top5Item.setOption({
-                title: {
-                    text: 'Top 5 Barang Terlaris',
-                    left: 'center',
-                    top: '10px',
-                    textStyle: {
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                        color: '#495057',
-                        fontFamily: 'Poppins, sans-serif'
+            if (@json($barangLabel).length === 0) {
+                top5Item.setOption({
+                    title: {
+                        text: 'Top 5 Barang Terlaris',
+                        left: 'center',
+                        top: '10px',
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            color: '#495057',
+                            fontFamily: 'Poppins, sans-serif'
+                        }
+                    },
+                    graphic: {
+                        type: 'text',
+                        left: 'center',
+                        top: 'middle',
+                        style: {
+                            text: 'Tidak ada data barang terlaris pada periode ini',
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            fill: '#495057'
+                        }
                     }
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                yAxis: [{
-                    type: 'category',
-                    data: @json($barangLabel),
-                    inverse: true,
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }],
-                xAxis: [{
-                    type: 'value',
-                }],
-                series: [{
-                    name: 'Penjualan',
-                    type: 'bar',
-                    barWidth: '60%',
-                    data: @json($jumlahBarang),
-                    realtimeSort: true,
-                    label: {
-                        show: true
-                    }
-                }]
-            });
+                });
+            } else {
+                top5Item.setOption({
+                    title: {
+                        text: 'Top 5 Barang Terlaris',
+                        left: 'center',
+                        top: '10px',
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            color: '#495057',
+                            fontFamily: 'Poppins, sans-serif'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    yAxis: [{
+                        type: 'category',
+                        data: @json($barangLabel),
+                        inverse: true,
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }],
+                    xAxis: [{
+                        type: 'value',
+                    }],
+                    series: [{
+                        name: 'Penjualan',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: @json($jumlahBarang),
+                        realtimeSort: true,
+                        label: {
+                            show: true
+                        }
+                    }]
+                });
+            }
 
             let cashflowPenjualan = echarts.init(document.getElementById('cashflow-penjualan'));
             cashflowPenjualan.setOption({
@@ -635,78 +685,103 @@
             });
         @endif
 
-
         let chartImei = echarts.init(document.getElementById('chart-imei'));
-        chartImei.setOption({
-            title: {
-                text: `Grafik Jasa IMEI ${deskripsiTanggal}`,
-                left: 'center',
-                top: '10px',
-                textStyle: {
-                    fontSize: 18,
-                    fontWeight: 'bold',
-                    color: '#495057',
-                    fontFamily: 'Poppins, sans-serif'
-                }
-            },
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'shadow'
-                }
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    dataView: {
-                        show: true,
-                        title: 'Lihat Data',
-                        readOnly: true,
-                        lang: ['Data', 'Tutup'],
-                    },
-                    magicType: {
-                        show: true,
-                        title: {
-                            line: 'Garis',
-                            bar: 'Batang',
-                        },
-                        type: ['line', 'bar']
-                    },
-                    saveAsImage: {
-                        type: 'png',
-                        name: 'Grafik-Penjualan-6-Bulan-Terakhir',
-                        title: 'Simpan Gambar',
-                        backgroundColor: '#fff',
-                    },
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [{
-                type: 'category',
-                data: @json($imeiMonths),
-                axisTick: {
-                    alignWithLabel: true
-                }
-            }],
-            yAxis: [{
-                type: 'value',
-            }],
-            series: [{
-                name: 'Penjualan',
-                type: 'bar',
-                barWidth: '40%',
-                data: @json($imeiData),
-                itemStyle: {
-                    color: '#a93540'
+        if (@json($imeiData).length === 0) {
+            chartImei.setOption({
+                title: {
+                    text: `Grafik Jasa IMEI ${deskripsiTanggal}`,
+                    left: 'center',
+                    top: '10px',
+                    textStyle: {
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#495057',
+                        fontFamily: 'Poppins, sans-serif'
+                    }
                 },
-            }],
-
-        });
+                graphic: {
+                    type: 'text',
+                    left: 'center',
+                    top: 'middle',
+                    style: {
+                        text: 'Tidak ada layanan IMEI pada periode ini',
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        fill: '#495057'
+                    }
+                }
+            });
+        } else {
+            chartImei.setOption({
+                title: {
+                    text: `Grafik Jasa IMEI ${deskripsiTanggal}`,
+                    left: 'center',
+                    top: '10px',
+                    textStyle: {
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: '#495057',
+                        fontFamily: 'Poppins, sans-serif'
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataView: {
+                            show: true,
+                            title: 'Lihat Data',
+                            readOnly: true,
+                            lang: ['Data', 'Tutup'],
+                        },
+                        magicType: {
+                            show: true,
+                            title: {
+                                line: 'Garis',
+                                bar: 'Batang',
+                            },
+                            type: ['line', 'bar']
+                        },
+                        saveAsImage: {
+                            type: 'png',
+                            name: 'Grafik-Penjualan-6-Bulan-Terakhir',
+                            title: 'Simpan Gambar',
+                            backgroundColor: '#fff',
+                        },
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    data: @json($imeiMonths),
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }],
+                yAxis: [{
+                    type: 'value',
+                }],
+                series: [{
+                    name: 'Layanan IMEI',
+                    type: 'bar',
+                    barWidth: '40%',
+                    data: @json($imeiData),
+                    itemStyle: {
+                        color: '#a93540'
+                    },
+                }],
+            });
+        }
 
         window.addEventListener('resize', () => {
             chartPenjualan.resize();
