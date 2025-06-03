@@ -14,7 +14,7 @@
                             <div class="mb-1 fs-1 text-danger">
                                 <i class="bi bi-person-hearts fs-1"></i>
                             </div>
-                            <h5 class="text-danger font-extrabold">Client</h5>
+                            <h5 class="text-danger font-extrabold">Pelanggan</h5>
                         </div>
                     </div>
                 </a>
@@ -27,7 +27,7 @@
                             <div class="mb-1 fs-1 text-danger">
                                 <i class="bi bi-person-vcard fs-1"></i>
                             </div>
-                            <h5 class="text-danger font-extrabold">Agent</h5>
+                            <h5 class="text-danger font-extrabold">Agen</h5>
                         </div>
                     </div>
                 </a>
