@@ -5,46 +5,53 @@
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">Edit Stok</h2>
 
-            <button type="button" class="btn btn-danger btn-md" data-bs-toggle="modal" data-bs-target="#modalStock">
-                <i class="bi bi-trash" style="margin: -12px 2px 0 0; font-size: 18px;"></i>
-                <span>Hapus</span>
-            </button>
-            <div class="modal fade text-left modal-borderless" id="modalStock" tabindex="-1"
-                aria-labelledby="modalStockLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document"
-                    style="z-index: 30;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title text-danger" id="modalStockLabel">
-                                <i class="bi bi-exclamation-triangle-fill fs-5" style="margin-top:-8px;"></i>
-                                <span>Peringatan</span>
-                            </h5>
-                            <button type="button" class="close text-danger close-btn" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <i class="bi bi-x-lg fs-6"></i>
-                                <span class="visually-hidden">Close</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Yakin Ingin Menghapus Data Ini?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Batal</span>
-                            </button>
-
-                            <form action={{ route('stocks.destroy', $stock->id) }} method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger ms-1 d-flex">
-                                    <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
-                                    <span class="d-none d-sm-block">Hapus</span>
+            <div class="d-flex gap-2 justify-content-center align-items-center">
+                <button type="button" class="btn btn-danger btn-sm d-inline-flex justify-content-center w-100"
+                    data-bs-toggle="modal" data-bs-target="#modalStock">
+                    <i class="bi bi-trash" style="margin: -2px 2px 0 0; font-size: 15px;"></i>
+                    <span>Hapus</span>
+                </button>
+                <div class="modal fade text-left modal-borderless" id="modalStock" tabindex="-1"
+                    aria-labelledby="modalStockLabel" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document"
+                        style="z-index: 30;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-danger" id="modalStockLabel">
+                                    <i class="bi bi-exclamation-triangle-fill fs-5" style="margin-top:-8px;"></i>
+                                    <span>Peringatan</span>
+                                </h5>
+                                <button type="button" class="close text-danger close-btn" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                    <i class="bi bi-x-lg fs-6"></i>
+                                    <span class="visually-hidden">Close</span>
                                 </button>
-                            </form>
+                            </div>
+                            <div class="modal-body">
+                                Yakin Ingin Menghapus Data Ini?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Batal</span>
+                                </button>
+
+                                <form action={{ route('stocks.destroy', $stock->id) }} method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger ms-1 d-flex">
+                                        <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
+                                        <span class="d-none d-sm-block">Hapus</span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <a href="{{ route('stocks.index') }}" class="btn btn-sm btn-secondary w-100">
+                    <span>Kembali</span>
+                </a>
             </div>
         </div>
         <section id="multiple-column-form">
@@ -63,97 +70,15 @@
                         @method('PUT')
 
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-8 col-12">
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Data Stok Barang</h5>
+                                        <li>Kolom yang ditandai dengan <span class="text-danger">*</span> wajib diisi.</li>
+                                    </div>
                                     <div class="card-content">
                                         <div class="card-body">
                                             <div class="row">
-                                                {{-- <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="kode-barang" class="form-label text-nowrap">
-                                                            Kode Barang
-                                                        </label>
-                                                        <input type="text" id="kode-barang"
-                                                            class="form-control {{ $errors->has('kode_barang') ? 'is-invalid' : '' }}"
-                                                            placeholder="Kode Barang" name="kode_barang" required
-                                                            value="{{ $stock->kode_barang }}" disabled>
-                                                        @error('kode_barang')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="nama-barang" class="form-label text-nowrap">
-                                                            Nama Barang
-                                                        </label>
-                                                        <input type="text" id="nama-barang"
-                                                            class="form-control {{ $errors->has('nama_barang') ? 'is-invalid' : '' }}"
-                                                            placeholder="Nama Barang" name="nama_barang" required
-                                                            value="{{ $stock->nama_barang }}">
-                                                        @error('nama_barang')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="satuan" class="form-label text-nowrap">Satuan</label>
-                                                        <select id="satuan"
-                                                            class="form-select {{ $errors->has('satuan') ? 'is-invalid' : '' }}"
-                                                            style="cursor: pointer" name="satuan">
-                                                            <option>-- Pilih Satuan --</option>
-                                                            <option value="unit"
-                                                                {{ $stock->satuan === 'unit' ? 'selected' : '' }}>Unit
-                                                            </option>
-                                                            <option value="fullset"
-                                                                {{ $stock->satuan === 'fullset' ? 'selected' : '' }}>
-                                                                Fullset
-                                                            </option>
-
-                                                        </select>
-                                                        @error('satuan')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="kategori"
-                                                            class="form-label text-nowrap">Kategori</label>
-                                                        <select id="kategori"
-                                                            class="form-select {{ $errors->has('satuan') ? 'is-invalid' : '' }}"
-                                                            style="cursor: pointer" name="kategori">
-                                                            <option>-- Pilih Kategori --</option>
-                                                            <option value="android"
-                                                                {{ $stock->kategori === 'android' ? 'selected' : '' }}>
-                                                                Android</option>
-                                                            <option value="apple"
-                                                                {{ $stock->kategori === 'apple' ? 'selected' : '' }}>Apple
-                                                            </option>
-                                                        </select>
-                                                        @error('kategori')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="grade" class="form-label text-nowrap">Grade</label>
-                                                        <input type="text" id="grade"
-                                                            class="form-control {{ $errors->has('grade') ? 'is-invalid' : '' }}"
-                                                            placeholder="Grade" name="grade" required
-                                                            value="{{ $stock->grade }}">
-                                                        @error('grade')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div> --}}
-
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="select-barangs" class="form-label">
@@ -178,6 +103,20 @@
 
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
+                                                        <label for="jumlah-stok" class="form-label text-nowrap">
+                                                            Jumlah Stok</label>
+                                                        <input type="number" min="1" id="jumlah-stok"
+                                                            class="form-control {{ $errors->has('jumlah_stok') ? 'is-invalid' : '' }}"
+                                                            placeholder="Jumlah Stock" name="jumlah_stok" required
+                                                            value="{{ $stock->jumlah_stok }}">
+                                                        @error('jumlah_stok')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
                                                         <label for="supplier" class="form-label">Supplier</label>
                                                         <input type="text" id="supplier"
                                                             class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
@@ -189,7 +128,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-md-6 col-12">
                                                     <div class="form-group d-flex flex-column">
                                                         <label for="phone" class="form-label">
                                                             No Kontak Supplier
@@ -202,19 +141,6 @@
                                                     @error('no_kontak_supplier')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="tanggal" class="form-label">Tanggal</label>
-                                                        <input type="date" id="tanggal"
-                                                            class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
-                                                            value="{{ $stock->tanggal }}" placeholder="tanggal"
-                                                            name="tanggal" required>
-                                                        @error('tanggal')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
@@ -232,7 +158,6 @@
                                                     </div>
                                                 </div>
 
-
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="imei_2" class="form-label text-nowrap">
@@ -243,45 +168,6 @@
                                                             placeholder="IMEI 2" name="imei_2"
                                                             value="{{ $stock->imei_2 }}">
                                                         @error('imei_2')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="jumlah-stok" class="form-label text-nowrap">
-                                                            Jumlah Stok</label>
-                                                        <input type="number" min="1" id="jumlah-stok"
-                                                            class="form-control {{ $errors->has('jumlah_stok') ? 'is-invalid' : '' }}"
-                                                            placeholder="Jumlah Stock" name="jumlah_stok" required
-                                                            value="{{ $stock->jumlah_stok }}">
-                                                        @error('jumlah_stok')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="modal" class="form-label text-nowrap">Modal</label>
-                                                        <input type="text" min="1" id="modal"
-                                                            class="form-control {{ $errors->has('modal') ? 'is-invalid' : '' }}"
-                                                            placeholder="IMEI 2" name="modal" required
-                                                            value="{{ $stock->modal }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="harga-jual" class="form-label text-nowrap">
-                                                            Harga Jual
-                                                        </label>
-                                                        <input type="text" min="1" id="harga-jual"
-                                                            class="form-control {{ $errors->has('harga_jual') ? 'is-invalid' : '' }}"
-                                                            placeholder="Harga Jual" name="harga_jual" required
-                                                            value="{{ $stock->harga_jual }}">
-                                                        @error('harga_jual')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
@@ -301,21 +187,28 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- <div class="col-md-6 col-12">
+                                                <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
-                                                        <label for="keterangan"
-                                                            class="form-label text-nowrap">Keterangan</label>
-                                                        <input type="text" min="1" id="keterangan"
-                                                            class="form-control {{ $errors->has('keterangan') ? 'is-invalid' : '' }}"
-                                                            placeholder="Keterangan" name="keterangan" required
-                                                            value="{{ $stock->keterangan }}">
-                                                        @error('keterangan')
+                                                        <label for="tanggal" class="form-label">Tanggal</label>
+                                                        <input type="date" id="tanggal"
+                                                            class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
+                                                            value="{{ $stock->tanggal }}" placeholder="tanggal"
+                                                            name="tanggal" required>
+                                                        @error('tanggal')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
-                                                </div> --}}
+                                                </div>
 
                                                 <div class="col-12 mt-2">
+                                                    <p style="margin: 0">
+                                                        <span class="text-danger">*</span>
+                                                        Centang opsi "<strong>Garansi</strong>" jika barang memiliki
+                                                        garansi.
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-12 mt-1">
                                                     <div class="form-group mandatory">
                                                         <div class="form-check mandatory">
                                                             <input type="checkbox" id="garansi"
@@ -330,46 +223,61 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="col-md-4 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="text-secondary">Detail Stok</h5>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="modal" class="form-label text-nowrap">Modal</label>
+                                                        <input type="text" min="1" id="modal"
+                                                            class="form-control {{ $errors->has('modal') ? 'is-invalid' : '' }}"
+                                                            placeholder="IMEI 2" name="modal" required
+                                                            value="{{ $stock->modal }}">
+                                                        @error('modal')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="harga-jual" class="form-label text-nowrap">
+                                                            Harga Jual
+                                                        </label>
+                                                        <input type="text" min="1" id="harga-jual"
+                                                            class="form-control {{ $errors->has('harga_jual') ? 'is-invalid' : '' }}"
+                                                            placeholder="Harga Jual" name="harga_jual" required
+                                                            value="{{ $stock->harga_jual }}">
+                                                        @error('harga_jual')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-12 d-flex justify-content-end">
+                                            <div class="row mt-1">
+                                                <div class="col-12 d-flex justify-content-start">
                                                     <button type="submit" class="btn btn-primary me-3 mb-1"
                                                         id="submitBtn">
                                                         <span>Ubah</span>
                                                     </button>
-                                                    <a
-                                                        href="{{ route('stocks.index') }}"class="btn btn-light-secondary me-3 mb-1">
-                                                        <span>Kembali</span>
-                                                    </a>
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
-
-                            {{-- <div class="col-md-4 col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title text-nowrap">Upload Foto</h4>
-                                    </div>
-
-                                    <div class="card-content" style="margin-top: -20px;">
-                                        <div class="card-body">
-                                            <input type="file" class="image-preview-filepond" name="foto">
-                                            @error('foto')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
                     </form>
                 </div>
