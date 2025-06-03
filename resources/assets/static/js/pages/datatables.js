@@ -183,41 +183,43 @@ function buttonPDF() {
     btnPDF.prop("disabled", selectedIds.size === 0);
 }
 
-// Event click tombol export
 $(".btn-export").on("click", function () {
     const action = $(this).data("action");
-    const idsArray = Array.from(selectedIds);
+
+    // Ambil semua checkbox yang dicentang + ambil data created_at-nya
+    const idsArray = Array.from(selectedIds)
+        .map((id) => {
+            const el = $(`.row-checkbox[value="${id}"]`);
+            return {
+                id,
+                created_at: el.data("created-at"),
+                invoice: el.data("invoice"),
+            };
+        })
+        // Urutkan dari tanggal terlama ke terbaru
+        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
     const form = $("#form-export");
 
     if (action === "pdf") {
-        // PDF harus ada pilihan checkbox
         if (idsArray.length === 0) {
             alert("Pilih minimal 1 invoice untuk export PDF");
             return;
         }
 
-        const firstId = idsArray[0];
-        const firstInvoice = $(`.row-checkbox[value="${firstId}"]`).data(
-            "invoice"
-        );
+        const firstInvoice = idsArray[0].invoice;
         const baseRoute = form.data("route");
         const finalRoute = baseRoute.replace("__INVOICE__", firstInvoice);
 
         form.attr("action", finalRoute);
-        $("#ids").val(idsArray.join(","));
+        $("#ids").val(idsArray.map((item) => item.id).join(","));
     } else if (action === "excel") {
-        // Excel bisa submit dengan atau tanpa pilihan
         const baseRoute = form.data("route");
-
-        // Kalau ada pilihan, pakai invoice pertama
-        // Kalau tidak ada pilihan, pakai 'all' (atau sesuai handle di route/controller)
         let invoiceForRoute = "all";
+
         if (idsArray.length > 0) {
-            const firstId = idsArray[0];
-            invoiceForRoute = $(`.row-checkbox[value="${firstId}"]`).data(
-                "invoice"
-            );
-            $("#ids").val(idsArray.join(","));
+            invoiceForRoute = idsArray[0].invoice;
+            $("#ids").val(idsArray.map((item) => item.id).join(","));
         } else {
             $("#ids").val("");
         }
@@ -228,4 +230,9 @@ $(".btn-export").on("click", function () {
 
     $("#export").val(action);
     form.submit();
+
+    $(".row-checkbox").prop("checked", false);
+    $("#select-all").prop("checked", false);
+    selectedIds.clear();
+    buttonPDF();
 });

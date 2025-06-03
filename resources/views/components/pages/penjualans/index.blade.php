@@ -15,7 +15,7 @@
                 @endif
 
                 <form data-route="{{ route('penjualan.export', ['invoice' => '__INVOICE__']) }}" method="POST"
-                    id="form-export" class="user-select-none">
+                    id="form-export" class="user-select-none" target="_blank">
                     @csrf
 
                     <input type="hidden" name="ids" id="ids">
@@ -185,7 +185,8 @@
                                     <td>
                                         <input type="checkbox" style="cursor: pointer"
                                             class="form-check-input row-checkbox" id="" name="ids[]"
-                                            value="{{ $penjualan->id }}" data-invoice="{{ $penjualan->invoice }}">
+                                            value="{{ $penjualan->id }}" data-created-at="{{ $penjualan->created_at }}"
+                                            data-invoice="{{ $penjualan->invoice }}">
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $penjualan->invoice }}</td>
                                     <td class="text-nowrap ">
@@ -303,10 +304,11 @@
             </div>
         </div>
     </section>
+
+    @include('components.sweetalert2.alert')
+    @include('components.ui.loading.button')
 @endsection
 
 @push('scripts')
     @vite('resources/js/datatables.js')
-    @include('components.sweetalert2.alert')
-    @include('components.ui.loading.button')
 @endpush

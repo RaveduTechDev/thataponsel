@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Thata Ponsel - Cetak Invoice </title>
+
+    <link rel="icon" href="{{ public_path('logo-thata-png-col.png') }}" type="image/x-icon">
+
+    <title>Thata Ponsel - Nota Transaksi</title>
 
     <style>
         /* ===== Reset & Font ===== */
@@ -17,8 +20,8 @@
 
         body {
             font-family: "Trebuchet MS", Arial, sans-serif;
-            background-color: #f5f5f5;
             padding: 20px;
+            background-color: #f9f9f9;
         }
 
         /* ===== Container ===== */
@@ -34,26 +37,23 @@
 
         /* ===== Header ===== */
         .invoice-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            text-align: center;
             border-bottom: 2px solid #ececec;
             padding-bottom: 12px;
         }
 
         .invoice-header img {
             max-height: 60px;
+            margin-bottom: 8px;
         }
 
         .invoice-header h2 {
             font-size: 24px;
             color: #333;
-            flex: 1;
-            text-align: center;
+            margin-bottom: 8px;
         }
 
         .contact-info {
-            text-align: right;
             font-size: 12px;
             color: #555;
         }
@@ -67,26 +67,24 @@
             text-decoration: underline;
         }
 
-        /* ===== Info Pembeli & Transaksi ===== */
-        .invoice-details {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+        .contact-info .alamat {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* ===== Info Pembeli ===== */
+        .customer-info {
             font-size: 14px;
             color: #333;
         }
 
-        .invoice-details .left,
-        .invoice-details .right {
-            width: 48%;
+        .customer-info p {
+            margin-top: 8px;
         }
 
-        .invoice-details p {
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .invoice-details strong {
+        .customer-info strong {
             color: #555;
         }
 
@@ -132,8 +130,10 @@
         /* ===== Metode Pembayaran ===== */
         .payment-method {
             margin-top: 20px;
+            margin-left: 10px;
             font-size: 14px;
             color: #333;
+            font-size: 14px;
         }
 
         .payment-method strong {
@@ -143,6 +143,7 @@
         /* ===== Catatan ===== */
         .notes {
             margin-top: 20px;
+            margin-left: 10px;
             font-size: 14px;
             color: #333;
         }
@@ -187,69 +188,79 @@
                 $pelanggan = $first->pelanggan;
             @endphp
 
-            {{-- <div class="header">
-                <h1 style="color: #4335dc">Nota Transaksi</h1>
-                <img src="{{ public_path('logo-thata-png-col.png') }}" alt="" class="logo">
-                <div class="info">
-                    <div>Alamat Toko: {{ $first->tokoCabang->alamat_toko }}</div>
-                    <div>Tanggal Cetak: {{ now()->isoFormat('D MMMM YYYY') }}</div>
-                    <div>No. Invoice: {{ $first->invoice }}</div>
-                </div>
-            </div> --}}
-
             <div class="invoice-header">
-                <img src="{{ public_path('logo-thata-png-col.png') }}" alt="Logo Perusahaan">
                 <h2>NOTA TRANSAKSI</h2>
+                <img src="{{ public_path('logo-thata-png-col.png') }}" alt="Logo Perusahaan">
                 <div class="contact-info">
+                    <p class="alamat">Alamat: <strong>{{ $first->tokoCabang->alamat_toko ?? '-' }}</strong></p>
                     <p>Telp: <strong>0812-3456-7890</strong></p>
                     <p>Instagram:
                         <strong>
                             <a href="https://www.instagram.com/thataponselaceh/" target="_blank">@thataphonselaceh</a>
                         </strong>
                     </p>
+                    <p>Tanggal:
+                        <strong>{{ \Carbon\Carbon::parse($first->tanggal_transaksi)->isoFormat('D MMMM YYYY') }}</strong>
+                    </p>
                 </div>
-            </div>
-
-
-            <div class="customer">
-                <p><span class="label">Nama:</span> {{ $pelanggan->nama_pelanggan }}</p>
-                <p><span class="label">Alamat:</span> {{ $pelanggan->alamat ?? '-' }}</p>
-                <p><span class="label">Telepon:</span> {{ $pelanggan->telepon ?? '-' }}</p>
             </div>
 
             <div class="items">
                 <table>
                     <thead>
                         <tr>
-                            <th style="width:5%;">#</th>
-                            <th style="width:45%;">Nama Barang</th>
-                            <th style="width:15%;">Qty</th>
-                            <th style="width:15%;">Harga Satuan</th>
-                            <th style="width:20%;">Subtotal</th>
+                            <th style="white-space: nowrap;">#</th>
+                            <th>Nama Barang</th>
+                            <th style="white-space: nowrap;">Jumlah</th>
+                            <th style="white-space: nowrap;">Harga Satuan</th>
+                            <th style="white-space: nowrap;">Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($penjualans as $i => $item)
                             <tr>
-                                <td>{{ $i + 1 }}</td>
+                                <td style="white-space: nowrap;">{{ $i + 1 }}</td>
                                 <td>{{ $item->stock->barang->nama_barang }}</td>
-                                <td>{{ $item->qty ?? 1 }}</td>
-                                <td>Rp {{ number_format($item->stock->harga_jual, 0, ',', '.') }}</td>
-                                <td>Rp {{ number_format($item->total_bayar, 0, ',', '.') }}</td>
+                                <td style="white-space: nowrap;">{{ $item->qty ?? 1 }}</td>
+                                <td style="white-space: nowrap;">
+                                    Rp{{ number_format($item->stock->harga_jual, 0, ',', '.') }}</td>
+                                <td style="white-space: nowrap;">
+                                    Rp{{ number_format($item->total_bayar, 0, ',', '.') }}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="total-label" style="font-weight: bold; text-align:left;">
+                                Total:
+                            </td>
+                            <td colspan="2" class="total-label" style="font-weight: bold; text-align:left;">
+                                {{ $penjualans->sum('qty') }}
+                            </td>
+                            <td style="white-space: nowrap; font-weight: bold; text-align:left;">
+                                Rp{{ number_format($penjualans->sum('total_bayar'), 0, ',', '.') }}
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
+
             </div>
 
-            @php $grand = $penjualans->sum('total_bayar'); @endphp
-            <div class="totals">
-                <table>
-                    <tr>
-                        <th>Total:</th>
-                        <td>Rp {{ number_format($grand, 0, ',', '.') }}</td>
-                    </tr>
-                </table>
+            <div class="payment-method">
+                <p><strong>Metode Pembayaran:</strong> {{ $first->metode_pembayaran ?? 'Tunai' }}</p>
+                <div class="customer-info">
+                    <p><strong>Nama Pembeli:</strong> {{ $pelanggan->nama_pelanggan }}</p>
+                    <p><strong>No. HP Pembeli:</strong> {{ $pelanggan->nomor_wa_formatted ?? '-' }}</p>
+                </div>
+            </div>
+
+            <div class="notes">
+                <strong>Catatan:</strong>
+                <ul>
+                    <li>Barang yang sudah dibeli tidak dapat dikembalikan.</li>
+                    <li>Harap simpan nota ini sebagai bukti transaksi.</li>
+                </ul>
             </div>
 
             @if (!$loop->last)
@@ -257,8 +268,13 @@
             @endif
         @endforeach
 
-        <div style="clear:both; text-align:center; font-size:10px; margin-top:50px;">
-            <p>Terima kasih atas kepercayaan Anda. Hubungi kami di (021) 1234-5678 jika ada pertanyaan.</p>
+        <div class="invoice-footer">
+            <p>Terima kasih telah berbelanja di Thataphonselaceh!</p>
+            <p>
+                <i> Semoga puas dengan layanan kami</i>
+                <img src="{{ public_path('static/img/hand.png') }}" style="transform: translateY(5px);" width="20"
+                    alt="Logo Perusahaan">
+            </p>
         </div>
     </div>
 </body>
