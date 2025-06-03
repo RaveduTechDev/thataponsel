@@ -35,16 +35,6 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        Fortify::authenticateUsing(function (Request $request) {
-            $user = User::where(Fortify::username(), $request->input(Fortify::username()))
-                ->whereNull('deleted_at')
-                ->first();
-
-            if ($user && Hash::check($request->input('password'), $user->password)) {
-                return $user;
-            }
-        });
-
         Fortify::loginView(function () {
             return view('auth.login');
         });

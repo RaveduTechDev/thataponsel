@@ -35,7 +35,7 @@ class Penjualan extends Model
 
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class)->withTrashed()->select('id', 'nama_pelanggan', 'nomor_wa');
+        return $this->belongsTo(Pelanggan::class)->select('id', 'nama_pelanggan', 'nomor_wa');
     }
 
     public function tokoCabang()
@@ -45,7 +45,7 @@ class Penjualan extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->withTrashed()->select('id', 'name', 'username');
+        return $this->belongsTo(User::class)->select('id', 'name', 'username');
     }
 
     public function stock()

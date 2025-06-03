@@ -150,8 +150,18 @@ class BarangController extends Controller
     public function destroy(string $id)
     {
         $barang = Barang::findOrFail($id);
-        $barang->delete();
 
-        return redirect('/master-data/barang')->with('success', 'Data berhasil dihapus.');
+        if ($barang->stocks()->exists()) {
+            return redirect()->back()->with('message', $barang->nama_barang . ' tidak dapat dihapus karena masih memiliki data stok yang terkait.');
+        }
+
+        try {
+            $barang->clearMediaCollection('barang');
+            $barang->delete();
+            return redirect('/master-data/barang')->with('success', 'Data berhasil dihapus.');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data.');
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TokoCabang;
 use App\Http\Requests\TokoCabangRequest;
+use Illuminate\Support\Facades\Log;
 
 class TokoCabangController extends Controller
 {
@@ -91,8 +92,21 @@ class TokoCabangController extends Controller
     public function destroy(string $id)
     {
         $toko_cabang = TokoCabang::findOrFail($id);
-        $toko_cabang->delete();
 
-        return redirect('/master-data/toko-cabang')->with('success', 'Toko cabang berhasil dihapus');
+        if ($toko_cabang->penjualans()->exists() || $toko_cabang->users()->exists()) {
+            $message = 'Toko ' . $toko_cabang->nama_toko_cabang . ' tidak dapat dihapus karena memiliki data lain seperti ';
+            $message .= $toko_cabang->penjualans()->exists() ? 'data penjualan' : '';
+            $message .= $toko_cabang->penjualans()->exists() && $toko_cabang->users()->exists() ? ' dan ' : '';
+            $message .= $toko_cabang->users()->exists() ? 'data agen' : '';
+            return redirect()->back()->with('message', $message . '.');
+        }
+
+        try {
+            $toko_cabang->delete();
+            return redirect()->route('master-data.toko-cabang.index')->with('success', 'Toko cabang berhasil dihapus');
+        } catch (\Exception $e) {
+            Log::error('Error deleting Toko Cabang: ' . $e->getMessage());
+            return redirect()->route('master-data.toko-cabang.index')->with('error', 'Toko cabang gagal dihapus');
+        }
     }
 }

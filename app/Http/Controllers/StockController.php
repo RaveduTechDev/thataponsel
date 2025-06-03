@@ -133,9 +133,19 @@ class StockController extends Controller
      */
     public function destroy(string $id)
     {
-        // delete data and delete image
         $stock = Stock::findOrFail($id);
-        $stock->delete();
-        return redirect('/stocks')->with(['success' => 'Stok HP berhasil dihapus']);
+
+        // Check if stock has related penjualan
+        if ($stock->penjualan()->exists()) {
+            return redirect('/stocks')->with(['message' => 'Stok HP ' . $stock->barang->nama_barang . ' tidak dapat dihapus karena sudah ada penjualan yang terkait.']);
+        }
+
+        try {
+            $stock->delete();
+            return redirect('/stocks')->with(['success' => 'Stok HP berhasil dihapus']);
+        } catch (\Exception $e) {
+            Log::error('Error saat menghapus stok HP: ' . $e->getMessage());
+            return redirect('/stocks')->with(['error' => 'Stok HP gagal dihapus']);
+        }
     }
 }

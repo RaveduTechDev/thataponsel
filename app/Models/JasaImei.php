@@ -28,7 +28,7 @@ class JasaImei extends Model
 
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class)->withTrashed()->select('id', 'nama_pelanggan', 'nomor_wa');
+        return $this->belongsTo(Pelanggan::class)->select('id', 'nama_pelanggan', 'nomor_wa');
     }
 
     public function user()

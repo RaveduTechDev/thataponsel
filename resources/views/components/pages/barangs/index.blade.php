@@ -13,6 +13,14 @@
             @endif
         </div>
 
+        @if (session('message'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span>{{ session('message') }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive pt-2 pe-2" id="table-container">

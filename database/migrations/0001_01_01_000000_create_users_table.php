@@ -17,13 +17,12 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('nomor_wa');
-            $table->foreignId('toko_cabang_id')->constrained('toko_cabangs')->onDelete('cascade');
+            $table->foreignId('toko_cabang_id')->constrained('toko_cabangs');
             $table->decimal('jumlah_transaksi', 25, 0)->nullable()->default(0);
             $table->string('username')->unique();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

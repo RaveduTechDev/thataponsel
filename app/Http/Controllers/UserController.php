@@ -153,6 +153,14 @@ class UserController extends Controller
     {
         $agent = User::findOrFail($id);
 
+        if ($agent->penjualans()->exists() || $agent->jasaImei()->exists()) {
+            $message = $agent->name . " tidak dapat dihapus karena memiliki data lain seperti ";
+            $message .= $agent->penjualans()->exists() ? "data penjualan" : "";
+            $message .= $agent->penjualans()->exists() && $agent->jasaImei()->exists() ? " dan " : "";
+            $message .= $agent->jasaImei()->exists() ? "data jasa IMEI" : "";
+            return redirect()->back()->with('message', $message . ".");
+        }
+
         try {
             $agent->delete();
             DB::table('sessions')->where('user_id', $agent->id)->delete();

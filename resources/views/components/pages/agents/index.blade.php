@@ -11,6 +11,14 @@
             </a>
         </div>
 
+        @if (session('message'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span>{{ session('message') }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive pt-2 pe-2" id="table-container">
@@ -101,8 +109,8 @@
                                 <div class="modal fade text-left modal-borderless" id="modalStock{{ $agent->id }}"
                                     tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
                                     aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable" role="document"
-                                        style="z-index: 30;">
+                                    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable"
+                                        role="document" style="z-index: 30;">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title text-danger" id="modalStockLabel">

@@ -102,7 +102,20 @@ class PelangganController extends Controller
     public function destroy(string $id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
-        $pelanggan->delete();
-        return redirect('/master-data/pelanggan')->with('success', 'Data Pelanggan berhasil dihapus');
+
+        if ($pelanggan->penjualans()->exists() || $pelanggan->jasaImeis()->exists()) {
+            $message = $pelanggan->nama_pelanggan . ' tidak dapat dihapus karena memiliki data lain seperti ';
+            $message .= $pelanggan->penjualans()->exists() ? 'data penjualan' : '';
+            $message .= $pelanggan->penjualans()->exists() && $pelanggan->jasaImeis()->exists() ? ' dan ' : '';
+            $message .= $pelanggan->jasaImeis()->exists() ? 'data jasa IMEI' : '';
+            return redirect()->back()->with('message', $message . '.');
+        }
+
+        try {
+            $pelanggan->delete();
+            return redirect()->route('master-data.pelanggan.index')->with('success', 'Data Pelanggan berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Pelanggan gagal dihapus');
+        }
     }
 }
