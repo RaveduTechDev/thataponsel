@@ -56,7 +56,9 @@ class PenjualanController extends Controller
         $stocks = Stock::latest()->get();
         $pelanggans = Pelanggan::latest()->get();
         $toko_cabangs = TokoCabang::latest()->get();
-        $users = User::latest()->get();
+        $users = User::whereHas('roles', function ($query) {
+            $query->whereIn('name', ['agen']);
+        })->latest()->get();
         return view('components.pages.penjualans.create', [
             'title' => 'Tambah Penjualan',
             'stocks' => $stocks,

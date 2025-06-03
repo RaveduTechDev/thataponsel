@@ -141,6 +141,7 @@ $(document).ready(function () {
                 threshold: 0.3,
                 ignoreLocation: true,
             },
+            shouldSort: false,
         });
 
         choices.setChoices(choicesData, "value", "label", false);
