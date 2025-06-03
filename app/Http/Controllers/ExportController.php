@@ -44,7 +44,7 @@ class ExportController extends Controller
                 ]);
             }
 
-            $penjualans = Penjualan::with(['pelanggan', 'stock.barang'])
+            $penjualans = Penjualan::with(['pelanggan', 'stock.barang', 'user'])
                 ->whereIn('id', $ids)
                 ->get();
 
@@ -53,9 +53,23 @@ class ExportController extends Controller
             }
 
             $uniquePelangganIds = $penjualans->pluck('pelanggan_id')->unique();
+            $uniqueUserIds = $penjualans->pluck('user_id')->unique();
+
+            if ($uniquePelangganIds->count() > 1 && $uniqueUserIds->count() > 1) {
+                return back()->withInput()->withErrors([
+                    'ids' => 'Pilih hanya transaksi dari satu pelanggan dan satu agen saja sebelum cetak.'
+                ]);
+            }
+
             if ($uniquePelangganIds->count() > 1) {
                 return back()->withInput()->withErrors([
                     'ids' => 'Pilih hanya transaksi dari satu pelanggan saja sebelum cetak.'
+                ]);
+            }
+
+            if ($uniqueUserIds->count() > 1) {
+                return back()->withInput()->withErrors([
+                    'ids' => 'Pilih hanya transaksi dari satu agen saja sebelum cetak.'
                 ]);
             }
 
