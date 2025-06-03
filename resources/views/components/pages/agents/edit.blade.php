@@ -83,57 +83,69 @@
                                                 </div>
                                             </div>
 
+                                            <div class="row mt-4">
+                                                <h5 class="text-secondary">Ubah Kata Sandi</h5>
+                                                <small class="mb-2">
+                                                    <span class="text-danger">*</span>
+                                                    Kosongkan kolom di bawah ini jika
+                                                    <span class="text-danger">
+                                                        tidak ingin mengubah
+                                                    </span>
+                                                    kata sandi.
+                                                </small>
+                                            </div>
+
                                             <div class="row mb-4">
-                                                <div class="col-md-6 col-lg-4 col-12">
+                                                <div class="col-md-6 col-lg-4 col-12 pass">
                                                     <div class="form-group">
-                                                        <label for="current_password" class="form-label">
-                                                            Password Saat Ini
+                                                        <label for="current_password " class="form-label">
+                                                            Kata Sandi Saat Ini
                                                         </label>
-                                                        <input type="password" id="current_password"
-                                                            class="form-control {{ $errors->has('current_password') ? 'is-invalid' : '' }}"
-                                                            placeholder="Password Saat Ini" name="current_password">
+                                                        <div class="position-relative ">
+                                                            <input type="password" name="current_password"
+                                                                id="currentPassword"
+                                                                class="form-control passwordValidation @error('current_password', 'updatePassword') is-invalid @enderror">
+                                                            <div class="position-absolute"
+                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                                                <i class="bi bi-eye-slash togglePasswordValidation"></i>
+                                                            </div>
+                                                        </div>
+                                                        <small class="text-danger passwordError"></small>
+
                                                         @error('current_password')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6 col-lg-4 col-12">
+                                                <div class="col-md-6 col-lg-4 col-12 pass">
                                                     <div class="form-group">
-                                                        <label for="password" class="form-label">
-                                                            Password Baru
-                                                        </label>
-                                                        <div class="position-relative">
-                                                            <input type="password" id="password"
-                                                                class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                                                                placeholder="Password" name="password">
+                                                        <label class="form-label">Kata Sandi Baru</label>
+                                                        <div class="position-relative ">
+                                                            <input type="password" name="password" id="password"
+                                                                class="form-control passwordValidation @error('password', 'updatePassword') is-invalid @enderror">
                                                             <div class="position-absolute"
                                                                 style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
-                                                                <i class="bi bi-eye-slash" id="togglePasswordIcon"></i>
+                                                                <i class="bi bi-eye-slash togglePasswordValidation"></i>
                                                             </div>
                                                         </div>
-                                                        <small id="password-error" class="text-danger"></small>
+                                                        <small class="text-danger passwordError"></small>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6 col-lg-4 col-12">
+                                                <div class="col-md-6 col-lg-4 col-12 pass">
                                                     <div class="form-group">
-                                                        <label for="password_confirmation" class="form-label">
-                                                            Konfirmasi Password
-                                                        </label>
-                                                        <div class="position-relative">
-                                                            <input type="password" id="password_confirmation"
-                                                                class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                                                                placeholder="Konfirmasi Password"
-                                                                name="password_confirmation">
+                                                        <label class="form-label">Konfirmasi Kata Sandi</label>
+                                                        <div class="position-relative ">
+                                                            <input type="password" name="password_confirmation"
+                                                                id="password_confirmation"
+                                                                class="form-control passwordValidation">
                                                             <div class="position-absolute"
                                                                 style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
-                                                                <i class="bi bi-eye-slash"
-                                                                    id="togglePasswordConfirmationIcon"></i>
+                                                                <i class="bi bi-eye-slash togglePasswordValidation"></i>
                                                             </div>
                                                         </div>
-                                                        <small id="password_confirmation-error"
-                                                            class="text-danger"></small>
+                                                        <small class="text-danger passwordError"></small>
 
                                                         @error('password')
                                                             <small class="text-danger">{{ $message }}</small>
@@ -238,8 +250,6 @@
 
     <script type="module">
         const usernameInput = document.getElementById("username");
-        const togglePasswordIcon = document.getElementById("togglePasswordIcon");
-        const togglePasswordConfirmationIcon = document.getElementById("togglePasswordConfirmationIcon");
 
         usernameInput.addEventListener("input", function() {
             const invalidChars = /[^a-z0-9_]/g;
@@ -255,50 +265,47 @@
             this.value = this.value.toLowerCase().replace(invalidChars, "");
         });
 
-        togglePasswordIcon.addEventListener("click", function() {
-            const passwordInput = document.getElementById("password");
-            const isPasswordVisible = passwordInput.type === "text";
-
-            passwordInput.type = isPasswordVisible ? "password" : "text";
-            this.classList.toggle("bi-eye", !isPasswordVisible);
-            this.classList.toggle("bi-eye-slash", isPasswordVisible);
+        const togglePasswordIcons = document.querySelectorAll('.togglePasswordValidation');
+        togglePasswordIcons.forEach(icon => {
+            icon.addEventListener('click', function() {
+                const input = this.closest('.position-relative').querySelector(
+                    '.passwordValidation');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('bi-eye-slash');
+                    this.classList.add('bi-eye');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('bi-eye');
+                    this.classList.add('bi-eye-slash');
+                }
+            });
         });
 
-        togglePasswordConfirmationIcon.addEventListener("click", function() {
-            const passwordConfirmationInput = document.getElementById("password_confirmation");
-            const isPasswordVisible = passwordConfirmationInput.type === "text";
-
-            passwordConfirmationInput.type = isPasswordVisible ? "password" : "text";
-            this.classList.toggle("bi-eye", !isPasswordVisible);
-            this.classList.toggle("bi-eye-slash", isPasswordVisible);
+        const passwordInputs = document.querySelectorAll('.passwordValidation');
+        passwordInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const passwordError = this.closest('.pass').querySelector('.passwordError');
+                if (this.value.includes(' ')) {
+                    passwordError.textContent = "Kata sandi tidak boleh mengandung spasi.";
+                    this.value = this.value.replace(/\s/g, '');
+                } else if (this.value.length < 8) {
+                    passwordError.textContent =
+                        "Kata sandi harus terdiri dari minimal 8 karakter.";
+                } else {
+                    passwordError.textContent = "";
+                }
+            });
         });
 
-        const passwordInput = document.getElementById("password");
-        const passwordConfirmationInput = document.getElementById("password_confirmation");
-        const passwordError = document.getElementById("password-error");
-        const passwordConfirmationError = document.getElementById("password_confirmation-error");
-
-        passwordInput.addEventListener("input", function() {
-            this.value = this.value.replace(/\s/g, "");
-            if (/\s/.test(this.value)) {
-                passwordError.textContent = "Password tidak boleh mengandung spasi.";
-            } else if (this.value.length < 8) {
-                passwordError.textContent = "Password minimal 8 karakter.";
+        const passwordConfirmationInput = document.getElementById('password_confirmation');
+        passwordConfirmationInput.addEventListener('input', function() {
+            const passwordError = this.closest('.pass').querySelector('.passwordError');
+            const passwordInput = document.getElementById('password');
+            if (this.value !== passwordInput.value) {
+                passwordError.textContent = "Kata sandi konfirmasi tidak cocok.";
             } else {
                 passwordError.textContent = "";
-            }
-        });
-
-        passwordConfirmationInput.addEventListener("input", function() {
-            this.value = this.value.replace(/\s/g, "");
-            if (/\s/.test(this.value)) {
-                passwordConfirmationError.textContent = "Password konfirmasi tidak boleh mengandung spasi.";
-            } else if (this.value.length < 8) {
-                passwordConfirmationError.textContent = "Password konfirmasi minimal 8 karakter.";
-            } else if (this.value !== passwordInput.value) {
-                passwordConfirmationError.textContent = "Password konfirmasi tidak cocok.";
-            } else {
-                passwordConfirmationError.textContent = "";
             }
         });
     </script>
