@@ -208,43 +208,45 @@
                 </div>
             </div>
             <div class="sticky-md-top sidebar-top">
-                <a class="card card-hover-success" href="{{ route('penjualan.create') }}"
-                    style="text-decoration: none; color: inherit; ">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="stats-icon" style="background: #198754">
-                                <i class="bi bi-plus-circle d-flex align-items-center justify-content-center"></i>
-                            </div>
-                            <div class="ms-3 mb-0 flex-grow-1">
-                                <h5 class="font-bold text-secondary" style="font-size:16px;margin-bottom:2px">
-                                    Tambah Penjualan
-                                </h5>
-                                <h6 class="text-muted" style="font-size:12px">
-                                    Klik untuk menambahkan Penjualan baru
-                                </h6>
+                @if (!Auth::user()->hasRole('owner'))
+                    <a class="card card-hover-success" href="{{ route('penjualan.create') }}"
+                        style="text-decoration: none; color: inherit; ">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="stats-icon" style="background: #198754">
+                                    <i class="bi bi-plus-circle d-flex align-items-center justify-content-center"></i>
+                                </div>
+                                <div class="ms-3 mb-0 flex-grow-1">
+                                    <h5 class="font-bold text-secondary" style="font-size:16px;margin-bottom:2px">
+                                        Tambah Penjualan
+                                    </h5>
+                                    <h6 class="text-muted" style="font-size:12px">
+                                        Klik untuk menambahkan Penjualan baru
+                                    </h6>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
 
-                <a class="card card-hover-success" href="{{ route('jasa-imei.create') }}"
-                    style="text-decoration: none; color: inherit; ">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="stats-icon" style="background: #198754">
-                                <i class="bi bi-plus-circle d-flex align-items-center justify-content-center"></i>
-                            </div>
-                            <div class="ms-3 mb-0 flex-grow-1">
-                                <h5 class="font-bold text-secondary" style="font-size:16px;margin-bottom:2px">
-                                    Tambah Jasa IMEI
-                                </h5>
-                                <h6 class="text-muted" style="font-size:12px">
-                                    Klik untuk menambahkan Jasa IMEI baru
-                                </h6>
+                    <a class="card card-hover-success" href="{{ route('jasa-imei.create') }}"
+                        style="text-decoration: none; color: inherit; ">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="stats-icon" style="background: #198754">
+                                    <i class="bi bi-plus-circle d-flex align-items-center justify-content-center"></i>
+                                </div>
+                                <div class="ms-3 mb-0 flex-grow-1">
+                                    <h5 class="font-bold text-secondary" style="font-size:16px;margin-bottom:2px">
+                                        Tambah Jasa IMEI
+                                    </h5>
+                                    <h6 class="text-muted" style="font-size:12px">
+                                        Klik untuk menambahkan Jasa IMEI baru
+                                    </h6>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                @endif
 
                 @if (Auth::user()->hasRole(['super_admin', 'admin', 'owner']))
                     <div class="card">

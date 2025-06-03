@@ -7,18 +7,20 @@
         </div>
 
         <div class="row mb-5">
-            <div class="col-6 col-lg-3 col-md-6">
-                <a href={{ route('master-data.pelanggan.index') }} class="text-decoration-none">
-                    <div class="card card-hover-border-danger">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <div class="mb-1 fs-1 text-danger">
-                                <i class="bi bi-person-hearts fs-1"></i>
+            @if (!Auth::user()->hasRole('owner'))
+                <div class="col-6 col-lg-3 col-md-6">
+                    <a href={{ route('master-data.pelanggan.index') }} class="text-decoration-none">
+                        <div class="card card-hover-border-danger">
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <div class="mb-1 fs-1 text-danger">
+                                    <i class="bi bi-person-hearts fs-1"></i>
+                                </div>
+                                <h5 class="text-danger font-extrabold">Pelanggan</h5>
                             </div>
-                            <h5 class="text-danger font-extrabold">Pelanggan</h5>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            @endif
 
             <div class="col-6 col-lg-3 col-md-6">
                 <a href={{ route('master-data.agent.index') }} class="text-decoration-none">
@@ -27,7 +29,9 @@
                             <div class="mb-1 fs-1 text-danger">
                                 <i class="bi bi-person-vcard fs-1"></i>
                             </div>
-                            <h5 class="text-danger font-extrabold">Agen</h5>
+                            <h5 class="text-danger font-extrabold">
+                                {{ Auth::user()->hasRole('owner') ? 'User' : 'Agent' }}
+                            </h5>
                         </div>
                     </div>
                 </a>
