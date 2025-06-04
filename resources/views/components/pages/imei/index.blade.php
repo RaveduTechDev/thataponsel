@@ -178,7 +178,9 @@
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->profit, 0, ',', '.') }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->metode_pembayaran }}</td>
+                                    <td class="text-nowrap">
+                                        {{ Str::title(str_replace('-', '-', $jasa_imei->metode_pembayaran)) }}
+                                    </td>
                                     <td class="text-nowrap">
                                         @if ($jasa_imei->status == 'selesai')
                                             <span class="badge bg-success">Selesai</span>
@@ -194,7 +196,7 @@
                                         {{ $jasa_imei->status == 'selesai' ? $jasa_imei->updated_at->isoFormat('D MMMM Y') : 'Dalam Proses' }}
                                     </td>
                                     <td class="text-nowrap text-center">
-                                        <div class="d-flex gap-1 justify-content-center">
+                                        <div class="d-flex gap-1 justify-content-end">
                                             @if (Auth::user()->hasRole(['super_admin', 'owner', 'admin', 'agen']))
                                                 @if (!Auth::user()->hasRole('agen'))
                                                     <a href="{{ route('jasa-imei.show', $jasa_imei->id) }}"
@@ -203,12 +205,15 @@
                                                         <i class="bi bi-eye"></i>
                                                     </a>
                                                 @endif
-                                                @if (!Auth::user()->hasRole('owner'))
-                                                    <a href="{{ route('jasa-imei.edit', $jasa_imei->id) }}"
-                                                        class="btn btn-icon btn-sm btn-primary" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Edit Data">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </a>
+                                                @if ($jasa_imei->status == 'proses')
+                                                    @if (!Auth::user()->hasRole('owner'))
+                                                        <a href="{{ route('jasa-imei.edit', $jasa_imei->id) }}"
+                                                            class="btn btn-icon btn-sm btn-primary"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Edit Data">
+                                                            <i class="bi bi-pencil-square"></i>
+                                                        </a>
+                                                    @endif
                                                 @endif
                                                 @if (!Auth::user()->hasRole(['agen', 'owner']))
                                                     <button type="button"

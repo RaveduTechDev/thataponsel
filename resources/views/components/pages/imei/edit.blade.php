@@ -56,6 +56,14 @@
                 </a>
             </div>
         </div>
+
+        @if ($jasa_imei->status === 'selesai')
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Perhatian!</strong> Data yang sudah selesai tidak dapat diubah lagi.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <section id="multiple-column-form">
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -86,17 +94,25 @@
                                                         <label for="select-pelanggans" class="form-label">
                                                             Pelanggan
                                                         </label>
-                                                        <select id="select-pelanggans"
-                                                            class="select-data form-select choice" style="cursor:pointer;"
-                                                            name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
-                                                            data-check-selected="true" required>
-                                                            @foreach ($pelanggans as $pelanggan)
-                                                                <option value="{{ $pelanggan->id }}"
-                                                                    {{ $jasa_imei->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
-                                                                    {{ $pelanggan->nama_pelanggan }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="select-pelanggans"
+                                                                class="form-control"
+                                                                value="{{ $jasa_imei->pelanggan->nama_pelanggan }}"
+                                                                placeholder="Pelanggan" readonly>
+                                                        @else
+                                                            <select id="select-pelanggans"
+                                                                class="select-data form-select choice"
+                                                                style="cursor:pointer;" name="pelanggan_id"
+                                                                data-placeholder="-- Pilih Pelanggan --"
+                                                                data-check-selected="true" required>
+                                                                @foreach ($pelanggans as $pelanggan)
+                                                                    <option value="{{ $pelanggan->id }}"
+                                                                        {{ $jasa_imei->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
+                                                                        {{ $pelanggan->nama_pelanggan }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        @endif
                                                     </div>
                                                 </div>
 
@@ -106,17 +122,26 @@
                                                             <label for="select-agent" class="form-label">
                                                                 Sales/Agent
                                                             </label>
-                                                            <select id="select-agent" class="select-data form-select choice"
-                                                                style="cursor:pointer;" name="user_id"
-                                                                data-placeholder="-- Pilih Sales/Agent --"
-                                                                data-check-selected="true" required>
-                                                                @foreach ($users as $user)
-                                                                    <option value="{{ $user->id }}"
-                                                                        {{ $jasa_imei->user_id === $user->id ? 'selected' : '' }}>
-                                                                        {{ $user->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
+
+                                                            @if ($jasa_imei->status === 'selesai')
+                                                                <input type="text" id="select-agent" class="form-control"
+                                                                    value="{{ $jasa_imei->user->name }}"
+                                                                    placeholder="Sales/Agent" readonly>
+                                                            @else
+                                                                <select id="select-agent"
+                                                                    class="select-data form-select choice"
+                                                                    style="cursor:pointer;" name="user_id"
+                                                                    data-placeholder="-- Pilih Sales/Agent --"
+                                                                    data-check-selected="true" required>
+                                                                    @foreach ($users as $user)
+                                                                        <option value="{{ $user->id }}"
+                                                                            {{ $jasa_imei->user_id === $user->id ? 'selected' : '' }}>
+                                                                            {{ $user->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            @endif
+
                                                         </div>
                                                     </div>
                                                 @endif
@@ -124,10 +149,18 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="imei" class="form-label">IMEI</label>
-                                                        <input type="text" id="imei"
-                                                            class="form-control {{ $errors->has('imei') ? 'is-invalid' : '' }}"
-                                                            value="{{ old('imei', $jasa_imei->imei) }}"
-                                                            placeholder="IMEI" name="imei">
+
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="imei" class="form-control"
+                                                                value="{{ $jasa_imei->imei }}" placeholder="IMEI"
+                                                                readonly>
+                                                        @else
+                                                            <input type="text" id="imei"
+                                                                class="form-control {{ $errors->has('imei') ? 'is-invalid' : '' }}"
+                                                                value="{{ old('imei', $jasa_imei->imei) }}"
+                                                                placeholder="IMEI" name="imei">
+                                                        @endif
+
                                                         @error('imei')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -137,10 +170,18 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="tipe" class="form-label">Tipe</label>
-                                                        <input type="text" id="tipe"
-                                                            class="form-control {{ $errors->has('tipe') ? 'is-invalid' : '' }}"
-                                                            value="{{ old('tipe', $jasa_imei->tipe) }}"
-                                                            placeholder="Tipe" name="tipe">
+
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="tipe" class="form-control"
+                                                                value="{{ $jasa_imei->tipe }}" placeholder="Tipe"
+                                                                readonly>
+                                                        @else
+                                                            <input type="text" id="tipe"
+                                                                class="form-control {{ $errors->has('tipe') ? 'is-invalid' : '' }}"
+                                                                value="{{ old('tipe', $jasa_imei->tipe) }}"
+                                                                placeholder="Tipe" name="tipe">
+                                                        @endif
+
                                                         @error('tipe')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -150,10 +191,18 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="supplier" class="form-label">Supplier</label>
-                                                        <input type="text" id="supplier"
-                                                            class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
-                                                            value="{{ old('supplier', $jasa_imei->supplier) }}"
-                                                            placeholder="Supplier" name="supplier" required>
+
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="supplier" class="form-control"
+                                                                value="{{ $jasa_imei->supplier }}" placeholder="Supplier"
+                                                                readonly>
+                                                        @else
+                                                            <input type="text" id="supplier"
+                                                                class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
+                                                                value="{{ old('supplier', $jasa_imei->supplier) }}"
+                                                                placeholder="Supplier" name="supplier" required>
+                                                        @endif
+
                                                         @error('supplier')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -163,10 +212,18 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="tanggal" class="form-label">Tanggal</label>
-                                                        <input type="date" id="tanggal"
-                                                            class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
-                                                            value="{{ old('tanggal', $jasa_imei->tanggal) }}"
-                                                            placeholder="Tanggal" name="tanggal" required>
+
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="tanggal" class="form-control"
+                                                                value="{{ \Carbon\Carbon::parse($jasa_imei->tanggal)->isoFormat('D-MMMM-Y') }}"
+                                                                placeholder="Tanggal" readonly>
+                                                        @else
+                                                            <input type="date" id="tanggal"
+                                                                class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
+                                                                value="{{ old('tanggal', $jasa_imei->tanggal) }}"
+                                                                placeholder="Tanggal" name="tanggal" required>
+                                                        @endif
+
                                                         @error('tanggal')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -178,17 +235,25 @@
                                                         <label for="select-status" class="form-label">
                                                             Status
                                                         </label>
-                                                        <select id="select-status" class="form-select" name="status"
-                                                            style="cursor:pointer;" required>
-                                                            <option value="proses"
-                                                                {{ old('status', $jasa_imei->status) == 'proses' ? 'selected' : '' }}>
-                                                                Proses
-                                                            </option>
-                                                            <option value="selesai"
-                                                                {{ old('status', $jasa_imei->status) == 'selesai' ? 'selected' : '' }}>
-                                                                Selesai
-                                                            </option>
-                                                        </select>
+
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <div>
+                                                                <div class="badge text-bg-success ">Selesai</div>
+                                                            </div>
+                                                        @else
+                                                            <select id="select-status" class="form-select" name="status"
+                                                                style="cursor:pointer;" required>
+                                                                <option value="proses"
+                                                                    {{ old('status', $jasa_imei->status) == 'proses' ? 'selected' : '' }}>
+                                                                    Proses
+                                                                </option>
+                                                                <option value="selesai"
+                                                                    {{ old('status', $jasa_imei->status) == 'selesai' ? 'selected' : '' }}>
+                                                                    Selesai
+                                                                </option>
+                                                            </select>
+                                                        @endif
+
                                                         @error('status')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -211,10 +276,18 @@
                                                 <div class="col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="modal" class="form-label">Modal</label>
-                                                        <input type="text" id="modal"
-                                                            value="{{ old('modal', $jasa_imei->modal) }}"
-                                                            class="form-control {{ $errors->has('modal') ? 'is-invalid' : '' }}"
-                                                            placeholder="Harga Modal" name="modal" required>
+
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="modal" class="form-control"
+                                                                value="{{ $jasa_imei->modal }}" placeholder="Modal"
+                                                                readonly>
+                                                        @else
+                                                            <input type="text" id="modal"
+                                                                value="{{ old('modal', $jasa_imei->modal) }}"
+                                                                class="form-control {{ $errors->has('modal') ? 'is-invalid' : '' }}"
+                                                                placeholder="Harga Modal" name="modal" required>
+                                                        @endif
+
                                                         @error('modal')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -224,10 +297,18 @@
                                                 <div class="col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="biaya" class="form-label">Biaya Jasa</label>
-                                                        <input type="text" id="biaya"
-                                                            value="{{ old('biaya', $jasa_imei->biaya) }}"
-                                                            class="form-control {{ $errors->has('biaya') ? 'is-invalid' : '' }}"
-                                                            placeholder="Rp. 0" name="biaya" required>
+
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="biaya" class="form-control"
+                                                                value="{{ $jasa_imei->biaya }}" placeholder="Biaya Jasa"
+                                                                readonly>
+                                                        @else
+                                                            <input type="text" id="biaya"
+                                                                value="{{ old('biaya', $jasa_imei->biaya) }}"
+                                                                class="form-control {{ $errors->has('biaya') ? 'is-invalid' : '' }}"
+                                                                placeholder="Rp. 0" name="biaya" required>
+                                                        @endif
+
                                                         @error('biaya')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -237,10 +318,16 @@
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="profit" class="form-label">Profit</label>
-                                                        <input type="text" id="profit"
-                                                            value="{{ old('profit', $jasa_imei->profit) }}" readonly
-                                                            class="form-control {{ $errors->has('profit') ? 'is-invalid' : '' }}"
-                                                            placeholder="Harga Jual" name="profit" required>
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="profit" class="form-control"
+                                                                value="{{ $jasa_imei->profit }}" placeholder="Profit"
+                                                                readonly>
+                                                        @else
+                                                            <input type="text" id="profit"
+                                                                value="{{ old('profit', $jasa_imei->profit) }}" readonly
+                                                                class="form-control {{ $errors->has('profit') ? 'is-invalid' : '' }}"
+                                                                placeholder="Harga Jual" name="profit" required>
+                                                        @endif
                                                         @error('profit')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -252,39 +339,54 @@
                                                         <label for="metode-pembayaran" class="form-label">
                                                             Metode Pembayaran
                                                         </label>
-                                                        <select name="metode_pembayaran" id="metode-pembayaran"
-                                                            style="cursor:pointer"
-                                                            class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
-                                                            <option>-- Pilih Metode Pembayaran--</option>
-                                                            <option value="tunai"
-                                                                {{ $jasa_imei->metode_pembayaran == 'tunai' ? 'selected' : '' }}>
-                                                                Tunai
-                                                            </option>
-                                                            <option value="transfer"
-                                                                {{ $jasa_imei->metode_pembayaran == 'transfer' ? 'selected' : '' }}>
-                                                                Transfer
-                                                            </option>
-                                                            <option value="qris"
-                                                                {{ $jasa_imei->metode_pembayaran == 'qris' ? 'selected' : '' }}>
-                                                                QRIS
-                                                            </option>
-                                                            <option value="e-wallet"
-                                                                {{ $jasa_imei->metode_pembayaran == 'e-wallet' ? 'selected' : '' }}>
-                                                                E-Wallet
-                                                            </option>
-                                                        </select>
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="metode-pembayaran"
+                                                                class="form-control"
+                                                                value="{{ $jasa_imei->metode_pembayaran }}"
+                                                                placeholder="Metode Pembayaran" name="metode_pembayaran"
+                                                                readonly>
+                                                        @else
+                                                            <select name="metode_pembayaran" id="metode-pembayaran"
+                                                                style="cursor:pointer"
+                                                                class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
+                                                                <option>-- Pilih Metode Pembayaran--</option>
+                                                                <option value="tunai"
+                                                                    {{ $jasa_imei->metode_pembayaran == 'tunai' ? 'selected' : '' }}>
+                                                                    Tunai
+                                                                </option>
+                                                                <option value="transfer"
+                                                                    {{ $jasa_imei->metode_pembayaran == 'transfer' ? 'selected' : '' }}>
+                                                                    Transfer
+                                                                </option>
+                                                                <option value="qris"
+                                                                    {{ $jasa_imei->metode_pembayaran == 'qris' ? 'selected' : '' }}>
+                                                                    QRIS
+                                                                </option>
+                                                                <option value="e-wallet"
+                                                                    {{ $jasa_imei->metode_pembayaran == 'e-wallet' ? 'selected' : '' }}>
+                                                                    E-Wallet
+                                                                </option>
+                                                            </select>
+                                                        @endif
+                                                        @error('metode_pembayaran')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row mt-2">
-                                                <div class="col-12 d-flex justify-content-start">
-                                                    <button type="submit" class="btn btn-primary me-3 mb-1"
-                                                        id="submitBtn">
-                                                        Ubah
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            @if ($jasa_imei->status !== 'selesai')
+                                                @if (!Auth::user()->hasRole('owner'))
+                                                    <div class="row mt-2">
+                                                        <div class="col-12 d-flex justify-content-start">
+                                                            <button type="submit" class="btn btn-primary me-3 mb-1"
+                                                                id="submitBtn">
+                                                                Ubah
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

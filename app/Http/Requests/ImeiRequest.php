@@ -11,9 +11,21 @@ class ImeiRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if ($this->user()->hasRole(['super_admin', 'admin', 'agen'])) {
+        if ($this->isMethod('post') && $this->user()->hasAnyRole(['super_admin', 'admin', 'agen'])) {
             return true;
         }
+
+        if (($this->isMethod('put') || $this->isMethod('patch')) && $this->user()->hasAnyRole(['super_admin', 'admin'])) {
+            $jasaImei = $this->route('jasa_imei');
+            if (is_string($jasaImei)) {
+                $jasaImei = \App\Models\JasaImei::find($jasaImei);
+            }
+            if ($jasaImei && $jasaImei->status === 'selesai') {
+                return false;
+            }
+            return true;
+        }
+
         return false;
     }
 
