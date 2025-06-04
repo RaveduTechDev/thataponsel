@@ -271,39 +271,12 @@
             </div>
         </section>
     </section>
-
-    @include('components.ui.loading.button')
-    {{-- <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-    <script>
-        // FilePond.registerPlugin(FilePondPluginImagePreview, )
-        // FilePond.create(document.querySelector(".image-preview-filepond"), {
-        //     credits: null,
-        //     allowImagePreview: true,
-        //     allowImageFilter: false,
-        //     allowImageExifOrientation: false,
-        //     allowImageCrop: false,
-        //     acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
-        //     fileValidateTypeDetectType: (source, type) =>
-        //         new Promise((resolve, reject) => {
-        //             // Do custom type detection here and return with promise
-        //             resolve(type)
-        //         }),
-        //     storeAsFile: true,
-        //     @if ($barang->getFirstMediaUrl('barang'))
-        //         files: [{
-        //             source: "{{ $barang->getFirstMediaUrl('barang') }}",
-        //         }]
-        //     @endif
-        // })
-
-    </script> --}}
 @endsection
 
 @push('scripts')
-    @vite('resources/js/filepond.js')
+    {{-- @vite('resources/js/filepond.js') --}}
     @include('components.ui.loading.button')
-
+    <script type="module" src="{{ asset('static/js/filePound/file-upload.js') }}"></script>
     <script type="module">
         FilePond.registerPlugin(
             FilePondPluginImagePreview,

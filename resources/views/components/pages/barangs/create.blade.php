@@ -229,8 +229,9 @@
 @endsection
 
 @push('scripts')
-    @vite('resources/js/filepond.js')
+    {{-- @vite('resources/js/filepond.js') --}}
     @include('components.ui.loading.button')
+    <script type="module" src="{{ asset('static/js/filePound/file-upload.js') }}"></script>
 
     <script type="module">
         FilePond.registerPlugin(

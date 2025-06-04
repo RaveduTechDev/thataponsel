@@ -160,6 +160,8 @@
         </div>
         </div>
     </section>
-
-    @include('components.ui.loading.button')
 @endsection
+
+@push('scripts')
+    @include('components.ui.loading.button')
+@endpush

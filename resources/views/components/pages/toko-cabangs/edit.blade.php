@@ -5,7 +5,7 @@
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
             <a href={{ route('master-data.toko-cabang.index') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-secondary btn-md">
+                class="d-inline-flex align-items-center btn btn-secondary btn-sm">
                 <span>Kembali</span>
             </a>
         </div>
@@ -78,9 +78,6 @@
                                                     <button type="submit" class="btn btn-primary me-3 mb-1" id="submitBtn">
                                                         Edit
                                                     </button>
-                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                                        Reset
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,8 +90,11 @@
             </div>
         </section>
     </section>
-
-    <script></script>
-    @vite('resources/js/telInput.js')
-    @include('components.ui.loading.button')
 @endsection
+
+@push('scripts')
+    {{-- @vite('resources/js/telInput.js') --}}
+    {{-- <script type="module" src="{{ asset('build/assets/telInput-CYg8gn6C.js') }}"></script> --}}
+
+    @include('components.ui.loading.button')
+@endpush

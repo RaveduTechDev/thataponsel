@@ -5,7 +5,7 @@
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
             <a href={{ route('master-data.agent.create') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-success btn-md">
+                class="d-inline-flex align-items-center btn btn-success btn-sm">
                 <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
                 <span>Tambah Data</span>
             </a>
@@ -135,10 +135,10 @@
                                                 </button>
 
                                                 <form action={{ route('master-data.agent.destroy', $agent->id) }}
-                                                    method="POST" id="formSubmit">
+                                                    method="POST" class="formSubmit">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
+                                                    <button type="submit" class="btn btn-danger me-3 submitBtn">
                                                         <span class="d-none d-sm-block">Hapus</span>
                                                     </button>
                                                 </form>
@@ -154,8 +154,11 @@
             </div>
         </div>
     </section>
+@endsection
 
-    @vite('resources/js/datatables.js')
+@push('scripts')
+    <script type="module" src="{{ asset('static/js/datatables/dataTables.js') }}"></script>
+    {{-- @vite('resources/js/datatables.js') --}}
     @include('components.sweetalert2.alert')
     @include('components.ui.loading.button')
-@endsection
+@endpush

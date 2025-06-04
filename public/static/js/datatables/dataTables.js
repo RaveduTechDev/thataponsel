@@ -1,3 +1,4 @@
+import "./jquery.min.js";
 import "./jquery.dataTables.min.js";
 import "./dataTables.bootstrap5.min.js";
 
