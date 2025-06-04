@@ -273,9 +273,9 @@
 @endsection
 
 @push('scripts')
-    @vite('resources/js/chart.js')
+    {{-- @vite('resources/js/chart.js') --}}
+    <script src="{{ asset('build/assets/chart-6n5wGOeA.js') }}"></script>
     <script type="module">
-        // Buatkan pesan tanggal untuk ditampilkan di grafik secara dinamis
         let deskripsiTanggal = '';
 
         @if (request('start_date') && request('end_date'))

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('build/assets/telInput-D9_xf1bf.css') }}">
+@endpush
+
 @section('content')
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
@@ -36,10 +40,11 @@
                                         <span class="d-block">Batal</span>
                                     </button>
                                     <form action="{{ route('master-data.pelanggan.destroy', $pelanggan->id) }}"
-                                        method="POST" id="formSubmit">
+                                        method="POST" id="formSubmitPopUp">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex" id="submitBtn">
+                                        <button type="submit" class="btn btn-danger ms-1 d-inline-flex"
+                                            id="submitBtnPopUp">
                                             <i class="bi bi-trash" style="margin: -1px 6px 0 0;"></i>
                                             <span class="d-none d-sm-block">Hapus</span>
                                         </button>
@@ -95,7 +100,7 @@
                                                         <label for="phone" class="form-label">Nomor HP/WhatsApp</label>
                                                         <input type="tel" value="{{ $pelanggan->nomor_wa }}"
                                                             id="phone"
-                                                            class="form-control {{ $errors->has('no_wa') ? 'is-invalid' : '' }}"
+                                                            class="form-control {{ $errors->has('nomor_wa') ? 'is-invalid' : '' }}"
                                                             name="nomor_wa" required>
                                                     </div>
                                                     @error('nomor_wa')
@@ -110,9 +115,6 @@
                                                     <button type="submit" class="btn btn-primary me-3 mb-1" id="submitBtn">
                                                         Ubah
                                                     </button>
-                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                                        Reset
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,8 +127,9 @@
             </div>
         </section>
     </section>
-
-    <script></script>
-    @vite('resources/js/telInput.js')
-    @include('components.ui.loading.button')
 @endsection
+
+@push('scripts')
+    <script type="module" src="{{ asset('build/assets/telInput-CYg8gn6C.js') }}"></script>
+    @include('components.ui.loading.button')
+@endpush

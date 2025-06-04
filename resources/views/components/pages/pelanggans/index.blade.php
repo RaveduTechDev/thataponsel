@@ -131,10 +131,10 @@
                                                 </button>
 
                                                 <form action={{ route('master-data.pelanggan.destroy', $pelanggan->id) }}
-                                                    method="POST" id="formSubmit">
+                                                    method="POST" class="formSubmit">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
+                                                    <button type="submit" class="btn btn-danger me-3 submitBtn">
                                                         <span class="d-none d-sm-block">Hapus</span>
                                                     </button>
                                                 </form>
@@ -150,8 +150,11 @@
             </div>
         </div>
     </section>
+@endsection
 
-    @vite('resources/js/datatables.js')
+@push('scripts')
+    {{-- @vite('resources/js/datatables.js') --}}
     @include('components.sweetalert2.alert')
     @include('components.ui.loading.button')
-@endsection
+    <script type="module" src="{{ asset('static/js/datatables/dataTables.js') }}"></script>
+@endpush

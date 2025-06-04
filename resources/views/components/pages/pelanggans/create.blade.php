@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('build/assets/telInput-D9_xf1bf.css') }}">
+@endpush
+
 @section('content')
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
@@ -46,7 +50,7 @@
                                                     <div class="form-group mandatory d-flex flex-column">
                                                         <label for="phone" class="form-label">Nomor HP/WhatsApp</label>
                                                         <input type="tel" value="{{ old('nomor_wa') }}" id="phone"
-                                                            class="form-control {{ $errors->has('no_wa') ? 'is-invalid' : '' }}"
+                                                            class="form-control {{ $errors->has('nomor_wa') ? 'is-invalid' : '' }}"
                                                             name="nomor_wa" required>
                                                     </div>
                                                     @error('nomor_wa')
@@ -77,7 +81,10 @@
         </section>
     </section>
 
-    <script></script>
-    @vite('resources/js/telInput.js')
-    @include('components.ui.loading.button')
+    {{-- @vite('resources/js/telInput.js') --}}
 @endsection
+
+@push('scripts')
+    <script type="module" src="{{ asset('build/assets/telInput-CYg8gn6C.js') }}"></script>
+    @include('components.ui.loading.button')
+@endpush

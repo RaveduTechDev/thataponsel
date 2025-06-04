@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 "resources/css/app.css",
                 "resources/js/app.js",
+                "resources/assets/static/js/initTheme.js",
                 "resources/js/datatables.js",
                 "resources/js/filepond.js",
                 "resources/js/telInput.js",

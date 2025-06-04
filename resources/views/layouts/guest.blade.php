@@ -10,16 +10,17 @@
 
     <title>Thata Ponsel - Aplikasi Sistem Manajemen</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BSrKn4mZ.css') }}">
 </head>
 
 <body>
-    @vite('resources/assets/static/js/initTheme.js')
+    {{-- @vite('resources/assets/static/js/initTheme.js') --}}
+    <script src="{{ asset('build/assets/initTheme-BJZlHDHJ.js') }}"></script>
+
     <section id="app">
         @yield('login')
     </section>
-    </div>
 
     @stack('scripts')
 </body>
