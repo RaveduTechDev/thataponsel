@@ -33,6 +33,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'max:255',
                 Rule::unique('users')->ignore($user->id),
             ],
+            'nomor_wa' => ['nullable', 'string', 'max:20'],
         ])->validateWithBag('updateProfileInformation');
 
         if (
@@ -46,6 +47,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'name' => $input['name'],
                 'username' => $input['username'],
                 'email' => $input['email'],
+                'nomor_wa' => $input['nomor_wa'],
             ])->save();
             session()->flash('success', 'Informasi profil berhasil diperbarui.');
         }

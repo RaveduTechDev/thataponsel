@@ -60,9 +60,21 @@
                             <input type="email" name="email" class="form-control" id="email"
                                 value="{{ auth()->user()->email }}">
                         </div>
+
+                        <div class="mb-3">
+                            <div class="form-group mandatory d-flex flex-column">
+                                <label for="phone" class="form-label">Nomor HP/WhatsApp</label>
+                                <input type="tel" value="{{ old('nomor_wa', Auth::user()->nomor_wa) }}" id="phone"
+                                    class="form-control {{ $errors->has('nomor_wa') ? 'is-invalid' : '' }}" name="nomor_wa"
+                                    required>
+                            </div>
+                            @error('nomor_wa')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
                         <button type="submit"
                             class="btn btn-success d-inline-flex justify-content-center align-items-center buttonSubmit">
-
                             Simpan
                         </button>
                     </form>
@@ -137,6 +149,7 @@
     @endsection
 
     @push('scripts')
+        @vite('resources/js/telInput.js')
         @include('components.sweetalert2.alert')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
