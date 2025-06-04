@@ -105,8 +105,12 @@ class PenjualanController extends Controller
                 $pelanggan->increment('jumlah_transaksi');
             }
 
-            if ($stock->jumlah_stok < $data['qty']) {
-                return redirect()->back()->with('error', 'Stok tidak cukup untuk transaksi ini');
+            if ($stock->jumlah_stok <= 0) {
+                return redirect()->back()->with('error', 'Stok dari ' . $stock->barang->nama_barang . ' habis');
+            }
+
+            if ($data['qty'] > $stock->jumlah_stok) {
+                return redirect()->back()->with('error', 'Jumlah stok tidak mencukupi untuk transaksi ini. Stok tersedia ' . $stock->jumlah_stok . ' untuk barang ' . $stock->barang->nama_barang);
             }
 
             $jumlahStok = $stock->jumlah_stok - $data['qty'];
@@ -189,11 +193,21 @@ class PenjualanController extends Controller
                 $oldStock->save();
 
                 $newStock = Stock::findOrFail($newStockId);
-                if ($newStock->jumlah_stok < $penjualan->qty) {
+                if ($newStock->jumlah_stok < $data['qty']) {
                     return redirect()->back()->with('error', 'Stok dari ' . $newStock->barang->nama_barang . ' tidak cukup');
                 }
-                $newStock->jumlah_stok = $newStock->jumlah_stok - $penjualan->qty;
+                $newStock->jumlah_stok = $newStock->jumlah_stok - $data['qty'];
                 $newStock->save();
+            } else {
+                $stock = Stock::findOrFail($oldStockId);
+                $stokDifference = $data['qty'] - $penjualan->qty;
+
+                if ($stokDifference > 0 && $stock->jumlah_stok < $stokDifference) {
+                    return redirect()->back()->with('error', 'Stok dari ' . $stock->barang->nama_barang . ' tidak cukup');
+                }
+
+                $stock->jumlah_stok = $stock->jumlah_stok - $stokDifference;
+                $stock->save();
             }
 
             $penjualan->update($data);
