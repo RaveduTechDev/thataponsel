@@ -18,6 +18,7 @@ class JasaImei extends Model
         'biaya',
         'modal',
         'profit',
+        'metode_pembayaran',
         'status',
         'supplier',
         'user_id',
@@ -34,6 +35,11 @@ class JasaImei extends Model
     public function user()
     {
         return $this->belongsTo(User::class)->select('id', 'name');
+    }
+
+    public function scopeSuccess($query)
+    {
+        return $query->where('status', 'success');
     }
 
     public function scopeIsAgent($query, $role)

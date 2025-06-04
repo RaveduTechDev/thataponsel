@@ -4,14 +4,43 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            @if (!Auth::user()->hasRole('owner'))
-                <a href="{{ route('jasa-imei.create') }}" style="margin:-8px 0 0 0;"
-                    class="d-inline-flex align-items-center btn btn-success btn-md">
-                    <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
-                    <span>Tambah Data</span>
-                </a>
-            @endif
+            <div class="d-flex align-items-center justify-content-between justify-content-md-end">
+                @if (!Auth::user()->hasRole('owner'))
+                    <a href="{{ route('jasa-imei.create') }}"
+                        class="d-inline-flex align-items-center btn btn-success btn-sm me-2">
+                        <i class="bi bi-folder-plus" style="margin: -12px 8px 0 0; font-size: 18px;"></i>
+                        <span>Tambah Data</span>
+                    </a>
+                @endif
+
+                <form data-route="{{ route('jasa-imei.export', ['jasa_imei' => '__INVOICE__']) }}" method="POST"
+                    id="form-export" class="user-select-none" target="_blank">
+                    @csrf
+
+                    <input type="hidden" name="ids" id="ids">
+                    <input type="hidden" name="export" id="export">
+
+                    <button type="button" data-action="pdf" id="btn-export-pdf" style="cursor: not-allowed"
+                        class="btn btn-danger btn-sm d-inline-flex justify-content-center align-items-center btn-export me-1">
+                        <i class="bi bi-file-earmark-pdf" style="margin: -14px 2px 0 0; font-size: 18px;"></i>
+                        Cetak PDF
+                    </button>
+
+                    <button type="button" data-action="excel" id="btn-export-excel"
+                        class="btn btn-primary btn-sm d-inline-flex justify-content-center align-items-center btn-export">
+                        <i class="bi bi-file-earmark-excel" style="margin: -14px 2px 0 0; font-size: 18px;"></i>
+                        Cetak Excel
+                    </button>
+                </form>
+            </div>
         </div>
+
+        @if ($errors->has('ids'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert-error">
+                {{ $errors->first('ids') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <div class="card">
             <div class="card-body">
@@ -28,65 +57,78 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="0" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Pelanggan</label>
+                                    <label class="form-check-label">Kotak Centang</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="1" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Tipe</label>
+                                    <label class="form-check-label">Pelanggan</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="2" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">IMEI</label>
+                                    <label class="form-check-label">Tipe</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="3" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Biaya</label>
+                                    <label class="form-check-label">IMEI</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="4" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Modal</label>
+                                    <label class="form-check-label">Biaya</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="5" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Profit</label>
+                                    <label class="form-check-label">Modal</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="6" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Status</label>
+                                    <label class="form-check-label">Profit</label>
                                 </div>
 
+                                {{-- metode pembayaran --}}
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="7" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Supplier</label>
+                                    <label class="form-check-label">Metode Pembayaran</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="8" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Agen</label>
+                                    <label class="form-check-label">Status</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="9" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Tanggal Transaksi</label>
+                                    <label class="form-check-label">Supplier</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="10" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Agen</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="11" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Tanggal Transaksi</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="12" data-name="imei"
                                         checked>
                                     <label class="form-check-label">Tanggal Selesai</label>
                                 </div>
@@ -102,12 +144,17 @@
                     <table class="table" id="table1">
                         <thead>
                             <tr>
+                                <th data-orderable="false">
+                                    <input type="checkbox" class="form-check-input" style="cursor: pointer"
+                                        id="select-all">
+                                </th>
                                 <th class="text-nowrap w-xl-50">Pelanggan</th>
                                 <th class="text-nowrap">Tipe</th>
                                 <th class="text-nowrap">IMEI</th>
                                 <th class="text-nowrap">Biaya</th>
                                 <th class="text-nowrap">Modal</th>
                                 <th class="text-nowrap">Profit</th>
+                                <th class="text-nowrap">Metode Pembayaran</th>
                                 <th class="text-nowrap">Status</th>
                                 <th class="text-nowrap">Supplier</th>
                                 <th class="text-nowrap">Agen</th>
@@ -119,12 +166,19 @@
                         <tbody>
                             @foreach ($jasa_imeis as $jasa_imei)
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" style="cursor: pointer"
+                                            class="form-check-input row-checkbox" id="" name="ids[]"
+                                            value="{{ $jasa_imei->id }}" data-created-at="{{ $jasa_imei->tanggal }}"
+                                            data-invoice="{{ $jasa_imei->id }}">
+                                    </td>
                                     <td class="text-nowrap w-xl-50">{{ $jasa_imei->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->imei }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->profit, 0, ',', '.') }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->metode_pembayaran }}</td>
                                     <td class="text-nowrap">
                                         @if ($jasa_imei->status == 'selesai')
                                             <span class="badge bg-success">Selesai</span>
@@ -218,7 +272,10 @@
         </div>
     </section>
 
-    @vite('resources/js/datatables.js')
     @include('components.sweetalert2.alert')
     @include('components.ui.loading.button')
 @endsection
+
+@push('scripts')
+    @vite('resources/js/datatables.js')
+@endpush

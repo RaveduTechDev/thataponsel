@@ -100,19 +100,6 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="supplier" class="form-label">Supplier</label>
-                                                        <input type="text" id="supplier"
-                                                            class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
-                                                            value="{{ old('supplier', $jasa_imei->supplier) }}"
-                                                            placeholder="Supplier" name="supplier" required>
-                                                        @error('supplier')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
                                                 @if (!Auth::user()->hasRole('agen'))
                                                     <div class="col-md-6 col-12">
                                                         <div class="form-group mandatory">
@@ -161,12 +148,25 @@
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group">
+                                                    <div class="form-group mandatory">
+                                                        <label for="supplier" class="form-label">Supplier</label>
+                                                        <input type="text" id="supplier"
+                                                            class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
+                                                            value="{{ old('supplier', $jasa_imei->supplier) }}"
+                                                            placeholder="Supplier" name="supplier" required>
+                                                        @error('supplier')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
                                                         <label for="tanggal" class="form-label">Tanggal</label>
                                                         <input type="date" id="tanggal"
                                                             class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
                                                             value="{{ old('tanggal', $jasa_imei->tanggal) }}"
-                                                            placeholder="Tanggal" name="tanggal">
+                                                            placeholder="Tanggal" name="tanggal" required>
                                                         @error('tanggal')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -178,9 +178,8 @@
                                                         <label for="select-status" class="form-label">
                                                             Status
                                                         </label>
-                                                        <select id="select-status"
-                                                            class="select-status form-select choices multiple-remove"
-                                                            name="status" data-check-selected="false" multiple required>
+                                                        <select id="select-status" class="form-select" name="status"
+                                                            style="cursor:pointer;" required>
                                                             <option value="proses"
                                                                 {{ old('status', $jasa_imei->status) == 'proses' ? 'selected' : '' }}>
                                                                 Proses
@@ -247,6 +246,35 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group madatory">
+                                                        <label for="metode-pembayaran" class="form-label">
+                                                            Metode Pembayaran
+                                                        </label>
+                                                        <select name="metode_pembayaran" id="metode-pembayaran"
+                                                            style="cursor:pointer"
+                                                            class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
+                                                            <option>-- Pilih Metode Pembayaran--</option>
+                                                            <option value="tunai"
+                                                                {{ $jasa_imei->metode_pembayaran == 'tunai' ? 'selected' : '' }}>
+                                                                Tunai
+                                                            </option>
+                                                            <option value="transfer"
+                                                                {{ $jasa_imei->metode_pembayaran == 'transfer' ? 'selected' : '' }}>
+                                                                Transfer
+                                                            </option>
+                                                            <option value="qris"
+                                                                {{ $jasa_imei->metode_pembayaran == 'qris' ? 'selected' : '' }}>
+                                                                QRIS
+                                                            </option>
+                                                            <option value="e-wallet"
+                                                                {{ $jasa_imei->metode_pembayaran == 'e-wallet' ? 'selected' : '' }}>
+                                                                E-Wallet
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="row mt-2">
@@ -254,9 +282,6 @@
                                                     <button type="submit" class="btn btn-primary me-3 mb-1"
                                                         id="submitBtn">
                                                         Ubah
-                                                    </button>
-                                                    <button type="reset" class="btn btn-light-secondary me-1 mb-1">
-                                                        Reset
                                                     </button>
                                                 </div>
                                             </div>

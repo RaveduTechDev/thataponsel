@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('biaya', 30, 0);
             $table->decimal('modal', 30, 0);
             $table->decimal('profit', 30, 0);
+            $table->string('metode_pembayaran');
             $table->enum('status', ['proses', 'selesai']);
             $table->string('supplier');
             $table->foreignId('user_id')->constrained('users');

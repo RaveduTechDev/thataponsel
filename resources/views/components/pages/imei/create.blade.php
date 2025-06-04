@@ -40,7 +40,8 @@
                                                         <select id="select-pelanggans"
                                                             class="select-data form-select choice" style="cursor:pointer;"
                                                             name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
-                                                            data-check-selected="false" required>
+                                                            {{ old('pelanggan_id') ? 'data-check-selected=true' : 'data-check-selected=false' }}
+                                                            required>
                                                             @foreach ($pelanggans as $pelanggan)
                                                                 <option value="{{ $pelanggan->id }}"
                                                                     {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
@@ -54,19 +55,6 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="supplier" class="form-label">Supplier</label>
-                                                        <input type="text" id="supplier"
-                                                            class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
-                                                            value="{{ @old('supplier') }}" placeholder="Supplier"
-                                                            name="supplier" required>
-                                                        @error('supplier')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-
                                                 @if (!Auth::user()->hasRole('agen'))
                                                     <div class="col-md-6 col-12">
                                                         <div class="form-group mandatory">
@@ -77,7 +65,8 @@
                                                                 class="select-data form-select choice {{ $errors->has('user_id') ? 'is-invalid' : '' }}"
                                                                 style="cursor:pointer;" name="user_id"
                                                                 data-placeholder="-- Pilih Sales/Agent --"
-                                                                data-check-selected="false" required>
+                                                                {{ old('user_id') ? 'data-check-selected=true' : 'data-check-selected=false' }}
+                                                                required>
                                                                 @foreach ($users as $user)
                                                                     <option value="{{ $user->id }}"
                                                                         {{ old('user_id') == $user->id ? 'selected' : '' }}>
@@ -117,12 +106,25 @@
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group">
+                                                    <div class="form-group mandatory">
+                                                        <label for="supplier" class="form-label">Supplier</label>
+                                                        <input type="text" id="supplier"
+                                                            class="form-control {{ $errors->has('supplier') ? 'is-invalid' : '' }}"
+                                                            value="{{ @old('supplier') }}" placeholder="Supplier"
+                                                            name="supplier" required>
+                                                        @error('supplier')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
                                                         <label for="tanggal" class="form-label">Tanggal</label>
                                                         <input type="date" id="tanggal"
                                                             class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
                                                             value="{{ @old('tanggal') }}" placeholder="Tanggal"
-                                                            name="tanggal">
+                                                            name="tanggal" required>
                                                         @error('tanggal')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -135,8 +137,9 @@
                                                             Status
                                                         </label>
                                                         <select id="select-status"
-                                                            class="select-status form-select choices multiple-remove"
-                                                            name="status" data-check-selected="false" multiple required>
+                                                            class="form-select @error('status') is-invalid @enderror"
+                                                            name="status" style="cursor:pointer;" required>
+                                                            <option>-- Pilih Status --</option>
                                                             <option value="proses"
                                                                 {{ old('status', isset($data) ? $data->status : '') == 'proses' ? 'selected' : '' }}>
                                                                 Proses
@@ -199,6 +202,35 @@
                                                         @error('profit')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="metode-pembayaran" class="form-label">
+                                                            Metode Pembayaran
+                                                        </label>
+                                                        <select name="metode_pembayaran" id="metode-pembayaran"
+                                                            style="cursor:pointer" required
+                                                            class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
+                                                            <option>-- Pilih Metode Pembayaran--</option>
+                                                            <option value="tunai"
+                                                                {{ old('metode_pembayaran') == 'tunai' ? 'selected' : '' }}>
+                                                                Tunai
+                                                            </option>
+                                                            <option value="transfer"
+                                                                {{ old('metode_pembayaran') == 'transfer' ? 'selected' : '' }}>
+                                                                Transfer
+                                                            </option>
+                                                            <option value="qris"
+                                                                {{ old('metode_pembayaran') == 'qris' ? 'selected' : '' }}>
+                                                                QRIS
+                                                            </option>
+                                                            <option value="e-wallet"
+                                                                {{ old('metode_pembayaran') == 'e-wallet' ? 'selected' : '' }}>
+                                                                E-Wallet
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>

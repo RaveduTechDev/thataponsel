@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AgentController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\BarangController;
@@ -32,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('penjualan', PenjualanController::class);
     Route::post('/penjualan/download/{invoice}', [ExportController::class, 'export'])->name('penjualan.export');
     Route::resource('jasa-imei', JasaIMEIController::class);
+    Route::post('/jasa-imei/download/{jasa_imei?}', [ExportController::class, 'exportImei'])->name('jasa-imei.export');
 
     Route::get('/@{user:username}', [ProfileController::class, 'showProfile'])->name('profile');
     Route::post('/@{user:username}/upload', [ProfileController::class, 'uploadProfilePhoto'])->name('profile.upload');

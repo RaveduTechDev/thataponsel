@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Agent',
             'username' => 'agent',
             'email' => 'agent@test.com',
-            'jumlah_transaksi' => 1,
+            'jumlah_transaksi' => 2,
         ])->assignRole('agen');
 
         Barang::factory()->create([
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
         Pelanggan::factory()->create([
             'nama_pelanggan' => 'Ravedu Test Pelanggan',
             'nomor_wa' => '+6281234567890',
-            'jumlah_transaksi' => 1
+            'jumlah_transaksi' => 2
         ]);
 
         Penjualan::factory()->create([
@@ -111,6 +111,7 @@ class DatabaseSeeder extends Seeder
             'biaya' => 1000000,
             'modal' => 500000,
             'profit' => 500000,
+            'metode_pembayaran' => 'tunai',
             'status' => 'selesai',
             'supplier' => 'Supplier Test',
             'user_id' => 4,

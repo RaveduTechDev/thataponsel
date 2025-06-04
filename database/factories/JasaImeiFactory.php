@@ -23,9 +23,11 @@ class JasaImeiFactory extends Factory
             'biaya' => $this->faker->randomFloat(2, 10000, 100000),
             'modal' => $this->faker->randomFloat(2, 10000, 100000),
             'profit' => $this->faker->randomFloat(2, 10000, 100000),
+            'metode_pembayaran' => $this->faker->randomElement(['tunai', 'transfer']),
             'status' => $this->faker->randomElement(['proses', 'selesai']),
             'supplier' => $this->faker->word,
             'user_id' => \App\Models\User::factory(),
+            'tanggal' => $this->faker->date(),
         ];
     }
 }
