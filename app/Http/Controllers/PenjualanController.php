@@ -207,6 +207,11 @@ class PenjualanController extends Controller
                 }
 
                 $stock->jumlah_stok = $stock->jumlah_stok - $stokDifference;
+
+                if ($stock->jumlah_stok < 0) {
+                    return redirect()->back()->with('error', 'Stok dari ' . $stock->barang->nama_barang . ' habis');
+                }
+
                 $stock->save();
             }
 
