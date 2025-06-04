@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <div class="form-group mandatory d-flex flex-column">
+                            <div class="form-group d-flex flex-column">
                                 <label for="phone" class="form-label">Nomor HP/WhatsApp</label>
                                 <input type="tel" value="{{ old('nomor_wa', Auth::user()->nomor_wa) }}" id="phone"
                                     class="form-control {{ $errors->has('nomor_wa') ? 'is-invalid' : '' }}" name="nomor_wa"
