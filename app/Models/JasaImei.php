@@ -34,7 +34,7 @@ class JasaImei extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->select('id', 'name');
+        return $this->belongsTo(User::class)->select('id', 'name', 'nomor_wa', 'toko_cabang_id');
     }
 
     public function scopeSuccess($query)

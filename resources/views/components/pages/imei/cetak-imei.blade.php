@@ -185,6 +185,7 @@
         @foreach ($data as $pelangganId => $jasa_imeis)
             @php
                 $first = $jasa_imeis->first();
+                $user = $first->user;
                 $pelanggan = $first->pelanggan;
             @endphp
 
@@ -192,8 +193,8 @@
                 <h2>NOTA TRANSAKSI</h2>
                 <img src="{{ public_path('logo-thata-png-col.png') }}" alt="Logo Perusahaan">
                 <div class="contact-info">
-                    <p class="alamat">Alamat: <strong>{{ $first->user->tokoCabang->alamat_toko ?? '-' }}</strong></p>
-                    <p>Telp: <strong>0812-3456-7890</strong></p>
+                    <p class="alamat">Alamat: <strong>{{ $user->tokoCabang->alamat_toko ?? '-' }}</strong></p>
+                    <p>Telp: <strong>{{ $user->nomor_wa_agent_formatted ?? '-' }}</strong></p>
                     <p>Instagram:
                         <strong>
                             <a href="https://www.instagram.com/thataponselaceh/" target="_blank">@thataphonselaceh</a>

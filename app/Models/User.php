@@ -64,7 +64,7 @@ class User extends Authenticatable implements HasMedia
 
     public function tokoCabang()
     {
-        return $this->belongsTo(TokoCabang::class)->select('id', 'nama_toko_cabang');
+        return $this->belongsTo(TokoCabang::class)->select('id', 'nama_toko_cabang', 'alamat_toko');
     }
 
     public function penjualans()
