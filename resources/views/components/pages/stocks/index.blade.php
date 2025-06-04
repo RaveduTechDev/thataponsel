@@ -176,42 +176,6 @@
                                     <td class="text-nowrap w-xl-50">{{ $stock->barang->keterangan }}</td>
                                     <td class="text-nowrap text-center">
                                         @if (Auth::user()->hasRole(['admin', 'agen']))
-                                            <div class="dropdown">
-                                                {{-- <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
-                                                    <i class="bi bi-three-dots text-secondary details-button"
-                                                        style="font-size: 18px;"></i>
-                                                </a> --}}
-                                                {{-- <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                    @if (!Auth::user()->hasRole('agen'))
-                                                        <li class="border-bottom">
-                                                            <a href={{ route('stocks.show', $stock->id) }}
-                                                                class="dropdown-item">
-                                                                <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
-                                                                <sp an>Detail</sp>
-                                                            </a>
-                                                        </li>
-                                                    @endif
-                                                    <li>
-                                                        <a href={{ route('stocks.edit', $stock->id) }}
-                                                            class="dropdown-item">
-                                                            <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
-                                                            <span>Edit</span>
-                                                        </a>
-                                                    </li>
-                                                    @if (!Auth::user()->hasRole('agen'))
-                                                        <li>
-                                                            <button type="button" class="dropdown-item btn-delete-modal"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalStock{{ $stock->id }}">
-                                                                <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
-                                                                <span>Hapus</span>
-                                                            </button>
-                                                        </li>
-                                                    @endif
-                                                </ul> --}}
-
-                                            </div>
-
                                             <div class="d-flex gap-1 justify-content-end">
                                                 @if (!Auth::user()->hasRole('agen'))
                                                     <a href="{{ route('stocks.show', $stock->id) }}"
@@ -295,8 +259,11 @@
             </div>
         </div>
     </section>
+@endsection
 
-    @vite('resources/js/datatables.js')
+@push('scripts')
+    {{-- @vite('resources/js/datatables.js') --}}
+    <script type="module" src="{{ asset('static/js/datatables/dataTables.js') }}"></script>
     @include('components.sweetalert2.alert')
     @include('components.ui.loading.button')
-@endsection
+@endpush

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('build/assets/telInput-D9_xf1bf.css') }}">
+@endpush
+
 @section('content')
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
@@ -284,8 +288,19 @@
             </div>
         </section>
     </section>
-
-    @vite(['resources/js/choices.js', 'resources/js/telInput.js', 'resources/js/calculate2.js'])
-    @include('components.ui.loading.button')
-
 @endsection
+
+@push('scripts')
+    {{-- @vite(['resources/js/choices.js', 'resources/js/telInput.js', 'resources/js/calculate2.js']) --}}
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+
+    {{-- <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script> --}}
+
+
+    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+
+    <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
+
+    @include('components.ui.loading.button')
+@endpush

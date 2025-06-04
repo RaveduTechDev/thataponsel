@@ -1,3 +1,4 @@
+import $ from "jquery";
 import Choices from "choices.js";
 
 $(document).ready(function () {

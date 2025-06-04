@@ -5,7 +5,7 @@
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
             <a href={{ route('master-data.barang.index') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-secondary btn-md">
+                class="d-inline-flex align-items-center btn btn-secondary btn-sm">
                 <span>Kembali</span>
             </a>
         </div>

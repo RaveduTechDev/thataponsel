@@ -130,6 +130,6 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('build/assets/telInput-CYg8gn6C.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
     @include('components.ui.loading.button')
 @endpush

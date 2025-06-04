@@ -96,7 +96,7 @@
                                                                 value="{{ @old('password') }}" required>
 
                                                             <div class="position-absolute"
-                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;">
                                                                 <i class="bi bi-eye-slash" id="togglePasswordIcon"></i>
                                                             </div>
                                                         </div>
@@ -147,7 +147,7 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-6 col-lg-4 col-12">
+                                                <div class="col-md-6 col-lg-4 col-12" style="z-index: 10;">
                                                     <div class="form-group mandatory">
                                                         <label for="select-toko_cabangs" class="form-label">
                                                             Toko Cabang
@@ -224,8 +224,8 @@
 @push('scripts')
     {{-- @vite(['resources/js/telInput.js', 'resources/js/choices.js']) --}}
 
-    <script type="module" src="{{ asset('build/assets/telInput-CYg8gn6C.js') }}"></script>
-    <script type="module" src="{{ asset('build/assets/choices-CDTFh5hp.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
 
     @include('components.ui.loading.button')
 

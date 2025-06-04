@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 function formatRupiah(angka) {
     angka = parseFloat(angka) || 0;
     return "Rp " + angka.toLocaleString("id-ID", { minimumFractionDigits: 0 });
@@ -74,8 +76,14 @@ function calculateProfit() {
     let modalVal = $("#modal").val();
     let biayaVal = $("#biaya").val();
 
-    let modal = parseInt((modalVal !== undefined ? modalVal.replace(/[^0-9]/g, "") : "0")) || 0;
-    let biaya = parseInt((biayaVal !== undefined ? biayaVal.replace(/[^0-9]/g, "") : "0")) || 0;
+    let modal =
+        parseInt(
+            modalVal !== undefined ? modalVal.replace(/[^0-9]/g, "") : "0"
+        ) || 0;
+    let biaya =
+        parseInt(
+            biayaVal !== undefined ? biayaVal.replace(/[^0-9]/g, "") : "0"
+        ) || 0;
     let profit = biaya - modal;
 
     $("#profit").val(formatRupiah(profit));

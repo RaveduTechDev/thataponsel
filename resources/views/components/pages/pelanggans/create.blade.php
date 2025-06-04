@@ -9,7 +9,7 @@
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">Tambah Data Pelanggan</h2>
             <a href={{ route('master-data.pelanggan.index') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-secondary btn-md">
+                class="d-inline-flex align-items-center btn btn-secondary btn-sm">
                 <span>Kembali</span>
             </a>
         </div>
@@ -85,6 +85,6 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('build/assets/telInput-CYg8gn6C.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
     @include('components.ui.loading.button')
 @endpush

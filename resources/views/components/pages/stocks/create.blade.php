@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('build/assets/telInput-D9_xf1bf.css') }}">
+@endpush
+
 @section('content')
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
@@ -127,7 +131,8 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="invoice" class="form-label">Invoice</label>
-                                                        <input type="text" id="invoice" value="{{ @old('invoice') }}"
+                                                        <input type="text" id="invoice"
+                                                            value="{{ @old('invoice') }}"
                                                             class="form-control {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
                                                             placeholder="Invoice" name="invoice">
                                                         @error('invoice')
@@ -152,7 +157,8 @@
                                                 <div class="col-12 mt-2">
                                                     <p style="margin: 0">
                                                         <span class="text-danger">*</span>
-                                                        Centang opsi "<strong>Garansi</strong>" jika barang memiliki garansi.
+                                                        Centang opsi "<strong>Garansi</strong>" jika barang memiliki
+                                                        garansi.
                                                     </p>
                                                 </div>
 
@@ -231,7 +237,19 @@
             </div>
         </section>
     </section>
-
-    @vite(['resources/js/choices.js', 'resources/js/telInput.js', 'resources/js/calculate2.js'])
-    @include('components.ui.loading.button')
 @endsection
+
+@push('scripts')
+    {{-- @vite(['resources/js/choices.js', 'resources/js/telInput.js', 'resources/js/calculate2.js']) --}}
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+
+    {{-- <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script> --}}
+
+
+    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+
+    <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
+
+    @include('components.ui.loading.button')
+@endpush

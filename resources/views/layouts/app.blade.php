@@ -14,7 +14,7 @@
     @stack('css')
 
     <link rel="stylesheet" href="{{ asset('build/assets/app-BSrKn4mZ.css') }}">
-    <script type="module" src="{{ asset('build/assets/app-iFDSrMtn.js') }}" defer></script>
+    <script type="module" src="{{ asset('build/assets/app-iFDSrMtn.js') }}"></script>
 
 </head>
 
