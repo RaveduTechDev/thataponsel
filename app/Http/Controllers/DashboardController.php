@@ -132,7 +132,7 @@ class DashboardController extends Controller
             ->sum(DB::raw('CAST(biaya AS NUMERIC)'));
 
         $totalPenjualanDanImei = $totalHargaPenjualan + $totalBiayaImei;
-        $formatHumanNumber = 'Rp.' . NumberCustom::formatNumber($totalPenjualanDanImei);
+        $formatHumanNumber = 'Rp' . NumberCustom::formatNumber($totalPenjualanDanImei);
 
         $totalKeuntunganPenjualan = $totalHargaPenjualan - $totalHargaModal;
 
@@ -144,7 +144,7 @@ class DashboardController extends Controller
         $totalKeuntunganImei = $totalBiayaImei - $modalImei;
 
         $totalKeuntungan = $totalKeuntunganPenjualan + $totalKeuntunganImei;
-        $formatKeuntungan = NumberCustom::formatNumber($totalKeuntungan);
+        $formatKeuntungan = 'Rp' . NumberCustom::formatNumber($totalKeuntungan);
 
         $penjualanImeiPerBulan = JasaImei::where('status', 'selesai')
             ->whereBetween('created_at', [$start, $end])

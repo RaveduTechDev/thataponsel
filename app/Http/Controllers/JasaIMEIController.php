@@ -43,7 +43,7 @@ class JasaIMEIController extends Controller
     public function create()
     {
         $pelanggans = Pelanggan::latest()->get();
-        $users = User::latest()->get();
+        $users = User::isAgent()->latest()->get();
         return view('components.pages.imei.create', [
             'title' => 'Tambah Jasa Imei',
             'pelanggans' => $pelanggans,
@@ -109,7 +109,7 @@ class JasaIMEIController extends Controller
     {
         $jasa_imei = JasaImei::findOrFail($id);
         $pelanggans = Pelanggan::latest()->get();
-        $users = User::latest()->get();
+        $users = User::isAgent()->latest()->get();
         return view('components.pages.imei.edit', [
             'title' => 'Edit Jasa Imei',
             'jasa_imei' => $jasa_imei,

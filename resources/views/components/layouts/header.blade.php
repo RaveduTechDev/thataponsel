@@ -57,9 +57,9 @@
                             </div>
                         @endif
                         <div class="text">
-                            <h6 class="user-dropdown-name">{{ Auth::user()->name }}</h6>
+                            <h6 class="user-dropdown-name">{{ Auth::user()->shortName() }}</h6>
                             <p class="user-dropdown-status text-sm text-muted">
-                                {{ Auth::user()->getRoleNames()->first() }}
+                                {{ Str::of(Auth::user()->getRoleNames()->first())->replace('_', ' ')->title() }}
                             </p>
                         </div>
                     </a>
