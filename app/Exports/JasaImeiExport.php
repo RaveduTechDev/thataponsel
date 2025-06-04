@@ -8,6 +8,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use Illuminate\Support\Str;
 
 class JasaImeiExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
@@ -55,6 +56,7 @@ class JasaImeiExport implements FromCollection, WithHeadings, WithMapping, WithS
             'Biaya',
             'Modal',
             'Profit',
+            'Metode Pembayaran',
             'Supplier',
             'Agen',
             'Status',
@@ -76,9 +78,10 @@ class JasaImeiExport implements FromCollection, WithHeadings, WithMapping, WithS
             $jasaImei->biaya,
             $jasaImei->modal,
             $jasaImei->profit,
+            Str::title(str_replace('-', '-', $jasaImei->metode_pembayaran)),
             $jasaImei->supplier,
             $jasaImei->user->name ?? 'N/A',
-            $jasaImei->status,
+            ucfirst($jasaImei->status),
             \Carbon\Carbon::parse($jasaImei->tanggal)->isoFormat('D MMMM Y') ?? 'N/A',
             $jasaImei->updated_at->isoFormat('D MMMM Y') ?? 'N/A',
 
@@ -89,14 +92,14 @@ class JasaImeiExport implements FromCollection, WithHeadings, WithMapping, WithS
     {
         $totalRows = $this->collection()->count() + 1;
 
-        $sheet->getStyle('A1:L' . $totalRows)->getAlignment()->setWrapText(false);
-        $sheet->getStyle('A1:L' . $totalRows)->getFont()->setName('Times New Roman');
-        $sheet->getStyle('A1:L' . $totalRows)->getFont()->setSize(12);
-        $sheet->getStyle('A1:L1')->getFont()->setBold(true);
-        $sheet->getStyle('A1:L' . $totalRows)->getAlignment()->setHorizontal('left');
-        $sheet->getStyle('A1:L' . $totalRows)->getAlignment()->setVertical('left');
+        $sheet->getStyle('A1:M' . $totalRows)->getAlignment()->setWrapText(false);
+        $sheet->getStyle('A1:M' . $totalRows)->getFont()->setName('Times New Roman');
+        $sheet->getStyle('A1:M' . $totalRows)->getFont()->setSize(12);
+        $sheet->getStyle('A1:M1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:M' . $totalRows)->getAlignment()->setHorizontal('left');
+        $sheet->getStyle('A1:M' . $totalRows)->getAlignment()->setVertical('left');
 
-        foreach (range('A', 'L') as $column) {
+        foreach (range('A', 'M') as $column) {
             $sheet->getColumnDimension($column)->setAutoSize(true);
         }
 
