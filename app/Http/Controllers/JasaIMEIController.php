@@ -62,6 +62,25 @@ class JasaIMEIController extends Controller
             $validated['user_id'] = Auth::user()->id;
         }
 
+        $user = null;
+        $pelanggan = null;
+        if ($validated['status'] === 'selesai') {
+            if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
+                $validated['user_id'] = Auth::user()->id;
+                $user = User::findOrFail(Auth::user()->id);
+                $user->increment('jumlah_transaksi');
+            } else {
+                $user = User::findOrFail($validated['user_id']);
+                $user->increment('jumlah_transaksi');
+            }
+
+            if (empty($validated['pelanggan_id'])) {
+                return redirect()->back()->with('error', 'Pilih pelanggan untuk menyelesaikan transaksi');
+            }
+            $pelanggan = Pelanggan::findOrFail($validated['pelanggan_id']);
+            $pelanggan->increment('jumlah_transaksi');
+        }
+
         try {
             JasaImei::create($validated);
             return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil ditambahkan');
@@ -112,6 +131,24 @@ class JasaIMEIController extends Controller
 
         try {
             $jasa_imei = JasaImei::findOrFail($id);
+            $user = null;
+            $pelanggan = null;
+            $oldStatus = $jasa_imei->status;
+            $newStatus = $validated['status'];
+
+            if ($newStatus === 'selesai' && $oldStatus === 'proses') {
+                $user = User::findOrFail($validated['user_id']);
+                $user->increment('jumlah_transaksi');
+
+                if (empty($validated['pelanggan_id'])) {
+                    return redirect()->back()->with('error', 'Pilih pelanggan untuk menyelesaikan transaksi');
+                }
+                $pelanggan = Pelanggan::findOrFail($validated['pelanggan_id']);
+                $pelanggan->increment('jumlah_transaksi');
+            }
+
+            // jika status berubah menjadi success, maka tambah jumlah_transaksi user dan pelanggan
+
             $jasa_imei->update($validated);
             return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil diubah');
         } catch (\Exception $e) {
@@ -127,6 +164,17 @@ class JasaIMEIController extends Controller
     {
         try {
             $jasa_imei = JasaImei::findOrFail($id);
+
+            if ($jasa_imei->pelanggan_id) {
+                $pelanggan = Pelanggan::findOrFail($jasa_imei->pelanggan_id);
+                $pelanggan->decrement('jumlah_transaksi');
+            }
+
+            if ($jasa_imei->user_id) {
+                $user = User::findOrFail($jasa_imei->user_id);
+                $user->decrement('jumlah_transaksi');
+            }
+
             $jasa_imei->delete();
             return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil dihapus');
         } catch (\Exception $e) {
