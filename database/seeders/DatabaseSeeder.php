@@ -24,33 +24,40 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         $this->call(RolePermissionSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Ravedu Technology',
-            'username' => 'ravtech',
-            'email' => 'developer@test.com',
-        ])->assignRole('super_admin');
+        User::factory(4)->create()->each(function ($user) {
+            $roles = ['super_admin', 'owner', 'admin', 'agen'];
+            $randomRole = $roles[array_rand($roles)];
+            $user->assignRole($randomRole);
+        });
 
-        // owner
-        User::factory()->create([
-            'name' => 'Owner',
-            'username' => 'owner',
-            'email' => 'owner@test.com',
-            'jumlah_transaksi' => 0,
-        ])->assignRole('owner');
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'username' => 'admin',
-            'email' => 'admin@test.com',
-            'jumlah_transaksi' => 0,
-        ])->assignRole('admin');
+        // User::factory()->create([
+        //     'name' => 'Ravedu Technology',
+        //     'username' => 'ravtech',
+        //     'email' => 'developer@test.com',
+        // ])->assignRole('super_admin');
 
-        User::factory()->create([
-            'name' => 'Agent',
-            'username' => 'agent',
-            'email' => 'agent@test.com',
-            'jumlah_transaksi' => 2,
-        ])->assignRole('agen');
+        // // owner
+        // User::factory()->create([
+        //     'name' => 'Owner',
+        //     'username' => 'owner',
+        //     'email' => 'owner@test.com',
+        //     'jumlah_transaksi' => 0,
+        // ])->assignRole('owner');
+
+        // User::factory()->create([
+        //     'name' => 'Admin',
+        //     'username' => 'admin',
+        //     'email' => 'admin@test.com',
+        //     'jumlah_transaksi' => 0,
+        // ])->assignRole('admin');
+
+        // User::factory()->create([
+        //     'name' => 'Agent',
+        //     'username' => 'agent',
+        //     'email' => 'agent@test.com',
+        //     'jumlah_transaksi' => 2,
+        // ])->assignRole('agen');
 
         // Barang::factory()->create([
         //     'kode_barang' => 'BRG-001',
