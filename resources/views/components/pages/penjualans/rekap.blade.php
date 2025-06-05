@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="section">
-
+        {{-- search --}}
         <div class="card">
             <div class="card-header mb-3">
                 @if (request()->is('rekap'))
@@ -55,6 +55,7 @@
             </div>
         </div>
 
+        {{-- penjualan hp --}}
         <div class="card">
             <div class="card-header">
                 <h3 class="text-danger mb-4">{{ $title }}</h3>
@@ -249,9 +250,10 @@
                 </div>
             </div>
         </div>
+
+        {{-- penjualan IMEI --}}
+        
     </section>
-
-
 @endsection
 
 @push('scripts')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JasaImei;
 use App\Models\Penjualan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ class RekapController extends Controller
     {
         $filters = $request->only(['start_date', 'end_date']);
         $penjualans = Penjualan::latest()->filter($filters)->get();
+        $jasa_imeis = JasaImei::latest()->filter($filters)->get();
         return view('components.pages.penjualans.rekap', [
             'title' => 'Data Penjualan',
             'penjualans' => $penjualans,
