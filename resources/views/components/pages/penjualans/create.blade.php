@@ -110,7 +110,7 @@
                                                         <select id="select-pelanggans"
                                                             class="select-data form-select choice" style="cursor:pointer;"
                                                             name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
-                                                            data-check-selected="false" >
+                                                            data-check-selected="false">
                                                             @foreach ($pelanggans as $pelanggan)
                                                                 <option value="{{ $pelanggan->id }}"
                                                                     {{ old('pelanggan_id') === $pelanggan->id ? 'selected' : '' }}>
@@ -145,7 +145,7 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    @error('barang_id')
+                                                    @error('stock_id')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
@@ -206,6 +206,47 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="tanggal_transaksi" class="form-label">
+                                                            Tanggal Transaksi
+                                                        </label>
+                                                        <input type="date" id="tanggal_transaksi"
+                                                            class="form-control {{ $errors->has('tanggal_transaksi') ? 'is-invalid' : '' }}"
+                                                            placeholder="Tanggal Transaksi" name="tanggal_transaksi"
+                                                            value="{{ old('tanggal_transaksi') }}" required>
+                                                        @error('tanggal_transaksi')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 mt-2">
+                                                    <p style="margin: 0">
+                                                        <span class="text-danger">*</span>
+                                                        Centang opsi "<strong>Garansi</strong>" jika barang memiliki
+                                                        garansi.
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-12 mt-1">
+                                                    <div class="form-group">
+                                                        <div class="form-check mandatory">
+                                                            <input type="checkbox" id="garansi"
+                                                                class="form-check-input" style="cursor: pointer;"
+                                                                value="ya" name="garansi"
+                                                                {{ old('garansi') ? 'checked' : '' }}>
+                                                            <label for="garansi" style="cursor:pointer;"
+                                                                class="form-check-label form-label user-select-none">
+                                                                Garansi
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -224,7 +265,7 @@
                                                         <label for="sub-total" class="form-label">
                                                             Sub Total
                                                         </label>
-                                                        <input type="text" id="sub-total" min="0" readonly
+                                                        <input type="text" id="sub-total" min="0"
                                                             class="form-control {{ $errors->has('subtotal') ? 'is-invalid' : '' }}"
                                                             placeholder="Sub Total" name="subtotal"
                                                             value="{{ @old('subtotal') }}" required>

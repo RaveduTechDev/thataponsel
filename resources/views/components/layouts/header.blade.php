@@ -165,6 +165,15 @@
                     </a>
                 </li>
 
+                <li class="menu-item {{ request()->is('jasa-imei*') ? 'active font-bold' : '' }}">
+                    <a href={{ route('jasa-imei.index') }} class="menu-link">
+                        <span class="d-flex align-items-center">
+                            <i class="bi bi-upc-scan" style="margin: -10px 6px 0 0;"></i>
+                            Jasa IMEI
+                        </span>
+                    </a>
+                </li>
+
                 @if (Auth::user()->hasRole(['super_admin', 'admin', 'owner']))
                     <li class="menu-item has-sub {{ request()->is('rekap*') ? 'active font-bold' : '' }}">
                         <a href="#" class="menu-link">
@@ -195,15 +204,6 @@
                         </div>
                     </li>
                 @endif
-
-                <li class="menu-item {{ request()->is('jasa-imei*') ? 'active font-bold' : '' }}">
-                    <a href={{ route('jasa-imei.index') }} class="menu-link">
-                        <span class="d-flex align-items-center">
-                            <i class="bi bi-upc-scan" style="margin: -10px 6px 0 0;"></i>
-                            Jasa IMEI
-                        </span>
-                    </a>
-                </li>
             </ul>
         </div>
     </nav>

@@ -237,14 +237,16 @@ class PenjualanController extends Controller
                 $stock->save();
             }
 
-            if ($penjualan->pelanggan_id) {
-                $pelanggan = Pelanggan::findOrFail($penjualan->pelanggan_id);
-                $pelanggan->decrement('jumlah_transaksi');
-            }
+            if ($penjualan->status === 'selesai') {
+                if ($penjualan->pelanggan_id) {
+                    $pelanggan = Pelanggan::findOrFail($penjualan->pelanggan_id);
+                    $pelanggan->decrement('jumlah_transaksi');
+                }
 
-            if ($penjualan->user_id) {
-                $user = User::findOrFail($penjualan->user_id);
-                $user->decrement('jumlah_transaksi');
+                if ($penjualan->user_id) {
+                    $user = User::findOrFail($penjualan->user_id);
+                    $user->decrement('jumlah_transaksi');
+                }
             }
 
             $penjualan->delete();
