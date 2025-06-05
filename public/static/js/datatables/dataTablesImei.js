@@ -11,7 +11,7 @@ $(document).ready(function () {
 
     // Pindahkan loading indicator ke samping kiri search filter DataTable
     $("div.dataTables_filter", table.table().container()).prepend(
-        $("#loading")
+        $("#loadingImei")
     );
 
     // Fungsi untuk mengambil settings JSON berdasarkan group (data-name)
@@ -29,9 +29,9 @@ $(document).ready(function () {
     }
 
     // Inisialisasi tiap checkbox dengan settings dari localStorage
-    $('#toggle-columns input[type="checkbox"]').each(function () {
-        var colIndex = $(this).data("column");
-        var name = $(this).data("name");
+    $('#toggle-columns-imei input[type="checkbox"]').each(function () {
+        var colIndex = $(this).data("column-imei");
+        var name = $(this).data("name-imei");
 
         var settings = getSettings(name);
         var isVisible = settings.hasOwnProperty(colIndex)
@@ -47,13 +47,13 @@ $(document).ready(function () {
     table.columns.adjust().draw();
 
     // Event handler untuk perubahan checkbox secara realtime
-    $('#toggle-columns input[type="checkbox"]').on("change", function () {
-        var colIndex = $(this).data("column");
-        var name = $(this).data("name");
+    $('#toggle-columns-imei input[type="checkbox"]').on("change", function () {
+        var colIndex = $(this).data("column-imei");
+        var name = $(this).data("name-imei");
         var isChecked = $(this).prop("checked");
 
         // Tampilkan loading indicator (sekarang di samping search)
-        $("#loading").fadeIn(150);
+        $("#loadingImei").fadeIn(150);
 
         // Update settings JSON
         var settings = getSettings(name);
@@ -66,11 +66,11 @@ $(document).ready(function () {
         // Adjust dan draw tabel, lalu sembunyikan loading indicator
         setTimeout(function () {
             table.columns.adjust().draw();
-            $("#loading").fadeOut(150);
+            $("#loadingImei").fadeOut(150);
         }, 100);
     });
 
-    $("#dropdown-columns").appendTo(
+    $("#dropdown-columns2").appendTo(
         $("div.dataTables_filter", table.table().container())
     );
 });

@@ -93,6 +93,10 @@ div.dataTables_filter {
     z-index: 10;
 }
 
+div.choices__list  {
+    z-index: 20;
+}
+
 div.dataTables_length {
     padding-bottom: 10px;
     margin-top: -5px;
