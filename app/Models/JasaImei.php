@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class JasaImei extends Model
@@ -34,7 +35,7 @@ class JasaImei extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->select('id', 'name', 'nomor_wa', 'toko_cabang_id');
+        return $this->belongsTo(User::class)->select('id', 'name', '', 'nomor_wa', 'toko_cabang_id');
     }
 
     public function scopeSuccess($query)
@@ -47,5 +48,32 @@ class JasaImei extends Model
         if ($role == 'agen') {
             return $query->where('user_id', Auth::user()->id);
         }
+    }
+
+    public function scopeFilter(Builder $query, array $filters)
+    {
+
+        $startDate = $filters['start_date'] ?? null;
+        $endDate = $filters['end_date'] ?? null;
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('tanggal_transaksi', [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $query->whereDate('tanggal_transaksi', '>=', $startDate);
+        } elseif ($endDate) {
+            $query->whereDate('tanggal_transaksi', '<=', $endDate);
+        }
+
+        $query->when($filters['search'] ?? false, function (Builder $query, string $search) {
+            return $query->whereHas('user', function (Builder $query) use ($search) {
+                $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($search) . '%']);
+            });
+        });
+
+        $query->when(isset($filters['username']), function (Builder $query) use ($filters) {
+            $query->whereHas('user', function (Builder $query) use ($filters) {
+                $query->where('username', 'like', '%' . $filters['username'] . '%');
+            });
+        });
     }
 }
