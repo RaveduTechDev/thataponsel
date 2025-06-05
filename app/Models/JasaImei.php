@@ -66,11 +66,11 @@ class JasaImei extends Model
         $endDate = $filters['end_date'] ?? null;
 
         if ($startDate && $endDate) {
-            $query->whereBetween('tanggal_transaksi', [$startDate, $endDate]);
+            $query->whereBetween('tanggal', [$startDate, $endDate]);
         } elseif ($startDate) {
-            $query->whereDate('tanggal_transaksi', '>=', $startDate);
+            $query->whereDate('tanggal', '>=', $startDate);
         } elseif ($endDate) {
-            $query->whereDate('tanggal_transaksi', '<=', $endDate);
+            $query->whereDate('tanggal', '<=', $endDate);
         }
 
         $query->when($filters['search'] ?? false, function (Builder $query, string $search) {
