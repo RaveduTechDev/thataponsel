@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('build/assets/telInput-D9_xf1bf.css') }}">
+@endpush
+
 @section('content')
     <div class="row mb-4">
         <div class="col-md-4">
