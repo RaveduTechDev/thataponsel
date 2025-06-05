@@ -40,7 +40,7 @@ class JasaImei extends Model
 
     public function scopeSuccess($query)
     {
-        return $query->where('status', 'success');
+        return $query->where('status', 'selesai');
     }
 
     public function scopeIsAgent($query, $role)

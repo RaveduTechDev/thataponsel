@@ -28,6 +28,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/rekap', [RekapController::class, 'rekapPenjualan'])->name('rekap');
     Route::get('/rekap/agen', [RekapController::class, 'rekapPenjualanAgen'])->name('rekap.agen');
+    Route::post('/rekap/export/imei', [RekapController::class, 'rekapExportImeiExcel'])->name('rekap.export.imei');
+    Route::post('/rekap/export/penjualan', [RekapController::class, 'rekapExportPenjualanExcel'])->name('rekap.export.penjualan');
+
     Route::resource('penjualan', PenjualanController::class);
     Route::post('/penjualan/download/{invoice}', [ExportController::class, 'export'])->name('penjualan.export');
     Route::resource('jasa-imei', JasaIMEIController::class);

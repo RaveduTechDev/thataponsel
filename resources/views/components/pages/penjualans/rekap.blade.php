@@ -28,10 +28,10 @@
                     </div>
                     @if (request()->is('rekap/agen*'))
                         <div class="col-12 col-md-6 col-lg-3" style="z-index: 20">
-                            <label for="agent_name" class="form-label">Nama Agen/Sales</label>
+                            <label for="agent_name" class="form-label">Nama Agen</label>
                             <select id="select-agent"
                                 class="select-data form-select choice position-relative {{ $errors->has('agent_id') ? 'is-invalid' : '' }}"
-                                style="cursor:pointer;" name="search" data-placeholder="-- Pilih Sales/Agent --"
+                                style="cursor:pointer;" name="search" data-placeholder="-- Pilih Agen --"
                                 data-check-selected="{{ request('search') ? 'true' : 'false' }}">
                                 @foreach ($users as $user)
                                     <option value="{{ $user->name }}"
@@ -70,6 +70,21 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="text-danger mb-4">Penjualan HP</h3>
+                    <div class="card-header-actions mb-4">
+                        <form action="{{ route('rekap.export.penjualan') }}" method="post" target="_blank">
+                            @csrf
+                            <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                            <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                            <input type="hidden" name="username" value="{{ request('username') }}">
+
+                            <button type="submit"
+                                class="btn btn-success d-inline-flex align-items-center justify-content-center">
+                                <i class="bi bi-file-earmark-excel" style="margin: -10px 2px 0 0"></i>
+                                Export Excel
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if (request('start_date') || request('end_date') || request('search') || request('username'))
@@ -229,7 +244,22 @@
         @elseif (request('category') === 'imei')
             <div class="card">
                 <div class="card-header">
-                    <h3 class="text-danger mb-4">Penjualan IMEI</h3>
+                    <h3 class="text-danger">Penjualan IMEI</h3>
+                    <div class="card-header-actions mb-4">
+                        <form action="{{ route('rekap.export.imei') }}" method="post" target="_blank">
+                            @csrf
+                            <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                            <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                            <input type="hidden" name="username" value="{{ request('username') }}">
+
+                            <button type="submit"
+                                class="btn btn-success d-inline-flex align-items-center justify-content-center">
+                                <i class="bi bi-file-earmark-excel" style="margin: -10px 2px 0 0"></i>
+                                Export Excel
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -275,41 +305,47 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="0"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Pelanggan</label>
+                                        <label class="form-check-label">IMEI</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="1"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Agen</label>
+                                        <label class="form-check-label">Tipe</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="2"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">IMEI</label>
+                                        <label class="form-check-label">Tanggal Transaksi</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="3"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Tipe</label>
+                                        <label class="form-check-label">Pelanggan</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="4"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Biaya</label>
+                                        <label class="form-check-label">Agen</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="5"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Modal</label>
+                                        <label class="form-check-label">Biaya</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="6"
+                                            data-name-imei="imei_rekap" checked>
+                                        <label class="form-check-label">Modal</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" data-column-imei="7"
                                             data-name-imei="imei_rekap" checked>
                                         <label class="form-check-label">Profit</label>
                                     </div>
@@ -327,10 +363,11 @@
                     <table class="table table-striped table-hover" id="tableImei">
                         <thead>
                             <tr>
-                                <th class="text-nowrap">Pelanggan</th>
-                                <th class="text-nowrap">Agen</th>
                                 <th class="text-nowrap w-xl-50">IMEI</th>
                                 <th class="text-nowrap">Tipe</th>
+                                <th class="text-nowrap">Tanggal Transaksi</th>
+                                <th class="text-nowrap">Pelanggan</th>
+                                <th class="text-nowrap">Agen</th>
                                 <th class="text-nowrap">Biaya</th>
                                 <th class="text-nowrap">Modal</th>
                                 <th class="text-nowrap">Profit</th>
@@ -339,6 +376,11 @@
                         <tbody>
                             @foreach ($jasa_imeis as $jasa_imei)
                                 <tr>
+                                    <td class="text-nowrap w-xl-50">{{ $jasa_imei->imei }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
+                                    <td class="text-nowrap">
+                                        {{ \Carbon\Carbon::parse($jasa_imei->tanggal)->isoFormat('D MMMM YY') }}
+                                    </td>
                                     <td class="text-nowrap">
                                         {{ $jasa_imei->pelanggan->nama_pelanggan }}
                                     </td>
@@ -352,8 +394,6 @@
                                             {{ $jasa_imei->user->name }}
                                         @endif
                                     </td>
-                                    <td class="text-nowrap w-xl-50">{{ $jasa_imei->imei }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
                                     <td class="text-nowrap">
                                         Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}
                                     </td>
@@ -368,8 +408,7 @@
                         </tbody>
                         <tfoot class="table-light">
                             <tr>
-                                {{-- total biaya, modal, profil --}}
-                                <th colspan="3"></th>
+                                <th colspan="4"></th>
                                 <th class="text-nowrap">Total :</th>
                                 <th class="text-nowrap">
                                     Rp. {{ number_format($jasa_imeis->sum('biaya'), 0, ',', '.') }}
@@ -391,6 +430,21 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="text-danger mb-4">Penjualan HP</h3>
+                    <div class="card-header-actions mb-4">
+                        <form action="{{ route('rekap.export.penjualan') }}" method="post" target="_blank">
+                            @csrf
+                            <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                            <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                            <input type="hidden" name="username" value="{{ request('username') }}">
+
+                            <button type="submit"
+                                class="btn btn-success d-inline-flex align-items-center justify-content-center">
+                                <i class="bi bi-file-earmark-excel" style="margin: -10px 2px 0 0"></i>
+                                Export Excel
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if (request('start_date') || request('end_date') || request('search') || request('username'))
@@ -551,7 +605,22 @@
             {{-- penjualan IMEI --}}
             <div class="card">
                 <div class="card-header">
-                    <h3 class="text-danger mb-4">Penjualan IMEI</h3>
+                    <h3 class="text-danger">Penjualan IMEI</h3>
+                    <div class="card-header-actions mb-4">
+                        <form action="{{ route('rekap.export.imei') }}" method="post" target="_blank">
+                            @csrf
+                            <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                            <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                            <input type="hidden" name="username" value="{{ request('username') }}">
+
+                            <button type="submit"
+                                class="btn btn-success d-inline-flex align-items-center justify-content-center">
+                                <i class="bi bi-file-earmark-excel" style="margin: -10px 2px 0 0"></i>
+                                Export Excel
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -597,41 +666,47 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="0"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Pelanggan</label>
+                                        <label class="form-check-label">IMEI</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="1"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Agen</label>
+                                        <label class="form-check-label">Tipe</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="2"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">IMEI</label>
+                                        <label class="form-check-label">Tanggal Transaksi</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="3"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Tipe</label>
+                                        <label class="form-check-label">Pelanggan</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="4"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Biaya</label>
+                                        <label class="form-check-label">Agen</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="5"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Modal</label>
+                                        <label class="form-check-label">Biaya</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="6"
+                                            data-name-imei="imei_rekap" checked>
+                                        <label class="form-check-label">Modal</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" data-column-imei="7"
                                             data-name-imei="imei_rekap" checked>
                                         <label class="form-check-label">Profit</label>
                                     </div>
@@ -649,10 +724,11 @@
                     <table class="table table-striped table-hover" id="tableImei">
                         <thead>
                             <tr>
-                                <th class="text-nowrap">Pelanggan</th>
-                                <th class="text-nowrap">Agen</th>
                                 <th class="text-nowrap w-xl-50">IMEI</th>
                                 <th class="text-nowrap">Tipe</th>
+                                <th class="text-nowrap">Tanggal Transaksi</th>
+                                <th class="text-nowrap">Pelanggan</th>
+                                <th class="text-nowrap">Agen</th>
                                 <th class="text-nowrap">Biaya</th>
                                 <th class="text-nowrap">Modal</th>
                                 <th class="text-nowrap">Profit</th>
@@ -661,6 +737,11 @@
                         <tbody>
                             @foreach ($jasa_imeis as $jasa_imei)
                                 <tr>
+                                    <td class="text-nowrap w-xl-50">{{ $jasa_imei->imei }}</td>
+                                    <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
+                                    <td class="text-nowrap">
+                                        {{ \Carbon\Carbon::parse($jasa_imei->tanggal)->isoFormat('D MMMM YY') }}
+                                    </td>
                                     <td class="text-nowrap">
                                         {{ $jasa_imei->pelanggan->nama_pelanggan }}
                                     </td>
@@ -674,8 +755,6 @@
                                             {{ $jasa_imei->user->name }}
                                         @endif
                                     </td>
-                                    <td class="text-nowrap w-xl-50">{{ $jasa_imei->imei }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
                                     <td class="text-nowrap">
                                         Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}
                                     </td>
@@ -690,8 +769,7 @@
                         </tbody>
                         <tfoot class="table-light">
                             <tr>
-                                {{-- total biaya, modal, profil --}}
-                                <th colspan="3"></th>
+                                <th colspan="4"></th>
                                 <th class="text-nowrap">Total :</th>
                                 <th class="text-nowrap">
                                     Rp. {{ number_format($jasa_imeis->sum('biaya'), 0, ',', '.') }}
