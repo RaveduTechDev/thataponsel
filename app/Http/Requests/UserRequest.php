@@ -42,7 +42,7 @@ class UserRequest extends FormRequest
         $validated = [
             'name' => 'required|string|max:255',
             'nomor_wa' => 'required|string|max:255',
-            'toko_cabang_id' => 'required|exists:toko_cabangs,id',
+            'toko_cabang_id' => 'nullable|exists:toko_cabangs,id',
             'password' => $this->passwordRules(),
             'level' => $level,
         ];

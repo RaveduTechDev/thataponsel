@@ -175,7 +175,7 @@
                                     <td class="text-nowrap w-xl-50">{{ $stock->tanggal }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->barang->keterangan }}</td>
                                     <td class="text-nowrap text-center">
-                                        @if (Auth::user()->hasRole(['admin', 'agen']))
+                                        @if (Auth::user()->hasRole(['super_admin', 'admin', 'agen']))
                                             <div class="d-flex gap-1 justify-content-end">
                                                 @if (!Auth::user()->hasRole('agen'))
                                                     <a href="{{ route('stocks.show', $stock->id) }}"

@@ -50,6 +50,15 @@ class JasaImei extends Model
         }
     }
 
+    public function scopeIsAgentImei($query)
+    {
+        return $this->whereHas('user', function (Builder $query) {
+            $query->whereHas('roles', function (Builder $query) {
+                $query->where('name', 'agen');
+            });
+        });
+    }
+
     public function scopeFilter(Builder $query, array $filters)
     {
 

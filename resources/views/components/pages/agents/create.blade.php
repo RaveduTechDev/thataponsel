@@ -156,7 +156,7 @@
                                                             style="cursor:pointer;" name="toko_cabang_id"
                                                             id="select-toko_cabangs"
                                                             data-placeholder="-- Pilih Toko Cabang --"
-                                                            data-check-selected="false" required>
+                                                            data-check-selected="false">
                                                             @foreach ($toko_cabangs as $toko_cabang)
                                                                 <option value="{{ $toko_cabang->id }}"
                                                                     {{ old('toko_cabang_id') === $toko_cabang->id ? 'selected' : '' }}>
@@ -225,7 +225,7 @@
     {{-- @vite(['resources/js/telInput.js', 'resources/js/choices.js']) --}}
 
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
-    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
 
     @include('components.ui.loading.button')
 

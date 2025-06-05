@@ -40,8 +40,7 @@
                                                         <select id="select-pelanggans"
                                                             class="select-data form-select choice" style="cursor:pointer;"
                                                             name="pelanggan_id" data-placeholder="-- Pilih Pelanggan --"
-                                                            {{ old('pelanggan_id') ? 'data-check-selected=true' : 'data-check-selected=false' }}
-                                                            required>
+                                                            {{ old('pelanggan_id') ? 'data-check-selected=true' : 'data-check-selected=false' }}>
                                                             @foreach ($pelanggans as $pelanggan)
                                                                 <option value="{{ $pelanggan->id }}"
                                                                     {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
@@ -65,8 +64,7 @@
                                                                 class="select-data form-select choice {{ $errors->has('user_id') ? 'is-invalid' : '' }}"
                                                                 style="cursor:pointer;" name="user_id"
                                                                 data-placeholder="-- Pilih Sales/Agent --"
-                                                                {{ old('user_id') ? 'data-check-selected=true' : 'data-check-selected=false' }}
-                                                                required>
+                                                                {{ old('user_id') ? 'data-check-selected=true' : 'data-check-selected=false' }}>
                                                                 @foreach ($users as $user)
                                                                     <option value="{{ $user->id }}"
                                                                         {{ old('user_id') == $user->id ? 'selected' : '' }}>
@@ -163,7 +161,7 @@
                             <div class="col-md-4 col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">Detail Penjualan</h4>
+                                        <h4 class="card-title">Detail IMEI</h4>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
@@ -261,7 +259,7 @@
 
 @push('scripts')
     {{-- @vite(['resources/js/choices.js', 'resources/js/calculate2.js']) --}}
-    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
 
     @include('components.ui.loading.button')

@@ -82,7 +82,7 @@
                                 <tr>
                                     <td class="text-nowrap w-xl-50">{{ $agent->name }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $agent->nomor_wa_agent_formatted }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $agent->tokoCabang->nama_toko_cabang }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $agent->tokoCabang->nama_toko_cabang ?? '' }}</td>
                                     <td class="text-nowrap w-xl-50">
                                         @foreach ($agent->getRoleNames() as $role)
                                             {{ ucwords(str_replace(['-', '_'], ' ', $role)) }}

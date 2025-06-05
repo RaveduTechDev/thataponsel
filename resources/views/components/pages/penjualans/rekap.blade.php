@@ -345,7 +345,7 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
 
-                    <table class="table table-striped table-hover" id="table1">
+                    <table class="table table-striped table-hover" id="tableImei">
                         <thead>
                             <tr>
                                 <th class="text-nowrap w-xl-50">Invoice</th>
@@ -357,83 +357,43 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($jasa_imeis as $penjualan)
+                            @foreach ($jasa_imeis as $jasa_imei)
                                 <tr>
-                                    <td class="text-nowrap w-xl-50">{{ $penjualan->invoice }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $jasa_imei->imei }}</td>
                                     <td class="text-nowrap ">
-                                        {{ \Carbon\Carbon::parse($penjualan->tanggal_transaksi)->isoFormat('D MMMM YY') }}
+                                        {{ \Carbon\Carbon::parse($jasa_imei->tanggal_transaksi)->isoFormat('D MMMM YY') }}
                                     </td>
-                                    <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
+                                    <td class="text-nowrap ">{{ $jasa_imei->pelanggan->nama_pelanggan }}</td>
                                     <td class="text-nowrap ">
                                         @if (request()->is('rekap/agen*'))
-                                            <a href="{{ route('rekap.agen', ['username' => $penjualan->user->username]) }}"
+                                            <a href="{{ route('rekap.agen', ['username' => $jasa_imei->user->username]) }}"
                                                 style="text-decoration: underline;">
-                                                {{ $penjualan->user->name }}
+                                                {{ $jasa_imei->user->name }}
                                             </a>
                                         @else
-                                            {{ $penjualan->user->name }}
+                                            {{ $jasa_imei->user->name }}
                                         @endif
                                     </td>
                                     <td class="text-nowrap ">
-                                        Rp. {{ number_format($penjualan->subtotal, 0, ',', '.') }}
+                                        Rp. {{ number_format($jasa_imei->subtotal, 0, ',', '.') }}
                                     </td>
 
                                     <td class="text-nowrap ">
-                                        Rp. {{ number_format($penjualan->total_bayar, 0, ',', '.') }}
+                                        Rp. {{ number_format($jasa_imei->total_bayar, 0, ',', '.') }}
                                     </td>
 
                                 </tr>
-                                <div class="modal fade text-left modal-borderless" id="modalStock{{ $penjualan->id }}"
-                                    tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable"
-                                        role="document" style="z-index: 30;">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-danger" id="modalStockLabel">
-                                                    <i class="bi bi-exclamation-triangle-fill fs-5"
-                                                        style="margin-top:-8px;"></i>
-                                                    <span>Peringatan</span>
-                                                </h5>
-                                                <button type="button" class="close text-danger close-btn"
-                                                    data-bs-dismiss="modal" aria-label="Close">
-                                                    <i class="bi bi-x-lg fs-6"></i>
-                                                    <span class="visually-hidden">Close</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Yakin Ingin Menghapus Data Ini?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-light-secondary"
-                                                    data-bs-dismiss="modal">
-                                                    <i class="bx bx-x d-block d-sm-none"></i>
-                                                    <span class="d-none d-sm-block">Batal</span>
-                                                </button>
-
-                                                <form action={{ route('penjualan.destroy', $penjualan->id) }}
-                                                    method="POST" id="formSubmit">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
-                                                        <span class="d-none d-sm-block">Hapus</span>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </tbody>
                         <tfoot class="table-light">
                             <tr>
-                                <th colspan="4"></th>
+                                <th colspan="3"></th>
                                 <th class="text-nowrap">Total :</th>
                                 <th class="text-nowrap">
-                                    Rp. {{ number_format($penjualans->sum('subtotal'), 0, ',', '.') }}
+                                    Rp. {{ number_format($jasa_imeis->sum('subtotal'), 0, ',', '.') }}
                                 </th>
                                 <th class="text-nowrap">
-                                    Rp. {{ number_format($penjualans->sum('total_bayar'), 0, ',', '.') }}
+                                    Rp. {{ number_format($jasa_imeis->sum('total_bayar'), 0, ',', '.') }}
                                 </th>
                             </tr>
 
@@ -450,6 +410,7 @@
     {{-- @vite(['resources/js/datatables.js', 'resources/js/choices.js']) --}}
 
     <script type="module" src="{{ asset('static/js/datatables/dataTables.js') }}"></script>
+    <script type="module" src="{{ asset('static/js/datatables/dataTablesImei.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
     @include('components.sweetalert2.alert')
     @include('components.ui.loading.button')

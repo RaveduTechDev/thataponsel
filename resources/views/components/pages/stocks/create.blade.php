@@ -46,8 +46,7 @@
                                                         <select id="select-barangs" class="select-data form-select choice"
                                                             style="cursor:pointer;" name="barang_id"
                                                             data-placeholder="-- Pilih Barang --"
-                                                            {{ old('barang_id') ? 'data-check-selected=true' : 'data-check-selected="false"' }}
-                                                            required>
+                                                            {{ old('barang_id') ? 'data-check-selected=true' : 'data-check-selected="false"' }}>
                                                             @foreach ($barangs as $barang)
                                                                 <option value="{{ $barang->id }}"
                                                                     {{ old('barang_id') === $barang->id ? 'selected' : '' }}>
@@ -246,7 +245,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script> --}}
 
 
-    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
 
     <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>

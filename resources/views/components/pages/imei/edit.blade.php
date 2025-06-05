@@ -104,7 +104,7 @@
                                                                 class="select-data form-select choice"
                                                                 style="cursor:pointer;" name="pelanggan_id"
                                                                 data-placeholder="-- Pilih Pelanggan --"
-                                                                data-check-selected="true" required>
+                                                                data-check-selected="true">
                                                                 @foreach ($pelanggans as $pelanggan)
                                                                     <option value="{{ $pelanggan->id }}"
                                                                         {{ $jasa_imei->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
@@ -132,7 +132,7 @@
                                                                     class="select-data form-select choice"
                                                                     style="cursor:pointer;" name="user_id"
                                                                     data-placeholder="-- Pilih Sales/Agent --"
-                                                                    data-check-selected="true" required>
+                                                                    data-check-selected="true">
                                                                     @foreach ($users as $user)
                                                                         <option value="{{ $user->id }}"
                                                                             {{ $jasa_imei->user_id === $user->id ? 'selected' : '' }}>
@@ -401,7 +401,7 @@
 
 @push('scripts')
     {{-- @vite(['resources/js/choices.js', 'resources/js/calculate2.js']) --}}
-    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
 
     @include('components.ui.loading.button')

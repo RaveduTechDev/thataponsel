@@ -107,24 +107,34 @@ $(document).ready(function () {
         const isCalculateSelect =
             $select.data("calc") === true || $select.data("calc") === "true";
 
+        let anySelected = false;
+
+        // Ambil opsi dari HTML, cek ada selected gak
         $select.find("option").each(function () {
             const value = $(this).attr("value");
-            if (value !== "") {
-                const label = $(this).text().trim();
-                const description = $(this).data("description") || "";
-                const price = $(this).data("price") || 0;
-                let isSelected = false;
-                if (checkSelected) {
-                    isSelected = $(this).is(":selected");
-                }
-                choicesData.push({
-                    value: value,
-                    label: label,
-                    description: description,
-                    selected: isSelected,
-                    price: price,
-                });
+            const label = $(this).text().trim();
+            const description = $(this).data("description") || "";
+            const price = $(this).data("price") || 0;
+            let isSelected = false;
+            if (checkSelected) {
+                isSelected = $(this).is(":selected");
+                if (isSelected) anySelected = true;
             }
+            choicesData.push({
+                value: value,
+                label: label,
+                description: description,
+                selected: isSelected,
+                price: price,
+            });
+        });
+
+        // Tambah opsi placeholder di depan yang bisa dipilih (disabled:false)
+        choicesData.unshift({
+            value: "",
+            label: placeholderText,
+            selected: !anySelected,
+            disabled: false,
         });
 
         $select.html("");
@@ -132,7 +142,7 @@ $(document).ready(function () {
         const element = $select[0];
         const choices = new Choices(element, {
             searchEnabled: true,
-            removeItemButton: true,
+            removeItemButton: true, // tombol hapus pilihan aktif
             placeholder: true,
             placeholderValue: placeholderText,
             noResultsText: "Data tidak ditemukan",
@@ -151,6 +161,12 @@ $(document).ready(function () {
             // Saat produk dipilih
             $(element).on("change", function () {
                 let selectedValue = choices.getValue(true);
+
+                // Jika kosong, artinya null
+                if (selectedValue === "") {
+                    selectedValue = null;
+                }
+
                 let price = 0;
                 choicesData.forEach(function (item) {
                     if (item.value == selectedValue) {

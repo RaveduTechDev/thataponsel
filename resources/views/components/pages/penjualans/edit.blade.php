@@ -105,7 +105,7 @@
                                                             <select id="select-agent" class="select-data form-select choice"
                                                                 style="cursor:pointer;" name="user_id"
                                                                 data-placeholder="-- Pilih Sales/Agent --"
-                                                                data-check-selected="true" required>
+                                                                data-check-selected="true">
                                                                 @foreach ($users as $user)
                                                                     <option value="{{ $user->id }}"
                                                                         {{ $penjualan->user_id === $user->id ? 'selected' : '' }}>
@@ -136,7 +136,7 @@
                                                                 class="select-data form-select choice"
                                                                 style="cursor:pointer;" name="toko_cabang_id"
                                                                 data-placeholder="-- Pilih Toko Cabang --"
-                                                                data-check-selected="true" required>
+                                                                data-check-selected="true">
                                                                 @foreach ($toko_cabangs as $toko_cabang)
                                                                     <option value="{{ $toko_cabang->id }}"
                                                                         {{ $penjualan->toko_cabang_id === $toko_cabang->id ? 'selected' : '' }}>
@@ -166,7 +166,7 @@
                                                                 class="select-data form-select choice"
                                                                 style="cursor:pointer;" name="pelanggan_id"
                                                                 data-placeholder="-- Pilih Pelanggan --"
-                                                                data-check-selected="true" required>
+                                                                data-check-selected="true">
                                                                 @foreach ($pelanggans as $pelanggan)
                                                                     <option value="{{ $pelanggan->id }}"
                                                                         {{ $penjualan->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
@@ -199,7 +199,7 @@
                                                                 style="cursor:pointer;" name="stock_id"
                                                                 data-placeholder="-- Pilih Toko Cabang --"
                                                                 data-check-selected="true" data-calc="true"
-                                                                data-init="true" required>
+                                                                data-init="true">
                                                                 @foreach ($stocks as $stock)
                                                                     <option value="{{ $stock->id }}"
                                                                         data-price="{{ $stock->harga_jual }}"
@@ -424,7 +424,7 @@
 
 @push('scripts')
     {{-- @vite(['resources/js/choices.js', 'resources/js/calculate.js']) --}}
-    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/calculate-BzQbymq7.js') }}"></script>
     @include('components.ui.loading.button')
 @endpush

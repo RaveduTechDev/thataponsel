@@ -90,8 +90,8 @@
                                                         </label>
                                                         <select id="select-barangs" class="select-data form-select choice"
                                                             style="cursor:pointer;" name="barang_id"
-                                                            data-placeholder="-- Pilih Barang --" data-check-selected="true"
-                                                            required>
+                                                            data-placeholder="-- Pilih Barang --"
+                                                            data-check-selected="true">
                                                             @foreach ($barangs as $barang)
                                                                 <option value="{{ $barang->id }}"
                                                                     {{ $stock->barang_id === $barang->id ? 'selected' : '' }}>
@@ -100,7 +100,7 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    @error('barang_id"')
+                                                    @error('barang_id')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
@@ -297,7 +297,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script> --}}
 
 
-    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
 
     <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>

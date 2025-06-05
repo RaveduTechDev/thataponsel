@@ -34,7 +34,7 @@ class RekapController extends Controller
         }
 
         $penjualans = Penjualan::isAgent()->latest()->filter($filters)->get();
-        $jasa_imeis = JasaImei::isAgent()->latest()->filter($filters)->get();
+        $jasa_imeis = JasaImei::isAgentImei()->latest()->filter($filters)->get();
         return view('components.pages.penjualans.rekap', [
             'penjualans' => $penjualans,
             'users' => $users,
