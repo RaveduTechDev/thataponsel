@@ -1,0 +1,1 @@
+import{$ as t}from"./jquery-Da9eaIsk.js";import"./_commonjsHelpers-CqkleIqs.js";t("#formSubmit").length&&t("#formSubmit").on("submit",function(){["#sub-total","#total-bayar"].forEach(a=>{if(t(a).length){let m=t(a).val(),l=parseInt(m.replace(/[^0-9]/g,""))||0;t(a).val(l)}})});

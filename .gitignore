@@ -1,6 +1,9 @@
 /.phpunit.cache
 /node_modules
-/public/build
+# /public/build
+/resources/js
+/resources/css
+/resources/assets
 /public/hot
 /public/storage
 /storage/*.key

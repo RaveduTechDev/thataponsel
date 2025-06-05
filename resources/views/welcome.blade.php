@@ -275,6 +275,8 @@
 @push('scripts')
     {{-- @vite('resources/js/chart.js') --}}
     <script src="{{ asset('build/assets/chart-6n5wGOeA.js') }}"></script>
+    @include('components.ui.loading.button')
+
     <script type="module">
         let deskripsiTanggal = '';
 
