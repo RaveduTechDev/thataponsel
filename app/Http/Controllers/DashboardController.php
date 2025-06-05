@@ -92,44 +92,42 @@ class DashboardController extends Controller
             ->join('stocks', 'penjualans.stock_id', '=', 'stocks.id')
             ->where('penjualans.status', 'selesai')
             ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
-            ->sum(DB::raw('COALESCE(stocks.modal,0) * penjualans.qty'));
+            ->sum(DB::raw('COALESCE(stocks.modal,0) * penjualans.qty')) ?? 0;
 
         $totalPenjualan = DB::table('penjualans')
             ->where('penjualans.status', 'selesai')
-            ->whereBetween('tanggal_transaksi', [$start, $end])
-            ->sum(DB::raw('CAST(total_bayar AS NUMERIC)'));
+            ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
+            ->sum(DB::raw('CAST(total_bayar AS DECIMAL)')) ?? 0;
 
         $totalUnitMasuk = Stock::whereHas('penjualan', function ($query) use ($start, $end) {
-            $query->whereBetween('tanggal_transaksi', [$start, $end]);
-        })->sum('jumlah_stok');
+            $query->whereBetween('penjualans.tanggal_transaksi', [$start, $end]);
+        })->sum('jumlah_stok') ?? 0;
 
         $totalUnitKeluar = Penjualan::where('status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
-            ->sum('qty');
+            ->sum('qty') ?? 0;
 
         $totalLayananImei = JasaImei::where('status', 'selesai')
             ->whereBetween('created_at', [$start, $end])
             ->when(!$notAgent, function ($query) {
                 $query->where('user_id', auth()->id());
-            })
-            ->count('jasa_imeis.status');
+            })->count('jasa_imeis.status') ?? 0;
 
         $totalUnitTerjual = Penjualan::where('status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
             ->when(!$notAgent, function ($query) {
                 $query->where('user_id', auth()->id());
-            })
-            ->sum('qty');
+            })->sum('qty') ?? 0;
 
         $totalHargaPenjualan = DB::table('penjualans')
             ->where('status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
-            ->sum(DB::raw('CAST(total_bayar AS NUMERIC)'));
+            ->sum(DB::raw('CAST(total_bayar AS DECIMAL)')) ?? 0;
 
         $totalBiayaImei = DB::table('jasa_imeis')
             ->where('status', 'selesai')
             ->whereBetween('created_at', [$start, $end])
-            ->sum(DB::raw('CAST(biaya AS NUMERIC)'));
+            ->sum(DB::raw('CAST(biaya AS DECIMAL)')) ?? 0;
 
         $totalPenjualanDanImei = $totalHargaPenjualan + $totalBiayaImei;
         $formatHumanNumber = 'Rp' . NumberCustom::formatNumber($totalPenjualanDanImei);
@@ -139,7 +137,7 @@ class DashboardController extends Controller
         $modalImei = DB::table('jasa_imeis')
             ->where('status', 'selesai')
             ->whereBetween('created_at', [$start, $end])
-            ->sum(DB::raw('CAST(modal AS NUMERIC)'));
+            ->sum(DB::raw('CAST(modal AS DECIMAL)')) ?? 0;
 
         $totalKeuntunganImei = $totalBiayaImei - $modalImei;
 
