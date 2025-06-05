@@ -128,7 +128,7 @@
                                             class="submenu-link">{{ Auth::user()->hasRole('owner') ? 'User' : 'Agent' }}</a>
                                     </li>
                                 @endif
-                                @if (Auth::user()->hasRole(['super_admin', 'admin']))
+                                @if (Auth::user()->hasRole(['super_admin', 'owner']))
                                     <li
                                         class="submenu-item {{ request()->is('master-data/toko-cabang*') ? 'active font-bold' : '' }}">
                                         <a href={{ route('master-data.toko-cabang.index') }} class="submenu-link">

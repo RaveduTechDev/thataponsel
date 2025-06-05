@@ -73,7 +73,7 @@
                                     <td class="text-wrap w-xl-50">{{ $toko_cabang->alamat_toko }}</td>
                                     <td class="text-nowrap text-center">
                                         <div class="d-flex gap-1 justify-content-center">
-                                            @if (Auth::user()->hasRole(['super_admin', 'admin']))
+                                            @if (Auth::user()->hasRole(['super_admin', 'owner']))
                                                 <a href="{{ route('master-data.toko-cabang.edit', $toko_cabang->id) }}"
                                                     class="btn btn-primary btn-sm" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Edit">

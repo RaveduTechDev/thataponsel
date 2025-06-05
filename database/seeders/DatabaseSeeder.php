@@ -12,7 +12,6 @@ use App\Models\TokoCabang;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Database\Seeders\RolePermissionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,6 +27,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Ravedu Technology',
             'username' => 'ravtech',
             'email' => 'developer@test.com',
+            'toko_cabang_id' => null,
         ])->assignRole('super_admin');
 
         // owner
@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'owner',
             'email' => 'owner@test.com',
             'jumlah_transaksi' => 0,
+            'toko_cabang_id' => null,
         ])->assignRole('owner');
 
         User::factory()->create([
@@ -52,71 +53,71 @@ class DatabaseSeeder extends Seeder
             'jumlah_transaksi' => 2,
         ])->assignRole('agen');
 
-        // Barang::factory()->create([
-        //     'kode_barang' => 'BRG-001',
-        //     'nama_barang' => 'Barang Test',
-        //     'merk' => 'Merk Test',
-        //     'tipe' => 'Tipe Test',
-        //     'memori' => 'Memori Test',
-        //     'warna' => 'Warna Test',
-        //     'satuan' => 'unit',
-        //     'kategori' => 'Kategori Test',
-        //     'grade' => 'Grade A',
-        //     'keterangan' => 'Keterangan Test',
-        // ]);
-        // TokoCabang::factory()->create([
-        //     'nama_toko_cabang' => 'Toko Cabang 1',
-        //     'penanggung_jawab_toko' => 'Penanggung Jawab Toko 1',
-        //     'alamat_toko' => 'Jl. Raya No. 1',
-        // ]);
+        Barang::factory()->create([
+            'kode_barang' => 'BRG-001',
+            'nama_barang' => 'Barang Test',
+            'merk' => 'Merk Test',
+            'tipe' => 'Tipe Test',
+            'memori' => 'Memori Test',
+            'warna' => 'Warna Test',
+            'satuan' => 'unit',
+            'kategori' => 'Kategori Test',
+            'grade' => 'Grade A',
+            'keterangan' => 'Keterangan Test',
+        ]);
+        TokoCabang::factory()->create([
+            'nama_toko_cabang' => 'Toko Cabang 1',
+            'penanggung_jawab_toko' => 'Penanggung Jawab Toko 1',
+            'alamat_toko' => 'Jl. Raya No. 1',
+        ]);
 
-        // Stock::factory()->create([
-        //     'barang_id' => 1,
-        //     'imei_1' => '123456789012345',
-        //     'imei_2' => '123456789012346',
-        //     'jumlah_stok' => 10,
-        //     'modal' => 10000000,
-        //     'harga_jual' => 20000000,
-        //     'invoice' => 'INV-230316-0001',
-        //     'supplier' => 'Supplier Test',
-        //     'no_kontak_supplier' => '+6281234567890',
-        //     'tanggal' => now(),
-        //     'garansi' => 'ya',
-        // ]);
+        Stock::factory()->create([
+            'barang_id' => 1,
+            'imei_1' => '123456789012345',
+            'imei_2' => '123456789012346',
+            'jumlah_stok' => 10,
+            'modal' => 10000000,
+            'harga_jual' => 20000000,
+            'invoice' => 'INV-230316-0001',
+            'supplier' => 'Supplier Test',
+            'no_kontak_supplier' => '+6281234567890',
+            'tanggal' => now(),
+            'garansi' => 'ya',
+        ]);
 
-        // Pelanggan::factory()->create([
-        //     'nama_pelanggan' => 'Ravedu Test Pelanggan',
-        //     'nomor_wa' => '+6281234567890',
-        //     'jumlah_transaksi' => 2
-        // ]);
+        Pelanggan::factory()->create([
+            'nama_pelanggan' => 'Ravedu Test Pelanggan',
+            'nomor_wa' => '+6281234567890',
+            'jumlah_transaksi' => 2
+        ]);
 
-        // Penjualan::factory()->create([
-        //     'invoice' => 'INV-230316-0001',
-        //     'stock_id' => 1,
-        //     'pelanggan_id' => 1,
-        //     'toko_cabang_id' => 1,
-        //     'user_id' => 4,
-        //     'subtotal' => 20000000,
-        //     'diskon' => 0,
-        //     'qty' => 1,
-        //     'total_bayar' => 20000000,
-        //     'tanggal_transaksi' => now(),
-        //     'metode_pembayaran' => 'tunai',
-        //     'status' => 'selesai',
-        // ]);
+        Penjualan::factory()->create([
+            'invoice' => 'INV-230316-0001',
+            'stock_id' => 1,
+            'pelanggan_id' => 1,
+            'toko_cabang_id' => 1,
+            'user_id' => 4,
+            'subtotal' => 20000000,
+            'diskon' => 0,
+            'qty' => 1,
+            'total_bayar' => 20000000,
+            'tanggal_transaksi' => now(),
+            'metode_pembayaran' => 'tunai',
+            'status' => 'selesai',
+        ]);
 
-        // JasaImei::factory()->create([
-        //     'pelanggan_id' => 1,
-        //     'tipe' => 'Jasa Test',
-        //     'imei' => '123456789012345',
-        //     'biaya' => 1000000,
-        //     'modal' => 500000,
-        //     'profit' => 500000,
-        //     'metode_pembayaran' => 'tunai',
-        //     'status' => 'selesai',
-        //     'supplier' => 'Supplier Test',
-        //     'user_id' => 4,
-        //     'tanggal' => now(),
-        // ]);
+        JasaImei::factory()->create([
+            'pelanggan_id' => 1,
+            'tipe' => 'Jasa Test',
+            'imei' => '123456789012345',
+            'biaya' => 1000000,
+            'modal' => 500000,
+            'profit' => 500000,
+            'metode_pembayaran' => 'tunai',
+            'status' => 'selesai',
+            'supplier' => 'Supplier Test',
+            'user_id' => 4,
+            'tanggal' => now(),
+        ]);
     }
 }

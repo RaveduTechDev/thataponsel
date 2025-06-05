@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'nomor_wa' => fake()->phoneNumber(),
-            'toko_cabang_id' => \App\Models\TokoCabang::factory(),
+            'toko_cabang_id' => \App\Models\TokoCabang::factory() ?? null,
             'jumlah_transaksi' => fake()->randomFloat(2, 0, 100000),
             'username' => fake()->unique()->userName(),
             'password' => static::$password ??= Hash::make('password'),

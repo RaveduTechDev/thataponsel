@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('nomor_wa');
-            $table->foreignId('toko_cabang_id')->constrained('toko_cabangs');
+            $table->foreignId('toko_cabang_id')->nullable();
             $table->decimal('jumlah_transaksi', 25, 0)->nullable()->default(0);
             $table->string('username')->unique();
             $table->string('password');

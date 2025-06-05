@@ -20,7 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('master-data')->name('master-data.')->group(function () {
         Route::get('/', [MasterDataController::class, 'index'])->name('index');
         Route::resource('pelanggan', PelangganController::class);
-        Route::resource('toko-cabang', TokoCabangController::class)->middleware('role:super_admin|admin');
+        Route::resource('toko-cabang', TokoCabangController::class)->middleware('role:super_admin|owner');
         Route::resource('barang', BarangController::class);
         Route::resource('agent', UserController::class);
     });

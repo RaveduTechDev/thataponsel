@@ -15,8 +15,8 @@ class RekapController extends Controller
         $penjualans = Penjualan::latest()->filter($filters)->get();
         $jasa_imeis = JasaImei::latest()->filter($filters)->get();
         return view('components.pages.penjualans.rekap', [
-            'title' => 'Data Penjualan',
             'penjualans' => $penjualans,
+            'jasa_imeis' => $jasa_imeis,
         ]);
     }
 
@@ -34,11 +34,12 @@ class RekapController extends Controller
         }
 
         $penjualans = Penjualan::isAgent()->latest()->filter($filters)->get();
+        $jasa_imeis = JasaImei::isAgent()->latest()->filter($filters)->get();
         return view('components.pages.penjualans.rekap', [
-            'title' => 'Data Penjualan Agen',
             'penjualans' => $penjualans,
             'users' => $users,
             'displayPerUser' => $displayPerUser,
+            'jasa_imeis' => $jasa_imeis,
         ]);
     }
 }

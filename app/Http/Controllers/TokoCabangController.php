@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\TokoCabang;
 use App\Http\Requests\TokoCabangRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
 class TokoCabangController extends Controller
 {
+
+    /**
+     * Validation role.
+     */
+    public function __construct()
+    {
+        $this->middleware('role:super_admin|owner')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -97,7 +107,7 @@ class TokoCabangController extends Controller
             $message = 'Toko ' . $toko_cabang->nama_toko_cabang . ' tidak dapat dihapus karena memiliki data lain seperti ';
             $message .= $toko_cabang->penjualans()->exists() ? 'data penjualan' : '';
             $message .= $toko_cabang->penjualans()->exists() && $toko_cabang->users()->exists() ? ' dan ' : '';
-            $message .= $toko_cabang->users()->exists() ? 'data agen' : '';
+            $message .= $toko_cabang->users()->exists() ? 'data user atau agen' : '';
             return redirect()->back()->with('message', $message . '.');
         }
 

@@ -11,7 +11,7 @@ class TokoCabangRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if ($this->user()->hasRole(['super_admin', 'admin'])) {
+        if ($this->user()->hasRole(['super_admin', 'owner'])) {
             return true;
         }
         return false;

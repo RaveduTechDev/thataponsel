@@ -58,7 +58,7 @@
                                                         </label>
                                                         <input type="text" id="username"
                                                             class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
-                                                            placeholder="Nama Agen" name="username"
+                                                            placeholder="Username" name="username"
                                                             value="{{ @old('username') }}" required>
                                                         <small id="username-error" class="text-danger"></small>
                                                         @error('username')

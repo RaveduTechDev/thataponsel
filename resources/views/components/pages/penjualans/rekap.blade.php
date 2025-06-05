@@ -58,11 +58,9 @@
         {{-- penjualan hp --}}
         <div class="card">
             <div class="card-header">
-                <h3 class="text-danger mb-4">{{ $title }}</h3>
+                <h3 class="text-danger mb-4">Penjualan HP</h3>
             </div>
             <div class="card-body">
-
-                {{-- menampilkan data dari get request search  --}}
                 @if (request('start_date') || request('end_date') || request('search') || request('username'))
                     <table class="mb-4">
                         <tr>
@@ -252,7 +250,199 @@
         </div>
 
         {{-- penjualan IMEI --}}
-        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-danger mb-4">Penjualan IMEI</h3>
+            </div>
+            <div class="card-body">
+
+                {{-- menampilkan data dari get request search  --}}
+                @if (request('start_date') || request('end_date') || request('search') || request('username'))
+                    <table class="mb-4">
+                        <tr>
+                            <th class="text-nowrap me-lg-2">Mulai Tanggal</th>
+                            <td class="text-nowrap">: </td>
+                            <td class="text-nowrap">
+                                {{ request('start_date') ? \Carbon\Carbon::parse(request('start_date'))->isoFormat('D MMMM Y') : '-' }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-nowrap me-lg-2">Sampai Tanggal</th>
+                            <td class="text-nowrap">: </td>
+                            <td class="text-nowrap">
+                                {{ request('end_date') ? \Carbon\Carbon::parse(request('end_date'))->isoFormat('D MMMM Y') : '-' }}
+                            </td>
+                        </tr>
+                        @if (request()->is('rekap/agen*') || request('search') || request('username'))
+                            <tr>
+                                <th class="text-nowrap me-lg-2">Nama Agen/Sales</th>
+                                <td class="text-nowrap">:</td>
+                                <td class="text-nowrap">
+                                    {{ $displayPerUser }}
+                                </td>
+                            </tr>
+                        @endif
+                    </table>
+                @endif
+
+                <div class="table-responsive pt-2 pe-2" id="table-container">
+                    <div class="dropdown" id="dropdown-columns">
+                        <button class="btn btn-danger btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-funnel"></i>
+                            <span class="visually-hidden">Filter</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <h2 class="dropdown-header fs-5" style="margin: 0 0 -10px -10px">Tampilkan Kolom</h2>
+                            <div id="toggle-columns" class="card p-3 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="0"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Invoice</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="1"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Tanggal Transaksi</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="2"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Pelanggan</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="3"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Toko Cabang</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="4"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Agent</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="5"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Sub Total</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="6"
+                                        data-name="penjualan" checked>
+                                    <label class="form-check-label">Total Bayar</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="loading" style="display: none" class="spinner-border spinner-border-sm text-danger"
+                        role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+
+                    <table class="table table-striped table-hover" id="table1">
+                        <thead>
+                            <tr>
+                                <th class="text-nowrap w-xl-50">Invoice</th>
+                                <th class="text-nowrap">Tanggal Transaksi</th>
+                                <th class="text-nowrap">Pelanggan</th>
+                                <th class="text-nowrap">Agent</th>
+                                <th class="text-nowrap">Sub Total</th>
+                                <th class="text-nowrap">Total Bayar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($jasa_imeis as $penjualan)
+                                <tr>
+                                    <td class="text-nowrap w-xl-50">{{ $penjualan->invoice }}</td>
+                                    <td class="text-nowrap ">
+                                        {{ \Carbon\Carbon::parse($penjualan->tanggal_transaksi)->isoFormat('D MMMM YY') }}
+                                    </td>
+                                    <td class="text-nowrap ">{{ $penjualan->pelanggan->nama_pelanggan }}</td>
+                                    <td class="text-nowrap ">
+                                        @if (request()->is('rekap/agen*'))
+                                            <a href="{{ route('rekap.agen', ['username' => $penjualan->user->username]) }}"
+                                                style="text-decoration: underline;">
+                                                {{ $penjualan->user->name }}
+                                            </a>
+                                        @else
+                                            {{ $penjualan->user->name }}
+                                        @endif
+                                    </td>
+                                    <td class="text-nowrap ">
+                                        Rp. {{ number_format($penjualan->subtotal, 0, ',', '.') }}
+                                    </td>
+
+                                    <td class="text-nowrap ">
+                                        Rp. {{ number_format($penjualan->total_bayar, 0, ',', '.') }}
+                                    </td>
+
+                                </tr>
+                                <div class="modal fade text-left modal-borderless" id="modalStock{{ $penjualan->id }}"
+                                    tabindex="-1" aria-labelledby="modalStockLabel" style="display: none;"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable"
+                                        role="document" style="z-index: 30;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-danger" id="modalStockLabel">
+                                                    <i class="bi bi-exclamation-triangle-fill fs-5"
+                                                        style="margin-top:-8px;"></i>
+                                                    <span>Peringatan</span>
+                                                </h5>
+                                                <button type="button" class="close text-danger close-btn"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    <i class="bi bi-x-lg fs-6"></i>
+                                                    <span class="visually-hidden">Close</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Yakin Ingin Menghapus Data Ini?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light-secondary"
+                                                    data-bs-dismiss="modal">
+                                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                                    <span class="d-none d-sm-block">Batal</span>
+                                                </button>
+
+                                                <form action={{ route('penjualan.destroy', $penjualan->id) }}
+                                                    method="POST" id="formSubmit">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger me-3 " id="submitBtn">
+                                                        <span class="d-none d-sm-block">Hapus</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <th colspan="4"></th>
+                                <th class="text-nowrap">Total :</th>
+                                <th class="text-nowrap">
+                                    Rp. {{ number_format($penjualans->sum('subtotal'), 0, ',', '.') }}
+                                </th>
+                                <th class="text-nowrap">
+                                    Rp. {{ number_format($penjualans->sum('total_bayar'), 0, ',', '.') }}
+                                </th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </section>
 @endsection
 
