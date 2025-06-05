@@ -149,7 +149,7 @@
     @endsection
 
     @push('scripts')
-        @vite('resources/js/telInput.js')
+        <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
         @include('components.sweetalert2.alert')
         <script>
             document.addEventListener('DOMContentLoaded', function() {

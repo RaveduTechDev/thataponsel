@@ -251,7 +251,14 @@
         </div>
     </section>
 
-    @vite(['resources/js/datatables.js', 'resources/js/choices.js'])
+
+@endsection
+
+@push('scripts')
+    {{-- @vite(['resources/js/datatables.js', 'resources/js/choices.js']) --}}
+
+    <script type="module" src="{{ asset('static/js/datatables/dataTables.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
     @include('components.sweetalert2.alert')
     @include('components.ui.loading.button')
-@endsection
+@endpush

@@ -254,10 +254,8 @@
                                                                 <div class="badge text-bg-success ">Selesai</div>
                                                             </div>
                                                         @else
-                                                            <select id="select-status"
-                                                                class="select-status form-select choices multiple-remove"
-                                                                name="status" data-check-selected="true" multiple
-                                                                required>
+                                                            <select id="select-status" class="form-select" name="status"
+                                                                style="cursor:pointer;" required>
                                                                 <option value="selesai"
                                                                     {{ $penjualan->status == 'selesai' ? 'selected' : '' }}>
                                                                     Selesai
@@ -425,6 +423,8 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/choices.js', 'resources/js/calculate.js'])
+    {{-- @vite(['resources/js/choices.js', 'resources/js/calculate.js']) --}}
+    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/calculate-BzQbymq7.js') }}"></script>
     @include('components.ui.loading.button')
 @endpush

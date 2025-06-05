@@ -304,11 +304,10 @@
             </div>
         </div>
     </section>
-
-    @include('components.sweetalert2.alert')
-    @include('components.ui.loading.button')
 @endsection
 
 @push('scripts')
-    @vite('resources/js/datatables.js')
+    <script type="module" src="{{ asset('static/js/datatables/dataTables.js') }}"></script>
+    @include('components.sweetalert2.alert')
+    @include('components.ui.loading.button')
 @endpush

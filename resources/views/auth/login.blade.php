@@ -7,7 +7,7 @@
                 <div class="col-lg-5 col-12">
                     <div id="auth-left" class="p-4">
                         <h2 class="text-danger">Log in</h2>
-                        <form action="{{ route('login') }}" method="POST" class="mt-10">
+                        <form action="{{ route('login') }}" method="POST" class="mt-10" id="formSubmit">
                             @csrf
                             <div class="form-group position-relative has-icon-left mb-4">
                                 <input type="text" id="username"
@@ -57,7 +57,7 @@
                                 </label>
                             </div>
 
-                            <button type="submit" class="btn btn-danger btn-block btn-md shadow-md mt-10">
+                            <button type="submit" class="btn btn-danger btn-block btn-md shadow-md mt-10" id="submitBtn">
                                 {{ __('Log in') }}
                             </button>
                         </form>
@@ -84,6 +84,8 @@
 @endsection
 
 @push('scripts')
+    @include('components.ui.loading.button')
+
     <script type="module">
         const usernameInput = document.getElementById("username");
         usernameInput.addEventListener("input", function() {

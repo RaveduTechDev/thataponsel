@@ -174,8 +174,8 @@
                                                             Status
                                                         </label>
                                                         <select id="select-status"
-                                                            class="select-status form-select choices multiple-remove"
-                                                            name="status" data-check-selected="false" multiple required>
+                                                            class="form-select {{ $errors->has('status') ? 'is-invalid' : '' }}"
+                                                            style="cursor:pointer;" name="status" required>
                                                             <option value="proses"
                                                                 {{ old('status', isset($data) ? $data->status : '') == 'proses' ? 'selected' : '' }}>
                                                                 Proses
@@ -317,12 +317,11 @@
             </div>
         </section>
     </section>
-
-
 @endsection
 
-
 @push('scripts')
-    @vite(['resources/js/choices.js', 'resources/js/calculate.js'])
+    {{-- @vite(['resources/js/choices.js', 'resources/js/calculate.js']) --}}
+    <script type="module" src="{{ asset('build/assets/choices-BGT1ZLBO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/calculate-BzQbymq7.js') }}"></script>
     @include('components.ui.loading.button')
 @endpush

@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 if ($("#formSubmit").length) {
     $("#formSubmit").on("submit", function () {
         ["#sub-total", "#total-bayar"].forEach((selector) => {
