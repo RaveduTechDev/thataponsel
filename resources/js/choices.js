@@ -2,22 +2,41 @@ import $ from "jquery";
 import Choices from "choices.js";
 
 $(document).ready(function () {
-    let $subTotal = $("#sub-total");
-    let $totalBayar = $("#total-bayar");
-    let $qty = $("#qty");
-    let currentPrice = 0;
+    const $garansiCheckbox = $("#garansi-checkbox");
+    const $keteranganInput = $("#keterangan");
+    const $qty = $("#qty");
+    const $subTotalInput = $("#sub-total");
+    const $diskonInput = $("#diskon");
+    const $totalBayarInput = $("#total-bayar");
 
-    [$subTotal, $totalBayar].forEach(function ($element) {
-        let rawValue = $element.val();
-        let numberValue = parseFloat(rawValue) || 0;
-        $element.val(formatRupiah(numberValue));
-    });
+    let currentPrice = 0;
+    let isManualOverride = false;
+    let manualUnitPrice = 0;
 
     function formatRupiah(angka) {
         angka = parseFloat(angka) || 0;
         return (
             "Rp " + angka.toLocaleString("id-ID", { minimumFractionDigits: 0 })
         );
+    }
+
+    [$subTotalInput, $totalBayarInput].forEach(($input) => {
+        if ($input.length) {
+            const cleanValue = $input.val().replace(/[^0-9]/g, "");
+            const formattedValue = formatRupiah(parseFloat(cleanValue) || 0);
+            $input.val(formattedValue);
+        }
+    });
+
+    function calculateTotal(subtotalAngka) {
+        let discountPercent = parseFloat($diskonInput.val()) || 0;
+        if (discountPercent < 0) discountPercent = 0;
+        if (discountPercent > 100) discountPercent = 100;
+        let discountAmount = Math.round(
+            (subtotalAngka * discountPercent) / 100
+        );
+        let total = subtotalAngka - discountAmount;
+        $totalBayarInput.val(formatRupiah(total));
     }
 
     $(".select-status").each(function () {
@@ -100,130 +119,187 @@ $(document).ready(function () {
     });
 
     $(".select-data").each(function () {
-        const choicesData = [];
         const $select = $(this);
-        const placeholderText = $select.data("placeholder");
+        const placeholderText = $select.data("placeholder") || "";
         const checkSelected = $select.attr("data-check-selected") === "true";
         const isCalculateSelect =
             $select.data("calc") === true || $select.data("calc") === "true";
 
-        let anySelected = false;
+        const initStockId = $select.data("penjualan-stock-id") || null;
+        const initKeterangan = $select.data("penjualan-keterangan") || "";
+        const initGaransi = $select.data("penjualan-garansi") || "";
 
-        // Ambil opsi dari HTML, cek ada selected gak
+        let anySelected = false;
+        const choicesData = [];
+
         $select.find("option").each(function () {
-            const value = $(this).attr("value");
-            const label = $(this).text().trim();
-            const description = $(this).data("description") || "";
-            const price = $(this).data("price") || 0;
-            let isSelected = false;
-            if (checkSelected) {
-                isSelected = $(this).is(":selected");
-                if (isSelected) anySelected = true;
-            }
+            const $opt = $(this);
+            const value = $opt.val();
+            const label = $opt.text().trim();
+            const price = $opt.data("price") || 0;
+            const garansi = $opt.data("garansi") || "";
+            const keterangan = $opt.data("keterangan") || "";
+            const isSelected = checkSelected && $opt.is(":selected");
+
+            if (isSelected) anySelected = true;
+
             choicesData.push({
                 value: value,
                 label: label,
-                description: description,
-                selected: isSelected,
                 price: price,
+                garansi: garansi,
+                keterangan: keterangan,
+                selected: isSelected,
+                disabled: false,
             });
         });
 
-        // Tambah opsi placeholder di depan yang bisa dipilih (disabled:false)
         choicesData.unshift({
             value: "",
-            label: placeholderText,
+            label: placeholderText || "-- Pilih --",
+            price: 0,
+            garansi: "",
+            keterangan: "",
             selected: !anySelected,
             disabled: false,
         });
 
         $select.html("");
-
-        const element = $select[0];
-        const choices = new Choices(element, {
+        const selectEl = $select[0];
+        const choices = new Choices(selectEl, {
             searchEnabled: true,
-            removeItemButton: true, // tombol hapus pilihan aktif
+            removeItemButton: false,
             placeholder: true,
-            placeholderValue: placeholderText,
+            placeholderValue: placeholderText || "-- Pilih --",
             noResultsText: "Data tidak ditemukan",
             itemSelectText: "Tekan untuk memilih",
-            fuseOptions: {
-                keys: ["label", "description"],
-                threshold: 0.3,
-                ignoreLocation: true,
-            },
             shouldSort: false,
         });
-
         choices.setChoices(choicesData, "value", "label", false);
 
         if (isCalculateSelect) {
-            // Saat produk dipilih
-            $(element).on("change", function () {
-                let selectedValue = choices.getValue(true);
-
-                // Jika kosong, artinya null
-                if (selectedValue === "") {
-                    selectedValue = null;
-                }
-
-                let price = 0;
-                choicesData.forEach(function (item) {
-                    if (item.value == selectedValue) {
-                        price = item.price;
-                    }
-                });
-                currentPrice = price; // simpan harga satuan
-
-                let qtyVal = parseInt($qty.val()) || 1;
-                let subTotal = currentPrice * qtyVal;
-
-                $subTotal.val(formatRupiah(subTotal));
-                calculateTotal(subTotal);
-            });
-
-            // Hitung ulang jika data-check-selected dan item sudah terpilih
-            if (checkSelected) {
-                let selectedItem = choicesData.find((item) => item.selected);
-                if (selectedItem) {
-                    currentPrice = selectedItem.price || 0;
-                    let qtyVal = parseInt($qty.val()) || 1;
-                    let subTotal = currentPrice * qtyVal;
-                    $subTotal.val(formatRupiah(subTotal));
-                    calculateTotal(subTotal);
+            if ($subTotalInput.length && $qty.length) {
+                let cleanSub = $subTotalInput.val().replace(/[^0-9]/g, "");
+                let initSub = parseFloat(cleanSub) || 0;
+                let initQty = parseInt($qty.val()) || 1;
+                if (initSub > 0 && initQty > 0) {
+                    isManualOverride = true;
+                    manualUnitPrice = initSub / initQty;
+                    currentPrice = manualUnitPrice;
                 }
             }
+
+            if (initKeterangan !== "") {
+                $keteranganInput.val(initKeterangan).prop("disabled", false);
+            }
+            if (initGaransi === "ya") {
+                $garansiCheckbox.prop("checked", true).prop("disabled", false);
+            } else {
+                $garansiCheckbox.prop("checked", false).prop("disabled", false);
+            }
+
+            $(selectEl).on("change", function () {
+                let selectedValue = choices.getValue(true);
+                if (selectedValue === "") selectedValue = null;
+
+                const selectedObj =
+                    choicesData.find((obj) => obj.value == selectedValue) || {};
+                const garansiVal = selectedObj.garansi || "";
+                const keteranganVal = selectedObj.keterangan || "";
+                const price = parseFloat(selectedObj.price) || 0;
+
+                isManualOverride = false;
+                manualUnitPrice = 0;
+                currentPrice = price;
+
+                if (selectedValue == initStockId && initKeterangan !== "") {
+                    $keteranganInput
+                        .val(initKeterangan)
+                        .prop("disabled", false);
+                } else {
+                    $keteranganInput.val(keteranganVal).prop("disabled", false);
+                }
+
+                if (selectedValue == initStockId && initGaransi === "ya") {
+                    $garansiCheckbox
+                        .prop("checked", true)
+                        .prop("disabled", false);
+                } else {
+                    if (garansiVal !== "tidak") {
+                        $garansiCheckbox
+                            .prop("checked", true)
+                            .prop("disabled", false);
+                    } else {
+                        $garansiCheckbox
+                            .prop("checked", false)
+                            .prop("disabled", false);
+                    }
+                }
+
+                if ($qty.length && $subTotalInput.length) {
+                    let qtyVal = parseInt($qty.val()) || 1;
+                    if (qtyVal < 1) qtyVal = 1;
+
+                    let subTotalAngka = currentPrice * qtyVal;
+                    $subTotalInput.val(formatRupiah(subTotalAngka));
+                    if ($totalBayarInput.length) calculateTotal(subTotalAngka);
+                }
+            });
         }
     });
 
-    $qty.on("input", function () {
-        let qtyVal = parseInt($(this).val()) || 1;
-        if (qtyVal < 1) {
-            qtyVal = 1;
-            $(this).val(1);
-        }
-        let subTotal = currentPrice * qtyVal;
-        $subTotal.val(formatRupiah(subTotal));
-        calculateTotal(subTotal);
-    });
+    if ($subTotalInput.length) {
+        $subTotalInput.on("input", function () {
+            let clean = $(this)
+                .val()
+                .replace(/[^0-9]/g, "");
+            if (clean === "") return;
+            let angka = parseFloat(clean) || 0;
+            $(this).val(formatRupiah(angka));
 
-    $("#diskon").on("input", function () {
-        let discountVal = parseFloat($(this).val()) || 0;
-        if (discountVal > 100) {
-            $(this).val(100);
-            discountVal = 100;
-        }
-        let priceString = $("#sub-total")
-            .val()
-            .replace(/[^0-9]/g, "");
-        let price = parseFloat(priceString) || 0;
-        calculateTotal(price);
-    });
+            if ($qty.length) {
+                const currentQty = parseInt($qty.val()) || 1;
+                if (currentQty > 0) {
+                    isManualOverride = true;
+                    manualUnitPrice = angka / currentQty;
+                }
+            }
 
-    function calculateTotal(price) {
-        let discountPercent = parseFloat($("#diskon").val()) || 0;
-        let discountAmount = Math.round((price * discountPercent) / 100);
-        let total = price - discountAmount;
-        $("#total-bayar").val(formatRupiah(total));
+            if ($totalBayarInput.length) calculateTotal(angka);
+        });
+    }
+
+    if ($qty.length) {
+        $qty.on("input", function () {
+            let qtyVal = parseInt($(this).val()) || 1;
+            if (qtyVal < 1) qtyVal = 1;
+
+            let subTotalAngka;
+            if (isManualOverride && manualUnitPrice > 0) {
+                subTotalAngka = manualUnitPrice * qtyVal;
+            } else {
+                subTotalAngka = currentPrice * qtyVal;
+            }
+
+            if ($subTotalInput.length) {
+                $subTotalInput.val(formatRupiah(subTotalAngka));
+            }
+            if ($totalBayarInput.length) calculateTotal(subTotalAngka);
+        });
+    }
+
+    if ($diskonInput.length) {
+        $diskonInput.on("input", function () {
+            let discountVal = parseFloat($(this).val()) || 0;
+            if (discountVal < 0) discountVal = 0;
+            if (discountVal > 100) discountVal = 100;
+            $(this).val(discountVal);
+
+            if ($subTotalInput.length && $totalBayarInput.length) {
+                let clean = $subTotalInput.val().replace(/[^0-9]/g, "");
+                let subAngka = parseFloat(clean) || 0;
+                calculateTotal(subAngka);
+            }
+        });
     }
 });

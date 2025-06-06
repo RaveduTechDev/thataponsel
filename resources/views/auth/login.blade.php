@@ -1,6 +1,10 @@
 @extends('layouts.guest')
 
 @section('login')
+    <div class="d-block d-lg-none mx-auto text-center my-4">
+        <img src={{ asset('logo-thata-png-col.png') }} alt="Logo Thata Ponsel"
+            style="pointer-events:none;user-select:none; width: 100%; max-width: 200px; height: auto;" class="img-fluid">
+    </div>
     <div id="auth" class="d-flex justify-content-center align-items-center">
         <div class="card overflow-hidden shadow-lg" style="width: 100%; max-width: 900px;">
             <div class="row">

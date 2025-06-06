@@ -173,7 +173,7 @@
                                     <td class="text-nowrap w-xl-50">
                                         {{ $stock->NoKontakSupplier ? $stock->NoKontakSupplier : 'Tidak Ada' }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->tanggal }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->keterangan }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->keterangan }}</td>
                                     <td class="text-nowrap text-center">
                                         @if (Auth::user()->hasRole(['super_admin', 'admin', 'agen']))
                                             <div class="d-flex gap-1 justify-content-end">
@@ -239,11 +239,10 @@
                                                     </button>
 
                                                     <form action={{ route('stocks.destroy', $stock->id) }} method="POST"
-                                                        id="formSubmit">
+                                                        class="formSubmit">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger me-3 "
-                                                            id="submitBtn">
+                                                        <button type="submit" class="btn btn-danger me-3 submitBtn">
                                                             <span class="d-none d-sm-block">Hapus</span>
                                                         </button>
                                                     </form>

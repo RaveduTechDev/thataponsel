@@ -35,6 +35,7 @@ class StockRequest extends FormRequest
             'supplier'            => 'required|string',
             'no_kontak_supplier'  => 'nullable|phone',
             'tanggal'             => 'required|date',
+            'keterangan'          => 'nullable|string|max:255',
         ];
 
         return $validate;

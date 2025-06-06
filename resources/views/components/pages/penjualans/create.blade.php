@@ -138,6 +138,8 @@
                                                             @foreach ($stocks as $stock)
                                                                 <option value="{{ $stock->id }}"
                                                                     data-price="{{ $stock->harga_jual }}"
+                                                                    data-garansi="{{ $stock->garansi }}"
+                                                                    data-keterangan="{{ $stock->keterangan }}"
                                                                     {{ old('stock_id') === $stock->id ? 'selected' : '' }}>
                                                                     {{ $stock->barang->merk }} -
                                                                     {{ $stock->barang->nama_barang }}
@@ -208,17 +210,15 @@
                                             </div>
 
                                             <div class="row">
-
-                                                <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="tanggal_transaksi" class="form-label">
-                                                            Tanggal Transaksi
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="keterangan" class="form-label">
+                                                            Keterangan
                                                         </label>
-                                                        <input type="date" id="tanggal_transaksi"
-                                                            class="form-control {{ $errors->has('tanggal_transaksi') ? 'is-invalid' : '' }}"
-                                                            placeholder="Tanggal Transaksi" name="tanggal_transaksi"
-                                                            value="{{ old('tanggal_transaksi') }}" required>
-                                                        @error('tanggal_transaksi')
+                                                        <textarea id="keterangan" name="keterangan" rows="3"
+                                                            class="form-control w-full rounded {{ $errors->has('keterangan') ? 'border-red-500' : 'border-gray-300' }}"
+                                                            placeholder="Isi keterangan (jika perlu)">{{ old('keterangan') }}</textarea>
+                                                        @error('keterangan')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
@@ -234,12 +234,12 @@
 
                                                 <div class="col-12 mt-1">
                                                     <div class="form-group">
-                                                        <div class="form-check mandatory">
-                                                            <input type="checkbox" id="garansi"
-                                                                class="form-check-input" style="cursor: pointer;"
-                                                                value="ya" name="garansi"
+                                                        <div class="form-check">
+                                                            <input type="checkbox" value="ya" id="garansi-checkbox"
+                                                                name="garansi" class="form-check-input mr-2"
+                                                                style="cursor:pointer;"
                                                                 {{ old('garansi') ? 'checked' : '' }}>
-                                                            <label for="garansi" style="cursor:pointer;"
+                                                            <label for="garansi-checkbox" style="cursor:pointer;"
                                                                 class="form-check-label form-label user-select-none">
                                                                 Garansi
                                                             </label>
@@ -313,9 +313,9 @@
                                                             Metode Pembayaran
                                                         </label>
                                                         <select name="metode_pembayaran" id="metode-pembayaran"
-                                                            style="cursor:pointer" required
-                                                            class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}">
-                                                            <option>-- Pilih Metode Pembayaran--</option>
+                                                            class="form-select {{ $errors->has('metode_pembayaran') ? 'is-invalid' : '' }}"
+                                                            style="cursor:pointer" required>
+                                                            <option>-- Pilih Metode Pembayaran --</option>
                                                             <option value="tunai"
                                                                 {{ old('metode_pembayaran') == 'tunai' ? 'selected' : '' }}>
                                                                 Tunai
@@ -333,6 +333,9 @@
                                                                 E-Wallet
                                                             </option>
                                                         </select>
+                                                        @error('metode_pembayaran')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -362,7 +365,7 @@
 
 @push('scripts')
     {{-- @vite(['resources/js/choices.js', 'resources/js/calculate.js']) --}}
-    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/calculate-BzQbymq7.js') }}"></script>
     @include('components.ui.loading.button')
 @endpush

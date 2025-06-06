@@ -23,6 +23,8 @@ class Penjualan extends Model
         'total_bayar',
         'metode_pembayaran',
         'tanggal_transaksi',
+        'keterangan',
+        'garansi',
         'status',
     ];
 

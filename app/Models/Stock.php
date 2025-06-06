@@ -23,6 +23,7 @@ class Stock extends Model implements HasMedia
         'supplier',
         'no_kontak_supplier',
         'tanggal',
+        'keterangan',
         'garansi',
     ];
 

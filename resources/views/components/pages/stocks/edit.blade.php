@@ -90,10 +90,12 @@
                                                         </label>
                                                         <select id="select-barangs" class="select-data form-select choice"
                                                             style="cursor:pointer;" name="barang_id"
-                                                            data-placeholder="-- Pilih Barang --"
+                                                            data-placeholder="-- Pilih Barang --" data-calc="true"
+                                                            data-penjualan-keterangan="{{ $stock->keterangan }}"
                                                             data-check-selected="true">
                                                             @foreach ($barangs as $barang)
                                                                 <option value="{{ $barang->id }}"
+                                                                    data-keterangan="{{ $barang->keterangan }}"
                                                                     {{ $stock->barang_id === $barang->id ? 'selected' : '' }}>
                                                                     {{ $barang->nama_barang }}
                                                                 </option>
@@ -204,6 +206,20 @@
                                                     </div>
                                                 </div>
 
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="keterangan" class="form-label">
+                                                            Keterangan
+                                                        </label>
+                                                        <textarea id="keterangan" name="keterangan" rows="5"
+                                                            class="form-control rounded {{ $errors->has('keterangan') ? 'border-red-500' : 'border-gray-300' }}"
+                                                            placeholder="Isi keterangan (jika perlu)">{{ old('keterangan', $stock->keterangan) }}</textarea>
+                                                        @error('keterangan')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-12 mt-2">
                                                     <p style="margin: 0">
                                                         <span class="text-danger">*</span>
@@ -297,7 +313,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script> --}}
 
 
-    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
 
     <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>

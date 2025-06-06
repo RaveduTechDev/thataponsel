@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('metode_pembayaran');
             $table->enum('status', ['proses', 'selesai']);
             $table->text('keterangan')->nullable();
+            $table->enum('garansi', ['tidak', 'ya']);
             $table->timestamps();
         });
     }

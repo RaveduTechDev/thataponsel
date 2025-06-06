@@ -45,10 +45,11 @@
                                                         </label>
                                                         <select id="select-barangs" class="select-data form-select choice"
                                                             style="cursor:pointer;" name="barang_id"
-                                                            data-placeholder="-- Pilih Barang --"
+                                                            data-placeholder="-- Pilih Barang --" data-calc="true"
                                                             {{ old('barang_id') ? 'data-check-selected=true' : 'data-check-selected="false"' }}>
                                                             @foreach ($barangs as $barang)
                                                                 <option value="{{ $barang->id }}"
+                                                                    data-keterangan="{{ $barang->keterangan }}"
                                                                     {{ old('barang_id') === $barang->id ? 'selected' : '' }}>
                                                                     {{ $barang->nama_barang }} - {{ $barang->merk }}
                                                                 </option>
@@ -153,6 +154,21 @@
                                                     </div>
                                                 </div>
 
+
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="keterangan" class="form-label">
+                                                            Keterangan
+                                                        </label>
+                                                        <textarea id="keterangan" name="keterangan" rows="5"
+                                                            class="form-control w-full rounded {{ $errors->has('keterangan') ? 'border-red-500' : 'border-gray-300' }}"
+                                                            placeholder="Isi keterangan (jika perlu)">{{ old('keterangan') }}</textarea>
+                                                        @error('keterangan')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-12 mt-2">
                                                     <p style="margin: 0">
                                                         <span class="text-danger">*</span>
@@ -163,12 +179,12 @@
 
                                                 <div class="col-12 mt-1">
                                                     <div class="form-group">
-                                                        <div class="form-check mandatory">
-                                                            <input type="checkbox" id="garansi"
-                                                                class="form-check-input" style="cursor: pointer;"
-                                                                value="ya" name="garansi"
+                                                        <div class="form-check">
+                                                            <input type="checkbox" value="ya" id="garansi"
+                                                                name="garansi" class="form-check-input mr-2"
+                                                                style="cursor:pointer;"
                                                                 {{ old('garansi') ? 'checked' : '' }}>
-                                                            <label for="garansi" style="cursor:pointer;"
+                                                            <label for="garansi-checkbox" style="cursor:pointer;"
                                                                 class="form-check-label form-label user-select-none">
                                                                 Garansi
                                                             </label>
@@ -245,7 +261,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script> --}}
 
 
-    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
 
     <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>

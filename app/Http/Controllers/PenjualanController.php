@@ -11,6 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PenjualanRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class PenjualanController extends Controller
 {
@@ -75,8 +76,16 @@ class PenjualanController extends Controller
     public function store(PenjualanRequest $request)
     {
         $data = $request->validated();
+
         try {
+            $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
             $stock = Stock::findOrFail($data['stock_id']);
+
+            $subtotalCheck = $stock->harga_jual * $data['qty'];
+            if ($data['subtotal'] < $subtotalCheck) {
+                return redirect()->back()->with('error', 'Subtotal tidak sesuai dengan harga jual barang Rp' . number_format($subtotalCheck, 0, ',', '.') . ' Harap periksa kembali.');
+            }
+
             if ($stock->jumlah_stok <= 0) {
                 return redirect()->back()->with('error', 'Stok dari ' . $stock->barang->nama_barang . ' habis');
             }
@@ -123,6 +132,7 @@ class PenjualanController extends Controller
                 return redirect()->route('penjualan.index')->with('success', 'Data Penjualan berhasil ditambahkan');
             }
         } catch (\Exception $e) {
+            Log::error('Error creating penjualan: ' . $e->getMessage());
             return redirect()->back()->withErrors('error', 'Penjualan gagal ditambahkan');
         }
     }
@@ -167,6 +177,7 @@ class PenjualanController extends Controller
         $data = $request->validated();
 
         try {
+            $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
             $penjualan = Penjualan::findOrFail($id);
             $oldStockId = $penjualan->stock_id;
             $newStockId = $data['stock_id'];
@@ -185,7 +196,6 @@ class PenjualanController extends Controller
                 $pelanggan = Pelanggan::findOrFail($data['pelanggan_id']);
                 $pelanggan->increment('jumlah_transaksi');
             }
-
 
             if ($oldStockId != $newStockId) {
                 $oldStock = Stock::findOrFail($oldStockId);
@@ -213,6 +223,13 @@ class PenjualanController extends Controller
                 }
 
                 $stock->save();
+            }
+
+            $stock_check = Stock::findOrFail($data['stock_id']);
+
+            $subtotalCheck = $stock_check->harga_jual * $data['qty'];
+            if ($data['subtotal'] < $subtotalCheck) {
+                return redirect()->back()->with('error', 'Subtotal tidak sesuai dengan harga jual barang Rp' . number_format($subtotalCheck, 0, ',', '.') . ' Harap periksa kembali.');
             }
 
             $penjualan->update($data);

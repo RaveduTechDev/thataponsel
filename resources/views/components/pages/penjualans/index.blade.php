@@ -212,8 +212,8 @@
                                     <td class="text-nowrap">
                                         {{ ucwords($penjualan->metode_pembayaran) }}
                                     </td>
-                                    <td class="text-nowrap ">{{ ucwords($penjualan->stock->garansi) }}</td>
-                                    <td class="text-nowrap ">{{ $penjualan->stock->barang->keterangan }}</td>
+                                    <td class="text-nowrap ">{{ ucwords($penjualan->garansi) }}</td>
+                                    <td class="text-nowrap ">{{ $penjualan->keterangan }}</td>
                                     <td class="text-nowrap ">
                                         @if ($penjualan->status == 'selesai')
                                             <span class="badge text-bg-success rounded-pill">

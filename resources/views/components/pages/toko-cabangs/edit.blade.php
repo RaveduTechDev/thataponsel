@@ -49,10 +49,20 @@
                                                         <label for="nama-penanggung-jawab-toko" class="form-label">
                                                             Nama Penanggung Jawab
                                                         </label>
-                                                        <input type="text" id="nama-penanggung-jawab-toko"
-                                                            class="form-control {{ $errors->has('penanggung_jawab_toko') ? 'is-invalid' : '' }}"
-                                                            placeholder="Nama Penanggung Jawab" name="penanggung_jawab_toko"
-                                                            value="{{ $toko_cabang->penanggung_jawab_toko }}" required>
+
+                                                        {{-- using select users --}}
+                                                        <select name="penanggung_jawab_toko" id="penanggung-jawab-toko"
+                                                            class="form-select {{ $errors->has('penanggung_jawab_toko') ? 'is-invalid' : '' }}"
+                                                            style="cursor: pointer;" required>
+                                                            <option>-- Pilih Penanggung Jawab --</option>
+                                                            @foreach ($users as $user)
+                                                                <option value="{{ $user->username }}"
+                                                                    {{ $toko_cabang->penanggung_jawab_toko == $user->name ? 'selected' : '' }}>
+                                                                    {{ $user->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+
                                                         @error('penanggung_jawab_toko')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror

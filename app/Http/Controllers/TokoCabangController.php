@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TokoCabang;
 use App\Http\Requests\TokoCabangRequest;
+use App\Models\User;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
@@ -24,6 +25,12 @@ class TokoCabangController extends Controller
     public function index()
     {
         $toko_cabangs = TokoCabang::latest()->get();
+        $userMap = User::pluck('name', 'username')->toArray();
+
+        foreach ($toko_cabangs as $toko) {
+            $toko->nama_penanggung_jawab = $userMap[$toko->penanggung_jawab_toko] ?? 'Tidak ada';
+        }
+
         return view(
             'components.pages.toko-cabangs.index',
             [
@@ -38,10 +45,14 @@ class TokoCabangController extends Controller
      */
     public function create()
     {
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', '!=', 'super_admin');
+        })->get();
         return view(
             'components.pages.toko-cabangs.create',
             [
                 'title' => 'Tambah Toko Cabang',
+                'users' => $users,
             ]
         );
     }
@@ -51,8 +62,16 @@ class TokoCabangController extends Controller
      */
     public function store(TokoCabangRequest $request)
     {
+        $validatedData = $request->validated();
+        $user = User::where('username', $validatedData['penanggung_jawab_toko'])->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Penanggung jawab toko tidak ditemukan');
+        }
+
+        $validatedData['penanggung_jawab_toko'] = $user->name;
+
         try {
-            TokoCabang::create($request->validated());
+            TokoCabang::create($validatedData);
             return redirect()->route('master-data.toko-cabang.index')->with('success', 'Toko cabang berhasil ditambahkan');
         } catch (\Exception $e) {
             return redirect()->route('master-data.toko-cabang.index')->with('error', 'Toko cabang gagal ditambahkan');
@@ -73,11 +92,15 @@ class TokoCabangController extends Controller
     public function edit(string $id)
     {
         $toko_cabang = TokoCabang::findOrFail($id);
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', '!=', 'super_admin');
+        })->get();
         return view(
             'components.pages.toko-cabangs.edit',
             [
                 'title' => 'Edit Toko Cabang',
                 'toko_cabang' => $toko_cabang,
+                'users' => $users,
             ]
         );
     }
@@ -87,9 +110,17 @@ class TokoCabangController extends Controller
      */
     public function update(TokoCabangRequest $request, string $id)
     {
+        $validatedData = $request->validated();
+        $user = User::where('username', $validatedData['penanggung_jawab_toko'])->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Penanggung jawab toko tidak ditemukan');
+        }
+
+        $validatedData['penanggung_jawab_toko'] = $user->name;
+
         try {
             $toko_cabang = TokoCabang::findOrFail($id);
-            $toko_cabang->update($request->validated());
+            $toko_cabang->update($validatedData);
             return redirect()->route('master-data.toko-cabang.index')->with('success', 'Toko cabang berhasil diubah');
         } catch (\Exception $e) {
             return redirect()->route('master-data.toko-cabang.index')->with('error', 'Toko cabang gagal diubah');
