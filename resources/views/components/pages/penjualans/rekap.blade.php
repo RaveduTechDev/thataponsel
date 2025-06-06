@@ -796,7 +796,7 @@
 
     <script type="module" src="{{ asset('static/js/datatables/dataTables.js') }}"></script>
     <script type="module" src="{{ asset('static/js/datatables/dataTablesImei.js') }}"></script>
-    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
     @include('components.sweetalert2.alert')
     @include('components.ui.loading.button')
 @endpush

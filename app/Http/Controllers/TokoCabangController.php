@@ -64,7 +64,7 @@ class TokoCabangController extends Controller
     {
         $validatedData = $request->validated();
         $user = User::where('username', $validatedData['penanggung_jawab_toko'])->first();
-        $validatedData['penanggung_jawab_toko'] = $user->name;
+        $validatedData['penanggung_jawab_toko'] = $user->name ?? null;
 
         try {
             TokoCabang::create($validatedData);
@@ -108,7 +108,7 @@ class TokoCabangController extends Controller
     {
         $validatedData = $request->validated();
         $user = User::where('username', $validatedData['penanggung_jawab_toko'])->first();
-        $validatedData['penanggung_jawab_toko'] = $user->name;
+        $validatedData['penanggung_jawab_toko'] = $user->name ?? null;
 
         try {
             $toko_cabang = TokoCabang::findOrFail($id);

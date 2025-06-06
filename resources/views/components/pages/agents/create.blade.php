@@ -180,6 +180,12 @@
                                                                 <option value="" disabled selected>
                                                                     -- Pilih Level Akses --
                                                                 </option>
+                                                                @if (Auth::user()->hasRole('super_admin'))
+                                                                    <option value="owner"
+                                                                        {{ old('level') === 'owner' ? 'selected' : '' }}>
+                                                                        Owner
+                                                                    </option>
+                                                                @endif
                                                                 <option value="admin"
                                                                     {{ old('level') === 'admin' ? 'selected' : '' }}>Admin
                                                                 </option>
@@ -225,7 +231,7 @@
     {{-- @vite(['resources/js/telInput.js', 'resources/js/choices.js']) --}}
 
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
-    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
 
     @include('components.ui.loading.button')
 

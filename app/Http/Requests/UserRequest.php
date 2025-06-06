@@ -33,7 +33,9 @@ class UserRequest extends FormRequest
     {
         $level = [];
 
-        if ($this->user()->hasRole(['super_admin', 'owner'])) {
+        if ($this->user()->hasRole('super_admin')) {
+            $level = ['required', 'string', 'in:owner,admin,agen'];
+        } elseif ($this->user()->hasRole('owner')) {
             $level = ['required', 'string', 'in:admin,agen'];
         } else {
             $level = ['nullable', 'string', 'in:agen'];

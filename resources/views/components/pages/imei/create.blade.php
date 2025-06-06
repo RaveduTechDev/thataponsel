@@ -259,7 +259,7 @@
 
 @push('scripts')
     {{-- @vite(['resources/js/choices.js', 'resources/js/calculate2.js']) --}}
-    <script type="module" src="{{ asset('build/assets/choices-q2Zpn4gO.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
 
     @include('components.ui.loading.button')
