@@ -26,7 +26,7 @@ class TokoCabangRequest extends FormRequest
     {
         return [
             'nama_toko_cabang' => 'required|string',
-            'penanggung_jawab_toko' => 'required|string',
+            'penanggung_jawab_toko' => 'nullable|string',
             'alamat_toko' => 'required|string',
         ];
     }

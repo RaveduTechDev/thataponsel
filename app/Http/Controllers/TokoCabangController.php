@@ -64,10 +64,6 @@ class TokoCabangController extends Controller
     {
         $validatedData = $request->validated();
         $user = User::where('username', $validatedData['penanggung_jawab_toko'])->first();
-        if (!$user) {
-            return redirect()->back()->with('error', 'Penanggung jawab toko tidak ditemukan');
-        }
-
         $validatedData['penanggung_jawab_toko'] = $user->name;
 
         try {
@@ -112,10 +108,6 @@ class TokoCabangController extends Controller
     {
         $validatedData = $request->validated();
         $user = User::where('username', $validatedData['penanggung_jawab_toko'])->first();
-        if (!$user) {
-            return redirect()->back()->with('error', 'Penanggung jawab toko tidak ditemukan');
-        }
-
         $validatedData['penanggung_jawab_toko'] = $user->name;
 
         try {
