@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Agent',
             'username' => 'agent',
             'email' => 'agent@test.com',
-            'jumlah_transaksi' => 2,
+            'jumlah_transaksi' => 0,
         ])->assignRole('agen');
 
         // Barang::factory()->create([
