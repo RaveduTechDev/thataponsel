@@ -144,7 +144,7 @@ class DashboardController extends Controller
                 $query->where('user_id', auth()->id());
             })
             ->get()
-            ->groupBy(fn($item) => Carbon::parse($item-)->isoFormat('MMMM Y'));
+            ->groupBy(fn($item) => Carbon::parse($item->tanggal_transaksi)->isoFormat('MMMM Y'));
 
         $imeiMonths = collect();
         $imeiData = collect();
