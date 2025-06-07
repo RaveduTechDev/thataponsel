@@ -708,6 +708,18 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="7"
                                             data-name-imei="imei_rekap" checked>
+                                        <label class="form-check-label">DP Server</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" data-column-imei="8"
+                                            data-name-imei="imei_rekap" checked>
+                                        <label class="form-check-label">Sisa Server</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" data-column-imei="9"
+                                            data-name-imei="imei_rekap" checked>
                                         <label class="form-check-label">Profit</label>
                                     </div>
 
@@ -731,6 +743,8 @@
                                 <th class="text-nowrap">Agen</th>
                                 <th class="text-nowrap">Biaya</th>
                                 <th class="text-nowrap">Modal</th>
+                                <th class="text-nowrap">DP Server</th>
+                                <th class="text-nowrap">Sisa Server</th>
                                 <th class="text-nowrap">Profit</th>
                             </tr>
                         </thead>
@@ -762,6 +776,12 @@
                                         Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}
                                     </td>
                                     <td class="text-nowrap">
+                                        Rp. {{ number_format($jasa_imei->dp_server, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-nowrap">
+                                        Rp. {{ number_format($jasa_imei->sisa_server, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-nowrap">
                                         Rp. {{ number_format($jasa_imei->profit, 0, ',', '.') }}
                                     </td>
                                 </tr>
@@ -776,6 +796,12 @@
                                 </th>
                                 <th class="text-nowrap">
                                     Rp. {{ number_format($jasa_imeis->sum('modal'), 0, ',', '.') }}
+                                </th>
+                                <th class="text-nowrap">
+                                    Rp. {{ number_format($jasa_imeis->sum('dp_server'), 0, ',', '.') }}
+                                </th>
+                                <th class="text-nowrap">
+                                    Rp. {{ number_format($jasa_imeis->sum('sisa_server'), 0, ',', '.') }}
                                 </th>
                                 <th class="text-nowrap">
                                     Rp. {{ number_format($jasa_imeis->sum('profit'), 0, ',', '.') }}

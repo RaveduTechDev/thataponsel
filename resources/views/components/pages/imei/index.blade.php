@@ -93,49 +93,65 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="6" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Profit</label>
+                                    <label class="form-check-label">DP Server</label>
                                 </div>
 
-                                {{-- metode pembayaran --}}
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="7" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Metode Pembayaran</label>
+                                    <label class="form-check-label">Sisa Server</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="8" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Status</label>
+                                    <label class="form-check-label">Profit</label>
                                 </div>
 
+                                {{-- metode pembayaran --}}
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="9" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Supplier</label>
+                                    <label class="form-check-label">Metode Pembayaran</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="10" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Agen</label>
+                                    <label class="form-check-label">Status</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="11" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Tanggal Transaksi</label>
+                                    <label class="form-check-label">Supplier</label>
                                 </div>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="12" data-name="imei"
                                         checked>
+                                    <label class="form-check-label">Agen</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="13" data-name="imei"
+                                        checked>
+                                    <label class="form-check-label">Tanggal Transaksi</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="14" data-name="imei"
+                                        checked>
                                     <label class="form-check-label">Tanggal Selesai</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" data-column="15" data-name="imei">
+                                    <label class="form-check-label">Keterangan</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div id="loading" style="display: none" class="spinner-border spinner-border-sm text-danger"
                         role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -153,6 +169,8 @@
                                 <th class="text-nowrap">IMEI</th>
                                 <th class="text-nowrap">Biaya</th>
                                 <th class="text-nowrap">Modal</th>
+                                <th class="text-nowrap">DP Server</th>
+                                <th class="text-nowrap">Sisa Server</th>
                                 <th class="text-nowrap">Profit</th>
                                 <th class="text-nowrap">Metode Pembayaran</th>
                                 <th class="text-nowrap">Status</th>
@@ -160,6 +178,7 @@
                                 <th class="text-nowrap">Agen</th>
                                 <th class="text-nowrap">Tanggal Transaksi</th>
                                 <th class="text-nowrap">Tanggal Selesai</th>
+                                <th>Keterangan</th>
                                 <th class="text-nowrap text-center" data-orderable="false">Opsi</th>
                             </tr>
                         </thead>
@@ -177,6 +196,10 @@
                                     <td class="text-nowrap">{{ $jasa_imei->imei }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}</td>
+                                    <td class="text-nowrap">Rp. {{ number_format($jasa_imei->dp_server, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-nowrap">Rp. {{ number_format($jasa_imei->sisa_server, 0, ',', '.') }}
+                                    </td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->profit, 0, ',', '.') }}</td>
                                     <td class="text-nowrap">
                                         {{ Str::title(str_replace('-', '-', $jasa_imei->metode_pembayaran)) }}
@@ -195,6 +218,7 @@
                                     <td class="text-nowrap">
                                         {{ $jasa_imei->status == 'selesai' ? $jasa_imei->updated_at->isoFormat('D MMMM Y') : 'Dalam Proses' }}
                                     </td>
+                                    <td>{{ $jasa_imei->keterangan ?? '-' }}</td>
                                     <td class="text-nowrap text-center">
                                         <div class="d-flex gap-1 justify-content-end">
                                             @if (Auth::user()->hasRole(['super_admin', 'owner', 'admin', 'agen']))
