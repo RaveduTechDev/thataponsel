@@ -364,7 +364,7 @@
                     type: 'value',
                 }],
                 series: [{
-                    name: 'Penjualan',
+                    name: 'Unit Terjual',
                     type: 'bar',
                     barWidth: '40%',
                     data: @json($data),

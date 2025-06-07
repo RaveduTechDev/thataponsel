@@ -41,7 +41,7 @@ class DashboardController extends Controller
         while ($current <= $end) {
             $label = $current->isoFormat('MMMM Y');
             $months->push($label);
-            $data->push($grouped->has($label) ? $grouped->get($label)->count() : 0);
+            $data->push($grouped->has($label) ? $grouped->get($label)->sum('qty') : 0);
             $current->addMonth();
         }
 

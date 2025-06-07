@@ -58,30 +58,34 @@ class JasaIMEIController extends Controller
     {
         $validated = $request->validated();
 
-        if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
-            $validated['user_id'] = Auth::user()->id;
-        }
+        try {
+            if ($validated['dp_server'] > $validated['modal']) {
+                return redirect()->back()->withInput()->withErrors(['dp_server' => 'DP Server tidak boleh melebihi Modal']);
+            }
 
-        $user = null;
-        $pelanggan = null;
-        if ($validated['status'] === 'selesai') {
             if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
                 $validated['user_id'] = Auth::user()->id;
-                $user = User::findOrFail(Auth::user()->id);
-                $user->increment('jumlah_transaksi');
-            } else {
-                $user = User::findOrFail($validated['user_id']);
-                $user->increment('jumlah_transaksi');
             }
 
-            if (empty($validated['pelanggan_id'])) {
-                return redirect()->back()->with('error', 'Pilih pelanggan untuk menyelesaikan transaksi');
-            }
-            $pelanggan = Pelanggan::findOrFail($validated['pelanggan_id']);
-            $pelanggan->increment('jumlah_transaksi');
-        }
+            $user = null;
+            $pelanggan = null;
+            if ($validated['status'] === 'selesai') {
+                if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
+                    $validated['user_id'] = Auth::user()->id;
+                    $user = User::findOrFail(Auth::user()->id);
+                    $user->increment('jumlah_transaksi');
+                } else {
+                    $user = User::findOrFail($validated['user_id']);
+                    $user->increment('jumlah_transaksi');
+                }
 
-        try {
+                if (empty($validated['pelanggan_id'])) {
+                    return redirect()->back()->with('error', 'Pilih pelanggan untuk menyelesaikan transaksi');
+                }
+                $pelanggan = Pelanggan::findOrFail($validated['pelanggan_id']);
+                $pelanggan->increment('jumlah_transaksi');
+            }
+
             JasaImei::create($validated);
             return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil ditambahkan');
         } catch (\Exception $e) {
@@ -124,12 +128,14 @@ class JasaIMEIController extends Controller
     public function update(ImeiRequest $request, string $id)
     {
         $validated = $request->validated();
-        $validated['imei'] = $request->imei;
-        if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
-            $validated['user_id'] = Auth::user()->id;
-        }
+
 
         try {
+            $validated['imei'] = $request->imei;
+            if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
+                $validated['user_id'] = Auth::user()->id;
+            }
+
             $jasa_imei = JasaImei::findOrFail($id);
             $user = null;
             $pelanggan = null;
@@ -147,7 +153,6 @@ class JasaIMEIController extends Controller
                 $pelanggan->increment('jumlah_transaksi');
             }
 
-            // jika status berubah menjadi success, maka tambah jumlah_transaksi user dan pelanggan
 
             $jasa_imei->update($validated);
             return redirect('/jasa-imei')->with('success', 'Data jasa imei berhasil diubah');

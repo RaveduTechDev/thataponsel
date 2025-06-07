@@ -696,29 +696,35 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="5"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Biaya</label>
+                                        <label class="form-check-label">Supplier</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="6"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Modal</label>
+                                        <label class="form-check-label">Biaya</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="7"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">DP Server</label>
+                                        <label class="form-check-label">Modal</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="8"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Sisa Server</label>
+                                        <label class="form-check-label">DP Server</label>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="9"
+                                            data-name-imei="imei_rekap" checked>
+                                        <label class="form-check-label">Sisa Server</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" data-column-imei="10"
                                             data-name-imei="imei_rekap" checked>
                                         <label class="form-check-label">Profit</label>
                                     </div>
@@ -726,90 +732,94 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div id="loadingImei" style="display: none" class="spinner-border spinner-border-sm text-danger"
-                        role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                        <div id="loadingImei" style="display: none" class="spinner-border spinner-border-sm text-danger"
+                            role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
 
-                    <table class="table table-striped table-hover" id="tableImei">
-                        <thead>
-                            <tr>
-                                <th class="text-nowrap w-xl-50">IMEI</th>
-                                <th class="text-nowrap">Tipe</th>
-                                <th class="text-nowrap">Tanggal Transaksi</th>
-                                <th class="text-nowrap">Pelanggan</th>
-                                <th class="text-nowrap">Agen</th>
-                                <th class="text-nowrap">Biaya</th>
-                                <th class="text-nowrap">Modal</th>
-                                <th class="text-nowrap">DP Server</th>
-                                <th class="text-nowrap">Sisa Server</th>
-                                <th class="text-nowrap">Profit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($jasa_imeis as $jasa_imei)
+                        <table class="table table-striped table-hover" id="tableImei">
+                            <thead>
                                 <tr>
-                                    <td class="text-nowrap w-xl-50">{{ $jasa_imei->imei }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
-                                    <td class="text-nowrap">
-                                        {{ \Carbon\Carbon::parse($jasa_imei->tanggal)->isoFormat('D MMMM YY') }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        {{ $jasa_imei->pelanggan->nama_pelanggan }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        @if (request()->is('rekap/agen*'))
-                                            <a href="{{ route('rekap.agen', ['username' => $jasa_imei->user->username]) }}"
-                                                style="text-decoration: underline;">
-                                                {{ $jasa_imei->user->name }}
-                                            </a>
-                                        @else
-                                            {{ $jasa_imei->user->name }}
-                                        @endif
-                                    </td>
-                                    <td class="text-nowrap">
-                                        Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        Rp. {{ number_format($jasa_imei->dp_server, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        Rp. {{ number_format($jasa_imei->sisa_server, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-nowrap">
-                                        Rp. {{ number_format($jasa_imei->profit, 0, ',', '.') }}
-                                    </td>
+                                    <th class="text-nowrap w-xl-50">IMEI</th>
+                                    <th class="text-nowrap">Tipe</th>
+                                    <th class="text-nowrap">Tanggal Transaksi</th>
+                                    <th class="text-nowrap">Pelanggan</th>
+                                    <th class="text-nowrap">Agen</th>
+                                    <th class="text-nowrap">Supplier</th>
+                                    <th class="text-nowrap">Biaya</th>
+                                    <th class="text-nowrap">Modal</th>
+                                    <th class="text-nowrap">DP Server</th>
+                                    <th class="text-nowrap">Sisa Server</th>
+                                    <th class="text-nowrap">Profit</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot class="table-light">
-                            <tr>
-                                <th colspan="4"></th>
-                                <th class="text-nowrap">Total :</th>
-                                <th class="text-nowrap">
-                                    Rp. {{ number_format($jasa_imeis->sum('biaya'), 0, ',', '.') }}
-                                </th>
-                                <th class="text-nowrap">
-                                    Rp. {{ number_format($jasa_imeis->sum('modal'), 0, ',', '.') }}
-                                </th>
-                                <th class="text-nowrap">
-                                    Rp. {{ number_format($jasa_imeis->sum('dp_server'), 0, ',', '.') }}
-                                </th>
-                                <th class="text-nowrap">
-                                    Rp. {{ number_format($jasa_imeis->sum('sisa_server'), 0, ',', '.') }}
-                                </th>
-                                <th class="text-nowrap">
-                                    Rp. {{ number_format($jasa_imeis->sum('profit'), 0, ',', '.') }}
-                                </th>
-                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($jasa_imeis as $jasa_imei)
+                                    <tr>
+                                        <td class="text-nowrap w-xl-50">{{ $jasa_imei->imei }}</td>
+                                        <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
+                                        <td class="text-nowrap">
+                                            {{ \Carbon\Carbon::parse($jasa_imei->tanggal)->isoFormat('D MMMM YY') }}
+                                        </td>
+                                        <td class="text-nowrap">
+                                            {{ $jasa_imei->pelanggan->nama_pelanggan }}
+                                        </td>
+                                        <td class="text-nowrap">
+                                            @if (request()->is('rekap/agen*'))
+                                                <a href="{{ route('rekap.agen', ['username' => $jasa_imei->user->username]) }}"
+                                                    style="text-decoration: underline;">
+                                                    {{ $jasa_imei->user->name }}
+                                                </a>
+                                            @else
+                                                {{ $jasa_imei->user->name }}
+                                            @endif
+                                        </td>
+                                        <td class="text-nowrap">
+                                            {{ $jasa_imei->supplier ?? '-' }}
+                                        </td>
+                                        <td class="text-nowrap">
+                                            Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-nowrap">
+                                            Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-nowrap">
+                                            Rp. {{ number_format($jasa_imei->dp_server, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-nowrap">
+                                            Rp. {{ number_format($jasa_imei->sisa_server, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-nowrap">
+                                            Rp. {{ number_format($jasa_imei->profit, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <th colspan="5"></th>
+                                    <th class="text-nowrap">Total :</th>
+                                    <th class="text-nowrap">
+                                        Rp. {{ number_format($jasa_imeis->sum('biaya'), 0, ',', '.') }}
+                                    </th>
+                                    <th class="text-nowrap">
+                                        Rp. {{ number_format($jasa_imeis->sum('modal'), 0, ',', '.') }}
+                                    </th>
+                                    <th class="text-nowrap">
+                                        Rp. {{ number_format($jasa_imeis->sum('dp_server'), 0, ',', '.') }}
+                                    </th>
+                                    <th class="text-nowrap">
+                                        Rp. {{ number_format($jasa_imeis->sum('sisa_server'), 0, ',', '.') }}
+                                    </th>
+                                    <th class="text-nowrap">
+                                        Rp. {{ number_format($jasa_imeis->sum('profit'), 0, ',', '.') }}
+                                    </th>
+                                </tr>
 
-                        </tfoot>
-                    </table>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
         @endif

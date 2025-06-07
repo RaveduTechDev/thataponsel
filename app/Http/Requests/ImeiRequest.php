@@ -43,7 +43,7 @@ class ImeiRequest extends FormRequest
             'biaya' => 'required|numeric|min:1',
             'dp_server' => 'required|numeric|min:1',
             'modal' => 'required|numeric|min:1',
-            'sisa_server' => 'required|numeric|min:1',
+            'sisa_server' => 'required|numeric|min:0',
             'profit' => 'required|numeric',
             'metode_pembayaran' => 'required|string|max:255|in:tunai,transfer,qris,e-wallet',
             'status' => 'required|string|max:255|in:proses,selesai',

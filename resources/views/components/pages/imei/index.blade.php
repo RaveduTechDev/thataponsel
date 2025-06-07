@@ -192,7 +192,7 @@
                                             data-invoice="{{ $jasa_imei->id }}">
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $jasa_imei->pelanggan->nama_pelanggan }}</td>
-                                    <td class="text-nowrap">{{ $jasa_imei->tipe }}</td>
+                                    <td class="text-nowrap">{{ ucfirst($jasa_imei->tipe ) }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->imei }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}</td>
