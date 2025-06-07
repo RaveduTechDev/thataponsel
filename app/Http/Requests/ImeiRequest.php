@@ -38,16 +38,20 @@ class ImeiRequest extends FormRequest
     {
         $validate = [
             'pelanggan_id' => 'required|exists:pelanggans,id',
-            'tipe' => 'required|string|max:255',
+            'tipe' => 'required|string|in:slow,fast',
             'imei' => 'required|string|max:255|unique:jasa_imeis,imei',
-            'biaya' => 'required|numeric|min:10000',
-            'modal' => 'required|numeric|min:10000',
+            'biaya' => 'required|numeric|min:1',
+            'dp_server' => 'required|numeric|min:1',
+            'modal' => 'required|numeric|min:1',
+            'sisa_server' => 'required|numeric|min:1',
             'profit' => 'required|numeric',
             'metode_pembayaran' => 'required|string|max:255|in:tunai,transfer,qris,e-wallet',
             'status' => 'required|string|max:255|in:proses,selesai',
             'supplier' => 'sometimes|string|max:255',
+            'no_kontak_supplier' => 'nullable|phone|max:255',
             'user_id' => 'sometimes|exists:users,id',
             'tanggal' => 'required|date',
+            'keterangan' => 'nullable|string',
         ];
 
         if ($this->isMethod('post')) {

@@ -96,7 +96,7 @@
                                                                 value="{{ @old('password') }}" required>
 
                                                             <div class="position-absolute"
-                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;">
+                                                                style="padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;">
                                                                 <i class="bi bi-eye-slash" id="togglePasswordIcon"></i>
                                                             </div>
                                                         </div>
@@ -118,7 +118,7 @@
                                                                 value="{{ @old('password_confirmation') }}" required>
 
                                                             <div class="position-absolute"
-                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                                                style="padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
                                                                 <i class="bi bi-eye-slash"
                                                                     id="togglePasswordConfirmationIcon"></i>
                                                             </div>

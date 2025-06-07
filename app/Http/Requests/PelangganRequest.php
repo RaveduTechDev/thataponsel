@@ -26,7 +26,7 @@ class PelangganRequest extends FormRequest
     {
         return [
             'nama_pelanggan' => 'required|string',
-            'nomor_wa' => 'required|string|max:255',
+            'nomor_wa' => 'required|phone',
         ];
     }
 }

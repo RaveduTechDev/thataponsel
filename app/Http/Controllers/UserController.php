@@ -86,7 +86,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -117,12 +117,14 @@ class UserController extends Controller
         }
 
         if ($request->filled('password')) {
-            if (!$request->filled('current_password')) {
-                return redirect()->back()->withErrors(['current_password' => 'Password saat ini harus diisi untuk mengubah password']);
-            }
+            if (Auth::user()->hasRole('admin') && $agent->hasRole('agen')) {
+                if (!$request->filled('current_password')) {
+                    return redirect()->back()->withErrors(['current_password' => 'Password saat ini harus diisi untuk mengubah password']);
+                }
 
-            if (!Hash::check($request->input('current_password'), $agent->password)) {
-                return redirect()->back()->withErrors(['current_password' => 'Password saat ini tidak sesuai']);
+                if (!Hash::check($request->input('current_password'), $agent->password)) {
+                    return redirect()->back()->withErrors(['current_password' => 'Password saat ini tidak sesuai']);
+                }
             }
 
             $validated['password'] = Hash::make($validated['password']);

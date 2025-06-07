@@ -45,7 +45,7 @@ class PenjualanRequest extends FormRequest
             'tanggal_transaksi' => 'required|date',
             'total_bayar' => 'required|numeric|digits_between:1,25',
             'metode_pembayaran' => 'required|in:tunai,transfer,qris,e-wallet',
-            'keterangan' => 'nullable|string|max:255',
+            'keterangan' => 'nullable|string',
             'status' => 'sometimes|in:proses,selesai',
         ];
 

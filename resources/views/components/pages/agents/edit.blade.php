@@ -100,27 +100,29 @@
                                             </div>
 
                                             <div class="row mb-4">
-                                                <div class="col-md-6 col-lg-4 col-12 pass">
-                                                    <div class="form-group">
-                                                        <label for="current_password " class="form-label">
-                                                            Kata Sandi Saat Ini
-                                                        </label>
-                                                        <div class="position-relative ">
-                                                            <input type="password" name="current_password"
-                                                                id="currentPassword"
-                                                                class="form-control passwordValidation @error('current_password', 'updatePassword') is-invalid @enderror">
-                                                            <div class="position-absolute"
-                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
-                                                                <i class="bi bi-eye-slash togglePasswordValidation"></i>
+                                                @if (Auth::user()->hasRole(['admin', 'agen']))
+                                                    <div class="col-md-6 col-lg-4 col-12 pass">
+                                                        <div class="form-group">
+                                                            <label for="current_password " class="form-label">
+                                                                Kata Sandi Saat Ini
+                                                            </label>
+                                                            <div class="position-relative ">
+                                                                <input type="password" name="current_password"
+                                                                    id="currentPassword"
+                                                                    class="form-control passwordValidation @error('current_password') is-invalid @enderror">
+                                                                <div class="position-absolute bg-transparent"
+                                                                    style=" padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                                                    <i class="bi bi-eye-slash togglePasswordValidation"></i>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <small class="text-danger passwordError"></small>
+                                                            <small class="text-danger passwordError"></small>
 
-                                                        @error('current_password')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
+                                                            @error('current_password')
+                                                                <small class="text-danger">{{ $message }}</small>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
 
                                                 <div class="col-md-6 col-lg-4 col-12 pass">
                                                     <div class="form-group">
@@ -129,7 +131,7 @@
                                                             <input type="password" name="password" id="password"
                                                                 class="form-control passwordValidation @error('password', 'updatePassword') is-invalid @enderror">
                                                             <div class="position-absolute"
-                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                                                style="padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
                                                                 <i class="bi bi-eye-slash togglePasswordValidation"></i>
                                                             </div>
                                                         </div>
@@ -145,7 +147,7 @@
                                                                 id="password_confirmation"
                                                                 class="form-control passwordValidation">
                                                             <div class="position-absolute"
-                                                                style="background: white; padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
+                                                                style="padding-left: 10px; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer; z-index: 10;">
                                                                 <i class="bi bi-eye-slash togglePasswordValidation"></i>
                                                             </div>
                                                         </div>

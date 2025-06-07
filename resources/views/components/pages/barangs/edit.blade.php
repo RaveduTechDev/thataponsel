@@ -187,13 +187,17 @@
                                                                 {{ $barang->kategori === 'android' ? 'selected' : '' }}>
                                                                 Android
                                                             </option>
-                                                            <option value="apple"
-                                                                {{ $barang->kategori === 'apple' ? 'selected' : '' }}>
-                                                                Apple
+                                                            <option value="iphone"
+                                                                {{ $barang->kategori === 'iphone' ? 'selected' : '' }}>
+                                                                Iphone
                                                             </option>
                                                             <option value="smartwatch"
                                                                 {{ $barang->kategori === 'smartwatch' ? 'selected' : '' }}>
                                                                 Smartwatch
+                                                            </option>
+                                                            <option value="smartband"
+                                                                {{ $barang->kategori === 'smartband' ? 'selected' : '' }}>
+                                                                Smartband
                                                             </option>
                                                             <option value="ipad"
                                                                 {{ $barang->kategori === 'ipad' ? 'selected' : '' }}>
@@ -203,6 +207,11 @@
                                                                 {{ $barang->kategori === 'tablet' ? 'selected' : '' }}>
                                                                 Tablet
                                                             </option>
+                                                            <option value="earbuds"
+                                                                {{ $barang->kategori === 'earbuds' ? 'selected' : '' }}>
+                                                                Earbuds/Headphones
+                                                            </option>
+
                                                         </select>
                                                         @error('kategori')
                                                             <small class="text-danger">{{ $message }}</small>

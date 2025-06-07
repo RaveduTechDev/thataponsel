@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('build/assets/telInput-D9_xf1bf.css') }}">
+@endpush
+
 @section('content')
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
@@ -124,7 +128,8 @@
                                                             </label>
 
                                                             @if ($jasa_imei->status === 'selesai')
-                                                                <input type="text" id="select-agent" class="form-control"
+                                                                <input type="text" id="select-agent"
+                                                                    class="form-control"
                                                                     value="{{ $jasa_imei->user->name }}"
                                                                     placeholder="Sales/Agent" readonly>
                                                             @else
@@ -176,10 +181,20 @@
                                                                 value="{{ $jasa_imei->tipe }}" placeholder="Tipe"
                                                                 readonly>
                                                         @else
-                                                            <input type="text" id="tipe"
-                                                                class="form-control {{ $errors->has('tipe') ? 'is-invalid' : '' }}"
-                                                                value="{{ old('tipe', $jasa_imei->tipe) }}"
-                                                                placeholder="Tipe" name="tipe">
+                                                            <select name="tipe" id="tipe"
+                                                                style="cursor: pointer;"
+                                                                class="form-select {{ $errors->has('tipe') ? 'is-invalid' : '' }}"
+                                                                required>
+                                                                <option>-- Pilih Tipe --</option>
+                                                                <option value="slow"
+                                                                    {{ old('tipe', $jasa_imei->tipe) === 'slow' ? 'selected' : '' }}>
+                                                                    Slow
+                                                                </option>
+                                                                <option value="fast"
+                                                                    {{ old('tipe', $jasa_imei->tipe) === 'fast' ? 'selected' : '' }}>
+                                                                    Fast
+                                                                </option>
+                                                            </select>
                                                         @endif
 
                                                         @error('tipe')
@@ -210,24 +225,18 @@
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
-                                                    <div class="form-group mandatory">
-                                                        <label for="tanggal" class="form-label">Tanggal</label>
-
-                                                        @if ($jasa_imei->status === 'selesai')
-                                                            <input type="text" id="tanggal" class="form-control"
-                                                                value="{{ \Carbon\Carbon::parse($jasa_imei->tanggal)->isoFormat('D-MMMM-Y') }}"
-                                                                placeholder="Tanggal" readonly>
-                                                        @else
-                                                            <input type="date" id="tanggal"
-                                                                class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
-                                                                value="{{ old('tanggal', $jasa_imei->tanggal) }}"
-                                                                placeholder="Tanggal" name="tanggal" required>
-                                                        @endif
-
-                                                        @error('tanggal')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
+                                                    <div class="form-group d-flex flex-column">
+                                                        <label for="phone" class="form-label">
+                                                            No Kontak Supplier
+                                                        </label>
+                                                        <input id="phone" type="tel"
+                                                            value="{{ old('no_kontak_supplier', $jasa_imei->no_kontak_supplier) }}"
+                                                            class="form-control {{ $errors->has('no_kontak_supplier') ? 'is-invalid' : '' }}"
+                                                            name="no_kontak_supplier">
                                                     </div>
+                                                    @error('no_kontak_supplier')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
 
                                                 <div class="col-md-6 col-12">
@@ -259,6 +268,41 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-6 col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="tanggal" class="form-label">Tanggal</label>
+
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="tanggal" class="form-control"
+                                                                value="{{ \Carbon\Carbon::parse($jasa_imei->tanggal)->isoFormat('D-MMMM-Y') }}"
+                                                                placeholder="Tanggal" readonly>
+                                                        @else
+                                                            <input type="date" id="tanggal"
+                                                                class="form-control {{ $errors->has('tanggal') ? 'is-invalid' : '' }}"
+                                                                value="{{ old('tanggal', $jasa_imei->tanggal) }}"
+                                                                placeholder="Tanggal" name="tanggal" required>
+                                                        @endif
+
+                                                        @error('tanggal')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="keterangan" class="form-label">
+                                                            Keterangan
+                                                        </label>
+                                                        <textarea id="keterangan" name="keterangan" rows="6"
+                                                            class="form-control w-full rounded {{ $errors->has('keterangan') ? 'border-red-500' : 'border-gray-300' }}"
+                                                            placeholder="Isi keterangan (jika perlu)">{{ old('keterangan', $jasa_imei->keterangan) }}</textarea>
+                                                        @error('keterangan')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -268,7 +312,7 @@
                             <div class="col-md-4 col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">Detail Jasa IMEI</h4>
+                                        <h4 class="card-title">Detail Harga</h4>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
@@ -276,7 +320,6 @@
                                                 <div class="col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="modal" class="form-label">Modal</label>
-
                                                         @if ($jasa_imei->status === 'selesai')
                                                             <input type="text" id="modal" class="form-control"
                                                                 value="{{ $jasa_imei->modal }}" placeholder="Modal"
@@ -289,6 +332,33 @@
                                                         @endif
 
                                                         @error('modal')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group mandatory">
+                                                        <label for="dp_server" class="form-label">DP Server</label>
+                                                        <input type="text" id="dp-server"
+                                                            value="{{ @old('dp_server', $jasa_imei->dp_server) }}"
+                                                            class="form-control {{ $errors->has('dp_server') ? 'is-invalid' : '' }}"
+                                                            placeholder="DP Server" name="dp_server" required>
+                                                        @error('dp_server')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label for="sisa_server" class="form-label">Sisa Server</label>
+                                                        <input type="text" id="sisa-server"
+                                                            value="{{ @old('sisa_server', $jasa_imei->sisa_server) }}"
+                                                            readonly
+                                                            class="form-control {{ $errors->has('sisa_server') ? 'is-invalid' : '' }}"
+                                                            placeholder="Sisa Server" name="sisa_server">
+                                                        @error('sisa_server')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
@@ -402,7 +472,8 @@
 @push('scripts')
     {{-- @vite(['resources/js/choices.js', 'resources/js/calculate2.js']) --}}
     <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
-    <script type="module" src="{{ asset('build/assets/calculate2-CM0A94sm.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/calculate2-Cr4bV7sn.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
 
     @include('components.ui.loading.button')
 @endpush

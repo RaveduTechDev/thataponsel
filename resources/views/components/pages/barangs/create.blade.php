@@ -137,13 +137,17 @@
                                                                 {{ old('kategori') === 'android' ? 'selected' : '' }}>
                                                                 Android
                                                             </option>
-                                                            <option value="apple"
-                                                                {{ old('kategori') === 'apple' ? 'selected' : '' }}>
-                                                                Apple
+                                                            <option value="iphone"
+                                                                {{ old('kategori') === 'iphone' ? 'selected' : '' }}>
+                                                                Iphone
                                                             </option>
                                                             <option value="smartwatch"
                                                                 {{ old('kategori') === 'smartwatch' ? 'selected' : '' }}>
                                                                 Smartwatch
+                                                            </option>
+                                                            <option value="smartband"
+                                                                {{ old('kategori') === 'smartband' ? 'selected' : '' }}>
+                                                                Smartband
                                                             </option>
                                                             <option value="ipad"
                                                                 {{ old('kategori') === 'ipad' ? 'selected' : '' }}>
@@ -152,6 +156,10 @@
                                                             <option value="tablet"
                                                                 {{ old('kategori') === 'tablet' ? 'selected' : '' }}>
                                                                 Tablet
+                                                            </option>
+                                                            <option value="earbuds"
+                                                                {{ old('kategori') === 'earbuds' ? 'selected' : '' }}>
+                                                                Earbuds/Headphones
                                                             </option>
                                                         </select>
                                                         @error('kategori')

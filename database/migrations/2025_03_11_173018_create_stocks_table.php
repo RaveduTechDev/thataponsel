@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('supplier');
             $table->string('no_kontak_supplier')->nullable();
             $table->date('tanggal');
-            $table->string('keterangan')->nullable();
+            $table->longText('keterangan')->nullable();
             $table->enum('garansi', ['tidak', 'ya']);
             $table->timestamps();
         });

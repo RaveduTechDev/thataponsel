@@ -23,9 +23,11 @@ function initializeInputFormatting(selector) {
     }
 }
 
-initializeInputFormatting("#modal");
 initializeInputFormatting("#harga-jual");
 initializeInputFormatting("#biaya");
+initializeInputFormatting("#dp-server");
+initializeInputFormatting("#modal");
+initializeInputFormatting("#sisa-server");
 initializeInputFormatting("#profit");
 
 if ($("#formSubmit").length) {
@@ -35,6 +37,13 @@ if ($("#formSubmit").length) {
             let modalNumber =
                 parseInt(modalFormatted.replace(/[^0-9]/g, "")) || 0;
             $("#modal").val(modalNumber);
+        }
+
+        if ($("#dp-server").length) {
+            let dpServerFormatted = $("#dp-server").val();
+            let dpServerNumber =
+                parseInt(dpServerFormatted.replace(/[^0-9]/g, "")) || 0;
+            $("#dp-server").val(dpServerNumber);
         }
 
         if ($("#harga-jual").length) {
@@ -49,6 +58,13 @@ if ($("#formSubmit").length) {
             let biayaNumber =
                 parseInt(biayaFormatted.replace(/[^0-9]/g, "")) || 0;
             $("#biaya").val(biayaNumber);
+        }
+
+        if ($("#sisa-server").length) {
+            let sisaServerFormatted = $("#sisa-server").val();
+            let sisaServerNumber =
+                parseInt(sisaServerFormatted.replace(/[^0-9]/g, "")) || 0;
+            $("#sisa-server").val(sisaServerNumber);
         }
 
         if ($("#profit").length) {
@@ -74,11 +90,16 @@ if ($("#formSubmit").length) {
 
 function calculateProfit() {
     let modalVal = $("#modal").val();
+    let dpModalVal = $("#dp-server").val();
     let biayaVal = $("#biaya").val();
 
     let modal =
         parseInt(
             modalVal !== undefined ? modalVal.replace(/[^0-9]/g, "") : "0"
+        ) || 0;
+    let dpModal =
+        parseInt(
+            dpModalVal !== undefined ? dpModalVal.replace(/[^0-9]/g, "") : "0"
         ) || 0;
     let biaya =
         parseInt(
@@ -86,9 +107,15 @@ function calculateProfit() {
         ) || 0;
     let profit = biaya - modal;
 
+    let sisaServer = modal - dpModal;
+
     $("#profit").val(formatRupiah(profit));
+    $("#sisa-server").val(formatRupiah(sisaServer));
 }
-$("#modal, #harga-jual, #biaya").on("input", calculateProfit);
+$("#modal, #harga-jual, #biaya, #dp-server, #sisa-server").on(
+    "input",
+    calculateProfit
+);
 $(document).ready(function () {
     calculateProfit();
 });
