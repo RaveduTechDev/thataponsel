@@ -16,7 +16,6 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-
         $notAgent = auth()->user()->hasRole(['super_admin', 'admin', 'owner']);
 
         $start = $request->has('start_date') ? Carbon::parse($request->input('start_date')) : Carbon::now()->subMonths(5)->startOfMonth();
@@ -46,24 +45,24 @@ class DashboardController extends Controller
         }
 
         if ($notAgent) {
-            $users = User::select('name', 'jumlah_transaksi')
-                ->orderBy('jumlah_transaksi', 'asc')
+            $users = User::select('users.id', 'users.name')
+                ->orderBy('jumlah_qty', 'asc')
                 ->take(7)
-                ->whereHas('penjualans', function ($query) use ($start, $end) {
-                    $query->whereBetween('tanggal_transaksi', [$start, $end]);
-                })
                 ->whereHas('roles', function ($query) {
                     $query->where('name', 'agen');
                 })
-                ->whereExists(function ($query) {
-                    $query->select(DB::raw(1))
-                        ->from('penjualans')
-                        ->whereRaw('users.id = penjualans.user_id')
-                        ->where('penjualans.status', 'selesai');
-                })->get();
+                ->withSum(['penjualans as jumlah_qty' => function ($query) use ($start, $end) {
+                    $query->whereBetween('tanggal_transaksi', [$start, $end])
+                        ->where('status', 'selesai');
+                }], 'qty')
+                ->whereHas('penjualans', function ($query) use ($start, $end) {
+                    $query->whereBetween('tanggal_transaksi', [$start, $end])
+                        ->where('status', 'selesai');
+                })
+                ->get();
 
             $dataAgen = $users->pluck('name')->map(fn($name) => ucfirst($name));
-            $totalPenjualan = $users->pluck('jumlah_transaksi');
+            $totalPenjualan = $users->pluck('jumlah_qty');
 
             $top5 = DB::table('penjualans')
                 ->join('stocks', 'stocks.id', '=', 'penjualans.stock_id')
@@ -79,7 +78,7 @@ class DashboardController extends Controller
                 ->get();
 
             $barangLabel = $top5->pluck('nama_barang');
-            $colors = ['#8B0000', '#B22222', '#DC143C', '#FF6347', '#FF7F7F'];
+            $colors = ['#9d2d2d', '#b0403d', '#c4524f', '#d86460', '#eb7672'];
             $jumlahBarang = $top5->map(function ($item, $idx) use ($colors) {
                 return [
                     'value'     => $item->total_terjual,
@@ -93,11 +92,6 @@ class DashboardController extends Controller
             ->where('penjualans.status', 'selesai')
             ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
             ->sum(DB::raw('COALESCE(stocks.modal,0) * penjualans.qty')) ?? 0;
-
-        $totalPenjualan = DB::table('penjualans')
-            ->where('penjualans.status', 'selesai')
-            ->whereBetween('penjualans.tanggal_transaksi', [$start, $end])
-            ->sum(DB::raw('CAST(total_bayar AS DECIMAL)')) ?? 0;
 
         $totalUnitMasuk = Stock::whereHas('penjualan', function ($query) use ($start, $end) {
             $query->whereBetween('penjualans.tanggal_transaksi', [$start, $end]);

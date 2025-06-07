@@ -293,7 +293,7 @@
         if (@json($data).length === 0) {
             chartPenjualan.setOption({
                 title: {
-                    text: `Grafik Penjualan HP ${deskripsiTanggal}`,
+                    text: `Grafik Penjualan HP ${deskripsiTanggal} (unit)`,
                     left: 'center',
                     top: '10px',
                     textStyle: {
@@ -318,7 +318,7 @@
         } else {
             chartPenjualan.setOption({
                 title: {
-                    text: `Grafik Penjualan HP ${deskripsiTanggal}`,
+                    text: `Grafik Penjualan HP ${deskripsiTanggal} (unit)`,
                     left: 'center',
                     top: '10px',
                     textStyle: {
@@ -379,7 +379,7 @@
             if (@json($dataAgen).length === 0) {
                 performanceSales.setOption({
                     title: {
-                        text: 'Kinerja Agen/Sales (Penjualan per agen/sales)',
+                        text: 'Kinerja Agen/Sales (Penjualan per agen/sales) (unit)',
                         left: 'center',
                         top: '10px',
                         textStyle: {
@@ -404,7 +404,7 @@
             } else {
                 performanceSales.setOption({
                     title: {
-                        text: 'Kinerja Agen/Sales (Penjualan per agen/sales)',
+                        text: 'Kinerja Agen/Sales (Penjualan per agen/sales) (unit)',
                         left: 'center',
                         top: '10px',
                         textStyle: {
@@ -428,12 +428,6 @@
                                 title: 'Lihat Data',
                                 readOnly: true,
                                 lang: ['Data', 'Tutup'],
-                            },
-                            saveAsImage: {
-                                type: 'png',
-                                name: 'Kinerja-Agen-Sales-Penjualan-per-agen-sales',
-                                title: 'Simpan Gambar',
-                                backgroundColor: '#fff',
                             },
                         }
                     },

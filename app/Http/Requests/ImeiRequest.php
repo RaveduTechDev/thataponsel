@@ -41,7 +41,7 @@ class ImeiRequest extends FormRequest
             'tipe' => 'required|string|in:slow,fast',
             'imei' => 'required|string|max:255|unique:jasa_imeis,imei',
             'biaya' => 'required|numeric|min:1',
-            'dp_server' => 'required|numeric|min:1',
+            'dp_server' => 'required|numeric|min:0',
             'modal' => 'required|numeric|min:1',
             'sisa_server' => 'required|numeric|min:0',
             'profit' => 'required|numeric',
