@@ -39,7 +39,7 @@
                 </div>
             @endif
 
-            @if (Auth::user()->hasRole(['super_admin', 'admin']))
+            @if (Auth::user()->hasRole(['super_admin', 'owner']))
                 <div class="col-6 col-lg-3 col-md-6">
                     <a href={{ route('master-data.toko-cabang.index') }} class="text-decoration-none">
                         <div class="card card-hover-border-danger">
