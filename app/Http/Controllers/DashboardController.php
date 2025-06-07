@@ -139,12 +139,12 @@ class DashboardController extends Controller
         $formatKeuntungan = 'Rp' . NumberCustom::formatNumber($totalKeuntungan);
 
         $penjualanImeiPerBulan = JasaImei::where('status', 'selesai')
-            ->whereBetween('tanggal_transaksi', [$start, $end])
+            ->whereBetween('tanggal', [$start, $end])
             ->when(!$notAgent, function ($query) {
                 $query->where('user_id', auth()->id());
             })
             ->get()
-            ->groupBy(fn($item) => Carbon::parse($item->tanggal_transaksi)->isoFormat('MMMM Y'));
+            ->groupBy(fn($item) => Carbon::parse($item->tanggal)->isoFormat('MMMM Y'));
 
         $imeiMonths = collect();
         $imeiData = collect();
