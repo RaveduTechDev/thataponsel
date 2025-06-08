@@ -250,17 +250,27 @@
                                                                 <div class="badge text-bg-success ">Selesai</div>
                                                             </div>
                                                         @else
-                                                            <select id="select-status" class="form-select" name="status"
+                                                            <select id="status" class="form-select" name="status"
                                                                 style="cursor:pointer;" required>
                                                                 <option value="proses"
                                                                     {{ old('status', $jasa_imei->status) == 'proses' ? 'selected' : '' }}>
                                                                     Proses
+                                                                </option>
+                                                                <option value="belum_lunas"
+                                                                    {{ old('status', $jasa_imei->status) == 'belum_lunas"' ? 'selected' : '' }}>
+                                                                    Belum Lunas
                                                                 </option>
                                                                 <option value="selesai"
                                                                     {{ old('status', $jasa_imei->status) == 'selesai' ? 'selected' : '' }}>
                                                                     Selesai
                                                                 </option>
                                                             </select>
+                                                            <small class="text-mute d-none" id="status-message">
+                                                                <span class="text-danger">*</span>
+                                                                Tidak bisa memilih status "Selesai" jika
+                                                                <span class="text-danger">Sisa Server</span> tidak 0
+                                                                atau DP Server belum lunas.
+                                                            </small>
                                                         @endif
 
                                                         @error('status')
@@ -472,7 +482,7 @@
 @push('scripts')
     {{-- @vite(['resources/js/choices.js', 'resources/js/calculate2.js']) --}}
     <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
-    <script type="module" src="{{ asset('build/assets/calculate2-Cr4bV7sn.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/calculate2-BtYRnwgA.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
 
     @include('components.ui.loading.button')

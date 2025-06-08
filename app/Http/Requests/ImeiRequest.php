@@ -46,7 +46,7 @@ class ImeiRequest extends FormRequest
             'sisa_server' => 'required|numeric|min:0',
             'profit' => 'required|numeric',
             'metode_pembayaran' => 'required|string|max:255|in:tunai,transfer,qris,e-wallet',
-            'status' => 'required|string|max:255|in:proses,selesai',
+            'status' => 'required|string|max:255|in:proses,belum_lunas,selesai',
             'supplier' => 'sometimes|string|max:255',
             'no_kontak_supplier' => 'nullable|phone|max:255',
             'user_id' => 'sometimes|exists:users,id',

@@ -111,7 +111,56 @@ function calculateProfit() {
 
     $("#profit").val(formatRupiah(profit));
     $("#sisa-server").val(formatRupiah(sisaServer));
+
+    handleSisaServerChange(sisaServer);
 }
+
+const selesaiOptionHTML = '<option value="selesai">Selesai</option>';
+let previousStatus = $("#status").val();
+let hideMessageTimeout;
+
+function handleSisaServerChange(sisa) {
+    const statusSelect = $("#status");
+    const selesaiOption = statusSelect.find("option[value='selesai']");
+
+    if (sisa > 0) {
+        if (selesaiOption.length) selesaiOption.remove();
+        if (statusSelect.val() === "selesai") {
+            statusSelect.val(previousStatus || "proses");
+        }
+        $("#status-message").removeClass("d-none");
+        $("#server").addClass("is-invalid");
+        $("#sisa-server").addClass("is-invalid");
+
+        clearTimeout(hideMessageTimeout);
+        hideMessageTimeout = setTimeout(() => {
+            $("#status-message").addClass("d-none");
+            $("#server").removeClass("is-invalid");
+            $("#sisa-server").removeClass("is-invalid");
+        }, 15000);
+    } else {
+        if (!statusSelect.find("option[value='selesai']").length) {
+            statusSelect.append(selesaiOptionHTML);
+        }
+        $("#status-message").addClass("d-none");
+        $("#server").removeClass("is-invalid");
+        $("#sisa-server").removeClass("is-invalid");
+
+        clearTimeout(hideMessageTimeout);
+    }
+
+    previousStatus = statusSelect.val();
+}
+
+$("#status").on("change", function () {
+    const sisa = formatRupiah($("#sisa-server").val());
+    if ($(this).val() === "selesai" && sisa > 0) {
+        $(this).val(previousStatus);
+    } else {
+        previousStatus = $(this).val();
+    }
+});
+
 $("#modal, #harga-jual, #biaya, #dp-server, #sisa-server").on(
     "input",
     calculateProfit

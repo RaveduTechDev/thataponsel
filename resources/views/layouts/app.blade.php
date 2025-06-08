@@ -13,7 +13,7 @@
 
     @stack('css')
 
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DR-Vxgai.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-DG1o7ZX8.css') }}">
     <script type="module" src="{{ asset('build/assets/app-iFDSrMtn.js') }}"></script>
 
 </head>

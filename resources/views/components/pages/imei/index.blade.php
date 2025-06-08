@@ -192,7 +192,7 @@
                                             data-invoice="{{ $jasa_imei->id }}">
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $jasa_imei->pelanggan->nama_pelanggan }}</td>
-                                    <td class="text-nowrap">{{ ucfirst($jasa_imei->tipe ) }}</td>
+                                    <td class="text-nowrap">{{ ucfirst($jasa_imei->tipe) }}</td>
                                     <td class="text-nowrap">{{ $jasa_imei->imei }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->biaya, 0, ',', '.') }}</td>
                                     <td class="text-nowrap">Rp. {{ number_format($jasa_imei->modal, 0, ',', '.') }}</td>
@@ -207,6 +207,8 @@
                                     <td class="text-nowrap">
                                         @if ($jasa_imei->status == 'selesai')
                                             <span class="badge bg-success">Selesai</span>
+                                        @elseif($jasa_imei->status == 'belum_lunas')
+                                            <span class="badge bg-primary">Belum Lunas</span>
                                         @elseif($jasa_imei->status == 'proses')
                                             <span class="badge bg-warning">Proses</span>
                                         @endif
@@ -229,15 +231,12 @@
                                                         <i class="bi bi-eye"></i>
                                                     </a>
                                                 @endif
-                                                @if ($jasa_imei->status == 'proses')
-                                                    @if (!Auth::user()->hasRole('owner'))
-                                                        <a href="{{ route('jasa-imei.edit', $jasa_imei->id) }}"
-                                                            class="btn btn-icon btn-sm btn-primary"
-                                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            title="Edit Data">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </a>
-                                                    @endif
+                                                @if (!Auth::user()->hasRole('owner'))
+                                                    <a href="{{ route('jasa-imei.edit', $jasa_imei->id) }}"
+                                                        class="btn btn-icon btn-sm btn-primary" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Edit Data">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
                                                 @endif
                                                 @if (!Auth::user()->hasRole(['agen', 'owner']))
                                                     <button type="button"
@@ -300,7 +299,6 @@
             </div>
         </div>
     </section>
-
 @endsection
 
 @push('scripts')

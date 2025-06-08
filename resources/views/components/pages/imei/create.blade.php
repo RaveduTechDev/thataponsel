@@ -8,10 +8,18 @@
     <section class="section">
         <div class="mb-4 d-flex justify-content-between align-items-center">
             <h2 class="text-danger">{{ $title }}</h2>
-            <a href={{ route('jasa-imei.index') }} style="margin:-8px 0 0 0;"
-                class="d-inline-flex align-items-center btn btn-secondary btn-md">
-                <span>Kembali</span>
-            </a>
+            <div class="gap-2 d-flex justify-content-between justify-content-sm-end">
+                <a href="{{ route('master-data.pelanggan.create') }}"
+                    class="btn btn-success btn-sm d-inline-flex justify-content-center">
+                    <i class="bi bi-plus-circle" style="margin: -2px 2px 0 0; font-size: 15px;"></i>
+                    <span>Tambah Pelanggan</span>
+                </a>
+
+                <a href="{{ route('jasa-imei.index') }}"
+                    class="btn btn-secondary btn-sm d-inline-flex justify-content-center">
+                    <span>Kembali</span>
+                </a>
+            </div>
         </div>
         <section id="multiple-column-form">
             @session('error')
@@ -151,7 +159,7 @@
                                                         <label for="select-status" class="form-label">
                                                             Status
                                                         </label>
-                                                        <select id="select-status"
+                                                        <select id="status"
                                                             class="form-select @error('status') is-invalid @enderror"
                                                             name="status" style="cursor:pointer;" required>
                                                             <option>-- Pilih Status --</option>
@@ -159,12 +167,22 @@
                                                                 {{ old('status', isset($data) ? $data->status : '') == 'proses' ? 'selected' : '' }}>
                                                                 Proses
                                                             </option>
+                                                            <option value="belum_lunas"
+                                                                {{ old('status', isset($data) ? $data->status : '') == 'belum_lunas' ? 'selected' : '' }}>
+                                                                Belum Lunas
+                                                            </option>
                                                             <option value="selesai"
                                                                 {{ old('status', isset($data) ? $data->status : '') == 'selesai' ? 'selected' : '' }}>
                                                                 Selesai
                                                             </option>
                                                         </select>
                                                     </div>
+                                                    <small class="text-mute d-none" id="status-message">
+                                                        <span class="text-danger">*</span>
+                                                        Tidak bisa memilih status "Selesai" jika
+                                                        <span class="text-danger">Sisa Server</span> tidak 0
+                                                        atau DP Server belum lunas.
+                                                    </small>
                                                     @error('status')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
@@ -242,6 +260,10 @@
                                                             value="{{ @old('sisa_server') }}" readonly
                                                             class="form-control {{ $errors->has('sisa_server') ? 'is-invalid' : '' }}"
                                                             placeholder="Sisa Server" name="sisa_server">
+                                                        <small class="text-danger d-none" id="sisa-server-message">
+                                                            Status Transaksi Belum Lunas
+                                                        </small>
+
                                                         @error('sisa_server')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -330,7 +352,7 @@
 @push('scripts')
     {{-- @vite(['resources/js/choices.js', 'resources/js/calculate2.js']) --}}
     <script type="module" src="{{ asset('build/assets/choices-HcjBDTwy.js') }}"></script>
-    <script type="module" src="{{ asset('build/assets/calculate2-Cr4bV7sn.js') }}"></script>
+    <script type="module" src="{{ asset('build/assets/calculate2-BtYRnwgA.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
 
     @include('components.ui.loading.button')

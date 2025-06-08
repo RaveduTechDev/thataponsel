@@ -11,7 +11,7 @@
     <title>Thata Ponsel - Aplikasi Sistem Manajemen</title>
 
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DR-Vxgai.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-DG1o7ZX8.css') }}">
 </head>
 
 <body>

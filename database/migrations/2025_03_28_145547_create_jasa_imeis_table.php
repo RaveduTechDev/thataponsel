@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('sisa_server', 30, 0);
             $table->decimal('profit', 30, 0);
             $table->string('metode_pembayaran');
-            $table->enum('status', ['proses', 'selesai']);
+            $table->enum('status', ['proses', 'belum_lunas', 'selesai']);
             $table->string('supplier');
             $table->string('no_kontak_supplier')->nullable();
             $table->foreignId('user_id')->constrained('users');
