@@ -25,7 +25,7 @@ class PenjualanExport implements FromCollection, WithHeadings, WithMapping, With
 
     protected function defaultData()
     {
-        $query = Penjualan::success()->latest()->with(['pelanggan', 'tokoCabang', 'stock.barang']);
+        $query = Penjualan::success()->latest()->with(['pelanggan', 'tokoCabang', 'stock.barang', 'user']);
 
         if (auth()->user()->hasRole('agen')) {
             $query->isAgent();

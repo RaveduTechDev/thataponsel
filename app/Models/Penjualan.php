@@ -47,7 +47,7 @@ class Penjualan extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->select('id', 'name', 'username');
+        return $this->belongsTo(User::class)->select('id', 'name', 'username', 'nomor_wa');
     }
 
     public function stock()

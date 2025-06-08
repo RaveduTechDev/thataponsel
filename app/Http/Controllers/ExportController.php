@@ -166,7 +166,7 @@ class ExportController extends Controller
                 ]);
             }
 
-            $isAllSelesai = $jasaImeis->every(fn($item) => $item->status === 'selesai');
+            $isAllSelesai = $jasaImeis->every(fn($item) => $item->status !== 'proses');
             if (! $isAllSelesai) {
                 return back()->withInput()->withErrors([
                     'ids' => 'Terdapat transaksi yang belum selesai, tidak bisa dicetak.'
