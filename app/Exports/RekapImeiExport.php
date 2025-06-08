@@ -36,7 +36,7 @@ class RekapImeiExport implements FromCollection, WithHeadings, WithMapping, With
     public function collection()
     {
         $query = JasaImei::query();
-        $query->success()->filter($this->filters);
+        $query->notProcessed()->filter($this->filters);
 
         return $query->get();
     }

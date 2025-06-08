@@ -18,7 +18,7 @@ class RekapController extends Controller
     {
         $filters = $request->only(['start_date', 'end_date']);
         $penjualans = Penjualan::latest()->filter($filters)->success()->get();
-        $jasa_imeis = JasaImei::latest()->filter($filters)->success()->get();
+        $jasa_imeis = JasaImei::latest()->filter($filters)->notProcessed()->get();
         return view('components.pages.penjualans.rekap', [
             'penjualans' => $penjualans,
             'jasa_imeis' => $jasa_imeis,
@@ -39,7 +39,7 @@ class RekapController extends Controller
         }
 
         $penjualans = Penjualan::isAgent()->success()->latest()->filter($filters)->get();
-        $jasa_imeis = JasaImei::isAgentImei()->success()->latest()->filter($filters)->get();
+        $jasa_imeis = JasaImei::isAgentImei()->notProcessed()->latest()->filter($filters)->get();
         return view('components.pages.penjualans.rekap', [
             'penjualans' => $penjualans,
             'users' => $users,

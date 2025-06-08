@@ -46,6 +46,11 @@ class JasaImei extends Model
         return $query->where('status', 'selesai');
     }
 
+    public function scopeNotProcessed($query)
+    {
+        return $query->where('status', '!=', 'proses');
+    }
+
     public function scopeIsAgent($query, $role)
     {
         if ($role == 'agen') {
