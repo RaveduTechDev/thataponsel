@@ -63,4 +63,21 @@ class UserRequest extends FormRequest
 
         return $validated;
     }
+
+    /**
+     * Get the custom messages for the validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nama pengguna harus diisi.',
+            'nomor_wa.required' => 'Nomor WhatsApp harus diisi.',
+            'toko_cabang_id.exists' => 'Toko cabang yang dipilih tidak valid.',
+            'email.unique' => 'Email sudah digunakan oleh pengguna lain.',
+            'username.unique' => 'Username sudah digunakan oleh pengguna lain.',
+            'password.required' => 'Password harus diisi.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'level.required' => 'Level pengguna harus dipilih.',
+        ];
+    }
 }

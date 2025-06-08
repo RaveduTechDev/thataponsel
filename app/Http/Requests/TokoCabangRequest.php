@@ -30,4 +30,16 @@ class TokoCabangRequest extends FormRequest
             'alamat_toko' => 'required|string',
         ];
     }
+
+    /**
+     * Get the custom messages for the validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'nama_toko_cabang.required' => 'Nama toko cabang harus diisi.',
+            'alamat_toko.required' => 'Alamat toko cabang harus diisi.',
+            'penanggung_jawab_toko.string' => 'Penanggung jawab toko harus berupa teks.',
+        ];
+    }
 }

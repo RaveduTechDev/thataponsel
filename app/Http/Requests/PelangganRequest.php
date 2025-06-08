@@ -29,4 +29,16 @@ class PelangganRequest extends FormRequest
             'nomor_wa' => 'required|phone',
         ];
     }
+
+    /**
+     * Get the custom messages for the validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'nama_pelanggan.required' => 'Nama pelanggan harus diisi.',
+            'nomor_wa.required' => 'Nomor WhatsApp harus diisi.',
+            'nomor_wa.phone' => 'Nomor WhatsApp tidak valid.',
+        ];
+    }
 }

@@ -57,4 +57,32 @@ class PenjualanRequest extends FormRequest
 
         return $validate;
     }
+
+    /**
+     * Get the custom messages for the validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'stock_id.required' => 'Barang harus dipilih.',
+            'stock_id.exists' => 'Barang yang dipilih tidak valid.',
+            'pelanggan_id.required' => 'Pelanggan harus dipilih.',
+            'pelanggan_id.exists' => 'Pelanggan yang dipilih tidak valid.',
+            'toko_cabang_id.required' => 'Toko cabang harus dipilih.',
+            'toko_cabang_id.exists' => 'Toko cabang yang dipilih tidak valid.',
+            'user_id.exists' => 'User yang dipilih tidak valid.',
+            'qty.required' => 'Jumlah harus diisi.',
+            'qty.numeric' => 'Jumlah harus berupa angka.',
+            'subtotal.required' => 'Subtotal harus diisi.',
+            'subtotal.numeric' => 'Subtotal harus berupa angka.',
+            'diskon.numeric' => 'Diskon harus berupa angka.',
+            'tanggal_transaksi.required' => 'Tanggal transaksi harus diisi.',
+            'tanggal_transaksi.date' => 'Tanggal transaksi tidak valid.',
+            'total_bayar.required' => 'Total bayar harus diisi.',
+            'total_bayar.numeric' => 'Total bayar harus berupa angka.',
+            'metode_pembayaran.required' => 'Metode pembayaran harus dipilih.',
+            'keterangan.string' => 'Keterangan harus berupa teks.',
+            'status.in' => 'Status tidak valid, pilih antara proses atau selesai.',
+        ];
+    }
 }

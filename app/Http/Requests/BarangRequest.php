@@ -46,4 +46,24 @@ class BarangRequest extends FormRequest
 
         return $validate;
     }
+
+    /**
+     * Get the custom messages for the validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'nama_barang.required' => 'Nama barang harus diisi.',
+            'merk.required' => 'Merk barang harus diisi.',
+            'tipe.required' => 'Tipe barang harus diisi.',
+            'memori.required' => 'Memori barang harus diisi.',
+            'warna.required' => 'Warna barang harus diisi.',
+            'satuan.required' => 'Satuan barang harus dipilih.',
+            'kategori.required' => 'Kategori barang harus dipilih.',
+            'grade.required' => 'Grade barang harus dipilih.',
+            'kode_barang.required' => 'Kode barang harus diisi.',
+            'foto.image' => 'File foto harus berupa gambar.',
+            'foto.mimes' => 'File foto harus berformat jpeg, png, atau jpg.',
+        ];
+    }
 }

@@ -62,4 +62,35 @@ class ImeiRequest extends FormRequest
 
         return $validate;
     }
+
+    /**
+     * Get the custom messages for the validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'pelanggan_id.required' => 'Pelanggan harus dipilih.',
+            'pelanggan_id.exists' => 'Pelanggan yang dipilih tidak valid.',
+            'tipe.required' => 'Tipe jasa harus diisi.',
+            'imei.required' => 'IMEI harus diisi.',
+            'imei.unique' => 'IMEI sudah terdaftar.',
+            'biaya.required' => 'Biaya harus diisi.',
+            'biaya.numeric' => 'Biaya harus berupa angka.',
+            'dp_server.required' => 'DP server harus diisi.',
+            'dp_server.numeric' => 'DP server harus berupa angka.',
+            'modal.required' => 'Modal harus diisi.',
+            'modal.numeric' => 'Modal harus berupa angka.',
+            'sisa_server.required' => 'Sisa server harus diisi.',
+            'sisa_server.numeric' => 'Sisa server harus berupa angka.',
+            'profit.required' => 'Profit harus diisi.',
+            'profit.numeric' => 'Profit harus berupa angka.',
+            'metode_pembayaran.required' => 'Metode pembayaran harus dipilih.',
+            'status.required' => 'Status harus dipilih.',
+            'supplier.string' => 'Supplier harus berupa teks.',
+            'no_kontak_supplier.phone' => 'Nomor kontak supplier tidak valid.',
+            'user_id.exists' => 'User yang dipilih tidak valid.',
+            'tanggal.required' => 'Tanggal harus diisi.',
+            'tanggal.date' => 'Tanggal tidak valid.',
+        ];
+    }
 }

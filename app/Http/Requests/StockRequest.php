@@ -40,4 +40,28 @@ class StockRequest extends FormRequest
 
         return $validate;
     }
+
+    /**
+     * Get the custom messages for the validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'barang_id.required' => 'Barang harus dipilih.',
+            'barang_id.exists' => 'Barang yang dipilih tidak valid.',
+            'jumlah_stok.required' => 'Jumlah stok harus diisi.',
+            'jumlah_stok.integer' => 'Jumlah stok harus berupa angka bulat.',
+            'jumlah_stok.min' => 'Jumlah stok minimal 1.',
+            'modal.required' => 'Modal harus diisi.',
+            'modal.numeric' => 'Modal harus berupa angka.',
+            'modal.digits_between' => 'Modal harus antara 1 hingga 25 digit.',
+            'modal.min' => 'Modal minimal Rp10.000.',
+            'harga_jual.required' => 'Harga jual harus diisi.',
+            'harga_jual.numeric' => 'Harga jual harus berupa angka.',
+            'harga_jual.digits_between' => 'Harga jual harus antara 1 hingga 25 digit.',
+            'harga_jual.min' => 'Harga jual minimal Rp10.000.',
+            'tanggal.required' => 'Tanggal transaksi harus diisi.',
+            'tanggal.date' => 'Tanggal transaksi tidak valid.',
+        ];
+    }
 }
