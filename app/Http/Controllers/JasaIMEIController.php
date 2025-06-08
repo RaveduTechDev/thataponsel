@@ -67,9 +67,7 @@ class JasaIMEIController extends Controller
                 $validated['user_id'] = Auth::user()->id;
             }
 
-            if ($validated['status'] === 'selesai' && empty($validated['sisa_server']) > 0) {
-                return redirect()->back()->withInput()->withErrors(['sisa_server' => 'Tidak bisa memilih status "Selesai" jika Sisa Server tidak 0 atau DP Server belum lunas.']);
-            }
+            if ($validated['sisa_server'] > 0 && $validated['status'] === 'selesai') return redirect()->back()->withInput();
 
             $user = null;
             $pelanggan = null;
@@ -133,9 +131,8 @@ class JasaIMEIController extends Controller
     {
         $validated = $request->validated();
 
-        if ($validated['status'] === 'selesai' && empty($validated['sisa_server']) > 0) {
-            return redirect()->back()->withInput()->withErrors(['status' => 'Tidak bisa memilih status "Selesai" jika Sisa Server tidak 0 atau DP Server belum lunas.']);
-        }
+        if ($validated['sisa_server'] > 0 && $validated['status'] === 'selesai') return redirect()->back()->withInput();
+
 
         try {
             $validated['imei'] = $request->imei;
