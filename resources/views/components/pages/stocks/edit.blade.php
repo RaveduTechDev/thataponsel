@@ -252,6 +252,20 @@
                             <div class="col-md-4 col-12">
                                 <div class="card">
                                     <div class="card-header">
+                                        <h4 class="card-title">Upload Foto</h4>
+                                    </div>
+                                    <div class="card-content" style="margin-top: -20px;">
+                                        <div class="card-body">
+                                            <input type="file" class="image-preview-filepond" name="foto">
+                                            @error('foto')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
                                         <h5 class="text-secondary">Detail Stok</h5>
                                     </div>
                                     <div class="card-content">
@@ -317,6 +331,184 @@
 
     <script type="module" src="{{ asset('build/assets/calculate2-BtYRnwgA.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
+
+    <script type="module" src="{{ asset('static/js/filePound/file-upload.js') }}"></script>
+    <script type="module">
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginImageCrop,
+            FilePondPluginImageExifOrientation,
+            FilePondPluginImageFilter,
+            FilePondPluginImageResize,
+            FilePondPluginFileValidateSize,
+            FilePondPluginFileValidateType,
+        )
+
+        // Filepond: Basic
+        FilePond.create(document.querySelector(".basic-filepond"), {
+            credits: null,
+            allowImagePreview: false,
+            allowMultiple: false,
+            allowFileEncode: false,
+            required: false,
+            storeAsFile: true,
+        })
+
+        // Filepond: Multiple Files
+        FilePond.create(document.querySelector(".multiple-files-filepond"), {
+            credits: null,
+            allowImagePreview: false,
+            allowMultiple: true,
+            allowFileEncode: false,
+            required: false,
+            storeAsFile: true,
+        })
+
+        // Filepond: With Validation
+        FilePond.create(document.querySelector(".with-validation-filepond"), {
+            credits: null,
+            allowImagePreview: false,
+            allowMultiple: true,
+            allowFileEncode: false,
+            required: true,
+            acceptedFileTypes: ["image/png"],
+            fileValidateTypeDetectType: (source, type) =>
+                new Promise((resolve, reject) => {
+                    resolve(type)
+                }),
+            storeAsFile: true,
+        })
+
+        FilePond.create(document.querySelector(".imgbb-filepond"), {
+            credits: null,
+            allowImagePreview: false,
+            server: {
+                process: (fieldName, file, metadata, load, error, progress, abort) => {
+                    const formData = new FormData()
+                    formData.append(fieldName, file, file.name)
+
+                    const request = new XMLHttpRequest()
+                    request.open(
+                        "POST",
+                        "https://api.imgbb.com/1/upload?key=762894e2014f83c023b233b2f10395e2"
+                    )
+
+                    request.upload.onprogress = (e) => {
+                        progress(e.lengthComputable, e.loaded, e.total)
+                    }
+
+                    request.onload = function() {
+                        if (request.status >= 200 && request.status < 300) {
+                            load(request.responseText)
+                        } else {
+                            error("oh no")
+                        }
+                    }
+
+                    request.onreadystatechange = function() {
+                        if (this.readyState == 4) {
+                            if (this.status == 200) {
+                                let response = JSON.parse(this.responseText)
+
+                                Toastify({
+                                    text: "Success uploading to imgbb! see console f12",
+                                    duration: 3000,
+                                    close: true,
+                                    gravity: "bottom",
+                                    position: "right",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast()
+                            } else {
+                                Toastify({
+                                    text: "Failed uploading to imgbb! see console f12",
+                                    duration: 3000,
+                                    close: true,
+                                    gravity: "bottom",
+                                    position: "right",
+                                    backgroundColor: "#ff0000",
+                                }).showToast()
+                            }
+                        }
+                    }
+
+                    request.send(formData)
+                },
+            },
+            storeAsFile: true,
+        })
+
+        FilePond.create(document.querySelector(".image-preview-filepond"), {
+            credits: null,
+            allowImagePreview: true,
+            allowImageFilter: false,
+            allowImageExifOrientation: false,
+            allowImageCrop: false,
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            fileValidateTypeDetectType: (source, type) =>
+                new Promise((resolve, reject) => {
+                    resolve(type)
+                }),
+            storeAsFile: true,
+            @if ($stock->getFirstMediaUrl('stock'))
+                files: [{
+                    source: "{{ $stock->getFirstMediaUrl('stock') }}",
+                }]
+            @elseif ($barang->getFirstMediaUrl('barang'))
+                files: [{
+                    source: "{{ $barang->getFirstMediaUrl('barang') }}",
+                }]
+            @endif
+        })
+
+        // Filepond: Image Crop
+        FilePond.create(document.querySelector(".image-crop-filepond"), {
+            credits: null,
+            allowImagePreview: true,
+            allowImageFilter: false,
+            allowImageExifOrientation: false,
+            allowImageCrop: true,
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            fileValidateTypeDetectType: (source, type) =>
+                new Promise((resolve, reject) => {
+                    resolve(type)
+                }),
+            storeAsFile: true,
+        })
+
+        // Filepond: Image Exif Orientation
+        FilePond.create(document.querySelector(".image-exif-filepond"), {
+            credits: null,
+            allowImagePreview: true,
+            allowImageFilter: false,
+            allowImageExifOrientation: true,
+            allowImageCrop: false,
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            fileValidateTypeDetectType: (source, type) =>
+                new Promise((resolve, reject) => {
+                    resolve(type)
+                }),
+            storeAsFile: true,
+        })
+
+        // Filepond: Image Filter
+        FilePond.create(document.querySelector(".image-filter-filepond"), {
+            credits: null,
+            allowImagePreview: true,
+            allowImageFilter: true,
+            allowImageExifOrientation: false,
+            allowImageCrop: false,
+            imageFilterColorMatrix: [
+                0.299, 0.587, 0.114, 0, 0, 0.299, 0.587, 0.114, 0, 0, 0.299, 0.587, 0.114,
+                0, 0, 0.0, 0.0, 0.0, 1, 0,
+            ],
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            fileValidateTypeDetectType: (source, type) =>
+                new Promise((resolve, reject) => {
+                    resolve(type)
+                }),
+            storeAsFile: true,
+        })
+    </script>
 
     @include('components.ui.loading.button')
 @endpush

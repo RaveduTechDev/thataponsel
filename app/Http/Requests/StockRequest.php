@@ -36,6 +36,7 @@ class StockRequest extends FormRequest
             'no_kontak_supplier'  => 'nullable|phone',
             'tanggal'             => 'required|date',
             'keterangan'          => 'nullable|string|max:255',
+            'foto'                => 'nullable|file|image|mimes:jpeg,png,jpg|max:2048',
         ];
 
         return $validate;
@@ -62,6 +63,10 @@ class StockRequest extends FormRequest
             'harga_jual.min' => 'Harga jual minimal Rp10.000.',
             'tanggal.required' => 'Tanggal transaksi harus diisi.',
             'tanggal.date' => 'Tanggal transaksi tidak valid.',
+            'no_kontak_supplier.phone' => 'Nomor kontak supplier tidak valid.',
+            'foto.image' => 'File foto harus berupa gambar.',
+            'foto.mimes' => 'File foto harus berformat jpeg, png, atau jpg.',
+            'foto.max' => 'Ukuran foto maksimal 2 MB.',
         ];
     }
 }

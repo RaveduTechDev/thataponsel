@@ -151,7 +151,7 @@
                             @foreach ($stocks as $stock)
                                 <tr>
                                     <td class="text-nowrap w-xl-50 overflow-hidden">
-                                        <img src="{{ $stock->barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
+                                        <img src="{{ $stock->getFirstMediaUrl('stock') ?: $stock->barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
                                             alt="{{ $stock->barang->nama_barang }}" width="70" loading="lazy">
                                     </td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->barang->kode_barang }}</td>

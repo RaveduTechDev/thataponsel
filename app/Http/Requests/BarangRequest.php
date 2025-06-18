@@ -64,6 +64,7 @@ class BarangRequest extends FormRequest
             'kode_barang.required' => 'Kode barang harus diisi.',
             'foto.image' => 'File foto harus berupa gambar.',
             'foto.mimes' => 'File foto harus berformat jpeg, png, atau jpg.',
+            'foto.max' => 'Ukuran foto tidak boleh lebih dari 2MB.',
         ];
     }
 }

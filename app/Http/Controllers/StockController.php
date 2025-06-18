@@ -66,7 +66,13 @@ class StockController extends Controller
         $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
 
         try {
-            Stock::create($data);
+            $stock = Stock::create($data);
+            if ($request->hasFile('foto')) {
+                $stock->addMediaFromRequest('foto')
+                    ->usingFileName($stock->barang->nama_barang . '-' . time() . '.' . $request->file('foto')->getClientOriginalExtension())
+                    ->toMediaCollection('stock');
+            }
+
             return redirect('/stocks')->with(['success' => 'Stok HP berhasil ditambahkan']);
         } catch (ValidationException $e) {
             Log::error($e->getMessage(
@@ -118,7 +124,15 @@ class StockController extends Controller
         $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
 
         try {
-            Stock::findOrFail($id)->update($data);
+            $stock = Stock::findOrFail($id);
+            $stock->update($data);
+            if ($request->hasFile('foto')) {
+                $stock->clearMediaCollection('stock');
+                $stock->addMediaFromRequest('foto')
+                    ->usingFileName($stock->barang->nama_barang . '-' . time() . '.' . $request->file('foto')->getClientOriginalExtension())
+                    ->toMediaCollection('stock');
+            }
+
             return redirect('/stocks')->with(['success' => 'Stok HP berhasil diubah']);
         } catch (ValidationException $e) {
             Log::error($e->getMessage(
