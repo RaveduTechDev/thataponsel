@@ -103,9 +103,10 @@ class DashboardController extends Controller
 
         $totalLayananImei = JasaImei::where('status', 'selesai')
             ->whereBetween('created_at', [$start, $end])
-            ->when(!$notAgent, function ($query) {
-                $query->where('user_id', auth()->id());
-            })->count('jasa_imeis.status') ?? 0;
+            ->count('jasa_imeis.status') ?? 0;
+        // ->when(!$notAgent, function ($query) {
+        //     $query->where('user_id', auth()->id());
+        // })
 
         $totalUnitTerjual = Penjualan::where('status', 'selesai')
             ->whereBetween('tanggal_transaksi', [$start, $end])
@@ -173,8 +174,8 @@ class DashboardController extends Controller
             'formatHumanNumber' => $formatHumanNumber,
             'formatKeuntungan' => $formatKeuntungan,
             'modalImei' => $modalImei,
-            'imeiMonths' => $imeiMonths,
-            'imeiData' => $imeiData,
+            'imeiMonths' => $notAgent ? $imeiMonths : null,
+            'imeiData' => $notAgent ? $imeiData : null,
         ]);
     }
 }

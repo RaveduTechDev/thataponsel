@@ -77,26 +77,49 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 {{ Auth::user()->hasRole('agen') ? 'col-lg-6' : 'col-lg-3' }} col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4">
-                            <div class="row">
-                                <div
-                                    class="col-md-4 col-lg-12 col-xl-12 {{ Auth::user()->hasRole('agen') ? '' : 'col-xxl-5 pe-xxl-0' }} d-flex justify-content-start">
-                                    <div class="stats-icon mb-2" style="background: #dc3545">
-                                        <i class="bi bi-upc-scan d-flex align-items-center justify-content-center"></i>
+                @if (Auth::user()->hasRole('agen'))
+                    <div class="col-6 {{ Auth::user()->hasRole('agen') ? 'col-lg-6' : 'col-lg-3' }} col-md-6">
+                        <a href="{{ route('penjualan.create') }}" class="card card-hover-success">
+                            <div class="card-body px-3 py-4">
+                                <div class="row">
+                                    <div
+                                        class="col-md-3 col-lg-12 col-xl-12 {{ Auth::user()->hasRole('agen') ? '' : 'col-xxl-5 pe-xxl-0' }} d-flex justify-content-start">
+                                        <div class="stats-icon mb-2" style="background: #198754">
+                                            <i
+                                                class="bi bi-plus-circle d-flex align-items-center justify-content-center"></i>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-9 col-lg-12 col-xl-12 {{ Auth::user()->hasRole('agen') ? '' : 'col-xxl-7 px-xxl-0' }} ">
+                                        <h6 class="text-muted font-semibold"> Tambah Penjualan</h6>
+                                        <h6 class="text-muted mb-0 font-light" style="font-size: 12px">
+                                            Klik untuk menambahkan Penjualan baru
+                                        </h6>
                                     </div>
                                 </div>
-                                <div
-                                    class="col-md-8 col-lg-12 col-xl-12 {{ Auth::user()->hasRole('agen') ? '' : 'col-xxl-7 px-xxl-0' }}">
-                                    <h6 class="text-muted font-semibold">Layanan IMEI</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $totalLayananImei }}</h6>
+                            </div>
+                        </a>
+                    </div>
+                @endif
+                @if (Auth::user()->hasRole(['super_admin', 'admin', 'owner']))
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4">
+                                <div class="row">
+                                    <div
+                                        class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 pe-xxl-0 d-flex justify-content-start">
+                                        <div class="stats-icon mb-2" style="background: #dc3545">
+                                            <i class="bi bi-upc-scan d-flex align-items-center justify-content-center"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7 px-xxl-0">
+                                        <h6 class="text-muted font-semibold">Layanan IMEI</h6>
+                                        <h6 class="font-extrabold mb-0">{{ $totalLayananImei }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                @if (Auth::user()->hasRole(['super_admin', 'admin', 'owner']))
                     <div class="col-6 col-lg-3 col-md-6">
                         <div class="card">
                             <div class="card-body px-3 py-4">
@@ -167,17 +190,18 @@
                         </div>
                     </div>
                 </div>
-            @endif
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div id="chart-imei" class="chart-style"></div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="chart-imei" class="chart-style"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
+
         </div>
 
         <div class="col-12 col-lg-4">
@@ -208,7 +232,7 @@
                 </div>
             </div>
             <div class="sticky-md-top sidebar-top">
-                @if (!Auth::user()->hasRole('owner'))
+                @if (!Auth::user()->hasRole(['agen', 'owner']))
                     <a class="card card-hover-success" href="{{ route('penjualan.create') }}"
                         style="text-decoration: none; color: inherit; ">
                         <div class="card-body">
@@ -681,110 +705,110 @@
                     }
                 }]
             });
+            let chartImei = echarts.init(document.getElementById('chart-imei'));
+            if (@json($imeiData).length === 0) {
+                chartImei.setOption({
+                    title: {
+                        text: `Grafik Jasa IMEI ${deskripsiTanggal}`,
+                        left: 'center',
+                        top: '10px',
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            color: '#495057',
+                            fontFamily: 'Poppins, sans-serif'
+                        }
+                    },
+                    graphic: {
+                        type: 'text',
+                        left: 'center',
+                        top: 'middle',
+                        style: {
+                            text: 'Tidak ada layanan IMEI pada periode ini',
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            fill: '#495057'
+                        }
+                    }
+                });
+            } else {
+                chartImei.setOption({
+                    title: {
+                        text: `Grafik Jasa IMEI ${deskripsiTanggal}`,
+                        left: 'center',
+                        top: '10px',
+                        textStyle: {
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            color: '#495057',
+                            fontFamily: 'Poppins, sans-serif'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataView: {
+                                show: true,
+                                title: 'Lihat Data',
+                                readOnly: true,
+                                lang: ['Data', 'Tutup'],
+                            },
+                            magicType: {
+                                show: true,
+                                title: {
+                                    line: 'Garis',
+                                    bar: 'Batang',
+                                },
+                                type: ['line', 'bar']
+                            },
+                            saveAsImage: {
+                                type: 'png',
+                                name: 'Grafik-Penjualan-6-Bulan-Terakhir',
+                                title: 'Simpan Gambar',
+                                backgroundColor: '#fff',
+                            },
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        data: @json($imeiMonths),
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                    }],
+                    series: [{
+                        name: 'Layanan IMEI',
+                        type: 'bar',
+                        barWidth: '40%',
+                        data: @json($imeiData),
+                        itemStyle: {
+                            color: '#a93540'
+                        },
+                    }],
+                });
+            }
         @endif
 
-        let chartImei = echarts.init(document.getElementById('chart-imei'));
-        if (@json($imeiData).length === 0) {
-            chartImei.setOption({
-                title: {
-                    text: `Grafik Jasa IMEI ${deskripsiTanggal}`,
-                    left: 'center',
-                    top: '10px',
-                    textStyle: {
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                        color: '#495057',
-                        fontFamily: 'Poppins, sans-serif'
-                    }
-                },
-                graphic: {
-                    type: 'text',
-                    left: 'center',
-                    top: 'middle',
-                    style: {
-                        text: 'Tidak ada layanan IMEI pada periode ini',
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                        fill: '#495057'
-                    }
-                }
-            });
-        } else {
-            chartImei.setOption({
-                title: {
-                    text: `Grafik Jasa IMEI ${deskripsiTanggal}`,
-                    left: 'center',
-                    top: '10px',
-                    textStyle: {
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                        color: '#495057',
-                        fontFamily: 'Poppins, sans-serif'
-                    }
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        dataView: {
-                            show: true,
-                            title: 'Lihat Data',
-                            readOnly: true,
-                            lang: ['Data', 'Tutup'],
-                        },
-                        magicType: {
-                            show: true,
-                            title: {
-                                line: 'Garis',
-                                bar: 'Batang',
-                            },
-                            type: ['line', 'bar']
-                        },
-                        saveAsImage: {
-                            type: 'png',
-                            name: 'Grafik-Penjualan-6-Bulan-Terakhir',
-                            title: 'Simpan Gambar',
-                            backgroundColor: '#fff',
-                        },
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: [{
-                    type: 'category',
-                    data: @json($imeiMonths),
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }],
-                yAxis: [{
-                    type: 'value',
-                }],
-                series: [{
-                    name: 'Layanan IMEI',
-                    type: 'bar',
-                    barWidth: '40%',
-                    data: @json($imeiData),
-                    itemStyle: {
-                        color: '#a93540'
-                    },
-                }],
-            });
-        }
 
         window.addEventListener('resize', () => {
             chartPenjualan.resize();
-            chartImei.resize();
             @if (Auth::user()->hasRole(['super_admin', 'admin', 'owner']))
+                chartImei.resize();
                 performanceSales.resize();
                 top5Item.resize();
                 jumlahUnit.resize();

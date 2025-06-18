@@ -17,10 +17,8 @@ class JasaIMEIController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('role:super_admin|admin|agen|owner')->only('index');
-        $this->middleware('role:super_admin|admin|owner')->only('show');
-        $this->middleware('role:super_admin|admin|agen')->only(['create', 'store', 'edit', 'update']);
-        $this->middleware('role:super_admin|admin')->only('destroy');
+        $this->middleware('role:super_admin|admin|owner')->only(['index', 'show']);
+        $this->middleware('role:super_admin|admin|')->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
 
     /**
