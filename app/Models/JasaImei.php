@@ -58,11 +58,18 @@ class JasaImei extends Model
         }
     }
 
-    public function scopeIsAgentImei($query)
+    public function scopeIsAdmin($query, $role)
     {
-        return $this->whereHas('user', function (Builder $query) {
+        if ($role == 'admin') {
+            return $query->where('user_id', Auth::user()->id);
+        }
+    }
+
+    public function scopeIsAdminImei($query)
+    {
+        return $query->whereHas('user', function (Builder $query) {
             $query->whereHas('roles', function (Builder $query) {
-                $query->where('name', 'agen');
+                $query->where('name', 'admin');
             });
         });
     }

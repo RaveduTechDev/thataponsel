@@ -120,7 +120,7 @@
                                                     </div>
                                                 </div>
 
-                                                @if (!Auth::user()->hasRole('agen'))
+                                                @if (!Auth::user()->hasRole('admin'))
                                                     <div class="col-md-6 col-12">
                                                         <div class="form-group mandatory">
                                                             <label for="select-agent" class="form-label">
@@ -150,7 +150,9 @@
                                                         </div>
                                                     </div>
                                                 @endif
+                                            </div>
 
+                                            <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="imei" class="form-label">IMEI</label>
@@ -202,7 +204,9 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                            </div>
 
+                                            <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="supplier" class="form-label">Supplier</label>
@@ -229,16 +233,25 @@
                                                         <label for="phone" class="form-label">
                                                             No Kontak Supplier
                                                         </label>
-                                                        <input id="phone" type="tel"
-                                                            value="{{ old('no_kontak_supplier', $jasa_imei->no_kontak_supplier) }}"
-                                                            class="form-control {{ $errors->has('no_kontak_supplier') ? 'is-invalid' : '' }}"
-                                                            name="no_kontak_supplier">
+                                                        @if ($jasa_imei->status === 'selesai')
+                                                            <input type="text" id="no_kontak_supplier"
+                                                                class="form-control"
+                                                                value="{{ $jasa_imei->no_kontak_supplier }}"
+                                                                placeholder="No Kontak Supplier" readonly>
+                                                        @else
+                                                            <input id="phone" type="tel"
+                                                                value="{{ old('no_kontak_supplier', $jasa_imei->no_kontak_supplier) }}"
+                                                                class="form-control {{ $errors->has('no_kontak_supplier') ? 'is-invalid' : '' }}"
+                                                                name="no_kontak_supplier">
+                                                        @endif
                                                     </div>
                                                     @error('no_kontak_supplier')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
+                                            </div>
 
+                                            <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="select-status" class="form-label">
@@ -253,15 +266,15 @@
                                                             <select id="status" class="form-select" name="status"
                                                                 style="cursor:pointer;" required>
                                                                 <option value="proses"
-                                                                    {{ old('status', $jasa_imei->status) == 'proses' ? 'selected' : '' }}>
+                                                                    {{ old('status', $jasa_imei->status) === 'proses' ? 'selected' : '' }}>
                                                                     Proses
                                                                 </option>
                                                                 <option value="belum_lunas"
-                                                                    {{ old('status', $jasa_imei->status) == 'belum_lunas"' ? 'selected' : '' }}>
+                                                                    {{ old('status', $jasa_imei->status) === 'belum_lunas' ? 'selected' : '' }}>
                                                                     Belum Lunas
                                                                 </option>
                                                                 <option value="selesai"
-                                                                    {{ old('status', $jasa_imei->status) == 'selesai' ? 'selected' : '' }}>
+                                                                    {{ old('status', $jasa_imei->status) === 'selesai' ? 'selected' : '' }}>
                                                                     Selesai
                                                                 </option>
                                                             </select>
@@ -299,19 +312,19 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="keterangan" class="form-label">
-                                                            Keterangan
-                                                        </label>
-                                                        <textarea id="keterangan" name="keterangan" rows="6"
-                                                            class="form-control w-full rounded {{ $errors->has('keterangan') ? 'border-red-500' : 'border-gray-300' }}"
-                                                            placeholder="Isi keterangan (jika perlu)">{{ old('keterangan', $jasa_imei->keterangan) }}</textarea>
-                                                        @error('keterangan')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="keterangan" class="form-label">
+                                                        Keterangan
+                                                    </label>
+                                                    <textarea id="keterangan" name="keterangan" rows="6"
+                                                        class="form-control w-full rounded {{ $errors->has('keterangan') ? 'border-red-500' : 'border-gray-300' }}"
+                                                        placeholder="Isi keterangan (jika perlu)">{{ old('keterangan', $jasa_imei->keterangan) }}</textarea>
+                                                    @error('keterangan')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>

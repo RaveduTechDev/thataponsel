@@ -84,6 +84,20 @@ class User extends Authenticatable implements HasMedia
         });
     }
 
+    public function scopeIsAdmin()
+    {
+        return $this->whereHas('roles', function ($query) {
+            $query->where('name', 'admin');
+        });
+    }
+
+    public function scopeIsAgentAdmin()
+    {
+        return $this->whereHas('roles', function ($query) {
+            $query->whereIn('name', ['admin', 'agen']);
+        });
+    }
+
     public function scopeNonSuperAdmin()
     {
         return $this->whereHas('roles', function ($query) {

@@ -66,11 +66,11 @@
                                                     @enderror
                                                 </div>
 
-                                                @if (!Auth::user()->hasRole('agen'))
+                                                @if (!Auth::user()->hasRole('admin'))
                                                     <div class="col-md-6 col-12">
                                                         <div class="form-group mandatory">
                                                             <label for="select-agent" class="form-label">
-                                                                Sales/Agent
+                                                                Admin
                                                             </label>
                                                             <select id="select-agent"
                                                                 class="select-data form-select choice {{ $errors->has('user_id') ? 'is-invalid' : '' }}"
@@ -90,7 +90,9 @@
                                                         @enderror
                                                     </div>
                                                 @endif
+                                            </div>
 
+                                            <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="imei" class="form-label">IMEI</label>
@@ -125,7 +127,9 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                            </div>
 
+                                            <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="supplier" class="form-label">Supplier</label>
@@ -153,7 +157,9 @@
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
                                                 </div>
+                                            </div>
 
+                                            <div class="row">
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group mandatory">
                                                         <label for="select-status" class="form-label">
@@ -200,19 +206,19 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="keterangan" class="form-label">
-                                                            Keterangan
-                                                        </label>
-                                                        <textarea id="keterangan" name="keterangan" rows="6"
-                                                            class="form-control w-full rounded {{ $errors->has('keterangan') ? 'border-red-500' : 'border-gray-300' }}"
-                                                            placeholder="Isi keterangan (jika perlu)">{{ old('keterangan') }}</textarea>
-                                                        @error('keterangan')
-                                                            <small class="text-danger">{{ $message }}</small>
-                                                        @enderror
-                                                    </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="keterangan" class="form-label">
+                                                        Keterangan
+                                                    </label>
+                                                    <textarea id="keterangan" name="keterangan" rows="6"
+                                                        class="form-control w-full rounded {{ $errors->has('keterangan') ? 'border-red-500' : 'border-gray-300' }}"
+                                                        placeholder="Isi keterangan (jika perlu)">{{ old('keterangan') }}</textarea>
+                                                    @error('keterangan')
+                                                        <small class="text-danger">{{ $message }}</small>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>

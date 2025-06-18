@@ -28,10 +28,10 @@
                     </div>
                     @if (request()->is('rekap/agen*'))
                         <div class="col-12 col-md-6 col-lg-3" style="z-index: 20">
-                            <label for="agent_name" class="form-label">Nama Agen</label>
+                            <label for="agent_name" class="form-label">Nama Agen atau Admin</label>
                             <select id="select-agent"
                                 class="select-data form-select choice position-relative {{ $errors->has('agent_id') ? 'is-invalid' : '' }}"
-                                style="cursor:pointer;" name="search" data-placeholder="-- Pilih Agen --"
+                                style="cursor:pointer;" name="search" data-placeholder="--Pilih Agen/Admin--"
                                 data-check-selected="{{ request('search') ? 'true' : 'false' }}">
                                 @foreach ($users as $user)
                                     <option value="{{ $user->name }}"

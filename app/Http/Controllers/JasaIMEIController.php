@@ -28,7 +28,7 @@ class JasaIMEIController extends Controller
     {
         $role = Auth::user()->getRoleNames()->first();
 
-        $jasa_imeis = JasaImei::isAgent($role)->latest()->get();
+        $jasa_imeis = JasaImei::isAdmin($role)->latest()->get();
         return view('components.pages.imei.index', [
             'title' => 'Data Jasa Imei',
             'jasa_imeis' => $jasa_imeis,
@@ -41,7 +41,7 @@ class JasaIMEIController extends Controller
     public function create()
     {
         $pelanggans = Pelanggan::latest()->get();
-        $users = User::isAgent()->latest()->get();
+        $users = User::isAgentAdmin()->latest()->get();
         return view('components.pages.imei.create', [
             'title' => 'Tambah Jasa Imei',
             'pelanggans' => $pelanggans,
@@ -61,7 +61,7 @@ class JasaIMEIController extends Controller
                 return redirect()->back()->withInput()->withErrors(['dp_server' => 'DP Server tidak boleh melebihi Modal']);
             }
 
-            if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
+            if (empty($validated['user_id']) && Auth::user()->hasRole('admin')) {
                 $validated['user_id'] = Auth::user()->id;
             }
 
@@ -70,7 +70,7 @@ class JasaIMEIController extends Controller
             $user = null;
             $pelanggan = null;
             if ($validated['status'] === 'selesai') {
-                if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
+                if (empty($validated['user_id']) && Auth::user()->hasRole('admin')) {
                     $validated['user_id'] = Auth::user()->id;
                     $user = User::findOrFail(Auth::user()->id);
                     $user->increment('jumlah_transaksi');
@@ -134,7 +134,7 @@ class JasaIMEIController extends Controller
 
         try {
             $validated['imei'] = $request->imei;
-            if (empty($validated['user_id']) && Auth::user()->hasRole('agen')) {
+            if (empty($validated['user_id']) && Auth::user()->hasRole('admin')) {
                 $validated['user_id'] = Auth::user()->id;
             }
 

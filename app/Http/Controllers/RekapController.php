@@ -28,7 +28,7 @@ class RekapController extends Controller
     public function rekapPenjualanAgen(Request $request)
     {
         $filters = $request->only(['search', 'start_date', 'end_date', 'username']);
-        $users = User::isAgent()->latest()->get();
+        $users = User::isAgentAdmin()->latest()->get();
         $displayPerUser = null;
 
         if ($request->filled('username')) {
@@ -39,7 +39,7 @@ class RekapController extends Controller
         }
 
         $penjualans = Penjualan::isAgent()->success()->latest()->filter($filters)->get();
-        $jasa_imeis = JasaImei::isAgentImei()->notProcessed()->latest()->filter($filters)->get();
+        $jasa_imeis = JasaImei::isAdminImei()->notProcessed()->latest()->filter($filters)->get();
         return view('components.pages.penjualans.rekap', [
             'penjualans' => $penjualans,
             'users' => $users,
@@ -53,8 +53,20 @@ class RekapController extends Controller
     {
         $filters = $request->only(['search', 'start_date', 'end_date', 'username']);
 
+        $file_using_filters = [];
+        foreach (['search', 'start_date', 'end_date', 'username'] as $filter) {
+            if (!empty($filters[$filter])) {
+                $file_using_filters[] = $filters[$filter];
+            }
+        }
+
+        $file_using_filters = array_map(function ($item) {
+            return str_replace([' ', '-', ':'], '_', $item);
+        }, $file_using_filters);
+        $file_using_filters = array_map('strtolower', $file_using_filters);
+
         try {
-            return Excel::download(new RekapImeiExport($filters), 'rekap_jasa_imei.xlsx');
+            return Excel::download(new RekapImeiExport($filters), 'rekap_jasa_imei' . ($file_using_filters ? '_' . implode('_', $file_using_filters) : '') . '.xlsx');
         } catch (\Exception $e) {
             Log::error('Error exporting jasa imei: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed to export jasa imei.']);
@@ -64,9 +76,21 @@ class RekapController extends Controller
     public function rekapExportPenjualanExcel(Request $request)
     {
         $filters = $request->only(['search', 'start_date', 'end_date', 'username']);
+        $file_using_filters = [];
+
+        foreach (['search', 'start_date', 'end_date', 'username'] as $filter) {
+            if (!empty($filters[$filter])) {
+                $file_using_filters[] = $filters[$filter];
+            }
+        }
+
+        $file_using_filters = array_map(function ($item) {
+            return str_replace([' ', '-', ':'], '_', $item);
+        }, $file_using_filters);
+        $file_using_filters = array_map('strtolower', $file_using_filters);
 
         try {
-            return Excel::download(new RekapPenjualanExport($filters), 'rekap_penjualan.xlsx');
+            return Excel::download(new RekapPenjualanExport($filters), 'rekap_penjualan' . ($file_using_filters ? '_' . implode('_', $file_using_filters) : '') . '.xlsx');
         } catch (\Exception $e) {
             Log::error('Error exporting penjualan: ' . $e->getMessage());
             return redirect()->back()->withErrors(['error' => 'Failed to export penjualan.']);

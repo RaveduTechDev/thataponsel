@@ -184,7 +184,7 @@
                         </a>
 
                         <div class="submenu">
-                            <div class="submenu-group-wrapper">
+                            <div class="submenu-group-wrapper" style="width: 230px;">
                                 <ul class="submenu-group">
                                     <li class="submenu-item {{ request()->is('rekap') ? 'active font-bold' : '' }}">
                                         <a href={{ route('rekap') }} class="submenu-link">
@@ -195,7 +195,7 @@
                                         <li
                                             class="submenu-item {{ request()->is('rekap/agen') ? 'active font-bold' : '' }}">
                                             <a href={{ route('rekap.agen') }} class="submenu-link">
-                                                Rekap Per Agen
+                                                Rekap Per Agen/Admin
                                             </a>
                                         </li>
                                     @endif

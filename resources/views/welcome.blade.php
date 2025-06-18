@@ -304,6 +304,15 @@
     <script type="module">
         let deskripsiTanggal = '';
 
+        function getRandomHexColor() {
+            const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+            let hexColor = "#";
+            for (let i = 0; i < 6; i++) {
+                hexColor += hex[Math.floor(Math.random() * hex.length)];
+            }
+            return hexColor;
+        }
+
         @if (request('start_date') && request('end_date'))
             deskripsiTanggal =
                 `{{ \Carbon\Carbon::parse(request('start_date'))->isoFormat('D MMMM Y') }} - {{ \Carbon\Carbon::parse(request('end_date'))->isoFormat('D MMMM Y') }}`;

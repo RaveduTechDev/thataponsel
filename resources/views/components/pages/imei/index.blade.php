@@ -130,7 +130,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="12" data-name="imei"
                                         checked>
-                                    <label class="form-check-label">Agen</label>
+                                    <label class="form-check-label">Admin</label>
                                 </div>
 
                                 <div class="form-check">
