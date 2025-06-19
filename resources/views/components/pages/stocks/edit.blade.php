@@ -453,9 +453,9 @@
                 files: [{
                     source: "{{ $stock->getFirstMediaUrl('stock') }}",
                 }]
-            @elseif ($barang->getFirstMediaUrl('barang'))
+            @elseif ($stock->barang->getFirstMediaUrl('barang'))
                 files: [{
-                    source: "{{ $barang->getFirstMediaUrl('barang') }}",
+                    source: "{{ $stock->barang->getFirstMediaUrl('barang') }}",
                 }]
             @endif
         })
