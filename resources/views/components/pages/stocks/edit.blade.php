@@ -248,7 +248,7 @@
                                     </div>
                                 </div>
                             </div>
-{{--  --}}
+                            {{--  --}}
                             <div class="col-md-4 col-12">
                                 <div class="card">
                                     <div class="card-header">
@@ -331,6 +331,8 @@
 
     <script type="module" src="{{ asset('build/assets/calculate2-BtYRnwgA.js') }}"></script>
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
+
+    @include('components.ui.loading.button')
 
     <script type="module" src="{{ asset('static/js/filePound/file-upload.js') }}"></script>
     <script type="module">
@@ -509,6 +511,4 @@
             storeAsFile: true,
         })
     </script>
-
-    @include('components.ui.loading.button')
 @endpush

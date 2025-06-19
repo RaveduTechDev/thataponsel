@@ -58,7 +58,7 @@
         <div class="card shadow-sm p-4">
             <div class="row">
                 <div class="col-md-4 text-center">
-                    <img src="{{ $stock->barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
+                    <img src="{{ $stock->getFirstMediaUrl('stock') ?: $stock->barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
                         class="img-fluid rounded w-100" alt="{{ $stock->barang->nama_barang }}">
                 </div>
 
