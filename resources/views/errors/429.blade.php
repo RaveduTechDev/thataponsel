@@ -1,5 +1,6 @@
 @extends('errors::minimal')
 
-@section('title', __('Too Many Requests'))
+@section('title', __('Terlalu Banyak Permintaan'))
 @section('code', '429')
-@section('message', __('Too Many Requests'))
+@section('message', __('Anda telah mengirim terlalu banyak permintaan dalam waktu singkat. Silakan coba lagi nanti.'))
+@section('image', asset('static/img/error.gif'))

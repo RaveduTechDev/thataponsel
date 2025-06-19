@@ -1,5 +1,6 @@
-@extends('errors::minimal')
+@extends('errors::layout')
 
-@section('title', __('Not Found'))
+@section('title', __('Hayoo...'))
 @section('code', '404')
-@section('message', __('Not Found'))
+@section('message', __('Halaman yang Anda cari tidak ditemukan.'))
+@section('image', asset('static/img/404_error.gif'))

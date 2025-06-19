@@ -1,5 +1,6 @@
 @extends('errors::minimal')
 
-@section('title', __('Server Error'))
+@section('title', __('Kesalahan Server'))
 @section('code', '500')
-@section('message', __('Server Error'))
+@section('message', __('Terjadi kesalahan pada server. Silakan coba lagi nanti.'))
+@section('image', asset('static/img/error.gif'))
