@@ -90,13 +90,13 @@
                                                         </label>
                                                         <select id="select-barangs" class="select-data form-select choice"
                                                             style="cursor:pointer;" name="barang_id"
-                                                            data-placeholder="-- Pilih Barang --" data-calc="true"
+                                                            data-placeholder="-- Pilih Barang --"
                                                             data-penjualan-keterangan="{{ $stock->keterangan }}"
-                                                            data-check-selected="true">
+                                                            data-check-selected="true" data-calc="true">
                                                             @foreach ($barangs as $barang)
                                                                 <option value="{{ $barang->id }}"
                                                                     data-keterangan="{{ $barang->keterangan }}"
-                                                                    {{ $stock->barang_id === $barang->id ? 'selected' : '' }}>
+                                                                    {{ old('barang_id', $stock->barang_id) === $barang->id ? 'selected' : '' }}>
                                                                     {{ $barang->nama_barang }}
                                                                 </option>
                                                             @endforeach
