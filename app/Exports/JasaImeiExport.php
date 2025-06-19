@@ -25,14 +25,15 @@ class JasaImeiExport implements FromCollection, WithHeadings, WithMapping, WithS
 
     protected function defaultData()
     {
-        if (auth()->user()->hasRole('agen')) {
-            return JasaImei::success()
-                ->isAgent(auth()->user()->role)
-                ->latest()
-                ->with(['pelanggan', 'user'])
-                ->get();
-        }
+        // if (auth()->user()->hasRole('agen')) {
+        //     return JasaImei::success()
+        //         ->isAgent(auth()->user()->role)
+        //         ->latest()
+        //         ->with(['pelanggan', 'user'])
+        //         ->get();
+        // }
         return JasaImei::success()
+            ->isAdminImei()
             ->latest()
             ->with(['pelanggan', 'user'])
             ->get();
@@ -58,7 +59,7 @@ class JasaImeiExport implements FromCollection, WithHeadings, WithMapping, WithS
             'Profit',
             'Metode Pembayaran',
             'Supplier',
-            'Agen',
+            'Admin',
             'Status',
             'Tanggal Transaksi',
             'Tanggal Selesai',

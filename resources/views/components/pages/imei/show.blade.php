@@ -95,7 +95,7 @@
                             <td>{{ $jasa_imei->supplier }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Agent/Admin</th>
+                            <th scope="row">Admin</th>
                             <td>{{ $jasa_imei->user->name }}</td>
                         </tr>
                         <tr>

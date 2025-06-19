@@ -282,7 +282,7 @@
                             </tr>
                             @if (request()->is('rekap/agen*') || request('search') || request('username'))
                                 <tr>
-                                    <th class="text-nowrap me-lg-2">Nama Agen/Sales</th>
+                                    <th class="text-nowrap me-lg-2">Nama Admin</th>
                                     <td class="text-nowrap">:</td>
                                     <td class="text-nowrap">
                                         {{ $displayPerUser }}
@@ -329,7 +329,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="4"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Agen</label>
+                                        <label class="form-check-label">Admin</label>
                                     </div>
 
                                     <div class="form-check">
@@ -367,7 +367,7 @@
                                 <th class="text-nowrap">Tipe</th>
                                 <th class="text-nowrap">Tanggal Transaksi</th>
                                 <th class="text-nowrap">Pelanggan</th>
-                                <th class="text-nowrap">Agen</th>
+                                <th class="text-nowrap">Admin</th>
                                 <th class="text-nowrap">Biaya</th>
                                 <th class="text-nowrap">Modal</th>
                                 <th class="text-nowrap">Profit</th>
@@ -643,7 +643,7 @@
                             </tr>
                             @if (request()->is('rekap/agen*') || request('search') || request('username'))
                                 <tr>
-                                    <th class="text-nowrap me-lg-2">Nama Agen/Sales</th>
+                                    <th class="text-nowrap me-lg-2">Nama Admin</th>
                                     <td class="text-nowrap">:</td>
                                     <td class="text-nowrap">
                                         {{ $displayPerUser }}
@@ -690,7 +690,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" data-column-imei="4"
                                             data-name-imei="imei_rekap" checked>
-                                        <label class="form-check-label">Agen</label>
+                                        <label class="form-check-label">Admin</label>
                                     </div>
 
                                     <div class="form-check">
@@ -745,7 +745,7 @@
                                     <th class="text-nowrap">Tipe</th>
                                     <th class="text-nowrap">Tanggal Transaksi</th>
                                     <th class="text-nowrap">Pelanggan</th>
-                                    <th class="text-nowrap">Agen</th>
+                                    <th class="text-nowrap">Admin</th>
                                     <th class="text-nowrap">Supplier</th>
                                     <th class="text-nowrap">Biaya</th>
                                     <th class="text-nowrap">Modal</th>

@@ -175,7 +175,7 @@
                                 <th class="text-nowrap">Metode Pembayaran</th>
                                 <th class="text-nowrap">Status</th>
                                 <th class="text-nowrap">Supplier</th>
-                                <th class="text-nowrap">Agen</th>
+                                <th class="text-nowrap">Admin</th>
                                 <th class="text-nowrap">Tanggal Transaksi</th>
                                 <th class="text-nowrap">Tanggal Selesai</th>
                                 <th>Keterangan</th>
