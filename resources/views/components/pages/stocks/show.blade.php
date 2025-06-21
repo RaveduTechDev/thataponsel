@@ -70,83 +70,86 @@
                                     <th>Kode Barang:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->barang->kode_barang }}</td>
+                                    <td>{{ $stock->barang->kode_barang ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Nama Barang:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->barang->nama_barang }}</td>
+                                    <td>{{ $stock->barang->nama_barang ?? '-' }}</td>
                                 </tr>
+
+                                <tr>
+                                    <th>Memori:</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ $stock->barang->memori ?? '-' }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Warna:</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ $stock->barang->warna ?? '-' }}</td>
+                                </tr>
+
+                            </table>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-4 col-6">
+                            <table class="table table-borderless table-show mb-0">
                                 <tr>
                                     <th>Satuan:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->barang->satuan }}</td>
+                                    <td>{{ $stock->barang->satuan ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Kategori:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->barang->kategori }}</td>
+                                    <td>{{ $stock->barang->kategori ?? '-' }}</td>
                                 </tr>
-                            </table>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-4 col-6">
-                            <table class="table table-borderless table-show mb-0">
                                 <tr>
                                     <th>IMEI 1:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->imei_1 }}</td>
+                                    <td>{{ $stock->imei_1 ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th>IMEI 2:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->imei_2 }}</td>
+                                    <td>{{ $stock->imei_2 ?? '-' }}</td>
                                 </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-4 col-6">
+                            <table class="table table-borderless table-show mb-0">
                                 <tr>
                                     <th>Jumlah Stok:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->jumlah_stok }}</td>
+                                    <td>{{ $stock->jumlah_stok ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Garansi:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->garansi }}</td>
+                                    <td>{{ $stock->garansi ?? '-' }}</td>
                                 </tr>
-                            </table>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-4 col-6">
-                            <table class="table table-borderless table-show mb-0">
                                 <tr>
                                     <th>Modal:</th>
                                 </tr>
                                 <tr>
-                                    <td>Rp{{ $stock->modal }}</td>
+                                    <td>Rp{{ $stock->modal ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Harga Jual:</th>
                                 </tr>
                                 <tr>
-                                    <td>Rp{{ $stock->harga_jual }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Invoice:</th>
-                                </tr>
-                                <tr>
-                                    <td>{{ $stock->invoice }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal:</th>
-                                </tr>
-                                <tr>
-                                    <td>{{ $stock->tanggal }}</td>
+                                    <td>Rp{{ $stock->harga_jual ?? '-' }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -154,25 +157,42 @@
                         <div class="col-xl-3 col-lg-4 col-6">
                             <table class="table table-borderless table-show mb-0">
                                 <tr>
+                                    <th>Invoice:</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ $stock->invoice ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal:</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ $stock->tanggal ?? '-' }}</td>
+                                </tr>
+                                <tr>
                                     <th>Supplier:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->supplier }}</td>
+                                    <td>{{ $stock->supplier ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th>No Kontak Supplier:</th>
                                 </tr>
                                 <tr>
-                                    <td>{{ $stock->NoKontakSupplier }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Keterangan:</th>
-                                </tr>
-                                <tr>
-                                    <td>{{ $stock->barang->keterangan }}</td>
+                                    <td>{{ $stock->NoKontakSupplier ?? '-' }}</td>
                                 </tr>
                             </table>
                         </div>
+                    </div>
+
+                    <div>
+                        <table class="table table-borderless table-show mb-0">
+                            <tr>
+                                <th>Deskripsi:</th>
+                            </tr>
+                            <tr>
+                                <td>{{ $stock->deskripsi ?? '-' }}</td>
+                            </tr>
+                        </table>
                     </div>
 
                     <!-- Tombol Aksi -->
