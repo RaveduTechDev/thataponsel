@@ -81,11 +81,6 @@ class PenjualanController extends Controller
             $data['garansi'] = ($request->has('garansi') && $request->garansi === 'ya') ? 'ya' : 'tidak';
             $stock = Stock::findOrFail($data['stock_id']);
 
-            $subtotalCheck = $stock->harga_jual * $data['qty'];
-            if ($data['subtotal'] < $subtotalCheck) {
-                return redirect()->back()->with('error', 'Subtotal tidak sesuai dengan harga jual barang Rp' . number_format($subtotalCheck, 0, ',', '.') . ' Harap periksa kembali.');
-            }
-
             if ($stock->jumlah_stok <= 0) {
                 return redirect()->back()->with('error', 'Stok dari ' . $stock->barang->nama_barang . ' habis');
             }
@@ -223,13 +218,6 @@ class PenjualanController extends Controller
                 }
 
                 $stock->save();
-            }
-
-            $stock_check = Stock::findOrFail($data['stock_id']);
-
-            $subtotalCheck = $stock_check->harga_jual * $data['qty'];
-            if ($data['subtotal'] < $subtotalCheck) {
-                return redirect()->back()->with('error', 'Subtotal tidak sesuai dengan harga jual barang Rp' . number_format($subtotalCheck, 0, ',', '.') . ' Harap periksa kembali.');
             }
 
             $penjualan->update($data);
