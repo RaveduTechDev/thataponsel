@@ -63,7 +63,7 @@ class BarangController extends Controller
         $data = $request->validated();
 
         try {
-            DB::transaction(function () use ($data, $request) {
+            DB::transaction(function () use ($data) {
                 if (Barang::where('kode_barang', $data['kode_barang'])
                     ->lockForUpdate()
                     ->exists()
@@ -71,12 +71,7 @@ class BarangController extends Controller
                     throw ValidationException::withMessages(['kode_barang' => 'Kode barang sudah ada']);
                 }
 
-                $barang = Barang::create($data);
-                if ($request->hasFile('foto')) {
-                    $barang->addMediaFromRequest('foto')
-                        ->usingName($barang->nama_barang)
-                        ->toMediaCollection('barang');
-                }
+                Barang::create($data);
             });
         } catch (ValidationException $e) {
             Log::error($e->getMessage());
@@ -127,14 +122,8 @@ class BarangController extends Controller
         $data['kode_barang'] = $barang->kode_barang;
 
         try {
-            DB::transaction(function () use ($data, $request, $barang) {
+            DB::transaction(function () use ($data, $barang) {
                 $barang->update($data);
-                if ($request->hasFile('foto')) {
-                    $barang->clearMediaCollection('barang');
-                    $barang->addMediaFromRequest('foto')
-                        ->usingName($barang->nama_barang)
-                        ->toMediaCollection('barang');
-                }
             });
         } catch (\Exception $e) {
             Log::error($e->getMessage());

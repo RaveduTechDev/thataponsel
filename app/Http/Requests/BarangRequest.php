@@ -35,7 +35,6 @@ class BarangRequest extends FormRequest
             'kategori' => 'required|string|max:50|in:android,iphone,smartwatch,smartband,ipad,tablet,earbuds',
             'grade' => 'required|string|max:50',
             'keterangan' => 'nullable|string',
-            'foto' => 'nullable|file|image|mimes:jpeg,png,jpg|max:2048',
         ];
 
         if ($this->isMethod('post')) {
@@ -62,9 +61,6 @@ class BarangRequest extends FormRequest
             'kategori.required' => 'Kategori barang harus dipilih.',
             'grade.required' => 'Grade barang harus dipilih.',
             'kode_barang.required' => 'Kode barang harus diisi.',
-            'foto.image' => 'File foto harus berupa gambar.',
-            'foto.mimes' => 'File foto harus berformat jpeg, png, atau jpg.',
-            'foto.max' => 'Ukuran foto tidak boleh lebih dari 2MB.',
         ];
     }
 }

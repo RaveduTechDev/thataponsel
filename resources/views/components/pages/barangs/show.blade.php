@@ -58,12 +58,7 @@
 
         <div class="card shadow-sm p-4">
             <div class="row">
-                <div class="col-md-4 text-center">
-                    <img src="{{ $barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
-                        class="img-fluid rounded w-100" alt="{{ $barang->nama_barang }}" loading="lazy">
-                </div>
-
-                <div class="col-md-8 mt-4 mt-md-0">
+                <div class="col-12 mt-4 mt-md-0">
                     <div class="row">
                         <div class="col-xl-3 col-lg-4 col-6">
                             <table class="table table-borderless table-show mb-0">

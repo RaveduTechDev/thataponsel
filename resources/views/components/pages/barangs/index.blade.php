@@ -36,62 +36,57 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" data-column="0" data-name="barang"
                                         checked>
-                                    <label class="form-check-label">Foto</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="1" data-name="barang"
-                                        checked>
                                     <label class="form-check-label">Kode Barang</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="2" data-name="barang"
+                                    <input class="form-check-input" type="checkbox" data-column="1" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Nama Barang</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="3" data-name="barang"
+                                    <input class="form-check-input" type="checkbox" data-column="2" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Merk</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="4" data-name="barang"
+                                    <input class="form-check-input" type="checkbox" data-column="3" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Tipe</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="5" data-name="barang"
+                                    <input class="form-check-input" type="checkbox" data-column="4" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Memori</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="6" data-name="barang"
+                                    <input class="form-check-input" type="checkbox" data-column="5" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Warna</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="7" data-name="barang"
+                                    <input class="form-check-input" type="checkbox" data-column="6" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Satuan</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="8" data-name="barang"
+                                    <input class="form-check-input" type="checkbox" data-column="7" data-name="barang"
                                         checked>
                                     <label class="form-check-label">Kategori</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="9" data-name="barang">
+                                    <input class="form-check-input" type="checkbox" data-column="8" data-name="barang">
                                     <label class="form-check-label">Grade</label>
                                 </div>
 
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" data-column="10" data-name="barang">
+                                    <input class="form-check-input" type="checkbox" data-column="9" data-name="barang">
                                     <label class="form-check-label">Keterangan</label>
                                 </div>
                             </div>
@@ -106,7 +101,6 @@
                     <table class="table" id="table1">
                         <thead>
                             <tr>
-                                <th class="text-nowrap w-xl-50" data-orderable="false">Foto</th>
                                 <th class="text-nowrap w-xl-50">Kode Barang</th>
                                 <th class="text-nowrap w-xl-50">Nama Barang</th>
                                 <th class="text-nowrap w-xl-50">Merk</th>
@@ -123,10 +117,6 @@
                         <tbody>
                             @foreach ($barangs as $barang)
                                 <tr>
-                                    <td class="text-nowrap w-xl-50">
-                                        <img src="{{ $barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
-                                            alt="{{ $barang->nama_barang }}" width="70" loading="lazy">
-                                    </td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->kode_barang }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->nama_barang }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->merk }}</td>
@@ -136,39 +126,8 @@
                                     <td class="text-nowrap w-xl-50">{{ $barang->satuan }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->kategori }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $barang->grade }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $barang->keterangan }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $barang->keterangan ?? '-' }}</td>
                                     <td class="text-nowrap text-center">
-                                        {{-- <div class="dropdown">
-                                            <a href="#" class="d-inline-flex" data-bs-toggle="dropdown">
-                                                <i class="bi bi-three-dots text-secondary details-button"
-                                                    style="font-size: 18px;"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" style="z-index:50;position: relative;">
-                                                <li class="border-bottom">
-                                                    <a href={{ route('master-data.barang.show', $barang->kode_barang) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-eye" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Detail</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href={{ route('master-data.barang.edit', $barang->kode_barang) }}
-                                                        class="dropdown-item">
-                                                        <i class="bi bi-pencil" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Edit</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="dropdown-item btn-delete-modal"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modalStock{{ $barang->kode_barang }}">
-                                                        <i class="bi bi-trash" style="margin: -2px 8px 0 0;"></i>
-                                                        <span>Hapus</span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div> --}}
-                                        {{-- jadikan button sejajar dengan warna sesuai aksinya dan menggunakan tooltips bootstrap --}}
                                         <div class="d-flex gap-1 justify-content-center">
                                             @if (Auth::user()->hasRole(['super_admin', 'owner', 'admin', 'agen']))
                                                 @if (!Auth::user()->hasRole(['agen']))
