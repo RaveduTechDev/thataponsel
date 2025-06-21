@@ -27,6 +27,7 @@ class JasaImei extends Model
         'no_kontak_supplier',
         'user_id',
         'tanggal',
+        'keterangan',
     ];
 
     protected $with = ['pelanggan', 'user'];
