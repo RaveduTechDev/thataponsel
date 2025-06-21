@@ -163,7 +163,7 @@
                                                             data-garansi="{{ $stock->barang->garansi }}"
                                                             data-keterangan="{{ $stock->barang->keterangan }}"
                                                             {{ old('stock_id', $penjualan->stock_id) == $stock->id ? 'selected' : '' }}>
-                                                            {{ $stock->barang->merk }} – {{ $stock->barang->nama_barang }}
+                                                            {{ $stock->barang->nama_barang }} - {{ $stock->barang->memori }} - {{ $stock->barang->warna }}
                                                         </option>
                                                     @endforeach
                                                 </select>

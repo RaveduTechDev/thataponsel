@@ -97,7 +97,7 @@
                                                                 <option value="{{ $barang->id }}"
                                                                     data-keterangan="{{ $barang->keterangan }}"
                                                                     {{ old('barang_id', $stock->barang_id) === $barang->id ? 'selected' : '' }}>
-                                                                    {{ $barang->nama_barang }}
+                                                                    {{ $barang->nama_barang }} - {{ $barang->memori }} - {{ $barang->warna }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
