@@ -26,8 +26,8 @@ class StockRequest extends FormRequest
     {
         $validate = [
             'barang_id'           => 'required|integer|exists:barangs,id',
-            'imei_1'              => 'nullable|string|max:100',
-            'imei_2'              => 'nullable|string|max:100',
+            'imei_1'              => 'nullable|numeric|digits_between:1,100',
+            'imei_2'              => 'nullable|numeric|digits_between:1,100',
             'jumlah_stok'         => 'required|integer|min:1',
             'modal'               => 'required|numeric|digits_between:1,25|min:10000',
             'harga_jual'          => 'required|numeric|digits_between:1,25|min:10000',
@@ -50,6 +50,10 @@ class StockRequest extends FormRequest
         return [
             'barang_id.required' => 'Barang harus dipilih.',
             'barang_id.exists' => 'Barang yang dipilih tidak valid.',
+            'imei_1.numeric' => 'IMEI 1 harus berupa angka.',
+            'imei_1.digits_between' => 'IMEI 1 harus antara 1 hingga 100 digit.',
+            'imei_2.numeric' => 'IMEI 2 harus berupa angka.',
+            'imei_2.digits_between' => 'IMEI 2 harus antara 1 hingga 100 digit.',
             'jumlah_stok.required' => 'Jumlah stok harus diisi.',
             'jumlah_stok.integer' => 'Jumlah stok harus berupa angka bulat.',
             'jumlah_stok.min' => 'Jumlah stok minimal 1.',

@@ -168,24 +168,24 @@
                                         <img src="{{ $stock->getFirstMediaUrl('stock') ?: $stock->barang->getFirstMediaUrl('barang') ?: asset('static/img/blank_image.webp') }}"
                                             alt="{{ $stock->barang->nama_barang }}" width="70" loading="lazy">
                                     </td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->kode_barang }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->nama_barang }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->memori }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->warna }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->satuan }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->kategori }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->grade }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->imei_1 }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->imei_2 }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->jumlah_stok }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->kode_barang ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->nama_barang ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->memori ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->warna ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->satuan ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->kategori ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->barang->grade ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->imei_1 ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->imei_2 ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->jumlah_stok ?? '-' }}</td>
                                     <td class="text-nowrap w-xl-50">
                                         Rp. {{ number_format($stock->modal, 0, ',', '.') }}
                                     </td>
                                     <td class="text-nowrap w-xl-50">
                                         Rp. {{ number_format($stock->harga_jual, 0, ',', '.') }}
                                     </td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->invoice }}</td>
-                                    <td class="text-nowrap w-xl-50">{{ $stock->supplier }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->invoice ?? '-' }}</td>
+                                    <td class="text-nowrap w-xl-50">{{ $stock->supplier ?? '-' }}</td>
                                     <td class="text-nowrap w-xl-50">
                                         {{ $stock->NoKontakSupplier ? $stock->NoKontakSupplier : 'Tidak Ada' }}</td>
                                     <td class="text-nowrap w-xl-50">{{ $stock->tanggal }}</td>

@@ -51,7 +51,8 @@
                                                                 <option value="{{ $barang->id }}"
                                                                     data-keterangan="{{ $barang->keterangan }}"
                                                                     {{ old('barang_id') === $barang->id ? 'selected' : '' }}>
-                                                                    {{ $barang->nama_barang }} - {{ $barang->memori }} - {{ $barang->warna }}
+                                                                    {{ $barang->nama_barang }} - {{ $barang->memori }} -
+                                                                    {{ $barang->warna }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -66,9 +67,11 @@
                                                         <label for="jumlah-stok" class="form-label">Jumlah Stok</label>
                                                         <input type="number" min="1" id="jumlah-stok"
                                                             value="{{ @old('jumlah_stok') }}"
-                                                            class="form-control {{ $errors->has('jumlah_stok') ? 'is-invalid' : '' }}"
+                                                            class="form-control number-format {{ $errors->has('jumlah_stok') ? 'is-invalid' : '' }}"
                                                             placeholder="Jumlah Stock" name="jumlah_stok" required>
                                                     </div>
+                                                    <small class="text-danger error-number-format"></small>
+
                                                     @error('jumlah_stok')
                                                         <small class="text-danger">{{ $message }}</small>
                                                     @enderror
@@ -106,9 +109,10 @@
                                                     <div class="form-group">
                                                         <label for="imei_1" class="form-label">IMEI 1</label>
                                                         <input type="text" id="imei_1"
-                                                            class="form-control {{ $errors->has('imei_1') ? 'is-invalid' : '' }}"
+                                                            class="form-control number-format {{ $errors->has('imei_1') ? 'is-invalid' : '' }}"
                                                             value="{{ @old('imei_1') }}" placeholder="IMEI 1"
                                                             name="imei_1">
+                                                        <small class="text-danger error-number-format"></small>
                                                         @error('imei_1')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -119,9 +123,10 @@
                                                     <div class="form-group">
                                                         <label for="imei_2" class="form-label">IMEI 2</label>
                                                         <input type="text" id="imei_2"
-                                                            class="form-control {{ $errors->has('imei_2') ? 'is-invalid' : '' }}"
+                                                            class="form-control number-format {{ $errors->has('imei_2') ? 'is-invalid' : '' }}"
                                                             placeholder="IMEI 2" name="imei_2"
                                                             value="{{ @old('imei_2') }}">
+                                                        <small class="text-danger error-number-format"></small>
                                                         @error('imei_2')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -133,7 +138,7 @@
                                                         <label for="invoice" class="form-label">Invoice</label>
                                                         <input type="text" id="invoice"
                                                             value="{{ @old('invoice') }}"
-                                                            class="form-control {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
+                                                            class="form-control number-format {{ $errors->has('invoice') ? 'is-invalid' : '' }}"
                                                             placeholder="Invoice" name="invoice">
                                                         @error('invoice')
                                                             <small class="text-danger">{{ $message }}</small>
@@ -467,6 +472,24 @@
                     resolve(type)
                 }),
             storeAsFile: true,
+        })
+    </script>
+
+    <script>
+        const numberTypes = document.querySelectorAll('.number-format');
+        const errorNumberFormat = document.querySelectorAll('.error-number-format');
+
+        numberTypes.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                const invalidNumbers = /[^0-9]/g;
+                if (invalidNumbers.test(this.value)) {
+                    errorNumberFormat[index].textContent = "Karakter hanya boleh mengandung angka.";
+                    setTimeout(() => {
+                        errorNumberFormat[index].textContent = "";
+                    }, 4000);
+                }
+                this.value = this.value.replace(invalidNumbers, "");
+            });
         })
     </script>
 

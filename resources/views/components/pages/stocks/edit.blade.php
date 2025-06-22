@@ -97,7 +97,8 @@
                                                                 <option value="{{ $barang->id }}"
                                                                     data-keterangan="{{ $barang->keterangan }}"
                                                                     {{ old('barang_id', $stock->barang_id) === $barang->id ? 'selected' : '' }}>
-                                                                    {{ $barang->nama_barang }} - {{ $barang->memori }} - {{ $barang->warna }}
+                                                                    {{ $barang->nama_barang }} - {{ $barang->memori }} -
+                                                                    {{ $barang->warna }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -112,9 +113,10 @@
                                                         <label for="jumlah-stok" class="form-label text-nowrap">
                                                             Jumlah Stok</label>
                                                         <input type="number" min="1" id="jumlah-stok"
-                                                            class="form-control {{ $errors->has('jumlah_stok') ? 'is-invalid' : '' }}"
+                                                            class="form-control number-format {{ $errors->has('jumlah_stok') ? 'is-invalid' : '' }}"
                                                             placeholder="Jumlah Stock" name="jumlah_stok" required
                                                             value="{{ $stock->jumlah_stok }}">
+                                                        <small class="text-danger error-number-format"></small>
                                                         @error('jumlah_stok')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -155,9 +157,10 @@
                                                             IMEI 1
                                                         </label>
                                                         <input type="text" id="imei_1"
-                                                            class="form-control {{ $errors->has('imei_1') ? 'is-invalid' : '' }}"
+                                                            class="form-control number-format {{ $errors->has('imei_1') ? 'is-invalid' : '' }}"
                                                             placeholder="IMEI 1" name="imei_1"
                                                             value="{{ $stock->imei_1 }}">
+                                                        <small class="text-danger error-number-format"></small>
                                                         @error('imei_1')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -170,9 +173,10 @@
                                                             IMEI 2
                                                         </label>
                                                         <input type="text" id="imei_2"
-                                                            class="form-control {{ $errors->has('imei_2') ? 'is-invalid' : '' }}"
+                                                            class="form-control number-format {{ $errors->has('imei_2') ? 'is-invalid' : '' }}"
                                                             placeholder="IMEI 2" name="imei_2"
                                                             value="{{ $stock->imei_2 }}">
+                                                        <small class="text-danger error-number-format"></small>
                                                         @error('imei_2')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -509,6 +513,25 @@
                     resolve(type)
                 }),
             storeAsFile: true,
+        })
+    </script>
+
+    <script>
+        const numberTypes = document.querySelectorAll('.number-format');
+
+        numberTypes.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                const invalidNumbers = /[^0-9]/g;
+                if (invalidNumbers.test(this.value)) {
+                    const errorNumberFormat = document.querySelectorAll('.error-number-format');
+                    errorNumberFormat[index].textContent = "Karakter hanya boleh mengandung angka.";
+
+                    setTimeout(() => {
+                        errorNumberFormat[index].textContent = "";
+                    }, 4000);
+                }
+                this.value = this.value.replace(invalidNumbers, "");
+            });
         })
     </script>
 @endpush
