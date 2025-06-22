@@ -39,7 +39,7 @@ class ImeiRequest extends FormRequest
         $validate = [
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'tipe' => 'required|string|in:slow,fast',
-            'imei' => 'required|string|max:255|unique:jasa_imeis,imei',
+            'imei' => 'required|numeric|digits_between:1,100|unique:jasa_imeis,imei',
             'biaya' => 'required|numeric|min:1',
             'dp_server' => 'required|numeric|min:0',
             'modal' => 'required|numeric|min:1',
@@ -74,6 +74,7 @@ class ImeiRequest extends FormRequest
             'tipe.required' => 'Tipe jasa harus diisi.',
             'imei.required' => 'IMEI harus diisi.',
             'imei.unique' => 'IMEI sudah terdaftar.',
+            'imei.numeric' => 'IMEI harus berupa angka.',
             'biaya.required' => 'Biaya harus diisi.',
             'biaya.numeric' => 'Biaya harus berupa angka.',
             'dp_server.required' => 'DP server harus diisi.',

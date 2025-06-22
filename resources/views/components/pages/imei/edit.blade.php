@@ -163,10 +163,11 @@
                                                                 readonly>
                                                         @else
                                                             <input type="text" id="imei"
-                                                                class="form-control {{ $errors->has('imei') ? 'is-invalid' : '' }}"
+                                                                class="form-control number-format {{ $errors->has('imei') ? 'is-invalid' : '' }}"
                                                                 value="{{ old('imei', $jasa_imei->imei) }}"
                                                                 placeholder="IMEI" name="imei">
                                                         @endif
+                                                        <small class="text-danger error-number-format"></small>
 
                                                         @error('imei')
                                                             <small class="text-danger">{{ $message }}</small>
@@ -499,4 +500,22 @@
     <script type="module" src="{{ asset('build/assets/telInput-qKZFCzb-.js') }}"></script>
 
     @include('components.ui.loading.button')
+
+    <script>
+        const numberTypes = document.querySelectorAll('.number-format');
+        const errorNumberFormat = document.querySelectorAll('.error-number-format');
+
+        numberTypes.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                const invalidNumbers = /[^0-9]/g;
+                if (invalidNumbers.test(this.value)) {
+                    errorNumberFormat[index].textContent = "Karakter hanya boleh mengandung angka.";
+                    setTimeout(() => {
+                        errorNumberFormat[index].textContent = "";
+                    }, 4000);
+                }
+                this.value = this.value.replace(invalidNumbers, "");
+            });
+        })
+    </script>
 @endpush
