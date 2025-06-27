@@ -88,16 +88,18 @@
                                                         <label for="select-barangs" class="form-label">
                                                             Barang
                                                         </label>
-                                                        <select id="select-barangs" class="select-data form-select choice"
-                                                            style="cursor:pointer;" name="barang_id"
-                                                            data-placeholder="-- Pilih Barang --"
+                                                        <select id="select-barang" name="barang_id"
+                                                            class="select-data form-select {{ $errors->has('barang_id') ? 'is-invalid' : '' }}"
+                                                            data-placeholder="-- Pilih Barang --" data-check-selected="true"
                                                             data-penjualan-keterangan="{{ $stock->keterangan }}"
-                                                            data-check-selected="true" data-calc="true">
+                                                            data-calc="true">
                                                             @foreach ($barangs as $barang)
                                                                 <option value="{{ $barang->id }}"
+                                                                    data-price="{{ $barang->harga_jual }}"
                                                                     data-keterangan="{{ $barang->keterangan }}"
-                                                                    {{ old('barang_id', $stock->barang_id) === $barang->id ? 'selected' : '' }}>
-                                                                    {{ $barang->nama_barang }} - {{ $barang->memori }} -
+                                                                    {{ old('barang_id', $stock->barang_id) == $barang->id ? 'selected' : '' }}>
+                                                                    {{ $barang->nama_barang }} -
+                                                                    {{ $barang->memori }} -
                                                                     {{ $barang->warna }}
                                                                 </option>
                                                             @endforeach
