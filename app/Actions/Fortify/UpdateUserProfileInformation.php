@@ -33,7 +33,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'max:255',
                 Rule::unique('users')->ignore($user->id),
             ],
-            'nomor_wa' => ['nullable', 'string', 'max:20'],
+            'nomor_wa' => ['nullable', 'string', 'max:50'],
         ])->validateWithBag('updateProfileInformation');
 
         if (
