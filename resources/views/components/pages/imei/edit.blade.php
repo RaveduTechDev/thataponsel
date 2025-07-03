@@ -104,7 +104,7 @@
                                                                 value="{{ $jasa_imei->pelanggan->nama_pelanggan }}"
                                                                 placeholder="Pelanggan" readonly>
                                                         @else
-                                                            <select id="select-pelanggans"
+                                                            <select id="select-pelanggan"
                                                                 class="select-data form-select choice" name="pelanggan_id"
                                                                 data-placeholder="-- Pilih Pelanggan --"
                                                                 data-check-selected="true">
