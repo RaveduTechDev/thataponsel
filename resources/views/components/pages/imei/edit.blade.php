@@ -104,13 +104,13 @@
                                                                 value="{{ $jasa_imei->pelanggan->nama_pelanggan }}"
                                                                 placeholder="Pelanggan" readonly>
                                                         @else
-                                                            <select id="select-pelanggan"
-                                                                class="select-data form-select choice" name="pelanggan_id"
+                                                            <select id="select-pelanggans" name="pelanggan_id"
+                                                                class="select-data form-select {{ $errors->has('pelanggan_id') ? 'is-invalid' : '' }}"
                                                                 data-placeholder="-- Pilih Pelanggan --"
-                                                                data-check-selected="true">
+                                                                data-check-selected="true" data-calc="true">
                                                                 @foreach ($pelanggans as $pelanggan)
                                                                     <option value="{{ $pelanggan->id }}"
-                                                                        {{ $jasa_imei->pelanggan_id === $pelanggan->id ? 'selected' : '' }}>
+                                                                        {{ old('pelanggan_id', $jasa_imei->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
                                                                         {{ $pelanggan->nama_pelanggan }}
                                                                     </option>
                                                                 @endforeach
