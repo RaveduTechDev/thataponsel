@@ -105,8 +105,7 @@
                                                                 placeholder="Pelanggan" readonly>
                                                         @else
                                                             <select id="select-pelanggans"
-                                                                class="select-data form-select choice"
-                                                                style="cursor:pointer;" name="pelanggan_id"
+                                                                class="select-data form-select choice" name="pelanggan_id"
                                                                 data-placeholder="-- Pilih Pelanggan --"
                                                                 data-check-selected="true">
                                                                 @foreach ($pelanggans as $pelanggan)
@@ -134,8 +133,7 @@
                                                                     placeholder="Sales/Agent" readonly>
                                                             @else
                                                                 <select id="select-agent"
-                                                                    class="select-data form-select choice"
-                                                                    style="cursor:pointer;" name="user_id"
+                                                                    class="select-data form-select choice" name="user_id"
                                                                     data-placeholder="-- Pilih Sales/Agent --"
                                                                     data-check-selected="true">
                                                                     @foreach ($users as $user)
