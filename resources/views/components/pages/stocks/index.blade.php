@@ -137,7 +137,7 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
 
-                    <table class="table" id="table1">
+                    <table class="table table-striped" id="table1">
                         <thead>
                             <tr>
                                 <th class="text-nowrap w-xl-50" data-orderable="false">Foto</th>
@@ -269,6 +269,21 @@
                                 @endif
                             @endforeach
                         </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <th colspan="10"></th>
+                                <th class="text-nowrap">
+                                    {{ $stocks->sum('jumlah_stok') ?? 0 }}
+                                </th>
+                                <th class="text-nowrap">
+                                    Rp. {{ number_format($stocks->sum('modal'), 0, ',', '.') ?? 0 }}
+                                </th>
+                                <th class="text-nowrap">
+                                    Rp. {{ number_format($stocks->sum('harga_jual'), 0, ',', '.') ?? 0 }}
+                                </th>
+                                <th colspan="6"></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
